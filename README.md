@@ -97,6 +97,29 @@ Ba điều nên nói trước với người test:
   thắt là talker — một tiến trình con, một khoá, tổng hợp tuần tự. Đông hơn thì
   con số này giãn tiếp theo tuyến tính.
 
+## Chọn talker: hai lựa chọn đã đo
+
+Trang `/lab` đổi được engine lúc đang chạy, không cần khởi động lại. Đo trên máy
+này với cùng một câu tiếng Việt, cùng `audio.output_sample_rate: 24000`:
+
+| Talker | Tiếng đầu | RTF | Giọng | Cue cảm xúc |
+|---|---|---|---|---|
+| `vieneu_nano` (mượn qua subprocess) | 741 ms | **0,31** | không khai ra được | có |
+| `zerotts` (ONNX, trong tiến trình) | **89–136 ms** | 0,69 | **8 giọng, chọn được** | không |
+
+Hai con số này nói hai chuyện khác nhau và **tiếng đầu mới là chuyện quyết định
+cảm giác**: câu năm giây bắt đầu sau 100 ms nghe như tức thì, câu hai giây bắt
+đầu sau 700 ms nghe như hỏng. RTF chỉ thành vấn đề khi vượt 1,0 — lúc đó talker
+không theo kịp lời nói của chính nó.
+
+```bash
+pip install -r requirements-tts.txt   # zerotts: chỉ cần numpy + onnxruntime
+```
+
+ZeroTTS sinh 48 kHz và bị hạ về `audio.output_sample_rate`; đặt nó thành 48000
+để giữ nguyên bản gốc. Nó **không** nhận cue cảm xúc, nên `[cười]` bị bỏ trước
+khi tới talker — cột “talker thật sự nhận” ở `/lab` cho thấy điều đó.
+
 ## Dùng model thật
 
 `configs/local-gpu.yaml` mượn thẳng các engine đã chạy được ở

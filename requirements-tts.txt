@@ -1,0 +1,8 @@
+# Talker chạy thẳng trong tiến trình này, không mượn từ speech2speech.
+#
+# ZeroTTS chỉ cần numpy và onnxruntime — không torch, không transformers — nên
+# cài chung venv được, khác hẳn coqui/viXTTS vốn phải có venv riêng. Tách thành
+# file riêng vì stack mock và test không cần nó.
+-r requirements.txt
+zerotts>=0.1.5
+onnxruntime>=1.17

@@ -70,11 +70,16 @@
   <section class="shop__block station" data-who="tts" aria-labelledby="tts-h">
     <h2 class="h" id="tts-h">Thử nói — TTS</h2>
     <p class="shop__note">Chữ đi qua đúng bộ chia cụm của đường nói, nên cột “talker thật sự nhận” cho thấy cue bị bỏ hay giữ.</p>
+    <div class="field" id="voice-field"></div>
     <div class="field">
       <label class="lbl" for="tts-text">Chữ để đọc</label>
       <input type="text" id="tts-text" value="Chào bạn [cười], hôm nay tôi giúp được gì?" />
     </div>
-    <button class="btn btn--go" id="tts-run">Tổng hợp</button>
+    <div class="console__row">
+      <button class="btn btn--go" id="tts-run">Tổng hợp</button>
+      <button class="btn" id="voice-apply">Đặt làm giọng của phiên</button>
+    </div>
+    <p class="shop__note" id="voice-now"></p>
     <div class="result" id="tts-out"></div>
   </section>
 

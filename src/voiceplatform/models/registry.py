@@ -17,7 +17,7 @@ from .base import AsrEngine, LlmEngine, S2sEngine, TtsEngine
 # không dựng được.
 ASR_BACKENDS = ("mock", "gipformer", "phowhisper", "parakeet", "s2s_bridge")
 LLM_BACKENDS = ("mock", "openai_compat", "llama_cpp_server", "vllm", "ollama", "openai")
-TTS_BACKENDS = ("mock", "vieneu", "vieneu_nano", "vixtts", "f5", "subprocess", "s2s_bridge")
+TTS_BACKENDS = ("mock", "zerotts", "vieneu", "vieneu_nano", "vixtts", "f5", "subprocess", "s2s_bridge")
 SEARCH_BACKENDS = ("none", "mock", "tools", "llm")
 
 
@@ -65,6 +65,13 @@ def build_tts(spec: EngineSpec, *, output_sample_rate: int | None = None) -> Tts
         if output_sample_rate is not None:
             options.setdefault("sample_rate", output_sample_rate)
         return MockTtsEngine(**options)
+    if backend == "zerotts":
+        from .tts.zerotts import ZeroTtsEngine
+
+        # Không đi qua bridge: gói này không thuộc speech2speech.
+        if output_sample_rate is not None:
+            options.setdefault("output_sample_rate", output_sample_rate)
+        return ZeroTtsEngine(**options)
     if backend in TTS_BACKENDS:
         from .tts.bridge_viet_s2s import BridgeTtsEngine
 

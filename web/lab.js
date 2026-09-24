@@ -17,6 +17,7 @@ const esc = (text) => String(text ?? '').replace(/[&<>"]/g, (c) =>
 
 let recorder = null;   // {ctx, worklet, stream, chunks}
 let lastEngines = null;   // chữ ký lần vẽ trước, để không vẽ lại khi không đổi
+let lastVoices = null;    // chữ ký danh sách giọng, cùng lý do
 
 // ---------------------------------------------------------------- gọi server
 
@@ -52,6 +53,8 @@ async function loadEngines() {
   // Vẽ lại bảng chỉ khi nó thật sự đổi, và không bao giờ vẽ đè khi con trỏ
   // đang nằm trong đó: nhịp làm mới 5 giây mà vẽ vô điều kiện sẽ xoá sạch ô
   // JSON người dùng đang gõ dở, đúng lúc họ gõ.
+  renderVoices(data.kinds.tts.voices || [], data.voice);
+
   const signature = JSON.stringify(data.kinds);
   if (signature === lastEngines) return;
   if (lastEngines !== null && el('engines').contains(document.activeElement)) return;
@@ -119,6 +122,51 @@ el('engines').addEventListener('click', async (event) => {
     button.textContent = 'Áp dụng';
   }
 });
+
+// ---------------------------------------------------------------- chọn giọng
+
+function renderVoices(voices, current) {
+  el('voice-now').textContent = current
+    ? `Phiên đang dùng giọng “${current}”. Lượt nói thật và câu “Để tôi tra cứu nhé.” đều theo giọng này.`
+    : 'Phiên đang dùng giọng mặc định của engine.';
+
+  const signature = JSON.stringify([voices, current]);
+  if (signature === lastVoices) return;
+  if (lastVoices !== null && el('voice-field').contains(document.activeElement)) return;
+  lastVoices = signature;
+
+  if (voices.length) {
+    const options = voices.map((v) =>
+      `<option value="${esc(v)}"${v === current ? ' selected' : ''}>${esc(v)}</option>`).join('');
+    el('voice-field').innerHTML =
+      `<label class="lbl" for="tts-voice">Giọng (${voices.length} giọng engine này khai)</label>
+       <select id="tts-voice">${options}</select>`;
+  } else {
+    // Danh sách rỗng là sự thật, không phải lỗi: talker chạy qua subprocess
+    // không khai giọng ra ngoài được. Cho gõ tay còn hơn hiện một ô trống.
+    el('voice-field').innerHTML =
+      `<label class="lbl" for="tts-voice">Giọng</label>
+       <input type="text" id="tts-voice" value="${esc(current || '')}"
+              placeholder="engine này không khai danh sách — gõ tên giọng, bỏ trống là mặc định" />`;
+  }
+}
+
+function chosenVoice() {
+  const node = el('tts-voice');
+  return node && node.value.trim() ? node.value.trim() : null;
+}
+
+el('voice-apply').addEventListener('click', () => run(el('voice-apply'), el('tts-out'), async () => {
+  await call('/engines/tts/voice', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ voice: chosenVoice() }),
+  });
+  lastVoices = null;
+  await loadEngines();
+  el('tts-out').innerHTML =
+    `<p class="said said--quiet">đã đặt giọng của phiên thành “${esc(chosenVoice() || 'mặc định')}”. Không phải nạp lại model.</p>`;
+}));
 
 // ---------------------------------------------------------------- vẽ kết quả
 
@@ -277,7 +325,7 @@ el('tts-run').addEventListener('click', () => run(el('tts-run'), el('tts-out'), 
   const data = await call('/try/tts', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: el('tts-text').value }),
+    body: JSON.stringify({ text: el('tts-text').value, voice: chosenVoice() }),
   });
   const rows = data.phrases.map((p, i) =>
     `<li><span>${esc(p.text)}</span><b>${p.first_chunk_ms ?? '—'}</b><b>${p.total_ms}</b></li>`).join('');
@@ -291,6 +339,7 @@ el('tts-run').addEventListener('click', () => run(el('tts-run'), el('tts-out'), 
       ['dài', `${Math.round(data.audio_ms)} ms`],
       ['RTF', data.rtf, data.rtf >= 1],
       ['Hz', data.sample_rate],
+      ['giọng', data.voice || 'mặc định'],
     ])
     + '<p class="lbl" style="margin-top:14px">Talker thật sự nhận</p>'
     + `<ul class="prepared"><li class="prepared__head"><span>cụm</span><b>tiếng đầu</b><b>tổng</b></li>${rows}</ul>`

@@ -183,3 +183,95 @@ async def test_swapping_updates_what_config_reports(lab):
     out = await service.try_search("giá vàng")
     assert out["ok"] is True
     assert out["latency_ms"] >= 0
+
+
+# ------------------------------------------------------------------ giọng
+
+def test_preset_voices_reads_display_name_pairs():
+    """`list_preset_voices()` trả (hiển thị, tên); phải lấy TÊN, không lấy nhãn."""
+    from voiceplatform.models.tts.bridge_viet_s2s import preset_voices
+
+    class _Pairs:
+        @staticmethod
+        def list_preset_voices():
+            return [("Minh Quân", "minh_quan"), ("Mai Chi", "mai_chi")]
+
+    class _Plain:
+        @staticmethod
+        def list_preset_voices():
+            return ["a", "b"]
+
+    class _Nested:
+        _tts = _Pairs()
+
+    class _Silent:
+        pass
+
+    assert preset_voices(_Pairs()) == ("minh_quan", "mai_chi")
+    assert preset_voices(_Plain()) == ("a", "b")
+    assert preset_voices(_Nested()) == ("minh_quan", "mai_chi")
+    # Talker chạy qua subprocess không khai được — rỗng là sự thật, không phải lỗi.
+    assert preset_voices(_Silent()) == ()
+
+
+async def test_a_voice_the_engine_does_not_have_is_refused(lab):
+    service, _ = lab
+    with pytest.raises(VoicePlatformError) as excinfo:
+        service.set_voice("giong-khong-co")
+    # Lỗi phải nói ra engine có những giọng nào, không chỉ nói là sai.
+    assert "mock-a" in str(excinfo.value)
+
+
+async def test_setting_a_voice_does_not_reload_the_engine(lab):
+    """Dựng lại engine có thể mất vài chục giây; đổi giọng thì không được phép."""
+    service, platform = lab
+    before = platform.models.tts
+    out = service.set_voice("mock-b")
+    assert platform.models.tts is before
+    assert out["voice"] == "mock-b"
+    assert service.config.models.tts.options["voice"] == "mock-b"
+
+
+async def test_clearing_the_voice_removes_it_from_config(lab):
+    service, platform = lab
+    service.set_voice("mock-b")
+    service.set_voice("")
+    assert platform.voice is None
+    assert "voice" not in service.config.models.tts.options
+
+
+async def test_the_test_uses_the_session_voice_when_none_is_given(lab):
+    service, platform = lab
+    service.set_voice("mock-b")
+    out = await service.try_tts("Một câu.", None)
+    assert out["voice"] == "mock-b"
+    explicit = await service.try_tts("Một câu.", "mock-a")
+    assert explicit["voice"] == "mock-a"
+
+
+async def test_swapping_the_talker_drops_a_voice_the_new_one_lacks(lab):
+    """Giữ lại thì mỗi lần tổng hợp là một cảnh báo rồi âm thầm đổi giọng."""
+    service, platform = lab
+    service.set_voice("mock-b")
+    await service.swap("tts", "mock", {"sample_rate": 16000})
+    assert platform.voice == "mock-b", "giọng còn hợp lệ thì phải giữ nguyên"
+
+    # Giọng của talker cũ gần như không bao giờ tồn tại ở talker mới.
+    platform.voice = "giong-cua-talker-cu"
+    await service.swap("tts", "mock", {})
+    assert platform.voice is None
+    assert "voice" not in service.config.models.tts.options
+
+
+def test_zerotts_is_a_registered_choice():
+    from voiceplatform.core.config import EngineSpec
+    from voiceplatform.models.registry import TTS_BACKENDS, build_tts
+
+    assert "zerotts" in TTS_BACKENDS
+    engine = build_tts(EngineSpec(backend="zerotts"), output_sample_rate=24000)
+    assert engine.name == "zerotts"
+    # Model sinh 48 kHz; nút vặn của nền tảng phải có nghĩa ở đây như mọi nơi.
+    assert engine.source_sample_rate == 48000
+    assert engine.output_sample_rate == 24000
+    # ZeroTTS không khai token cảm xúc nào: cue phải bị bỏ trước khi tới nó.
+    assert engine.capabilities.emotion_cues is False

@@ -126,7 +126,11 @@ class LabService:
     def describe(self) -> dict[str, Any]:
         models = self.platform.models
         loaded = models.describe()
-        out: dict[str, Any] = {"mode": models.mode, "live_sessions": len(self.platform.sessions)}
+        out: dict[str, Any] = {
+            "mode": models.mode,
+            "live_sessions": len(self.platform.sessions),
+            "voice": getattr(self.platform, "voice", None),
+        }
         kinds: dict[str, Any] = {}
         for kind, choices in _KINDS.items():
             spec: EngineSpec = getattr(self.config.models, kind)
@@ -136,8 +140,33 @@ class LabService:
                 "choices": list(choices),
                 "loaded": loaded.get(kind),
             }
+        # Danh sách giọng đọc từ ENGINE ĐÃ NẠP, không phải từ config: một
+        # config khai giọng mà checkpoint không có là cách đổi giọng âm thầm
+        # không xảy ra gì cả.
+        kinds["tts"]["voices"] = list(models.tts.capabilities.voices)
         out["kinds"] = kinds
         return out
+
+    def set_voice(self, voice: str | None) -> dict[str, Any]:
+        """Đổi giọng mà KHÔNG nạp lại model.
+
+        Cả ZeroTTS lẫn các talker mượn đều nhận `voice` theo từng lần gọi, nên
+        đổi giọng không cần dựng lại engine — và một lần dựng lại có thể mất
+        vài chục giây.
+        """
+        wanted = (voice or "").strip() or None
+        available = self.platform.models.tts.capabilities.voices
+        if wanted and available and wanted not in available:
+            raise VoicePlatformError(
+                f"giọng {wanted!r} không có. Engine khai: {', '.join(available)}"
+            )
+        self.platform.voice = wanted
+        options = self.config.models.tts.options
+        if wanted:
+            options["voice"] = wanted
+        else:
+            options.pop("voice", None)
+        return self.describe()
 
     # --- đổi engine ----------------------------------------------------
     async def swap(self, kind: str, backend: str, options: dict[str, Any]) -> dict[str, Any]:
@@ -182,6 +211,14 @@ class LabService:
                 # tốc độ lấy mẫu CŨ. Giữ lại là phát một câu sai cao độ ngay
                 # lượt tra cứu kế tiếp.
                 self.platform.models._speech_cache.clear()
+                # Giọng cũ hiếm khi tồn tại ở engine mới. Giữ lại thì mỗi lần
+                # tổng hợp là một dòng cảnh báo rồi âm thầm đổi giọng.
+                voices = engine.capabilities.voices if engine is not None else ()
+                current = getattr(self.platform, "voice", None)
+                if current and voices and current not in voices:
+                    log.info("giọng %r không có ở engine mới, bỏ về mặc định", current)
+                    self.platform.voice = None
+                    self.config.models.tts.options.pop("voice", None)
             if previous is not None and previous is not engine:
                 try:
                     await previous.close()
@@ -235,6 +272,8 @@ class LabService:
 
     async def try_tts(self, text: str, voice: str | None) -> dict[str, Any]:
         engine = self.platform.models.tts
+        # Giọng thật sự dùng: tham số của bài thử, nếu không có thì giọng phiên.
+        used = voice or getattr(self.platform, "voice", None)
         segmenter = pipeline_segmenter(engine.capabilities)
         phrases = segmenter.push(text) + segmenter.flush()
         if not phrases:
@@ -248,7 +287,7 @@ class LabService:
                 phrase_started = time.monotonic()
                 first_ms: float | None = None
                 samples = 0
-                async for chunk in engine.synthesize(phrase, voice=voice):
+                async for chunk in engine.synthesize(phrase, voice=used):
                     if first_ms is None:
                         first_ms = (time.monotonic() - phrase_started) * 1000
                     rate = chunk.sample_rate
@@ -265,6 +304,8 @@ class LabService:
         audio_ms = 1000.0 * audio.size / rate if rate else 0.0
         return {
             "engine": getattr(engine, "name", "?"),
+            "voice": used,
+            "voices": list(engine.capabilities.voices),
             # Cột này tồn tại để NHÌN THẤY engine không hỗ trợ cue đã bỏ
             # "[cười]" đi, thay vì đọc nó thành chữ mà không ai biết.
             "prepared": phrases,
@@ -389,6 +430,14 @@ def register(app: FastAPI, platform: Any, config: Config) -> None:
         except Exception as exc:
             log.exception("đổi engine %s thất bại", kind)
             return _fail(VoicePlatformError(f"{type(exc).__name__}: {exc}"))
+
+    @app.post("/engines/tts/voice")
+    async def set_voice(request: Request) -> Any:
+        body = await request.json()
+        try:
+            return service.set_voice(body.get("voice"))
+        except VoicePlatformError as exc:
+            return _fail(exc)
 
     @app.post("/try/asr")
     async def try_asr(request: Request) -> Any:

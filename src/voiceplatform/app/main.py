@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import socket
 import sys
 from pathlib import Path
 
@@ -23,6 +24,30 @@ def _config_of(args: argparse.Namespace) -> str | None:
 
 
 _LAN_TLS_DIR = Path(".tls")
+
+
+def _check_port_free(host: str, port: int) -> None:
+    """Thử bind TRƯỚC khi nạp model.
+
+    uvicorn chạy lifespan — tức là nạp ASR và dựng tiến trình con TTS, khoảng
+    40 giây trên máy này — RỒI mới bind cổng. Nên một cổng trùng bắt người ta
+    trả đủ giá nạp model rồi mới báo lỗi, và thứ báo ra là `address already in
+    use` chứ không phải "server cũ của bạn vẫn đang chạy". Đã cắn hai lần.
+    """
+    probe = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Cùng cờ với uvicorn, nếu không một cổng đang TIME_WAIT sẽ báo động giả.
+    probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    try:
+        probe.bind((host if host != "0.0.0.0" else "", port))
+    except OSError as exc:
+        raise VoicePlatformError(
+            f"cổng {port} đang bị chiếm ({exc.strerror}). Xem ai giữ nó:\n"
+            f"  ss -ltnp | grep :{port}\n"
+            "rồi `kill <pid>`. Một server cũ còn chạy sẽ phục vụ code CŨ — "
+            "đối chiếu bằng /healthz trước khi tin những gì nó trả về."
+        ) from exc
+    finally:
+        probe.close()
 
 
 def cmd_serve(args: argparse.Namespace) -> int:
@@ -60,6 +85,8 @@ def cmd_serve(args: argparse.Namespace) -> int:
             "Dùng ./scripts/lan.sh để chạy kèm TLS.",
             file=sys.stderr,
         )
+    # Sau khi chốt host/port, TRƯỚC khi run() kéo theo cả việc nạp model.
+    _check_port_free(config.server.host, config.server.port)
     run(config)
     return 0
 

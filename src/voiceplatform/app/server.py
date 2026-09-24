@@ -53,6 +53,10 @@ class Platform:
         self.tool_names = list(config.tasks.tools) if config.tasks.enabled else []
         self.metrics = MetricsRegistry()
         self.sessions: dict[str, ConversationEngine] = {}
+        # Giọng dùng cho mọi phiên mới. Đổi được lúc đang chạy mà KHÔNG nạp lại
+        # model, vì cả ZeroTTS lẫn các talker mượn đều nhận `voice` theo từng
+        # lần gọi chứ không khoá lúc dựng.
+        self.voice: str | None = config.models.tts.options.get("voice")
         self._started = False
 
     def executor(self) -> TaskExecutor:
@@ -207,6 +211,7 @@ def create_app(config: Config) -> FastAPI:
             session_id=session_id,
             executor=platform.executor(),
             search_agent=platform.models.search,
+            voice=platform.voice,
         )
         platform.sessions[session_id] = engine
         client_rate = config.audio.sample_rate

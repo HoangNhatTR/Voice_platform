@@ -15,6 +15,32 @@ from ..base import SpeechChunk, TtsCapabilities
 from ..bridge import load_viet_s2s, split_options
 
 
+def preset_voices(backend: object) -> tuple[str, ...]:
+    """Danh sách giọng của backend, nếu nó chịu khai.
+
+    Bản chạy trong tiến trình (`vieneu`, `vixtts`) giữ model ở `_tts` nên hỏi
+    được. Bản `vieneu_nano` chạy qua subprocess thì KHÔNG: giao thức ống của nó
+    chỉ mang sample rate, và thêm một op nữa là sửa `speech2speech` — repo đó
+    cố ý không biết repo này tồn tại. Trả về rỗng ở đó là đúng sự thật, và giao
+    diện sẽ cho gõ tên giọng thay vì hiện một danh sách trống.
+    """
+    for holder in (backend, getattr(backend, "_tts", None)):
+        lister = getattr(holder, "list_preset_voices", None)
+        if lister is None:
+            continue
+        try:
+            items = list(lister())
+        except Exception:  # pragma: no cover - backend dependent
+            continue
+        names = [
+            str(item[1]) if isinstance(item, (tuple, list)) and len(item) > 1 else str(item)
+            for item in items
+        ]
+        if names:
+            return tuple(names)
+    return ()
+
+
 class BridgeTtsEngine:
     def __init__(self, backend: str = "vieneu", **options) -> None:
         root, opts = split_options(options)
@@ -46,6 +72,9 @@ class BridgeTtsEngine:
             self.capabilities.emotion_cues = bool(
                 getattr(self.backend, "supports_emotion_cues", False)
             )
+            voices = preset_voices(self.backend)
+            if voices:
+                self.capabilities.voices = voices
 
     async def synthesize(self, text: str, *, voice: str | None = None) -> AsyncIterator[SpeechChunk]:
         await self.start()
