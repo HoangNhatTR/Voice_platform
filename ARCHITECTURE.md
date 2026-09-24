@@ -53,6 +53,27 @@ Heuristic tiếng Việt hiện tại giữ lượt mở khi:
 - dãy số chưa đủ dài — người đọc số tài khoản luôn ngắt giữa các cụm, và cắt
   ngang giữa số là lỗi endpointing đắt nhất trong trợ lý ngân hàng.
 
+**Dãy số phải nhận cả CHỮ, không chỉ chữ số.** gipformer phiên âm "091" thành
+"không chín một", nên luật cũ chỉ khớp `\d` chưa từng chạy một lần nào trên
+tiếng nói thật — đo 24/09 trên phiên thật: máy cắt lời ngay giữa một số tài
+khoản đang đọc dở. Ba chi tiết của luật mới, cả ba đều rút từ số đo:
+
+* cần một chuỗi **từ ba từ số trở lên**; hai từ liền nhau còn là lượng ("một
+  năm", "hai giờ") và giữ lượt ở đó chỉ tổ thêm 920 ms vào một câu đã trọn;
+* chữ số ASCII thì **một ký tự cũng đủ** — ASR nào trả "091" thì đó đã là dãy số;
+* luật này xét **trước** luật từ nối và khi đã chắc là dãy số thì nó quyết định
+  luôn. Bỏ dấu xong "sáu" thành "sau" và "tư" thành "tu", cả hai đều nằm trong
+  danh sách từ nối, nên một số đã đọc XONG mà kết thúc bằng hai chữ đó từng bị
+  giữ thêm 920 ms vì nhầm sang luật khác. Lỗi này chỉ lộ ra khi đọc kỹ thứ tự.
+
+Đo trên phiên thật, tiếng dựng bằng chính TTS của hệ thống, quãng lặng 700 ms
+chèn vào giữa câu, chạy hai lần độc lập: **8/8 ca không cắt lời** — 4 ca câu
+chưa trọn phải chờ, 4 ca câu đã trọn phải trả lời ngay.
+
+Vế còn lại, lúc nào nên NGẮT, đo bằng giọng thật nói đè: server ngừng gửi tiếng
+sau **174 ms** kể từ lúc người dùng cất tiếng, `playback_reset` tới client sau
+256 ms, và lời nói đè trở thành lượt mới được trả lời đàng hoàng.
+
 ### 2. Generation fencing là thứ giữ cả hệ thống không nói đè
 
 Mọi việc đều mang nhãn `(session_id, turn_id, generation_id)`. Cái gì về muộn
