@@ -25,6 +25,13 @@ PYTHON=/home/ai01/AIHoang/speech2speech/.venv/bin/python \
 Cần `llama-server` đang chạy ở cổng 8088 (kiểm tra:
 `curl -s localhost:8088/v1/models`). ASR và TTS chạy trên CPU, không đụng GPU.
 
+Hai trang:
+
+| | |
+|---|---|
+| `/` | **Bàn đo** — nói hoặc gõ, xem từng bên tham gia chiếm bao nhiêu mili-giây trên cùng một trục, và tải nhật ký ra `.jsonl` |
+| `/lab` | **Thử model** — đổi engine đang chạy, và chạy riêng ASR / LLM / TTS / tra cứu để biết chặng nào chậm mà không phải đoán qua cả pipeline |
+
 `PYTHON=` là bắt buộc: engine thật cần torch/onnxruntime, hai thứ nằm trong
 venv của `speech2speech` chứ không phải `.venv` ở đây.
 

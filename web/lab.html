@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thử model · Voice Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<header class="rail">
+  <nav class="nav">
+    <a class="nav__link" href="/">Bàn đo</a>
+    <a class="nav__link" href="/lab" aria-current="page">Thử model</a>
+  </nav>
+  <span class="rail__engines" id="banner">Đang đọc cấu hình…</span>
+</header>
+
+<main class="shop">
+
+  <section class="shop__block" aria-labelledby="pick-h">
+    <div class="shop__head">
+      <h2 class="h" id="pick-h">Engine đang chạy</h2>
+      <p class="shop__note">
+        Đổi ở đây chỉ sống trong tiến trình này — khởi động lại là về đúng file config.
+        Nạp một model thật có thể mất vài chục giây, và không đổi được khi còn phiên đang chạy.
+      </p>
+    </div>
+    <div id="engines"></div>
+  </section>
+
+  <section class="shop__block station" data-who="asr" aria-labelledby="asr-h">
+    <h2 class="h" id="asr-h">Thử nghe — ASR</h2>
+    <p class="shop__note">
+      Một file WAV 16-bit, hoặc bấm ghi thẳng từ micro. Chạy qua đúng engine đang nạp.
+      File được nạp nhanh hết mức máy cho phép, nên <code>partials</code> trong JSON thô
+      gần như luôn bằng 0 — thread giải mã không kịp xong trước khi hết file. Đó là hệ quả
+      của phép đo, không phải engine thiếu partial; muốn thấy partial thì đo bằng phiên thật
+      ở bàn đo.
+    </p>
+    <div class="field">
+      <div class="console__row">
+        <input type="file" id="asr-file" accept="audio/wav,audio/x-wav,.wav" />
+        <button class="btn" id="asr-rec">Ghi từ micro</button>
+      </div>
+    </div>
+    <div class="field">
+      <label class="lbl" for="asr-ref">Câu đúng (tuỳ chọn, để chấm WER)</label>
+      <input type="text" id="asr-ref" placeholder="thế hôm nay bạn thấy trong người ra sao" />
+    </div>
+    <button class="btn btn--go" id="asr-run">Giải mã</button>
+    <div class="result" id="asr-out"></div>
+  </section>
+
+  <section class="shop__block station" data-who="llm" aria-labelledby="llm-h">
+    <h2 class="h" id="llm-h">Thử nghĩ — LLM</h2>
+    <p class="shop__note">Dựng prompt bằng đúng <code>ConversationContext</code> của sản phẩm, kể cả thứ tự khối công cụ.</p>
+    <div class="field">
+      <label class="lbl" for="llm-prompt">Câu người dùng</label>
+      <input type="text" id="llm-prompt" value="Mấy giờ rồi?" />
+    </div>
+    <label class="check"><input type="checkbox" id="llm-tools" checked /> Kèm khối nhắc công cụ</label>
+    <button class="btn btn--go" id="llm-run">Chạy</button>
+    <div class="result" id="llm-out"></div>
+  </section>
+
+  <section class="shop__block station" data-who="tts" aria-labelledby="tts-h">
+    <h2 class="h" id="tts-h">Thử nói — TTS</h2>
+    <p class="shop__note">Chữ đi qua đúng bộ chia cụm của đường nói, nên cột “talker thật sự nhận” cho thấy cue bị bỏ hay giữ.</p>
+    <div class="field">
+      <label class="lbl" for="tts-text">Chữ để đọc</label>
+      <input type="text" id="tts-text" value="Chào bạn [cười], hôm nay tôi giúp được gì?" />
+    </div>
+    <button class="btn btn--go" id="tts-run">Tổng hợp</button>
+    <div class="result" id="tts-out"></div>
+  </section>
+
+  <section class="shop__block station" data-who="tool" aria-labelledby="search-h">
+    <h2 class="h" id="search-h">Thử tra cứu — Back end search</h2>
+    <p class="shop__note">Tác nhân riêng, prompt riêng. Đây là nửa chậm của sơ đồ hai tác nhân.</p>
+    <div class="field">
+      <label class="lbl" for="search-q">Câu cần tra</label>
+      <input type="text" id="search-q" value="Thủ đô của Việt Nam là gì?" />
+    </div>
+    <button class="btn btn--go" id="search-run">Tra</button>
+    <div class="result" id="search-out"></div>
+  </section>
+
+</main>
+
+<script src="/static/lab.js"></script>
+</body>
+</html>

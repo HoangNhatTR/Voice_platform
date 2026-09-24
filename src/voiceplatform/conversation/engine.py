@@ -44,7 +44,7 @@ from ..tasks.search import SearchAgent, SearchRequest, SearchResult
 from .barge_in import BargeInDetector
 from .context import ConversationContext
 from .pending import PendingSearches
-from .segmenter import PhraseSegmenter
+from .segmenter import PhraseSegmenter, pipeline_segmenter
 from .sink import AudioSink
 from .state import TurnState, TurnStateMachine
 from .turn_detector import build_turn_detector
@@ -507,11 +507,8 @@ class ConversationEngine:
         phrases: asyncio.Queue[Phrase | None] = asyncio.Queue()
         speak_task = self.gen.spawn(self._speak(key, response, phrases), key, name=f"speak-{key}")
 
-        segmenter_kwargs = dict(
-            max_chars=90,
-            min_words=5,
-            keep_emotion_cues=self.models.tts.capabilities.emotion_cues,
-        )
+        # Một chỗ duy nhất dựng bộ chia cụm, dùng chung với bàn thử model.
+        make_segmenter = lambda: pipeline_segmenter(self.models.tts.capabilities)
         has_tools = bool(
             self.executor and self.models.llm.capabilities.tools and len(self.executor.registry)
         )
@@ -527,7 +524,7 @@ class ConversationEngine:
 
         try:
             for round_index in range(_MAX_TOOL_ROUNDS + 1):
-                segmenter = PhraseSegmenter(**segmenter_kwargs)
+                segmenter = make_segmenter()
                 tool_calls: list[Any] = []
                 saw_token = False
                 self._emit(EventType.LLM_START, round=round_index)

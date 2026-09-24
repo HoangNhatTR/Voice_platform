@@ -35,6 +35,7 @@ from ..observability.logging import get_logger, setup_logging
 from ..observability.metrics import MetricsRegistry
 from ..tasks.executor import TaskExecutor
 from ..tasks.registry import build_registry
+from .lab import register as register_lab
 from .transport_ws import WebSocketTransport
 
 log = get_logger("server")
@@ -178,6 +179,10 @@ def create_app(config: Config) -> FastAPI:
     @app.get("/config")
     async def show_config(request: Request) -> Any:
         return _local_only(request) or config.to_dict()
+
+    # Chọn model và thử riêng từng engine. Đặt sau /metrics và /sessions để
+    # thứ tự khai báo route khớp với thứ tự đọc trong docstring ở đầu file.
+    register_lab(app, platform, config)
 
     web_dir = Path(config.server.web_dir)
     if web_dir.is_dir():

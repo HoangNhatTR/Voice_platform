@@ -17,6 +17,21 @@ _BOUNDARY = re.compile(r"([.!?…]+)[\"')\]]*\s")
 _SOFT_BOUNDARY = re.compile(r"[,;:]\s")
 
 
+def pipeline_segmenter(tts_capabilities) -> "PhraseSegmenter":
+    """Đúng bộ chia cụm mà đường nói dùng, không phải một bản giống nó.
+
+    Tách ra vì bàn thử model cần chạy y hệt: chuẩn hoá văn bản và quyết định
+    giữ hay bỏ cue cảm xúc là một nửa thứ người nghe thật sự nghe. Một bài thử
+    tự dựng lại logic này sẽ đo một sản phẩm không tồn tại — và đó đúng là cách
+    "[cười]" từng bị đọc thành chữ mà không ai thấy.
+    """
+    return PhraseSegmenter(
+        max_chars=90,
+        min_words=5,
+        keep_emotion_cues=tts_capabilities.emotion_cues,
+    )
+
+
 class PhraseSegmenter:
     def __init__(
         self,

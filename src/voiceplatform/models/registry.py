@@ -12,6 +12,14 @@ from ..core.config import EngineSpec, ModelsConfig
 from ..core.errors import ConfigError
 from .base import AsrEngine, LlmEngine, S2sEngine, TtsEngine
 
+# Một nguồn duy nhất: factory kiểm tra theo đây, và màn chọn model cũng đọc
+# đúng đây. Hai danh sách rời nhau là cách một lựa chọn có trong giao diện mà
+# không dựng được.
+ASR_BACKENDS = ("mock", "gipformer", "phowhisper", "parakeet", "s2s_bridge")
+LLM_BACKENDS = ("mock", "openai_compat", "llama_cpp_server", "vllm", "ollama", "openai")
+TTS_BACKENDS = ("mock", "vieneu", "vieneu_nano", "vixtts", "f5", "subprocess", "s2s_bridge")
+SEARCH_BACKENDS = ("none", "mock", "tools", "llm")
+
 
 def build_asr(spec: EngineSpec) -> AsrEngine:
     backend = spec.backend.lower()
@@ -19,7 +27,7 @@ def build_asr(spec: EngineSpec) -> AsrEngine:
         from .asr.mock import MockAsrEngine
 
         return MockAsrEngine(**spec.options)
-    if backend in {"phowhisper", "gipformer", "parakeet", "s2s_bridge"}:
+    if backend in ASR_BACKENDS:
         from .asr.bridge_viet_s2s import BridgeAsrEngine
 
         inner = spec.options.get("backend", backend if backend != "s2s_bridge" else "phowhisper")
@@ -34,7 +42,7 @@ def build_llm(spec: EngineSpec) -> LlmEngine:
         from .llm.mock import MockLlmEngine
 
         return MockLlmEngine(**spec.options)
-    if backend in {"openai_compat", "llama_cpp_server", "vllm", "ollama", "openai"}:
+    if backend in LLM_BACKENDS:
         from .llm.openai_compat import OpenAiCompatLlm
 
         return OpenAiCompatLlm(**spec.options)
@@ -57,7 +65,7 @@ def build_tts(spec: EngineSpec, *, output_sample_rate: int | None = None) -> Tts
         if output_sample_rate is not None:
             options.setdefault("sample_rate", output_sample_rate)
         return MockTtsEngine(**options)
-    if backend in {"vieneu", "vieneu_nano", "vixtts", "f5", "subprocess", "s2s_bridge"}:
+    if backend in TTS_BACKENDS:
         from .tts.bridge_viet_s2s import BridgeTtsEngine
 
         inner = spec.options.get("backend", backend if backend != "s2s_bridge" else "vieneu")

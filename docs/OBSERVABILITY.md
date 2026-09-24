@@ -70,6 +70,19 @@ curl -s "localhost:18100/sessions/<id>/turns?limit=8"    # timeline THÔ của t
 ls runtime/traces/                                        # một JSONL mỗi phiên
 ```
 
+```bash
+curl -s localhost:18100/engines | python -m json.tool          # engine nào đang nạp
+curl -s -X POST localhost:18100/try/tts -H 'Content-Type: application/json' \
+     -d '{"text":"Chào bạn [cười]."}' | python -m json.tool     # thử riêng talker
+curl -s -X POST localhost:18100/try/asr --data-binary @clip.wav \
+     -H 'Content-Type: application/octet-stream'                # thử riêng ASR
+```
+
+`/try/*` chạy trên engine **đang nạp**, và `/try/tts` đưa chữ qua đúng
+`conversation.segmenter.pipeline_segmenter` của đường nói — nên trường
+`prepared` cho thấy chính xác cái mà talker nhận, kể cả khi cue cảm xúc đã bị
+bỏ. Một bài thử dựng lại logic đó sẽ đo một sản phẩm không tồn tại.
+
 Trong trình duyệt, `http://localhost:18100/` là bàn đo: mỗi bên tham gia một
 làn trên cùng một trục mili-giây, nên chỗ các chặng CHỒNG nhau (TTS bắt đầu
 trước khi LLM xong) nhìn thấy được — thứ mà mọi bảng số đều giấu. Nút

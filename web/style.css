@@ -520,3 +520,210 @@ h2 { margin: 0; }
   .ln { grid-template-columns: 92px 26px minmax(0, 1fr) 58px; gap: 6px; }
   .ln__note { display: none; }
 }
+
+/* ---------------------------------------------------------------- trang thử model
+ *
+ * Cùng hệ màu với bàn đo, và đó là chủ ý: mỗi trạm thử mang đúng màu của bên
+ * tham gia mà nó thử, nên nhìn vạch bên trái là biết đang đo ai mà không cần
+ * đọc tiêu đề. Không dùng thẻ bo góc giống nhau cho mọi khối — các khối phân
+ * cách bằng cùng lưới 1px như bàn đo.
+ */
+
+.nav { display: flex; gap: 2px; }
+.nav__link {
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.nav__link:hover { color: var(--ink); }
+.nav__link[aria-current="page"] {
+  color: var(--ink);
+  background: var(--film);
+  border-color: var(--rule);
+}
+
+.shop {
+  display: grid;
+  gap: 1px;
+  background: var(--rule);
+}
+.shop__block {
+  background: var(--film);
+  padding: clamp(20px, 3vw, 32px) var(--gut);
+}
+.shop__head { max-width: 70ch; }
+.shop__note {
+  margin: 6px 0 0;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  max-width: 74ch;
+}
+.shop__note code {
+  font: 400 0.9em/1 var(--mono);
+  background: var(--panel);
+  padding: 1px 4px;
+}
+
+.station { border-left: 4px solid var(--who, var(--rule)); }
+.station > .btn--go { margin-top: 4px; }
+.station[data-who="asr"]  { --who: var(--asr); }
+.station[data-who="llm"]  { --who: var(--llm); }
+.station[data-who="tts"]  { --who: var(--tts); }
+.station[data-who="tool"] { --who: var(--tool); }
+
+.field { margin: 14px 0; max-width: 620px; }
+.field input[type="text"],
+.field input[type="file"],
+.shop textarea {
+  width: 100%;
+  font: 400 var(--t-body)/1.4 var(--sans);
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 9px 10px;
+}
+.shop textarea {
+  font-family: var(--mono);
+  font-size: var(--t-sm);
+  min-height: 74px;
+  resize: vertical;
+}
+/* flex chứ không inline-flex: để inline thì nút chạy nằm ngay cạnh ô tick và
+   đọc như thể nó thuộc về ô tick. */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  margin: 0 0 16px;
+}
+
+/* --- bảng chọn engine --- */
+
+.engine {
+  display: grid;
+  grid-template-columns: 104px 200px minmax(0, 1fr) auto;
+  gap: 10px 12px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule-2);
+}
+.engine__kind {
+  font-size: var(--t-sm);
+  font-weight: 700;
+  border-left: 3px solid var(--who, var(--rule));
+  padding-left: 8px;
+}
+.engine__kind small {
+  display: block;
+  font-weight: 400;
+  color: var(--ink-2);
+  font-size: var(--t-xs);
+}
+.engine select {
+  width: 100%;
+  font: 400 var(--t-sm)/1 var(--sans);
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 8px 9px;
+}
+/* Năng lực engine chiếm hẳn một hàng riêng: nhét vào cột 200px thì
+   `streaming_partials=true languages=["vi"]` xuống dòng ba lần và không đọc
+   được thứ đáng đọc nhất ở đây. */
+.engine__caps {
+  grid-column: 2 / -1;
+  font: 400 var(--t-xs)/1.6 var(--mono);
+  color: var(--ink-2);
+  word-break: break-word;
+}
+.engine__caps b { color: var(--ink); font-weight: 700; }
+.engine__err {
+  grid-column: 2 / -1;
+  font-size: var(--t-sm);
+  color: var(--over);
+}
+
+@media (max-width: 760px) {
+  /* Một cột thì phải TRẢ LẠI mọi grid-column: để nguyên `2 / -1` là ép grid
+     sinh ra một track ẩn thứ hai và cả hàng vỡ. */
+  .engine { grid-template-columns: minmax(0, 1fr); }
+  .engine__caps,
+  .engine__err { grid-column: 1; }
+}
+
+/* --- kết quả --- */
+
+.result { margin-top: 16px; max-width: 900px; }
+.result:empty { display: none; }
+
+.stat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
+  padding: 10px 0;
+  border-top: 1px solid var(--rule-2);
+  border-bottom: 1px solid var(--rule-2);
+}
+.stat div { min-width: 90px; }
+.stat dt { font-size: var(--t-xs); color: var(--ink-2); }
+.stat dd {
+  margin: 0;
+  font: 700 1.125rem/1.3 var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+.stat dd[data-over="yes"] { color: var(--over); }
+
+.said {
+  margin: 12px 0 0;
+  font-size: var(--t-body);
+  max-width: 68ch;
+}
+.said--quiet { color: var(--ink-2); }
+
+.prepared { list-style: none; margin: 12px 0 0; padding: 0; }
+.prepared li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px 96px;
+  gap: 10px;
+  padding: 5px 0 5px 8px;
+  border-left: 2px solid var(--tts);
+  border-bottom: 1px solid var(--rule-2);
+  font-size: var(--t-sm);
+}
+.prepared b {
+  font: 400 var(--t-sm)/1.6 var(--mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  font-weight: 400;
+}
+.prepared__head { color: var(--ink-2); font-size: var(--t-xs) !important; border-left-color: transparent !important; }
+
+.warn {
+  margin: 12px 0 0;
+  padding: 9px 11px;
+  font-size: var(--t-sm);
+  background: var(--panel);
+  border-left: 3px solid var(--over);
+}
+.fail { color: var(--over); }
+
+.result audio { width: 100%; max-width: 520px; margin-top: 12px; }
+
+.raw { margin-top: 12px; font-size: var(--t-sm); color: var(--ink-2); }
+.raw pre {
+  margin: 8px 0 0;
+  padding: 10px;
+  background: var(--tape);
+  color: #cfdcd7;
+  font: 400 var(--t-xs)/1.6 var(--mono);
+  overflow-x: auto;
+  max-height: 260px;
+}
