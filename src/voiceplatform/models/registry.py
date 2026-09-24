@@ -156,6 +156,14 @@ class ModelPlane:
             if engine is not None:
                 await engine.close()
 
+    def warm_speech(self, text: str, voice: str | None = None) -> list[Any] | None:
+        """Audio ĐÃ tổng hợp sẵn, hoặc None. Không bao giờ chờ.
+
+        Tách khỏi `cached_speech` vì người gọi nó đang ở trên đường nói: chờ
+        tổng hợp ở đó là đúng thứ câu mở sinh ra để tránh.
+        """
+        return self._speech_cache.get((text, voice or ""))
+
     async def cached_speech(self, text: str, voice: str | None = None) -> list[Any]:
         """Tổng hợp một lần, dùng lại mãi. Trả về list SpeechChunk."""
         import asyncio

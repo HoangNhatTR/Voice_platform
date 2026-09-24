@@ -93,6 +93,33 @@ class FillerConfig:
 
 
 @dataclass(slots=True)
+class OpenerConfig:
+    """Câu mở đã tổng hợp sẵn, phát khi lượt trả lời chưa kịp ra tiếng.
+
+    Vì sao cần: vòng LLM 0 của một lượt gọi công cụ KHÔNG sinh chữ nào — nó chỉ
+    sinh lời gọi — nên không có gì để nói cho tới khi vòng đó xong. Đo được
+    TTFA p50 2203 ms ở lượt quyết định đi tra và 1234 ms ở lượt trả kết quả,
+    trong khi câu báo "Để tôi tra cứu nhé." đã nằm sẵn trong bộ nhớ từ đầu.
+
+    KHÔNG phát vô điều kiện: một câu đệm luôn phát chỉ là độ trễ tự thêm vào
+    (xem ARCHITECTURE §5). Nó chỉ chạy khi sau `after_ms` vẫn chưa có cụm nào
+    sẵn sàng — tức đúng những lượt mà nếu không có nó, người dùng ngồi nghe im
+    lặng hai, ba giây.
+
+    Đánh đổi: ở lượt chậm, sau câu mở sẽ có một quãng lặng trước câu thật. Đó
+    là cái giá của việc có tiếng dưới một giây, và nó rẻ hơn im lặng hoàn toàn.
+    """
+
+    enabled: bool = True
+    text: str = "Vâng."
+    # 350 ms thắng cuộc đua ở MỌI lượt, kể cả những lượt vốn đã ra tiếng trong
+    # 560 ms — tức là thêm một tiếng đệm vào chỗ không cần. 550 ms để lượt
+    # nhanh tự về đích, mà lượt chậm vẫn có tiếng trước một giây: 550 cộng
+    # thời gian phát một câu đã dựng sẵn vẫn còn xa 1000.
+    after_ms: int = 550
+
+
+@dataclass(slots=True)
 class SearchConfig:
     """Tra cứu bất đồng bộ: gửi đi, nói tiếp, trả kết quả sau."""
 
@@ -115,6 +142,7 @@ class ConversationConfig:
     turn_detection: TurnDetectionConfig = field(default_factory=TurnDetectionConfig)
     barge_in: BargeInConfig = field(default_factory=BargeInConfig)
     filler: FillerConfig = field(default_factory=FillerConfig)
+    opener: OpenerConfig = field(default_factory=OpenerConfig)
     search: SearchConfig = field(default_factory=SearchConfig)
     history_turns: int = 12
     # Deliberately short. A longer voice-style block measured 0/10 on tool

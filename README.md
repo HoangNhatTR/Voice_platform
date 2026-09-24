@@ -182,10 +182,21 @@ Chi tiết cơ chế và số đo ở [`ARCHITECTURE.md`](ARCHITECTURE.md).
 | **TTFA end-to-end** | **~1.05 s** |
 | Tổng câu trả lời | ~2.0 s |
 
-Nút thắt vẫn là TTS trên CPU, không phải LLM. Ngân sách 300–800 ms trong
-[`ARCHITECTURE.md`](ARCHITECTURE.md) chỉ đạt được khi giải phóng GPU cho talker
-hoặc thêm một câu chào ngắn đã tổng hợp sẵn — xem
-[`docs/ROADMAP.md`](docs/ROADMAP.md).
+### TTFA dưới một giây ở mọi loại lượt (24/09, n=15)
+
+| Loại lượt | Trước | Sau |
+|---|---|---|
+| Quyết định đi tra cứu | p50 2203 ms | **551 ms** |
+| Trả kết quả tra cứu | p50 1234 ms | **552 ms** |
+| Trả lời thẳng | p50 794 ms | 498–722 ms |
+
+**0/15 lượt vượt 1 giây.** Cách làm: một câu đã tổng hợp sẵn
+(`conversation.opener`, mặc định "Vâng.") phát khi sau 550 ms vẫn chưa có cụm
+nào sẵn sàng. Không phát vô điều kiện — lượt trả lời thẳng phần lớn tự về đích
+và không bị chèn thêm tiếng nào. Xem [`ARCHITECTURE.md`](ARCHITECTURE.md) §5.
+
+Nút thắt còn lại vẫn là TTS trên CPU: câu mở che được quãng im lặng đầu, nhưng
+tổng thời gian trả lời thì không đổi.
 
 **Chạy `replay_wav.py` không có `--realtime` thì không có partial nào.** ASR
 giải mã trong thread riêng; ở tốc độ replay tối đa không thread nào kịp xong

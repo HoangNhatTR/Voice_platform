@@ -240,9 +240,9 @@ class ConversationEngine:
             self._delivery_task = asyncio.create_task(
                 self._delivery_loop(), name="search-delivery"
             )
-            # Nền, không chặn phiên: nếu chưa kịp ấm thì lượt đầu vẫn tổng hợp
-            # như thường, chỉ chậm hơn.
-            asyncio.create_task(self._prewarm_ack(), name="prewarm-ack")
+        # Một lần cho cả câu mở lẫn câu báo tra cứu. Nền, không chặn phiên:
+        # chưa kịp ấm thì lượt đầu chỉ chậm hơn, không hỏng.
+        asyncio.create_task(self._prewarm(), name="prewarm-speech")
 
     async def close(self) -> None:
         if self._closed:
@@ -644,9 +644,41 @@ class ConversationEngine:
     ) -> None:
         tts = self.models.tts
         started = False
+        opener = self.config.conversation.opener
+        # Tra bộ nhớ đệm theo ĐÚNG giọng đang dùng, và không bao giờ chờ: nếu
+        # chưa ấm thì lượt này không có câu mở, và một tác vụ nền làm ấm cho
+        # lượt sau. Đổi giọng giữa phiên tự khỏi theo đường này.
+        opener_audio = (
+            self.models.warm_speech(opener.text, self.voice)
+            if opener.enabled and opener.text
+            else None
+        )
+        if opener.enabled and opener.text and opener_audio is None:
+            self.gen.spawn_detached(
+                self._prewarm(opener.text), name="warm-opener"
+            )
+        opened = opener_audio is None
         try:
             while True:
-                item = await phrases.get()
+                if not opened:
+                    opened = True
+                    try:
+                        # Chạy đua: cụm thật tới trước thì không cần câu mở.
+                        item = await asyncio.wait_for(
+                            phrases.get(), timeout=opener.after_ms / 1000.0
+                        )
+                    except asyncio.TimeoutError:
+                        # KHÔNG gửi assistant_delta. `_speak` chạy song song với
+                        # `_answer` đang stream token, nên một delta phát từ đây
+                        # chen vào GIỮA câu model đang viết: đo được
+                        # "Về câu bạnVâng.  hỏi lúc nãy". Âm thanh vẫn đúng thứ
+                        # tự vì `_speak` là người ghi duy nhất; chỉ chữ hiển thị
+                        # hỏng. Câu đệm của đường tool cũng không lên transcript,
+                        # cùng lý do và cùng cách xử lý.
+                        self._emit(EventType.FILLER, text=opener.text, source="opener")
+                        item = Phrase(opener.text, audio=opener_audio)
+                else:
+                    item = await phrases.get()
                 if item is None:
                     break
                 if not self.gen.check(key):
@@ -836,14 +868,24 @@ class ConversationEngine:
         self.gen.spawn_detached(self._run_search(request), name=f"search-{request.id}")
         return request
 
-    async def _prewarm_ack(self) -> None:
-        text = self.config.conversation.search.instant_ack
-        if not text:
-            return
-        try:
-            self._ack_audio = await self.models.cached_speech(text, self.voice)
-        except Exception as exc:  # pragma: no cover - backend dependent
-            log.warning("could not pre-synthesise the search acknowledgement: %s", exc)
+    async def _prewarm(self, *texts: str) -> None:
+        """Tổng hợp trước những câu cố định, một lần cho cả tiến trình."""
+        wanted = list(texts) or [
+            self.config.conversation.search.instant_ack,
+            self.config.conversation.opener.text
+            if self.config.conversation.opener.enabled
+            else "",
+        ]
+        for text in wanted:
+            if not text:
+                continue
+            try:
+                audio = await self.models.cached_speech(text, self.voice)
+            except Exception as exc:  # pragma: no cover - backend dependent
+                log.warning("không tổng hợp trước được %r: %s", text, exc)
+                continue
+            if text == self.config.conversation.search.instant_ack:
+                self._ack_audio = audio
 
     async def _run_search(self, request: SearchRequest) -> None:
         assert self.search_agent is not None

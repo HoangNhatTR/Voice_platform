@@ -90,6 +90,26 @@ lịch. Thiếu vế client thì server im mà tai người dùng vẫn nghe th�
 Tool chạy trong task riêng, có deadline, và nếu quá `filler.after_ms` mới chèn
 một câu đệm. Câu đệm phát vô điều kiện chỉ là độ trễ tự thêm vào.
 
+Cùng nguyên tắc cho **câu mở** (`conversation.opener`): một câu đã tổng hợp sẵn
+("Vâng.") chỉ phát khi sau `after_ms` vẫn chưa có cụm nào sẵn sàng. Nó tồn tại
+vì vòng LLM 0 của một lượt gọi công cụ KHÔNG sinh chữ nào — chỉ sinh lời gọi —
+nên trước đó không có gì để nói cho tới khi vòng ấy xong:
+
+| Loại lượt | TTFA trước | TTFA sau |
+|---|---|---|
+| quyết định đi tra cứu | p50 2203 ms, max 3030 | **p50 552, max 616** |
+| trả kết quả tra cứu | p50 1234 ms, max 1932 | **p50 552, max 553** |
+| trả lời thẳng | p50 794 ms, max 1016 | 419–659 (phần lớn không cần câu mở) |
+
+`after_ms` là chỗ đánh đổi, và nó đo được: đặt 350 thì câu mở thắng cuộc đua ở
+**mọi** lượt, kể cả lượt vốn đã ra tiếng trong 560 ms — tức là thêm tiếng đệm
+vào chỗ không cần. 550 để lượt nhanh tự về đích.
+
+Câu mở KHÔNG lên transcript. `_speak` chạy song song với `_answer` đang stream
+token, nên một `assistant_delta` phát từ đó chen vào giữa câu model đang viết —
+đo được đúng chuỗi `"Về câu bạnVâng.  hỏi lúc nãy"`. Âm thanh vẫn đúng thứ tự
+vì `_speak` là người ghi duy nhất; chỉ chữ hiển thị hỏng.
+
 ### 6. Năng lực là thuộc tính của engine, không phải cờ config
 
 `TtsCapabilities.emotion_cues` đọc từ backend đã nạp. Một config khai có hỗ trợ

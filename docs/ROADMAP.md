@@ -24,11 +24,10 @@ cách đó: ngắn hơn nữa thì nghe cụt.
 
 Ba đường còn lại, theo thứ tự đáng làm:
 
-1. **Câu chào tổng hợp sẵn.** Một "Vâng." đã warm phát ngay khi lượt được chốt
-   cho first audio gần như tức thì, phần ngữ nghĩa chạy tiếp phía sau.
-   `speech2speech` đã làm cách này (`instant_ack_text`). Cơ chế đã có sẵn:
-   `ModelPlane.cached_speech` + `ToolResult.data["speak_now"]` đang dùng cho
-   đường tra cứu; việc còn lại là gọi nó cho lượt thường.
+1. ~~**Câu chào tổng hợp sẵn.**~~ **Xong 24/09** — `conversation.opener`.
+   Phát khi sau 550 ms vẫn chưa có cụm nào sẵn sàng, không phát vô điều kiện.
+   TTFA: lượt quyết định đi tra 2203 → 552 ms, lượt trả kết quả 1234 → 552 ms,
+   lượt trả lời thẳng phần lớn vẫn tự về đích không cần nó. Xem ARCHITECTURE §5.
 2. **Giải phóng GPU cho talker.** VieNeu bản cuda báo CUDA out of memory vì bộ
    nhớ hợp nhất GB10 đang bị chiếm 93/121 GB. Talker mới là thứ đáng được GPU,
    không phải LLM.
