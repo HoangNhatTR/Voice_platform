@@ -22,6 +22,9 @@ def _config_of(args: argparse.Namespace) -> str | None:
     return getattr(args, "config", None)
 
 
+_LAN_TLS_DIR = Path(".tls")
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     from .server import run
 
@@ -30,6 +33,33 @@ def cmd_serve(args: argparse.Namespace) -> int:
         config.server.port = args.port
     if args.host:
         config.server.host = args.host
+    if args.lan:
+        # Everything --lan turns on is a consequence of the page leaving this
+        # machine, not a preference: reachable address, a secure context so the
+        # microphone exists at all, and the session list off the open network.
+        config.server.host = args.host or "0.0.0.0"
+        config.server.private_introspection = True
+        args.cert = args.cert or str(_LAN_TLS_DIR / "server.crt")
+        args.key = args.key or str(_LAN_TLS_DIR / "server.key")
+    if args.cert or args.key:
+        if not (args.cert and args.key):
+            raise VoicePlatformError("--cert và --key phải đi cùng nhau")
+        for path in (args.cert, args.key):
+            if not Path(path).exists():
+                raise VoicePlatformError(
+                    f"không có {path}. Sinh chứng chỉ trước: ./scripts/make-lan-cert.sh"
+                )
+        config.server.ssl_certfile = args.cert
+        config.server.ssl_keyfile = args.key
+    elif config.server.host not in {"127.0.0.1", "localhost", "::1"}:
+        # Not fatal — a tester can still type — but it is the single most
+        # common reason a LAN demo has no voice, so it is said out loud.
+        print(
+            f"cảnh báo: phục vụ {config.server.host} qua HTTP thuần. Trình duyệt "
+            "ở máy khác sẽ KHÔNG mở được micro (getUserMedia cần secure context). "
+            "Dùng ./scripts/lan.sh để chạy kèm TLS.",
+            file=sys.stderr,
+        )
     run(config)
     return 0
 
@@ -84,6 +114,12 @@ def build_parser() -> argparse.ArgumentParser:
     serve = sub.add_parser("serve", help="run the realtime server", parents=[common])
     serve.add_argument("--host")
     serve.add_argument("--port", type=int)
+    serve.add_argument("--cert", help="chứng chỉ TLS (bắt buộc nếu muốn có micro ngoài localhost)")
+    serve.add_argument("--key", help="khoá riêng TLS")
+    serve.add_argument(
+        "--lan", action="store_true",
+        help="mở cho máy khác: bind 0.0.0.0, bật TLS ở .tls/, khoá /sessions và /config về loopback",
+    )
     serve.set_defaults(func=cmd_serve)
 
     demo = sub.add_parser("demo", help="run a scripted session with no browser", parents=[common])

@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -129,9 +129,29 @@ def create_app(config: Config) -> FastAPI:
                 )
         return {"snapshot": platform.metrics.snapshot()}
 
+    def _local_only(request: Request) -> JSONResponse | None:
+        """Refuse an introspection endpoint to anyone off this machine.
+
+        Only meaningful because nothing sits in front of this server: behind a
+        reverse proxy every request would look local and this would wave the
+        whole LAN through.
+        """
+        if not config.server.private_introspection:
+            return None
+        host = request.client.host if request.client else ""
+        if host in {"127.0.0.1", "::1", "localhost"}:
+            return None
+        return JSONResponse(
+            {"detail": "chỉ xem được từ chính máy chạy server"}, status_code=403
+        )
+
     @app.get("/sessions")
-    async def sessions() -> dict[str, Any]:
-        return {sid: engine.stats() for sid, engine in platform.sessions.items()}
+    async def sessions(request: Request) -> Any:
+        # A session id is the key to that session's transcripts, and this is
+        # the only place the ids are listed.
+        return _local_only(request) or {
+            sid: engine.stats() for sid, engine in platform.sessions.items()
+        }
 
     @app.get("/sessions/{session_id}/turns")
     async def session_turns(session_id: str, limit: int = 8) -> Any:
@@ -156,8 +176,8 @@ def create_app(config: Config) -> FastAPI:
         }
 
     @app.get("/config")
-    async def show_config() -> dict[str, Any]:
-        return config.to_dict()
+    async def show_config(request: Request) -> Any:
+        return _local_only(request) or config.to_dict()
 
     web_dir = Path(config.server.web_dir)
     if web_dir.is_dir():
@@ -222,24 +242,28 @@ def create_app(config: Config) -> FastAPI:
     return app
 
 
+def _uvicorn_kwargs(config: Config) -> dict[str, Any]:
+    kwargs: dict[str, Any] = {
+        "host": config.server.host,
+        "port": config.server.port,
+        "log_level": "info",
+    }
+    if config.server.ssl_certfile and config.server.ssl_keyfile:
+        kwargs["ssl_certfile"] = config.server.ssl_certfile
+        kwargs["ssl_keyfile"] = config.server.ssl_keyfile
+    return kwargs
+
+
 def run(config: Config) -> None:
     import uvicorn
 
-    app = create_app(config)
-    uvicorn.run(app, host=config.server.host, port=config.server.port, log_level="info")
+    uvicorn.run(create_app(config), **_uvicorn_kwargs(config))
 
 
 async def run_async(config: Config) -> None:  # pragma: no cover - used by scripts
     import uvicorn
 
-    server = uvicorn.Server(
-        uvicorn.Config(
-            create_app(config),
-            host=config.server.host,
-            port=config.server.port,
-            log_level="info",
-        )
-    )
+    server = uvicorn.Server(uvicorn.Config(create_app(config), **_uvicorn_kwargs(config)))
     await server.serve()
 
 

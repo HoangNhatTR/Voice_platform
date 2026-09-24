@@ -62,6 +62,34 @@ PYTHONPATH=src /home/ai01/AIHoang/speech2speech/.venv/bin/python \
 phỏng bắt lỗi luồng, phiên WebSocket bắt lỗi giao thức nhị phân — lớp mà unit
 test không chạm tới.
 
+## Mở cho người khác thử
+
+```bash
+PYTHON=/home/ai01/AIHoang/speech2speech/.venv/bin/python ./scripts/lan.sh configs/local-cpu.yaml
+```
+
+Lệnh này sinh chứng chỉ nếu chưa có, bind `0.0.0.0`, bật TLS, khoá `/sessions`
+và `/config` về loopback, rồi in ra địa chỉ để gửi cho người test.
+
+**HTTPS ở đây không phải để bảo mật mà để CÓ MICRO.** `getUserMedia` và
+`AudioWorklet` chỉ chạy trong secure context, miễn trừ duy nhất là `localhost`.
+Phục vụ HTTP thuần sang máy khác thì người test chỉ gõ chữ được, không nói được
+— và không có thông báo lỗi nào nói ra điều đó. Chứng chỉ tự ký là một cảnh báo
+bấm qua một lần; `scripts/make-lan-cert.sh` in kèm vân tay SHA-256 để người test
+đối chiếu thay vì bấm qua mù.
+
+Ba điều nên nói trước với người test:
+
+- **Không có xác thực.** Ai vào được mạng là gọi được model. Đây là công cụ thử
+  trong mạng nội bộ, không phải bản triển khai.
+- **Lời nói được ghi lại.** Mỗi phiên để lại một JSONL trong `runtime/traces/`
+  kèm transcript. `/sessions` bị khoá về loopback chính vì id phiên là chìa
+  khoá mở transcript của phiên đó.
+- **Nhiều người cùng lúc thì chậm hơn, không hỏng.** Đo 24/09, ba phiên bấm gửi
+  cùng lúc: tiếng đầu 1070 / 2506 / 3495 ms, cả ba đều trả lời trọn vẹn. Nút
+  thắt là talker — một tiến trình con, một khoá, tổng hợp tuần tự. Đông hơn thì
+  con số này giãn tiếp theo tuyến tính.
+
 ## Dùng model thật
 
 `configs/local-gpu.yaml` mượn thẳng các engine đã chạy được ở

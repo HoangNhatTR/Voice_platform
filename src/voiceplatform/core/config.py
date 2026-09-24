@@ -172,6 +172,16 @@ class ServerConfig:
     port: int = 18100
     web_dir: str = "web"
     cors_origins: list[str] = field(default_factory=lambda: ["*"])
+    # TLS is not about secrecy here, it is about having a microphone at all:
+    # getUserMedia and AudioWorklet need a secure context and the only
+    # exemption is localhost. Served over plain HTTP to another machine, the
+    # product loses its entire voice path and keeps only the text box.
+    ssl_certfile: str | None = None
+    ssl_keyfile: str | None = None
+    # /sessions lists every live session id, and an id is the key to that
+    # session's transcripts. On a shared link that is an enumeration vector,
+    # so both it and /config can be pinned to loopback.
+    private_introspection: bool = False
 
 
 @dataclass(slots=True)
