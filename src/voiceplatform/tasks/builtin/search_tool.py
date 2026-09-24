@@ -57,20 +57,25 @@ class SearchTool:
                 ),
                 data={"accepted": False},
             )
+        # Một câu XIN CHỜ, không phải một câu hỏi. Bản trước viết "hoặc hỏi
+        # thêm chi tiết, hoặc nói điều gì hữu ích trong lúc chờ" và đo được
+        # (n=12, câu cần tra cứu): xin người dùng chờ 1/12, hỏi ngược lại họ
+        # 5/12. Trong hội thoại bằng giọng nói, hỏi ngược lại lúc này là hỏng:
+        # người dùng bắt đầu trả lời thì lượt trả kết quả ập tới cắt ngang họ.
         if self.instant_ack:
-            # Người dùng đã nghe câu báo rồi (phát thẳng, không qua model), nên
-            # model chỉ cần nói thêm một câu có ích chứ đừng lặp lại.
             content = (
-                f"Đã gửi yêu cầu tra cứu “{query}” và ĐÃ báo cho người dùng biết "
-                "là bạn đang tra. Đừng nhắc lại chuyện đang tra cứu. Nói đúng "
-                "MỘT câu ngắn: hoặc hỏi thêm chi tiết, hoặc nói điều gì hữu ích "
-                "trong lúc chờ. Tuyệt đối không bịa nội dung kết quả."
+                f"Đã gửi yêu cầu tra cứu “{query}”. Người dùng vừa nghe bạn nói "
+                "sẽ đi tra. Bây giờ nói đúng MỘT câu ngắn xin họ chờ trong giây "
+                "lát. TUYỆT ĐỐI không đặt câu hỏi ngược lại: họ đang đợi, và câu "
+                "hỏi của bạn sẽ bị cắt ngang khi kết quả về. Cũng không được bịa "
+                "nội dung kết quả."
             )
         else:
             content = (
-                f"Đã gửi yêu cầu tra cứu “{query}”. Hãy nói MỘT câu ngắn cho "
-                "người dùng biết bạn đang tra và sẽ trả lời ngay khi có. Đừng "
-                "bịa nội dung kết quả."
+                f"Đã gửi yêu cầu tra cứu “{query}”. Nói đúng MỘT câu ngắn cho "
+                "người dùng biết bạn đang tra và xin họ chờ trong giây lát. "
+                "TUYỆT ĐỐI không đặt câu hỏi ngược lại, và không bịa nội dung "
+                "kết quả."
             )
         return ToolResult(
             ok=True,

@@ -171,6 +171,35 @@ Chặng còn lại đáng cắt là **vòng LLM 0**. Việc tách vai trò mở 
 đó: quyết định "có cần tra không" có thể giao cho một model nhỏ hơn nhiều so
 với model lo hội thoại.
 
+### Lúc chờ thì nói gì — đo, đừng đoán (24/09/2026)
+
+Câu cố định "Để tôi tra cứu nhé." phát ngay. Câu tiếp theo do model soạn, và
+lời nhắc trong `SearchTool` quyết định nó nói gì. Đo trên 12 câu cần tra cứu:
+
+| Lời nhắc vòng 1 | Xin người dùng chờ | Hỏi ngược lại người dùng |
+|---|---|---|
+| "hoặc hỏi thêm chi tiết, hoặc nói điều gì hữu ích trong lúc chờ" | 1/12 | **5/12** |
+| "nói đúng MỘT câu ngắn xin họ chờ; TUYỆT ĐỐI không đặt câu hỏi ngược lại" | **10/12** | **0/12** |
+
+Hỏi ngược lại lúc này không phải là thân thiện mà là hỏng: người dùng bắt đầu
+trả lời thì lượt trả kết quả ập tới và cắt ngang họ. Hai lượt còn thiếu ở hàng
+dưới là hai câu model tự trả lời từ trí nhớ mà không gọi tra cứu — vấn đề khác,
+xem dưới.
+
+### Giới hạn thật: "kết quả tra cứu" hiện chỉ là trí nhớ của một model thứ hai
+
+`models.search.backend: llm` trỏ vào cùng llama-server, **không có nguồn dữ liệu
+nào**. Đo trên 5 câu hỏi số liệu thời gian thực: 3 lần nó trả lời trung thực là
+không tra được và chỉ chỗ tra, 1 lần trả lời đúng kèm nguồn, và **1 lần khẳng
+định sai một cách tự tin** ("VinFast chưa niêm yết trên sàn chứng khoán").
+
+Nặng hơn: có câu model không thèm gọi tra cứu mà trả lời thẳng từ trí nhớ. Cùng
+một câu hỏi, hai lần chạy cách nhau mười phút cho hai đáp án mâu thuẫn — "9 giờ
+sáng" và "15 giờ 00" — cả hai đều nói như đinh đóng cột.
+
+Luồng hội thoại đúng không cứu được chỗ này. Nó cần một retriever thật, xem
+[`docs/ROADMAP.md`](docs/ROADMAP.md) mục 4.
+
 ### Cơ chế gọi công cụ (đường đồng bộ, cho tool nhanh)
 
 ```
