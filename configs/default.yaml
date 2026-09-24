@@ -1,0 +1,72 @@
+# Defaults, written out so every tunable is visible in one place.
+# Anything omitted falls back to the dataclass default in core/config.py.
+
+audio:
+  sample_rate: 16000      # what ASR and VAD see
+  frame_ms: 20            # media-plane granularity; every counter below is in frames
+  channels: 1
+  output_sample_rate: 24000   # tốc độ yêu cầu talker sinh ra; phải khai, engine mượn mặc định 16 kHz
+
+media:
+  vad:
+    backend: energy       # energy | silero
+    threshold: 0.5
+    energy_threshold: 0.012
+    start_frames: 2       # 40 ms of speech opens the gate
+    end_frames: 12        # 240 ms of silence closes it — a candidate, not a decision
+    pre_roll_ms: 320      # kept before the gate opened, so no onset is lost
+  aec:
+    backend: client       # the browser's APM has the far-end reference; we do not
+    enabled: true
+  denoise: none
+  jitter_target_ms: 60
+
+conversation:
+  turn_detection:
+    backend: heuristic    # vad_only | heuristic | semantic
+    silence_ms: 480       # a finished sentence ends here
+    max_silence_ms: 1400  # an obviously unfinished one waits this long at most
+    min_utterance_ms: 240 # speech frames only; below this it was a noise
+    max_utterance_ms: 30000
+  barge_in:
+    enabled: true
+    speech_frames: 6      # 120 ms. At one frame a real session lost 15 of 21 turns.
+    guard_ms: 150         # ignore the assistant's own onset echo
+    min_rms: 0.02
+  filler:
+    enabled: true
+    after_ms: 700         # only when the task path is genuinely slow
+    phrases:
+      - "Để tôi kiểm tra một chút."
+      - "Chờ tôi tra cứu nhanh nhé."
+  history_turns: 12
+  orphan_turn_timeout_ms: 20000
+
+models:
+  mode: cascade           # cascade | half_cascade | s2s
+  asr:
+    backend: mock
+  llm:
+    backend: mock
+  tts:
+    backend: mock
+  s2s:
+    backend: none
+
+tasks:
+  enabled: true
+  tools: [clock]
+  default_timeout_ms: 8000
+  max_parallel: 4
+
+observability:
+  trace_dir: runtime/traces
+  write_traces: true
+  log_events: true
+  keep_turns: 200         # số LƯỢT giữ lại trong trace của mỗi phiên
+
+server:
+  host: 127.0.0.1
+  port: 18100
+  web_dir: web
+  cors_origins: ["*"]

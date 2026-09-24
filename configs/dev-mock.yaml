@@ -1,0 +1,23 @@
+# No models at all: open the browser and hear the turn-taking work.
+# Everything the conversation plane does is exercised; only the voices are fake.
+
+models:
+  mode: cascade
+  asr:
+    backend: mock
+    options:
+      partial_every_frames: 15
+  llm:
+    backend: mock
+    options:
+      first_token_delay_ms: 120
+      token_delay_ms: 12
+  tts:
+    backend: mock
+    options:
+      first_audio_delay_ms: 90
+      rtf: 0.4
+
+observability:
+  write_traces: true
+  log_events: true

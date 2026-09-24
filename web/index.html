@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Realtime Voice Platform</title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<main>
+  <header>
+    <h1>Realtime Voice Platform</h1>
+    <span id="state" data-value="offline">offline</span>
+    <span class="sub">bản kiểm thử — micro, ngắt lời, đo độ trễ</span>
+  </header>
+
+  <section class="panel">
+    <div class="row">
+      <button id="connect" class="primary">Kết nối</button>
+      <button id="interrupt">Ngắt lời</button>
+      <button id="mute">Tắt micro</button>
+      <div id="level" data-value="im" title="Mức tín hiệu micro"></div>
+      <span id="stats">chưa gửi gì</span>
+    </div>
+    <div id="engines">Bấm "Kết nối" để nạp phiên. Micro chỉ mở được ở localhost hoặc HTTPS.</div>
+  </section>
+
+  <section class="panel">
+    <div class="label">Bạn nói</div>
+    <div id="transcript"></div>
+    <div class="label" style="margin-top:12px">Trợ lý</div>
+    <div id="assistant"></div>
+  </section>
+
+  <section class="panel">
+    <div class="row">
+      <input id="text" type="text" placeholder="Hoặc gõ tin nhắn rồi nhấn Enter" />
+      <button id="send">Gửi</button>
+    </div>
+    <div id="metrics" style="margin-top:10px">chưa có lượt nào</div>
+  </section>
+
+  <section class="panel">
+    <div class="label">Nhật ký phiên</div>
+    <div id="log"></div>
+  </section>
+</main>
+<script src="/static/client.js"></script>
+</body>
+</html>

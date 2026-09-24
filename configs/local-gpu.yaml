@@ -1,0 +1,56 @@
+# Real engines, borrowed from the sibling speech2speech checkout.
+#
+# Prerequisites:
+#   1. models are downloaded there (models/gipformer1.5-65M-rnnt, ...)
+#   2. a llama.cpp server is up:  .deps/llama.cpp/build/bin/llama-server \
+#        -m models/qwen3.5-4b/<file>.gguf --port 8088 --host 127.0.0.1
+#   3. this process can import torch / onnxruntime
+#      (run with speech2speech's .venv, or install them here)
+#
+# Point somewhere else with VOICEPLATFORM_S2S_ROOT or options.root.
+
+media:
+  vad:
+    backend: silero       # worth the load once real audio is in play
+    threshold: 0.5
+
+models:
+  mode: cascade
+  asr:
+    # 65M transducer on CPU: measured at 61 ms per utterance against 444 ms for
+    # the GPU large model, with the same transcript. It leaves the GPU to the
+    # talker, which is the actual bottleneck.
+    backend: gipformer
+    options:
+      model_dir: models/gipformer1.5-65M-rnnt
+      precision: int8
+      onnx_threads: 4
+      lowercase: true
+      partial_every_frames: 25   # bắt buộc: không có thì turn detector mù chữ
+  llm:
+    backend: openai_compat
+    options:
+      endpoint: http://127.0.0.1:8088/v1
+      model: qwen3.5-4b
+      max_tokens: 192
+      temperature: 0.6
+      enable_thinking: false
+      keepalive_connections: 0   # llama.cpp advertises Keep-Alive and lies
+  tts:
+    backend: vieneu
+    options:
+      model_id: pnnbao-ump/VieNeu-TTS-v3-Turbo
+      device: cuda
+      expected_rtf: 0.6
+
+conversation:
+  # The heuristic detector only works when partials exist — see
+  # models.asr.options.partial_every_frames above; without it every decision
+  # falls back to silence_ms.
+  turn_detection:
+    backend: heuristic
+    silence_ms: 480
+    max_silence_ms: 1400
+
+tasks:
+  tools: [clock]
