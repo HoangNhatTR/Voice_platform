@@ -11,6 +11,12 @@ from voiceplatform.core.errors import VoicePlatformError
 from voiceplatform.models.registry import ModelPlane
 
 
+class _Session:
+    """Chỗ đứng cho một phiên đang mở; chỉ cần mang được giọng."""
+
+    voice: str | None = None
+
+
 class _Platform:
     """Đúng ba thứ LabService cần, không hơn."""
 
@@ -18,7 +24,8 @@ class _Platform:
         self.models = ModelPlane(
             config.models, output_sample_rate=config.audio.output_sample_rate
         )
-        self.sessions: dict[str, object] = {}
+        self.sessions: dict[str, _Session] = {}
+        self.voice: str | None = None
 
 
 @pytest.fixture
@@ -138,7 +145,7 @@ async def test_llm_is_prompted_through_the_real_context(lab):
 async def test_a_live_session_marks_the_number_instead_of_refusing_it(lab):
     """Từ chối thì phiền, im lặng trả số nhiễu thì tệ hơn. Đánh dấu là đúng."""
     service, platform = lab
-    platform.sessions["s1"] = object()
+    platform.sessions["s1"] = _Session()
     out = await service.try_tts("Một câu.", None)
     assert out["contended"] is True
     assert out["live_sessions"] == 1
@@ -148,7 +155,7 @@ async def test_a_live_session_marks_the_number_instead_of_refusing_it(lab):
 
 async def test_swapping_is_refused_while_a_session_is_live(lab):
     service, platform = lab
-    platform.sessions["s1"] = object()
+    platform.sessions["s1"] = _Session()
     with pytest.raises(Busy):
         await service.swap("tts", "mock", {})
 
@@ -238,6 +245,15 @@ async def test_clearing_the_voice_removes_it_from_config(lab):
     service.set_voice("")
     assert platform.voice is None
     assert "voice" not in service.config.models.tts.options
+
+
+async def test_changing_the_voice_reaches_a_session_already_open(lab):
+    """Chỉ đặt cho phiên MỚI thì người dùng đổi giọng rồi nghe tiếp vẫn giọng cũ."""
+    service, platform = lab
+    live = _Session()
+    platform.sessions["s1"] = live
+    service.set_voice("mock-b")
+    assert live.voice == "mock-b"
 
 
 async def test_the_test_uses_the_session_voice_when_none_is_given(lab):

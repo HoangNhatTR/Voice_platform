@@ -161,6 +161,11 @@ class LabService:
                 f"giọng {wanted!r} không có. Engine khai: {', '.join(available)}"
             )
         self.platform.voice = wanted
+        # Phiên đang mở cũng phải đổi theo. Chỉ đặt cho phiên MỚI thì người
+        # dùng đổi giọng ngay trên bàn đo, nghe tiếp vẫn giọng cũ, và không có
+        # gì nói cho họ biết là phải kết nối lại.
+        for engine in list(self.platform.sessions.values()):
+            engine.voice = wanted
         options = self.config.models.tts.options
         if wanted:
             options["voice"] = wanted

@@ -332,7 +332,18 @@ h2 { margin: 0; }
 
 .console__row { display: flex; gap: 8px; align-items: center; }
 .console__form { margin: 18px 0; }
-.console input {
+.console__voice { margin: 16px 0 0; }
+.console__voice select { width: 100%; }
+.console__voice .hint {
+  display: block;
+  margin-top: 5px;
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+}
+.console__voice a { color: var(--asr); }
+
+.console input,
+.console select {
   flex: 1 1 auto;
   min-width: 0;
   font: 400 var(--t-body)/1 var(--sans);

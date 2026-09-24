@@ -321,6 +321,7 @@ function handleControl(message) {
       el('session').textContent = `${message.session_id} · vào ${state.inputRate} Hz · ra ${state.outputRate} Hz`;
       setState('idle');
       describeModels(message.models);
+      loadVoices();
       note(`phiên sẵn sàng · ${state.inputRate} Hz vào · ${state.outputRate} Hz ra`, 'session_open');
       startCapture().catch((err) => {
         el('engines').textContent = 'Không mở được micro — chỉ dùng được ô gõ chữ. Micro cần localhost hoặc HTTPS.';
@@ -360,6 +361,53 @@ function handleControl(message) {
       logLine({ source: 'ws', type: message.type, note: JSON.stringify(message) });
   }
 }
+
+// ---------------------------------------------------------------- chọn giọng
+
+async function loadVoices() {
+  let data;
+  try {
+    const response = await fetch('/engines');
+    if (!response.ok) return;
+    data = await response.json();
+  } catch (_) {
+    return;   // server bận; ô giọng không đáng làm hỏng trang
+  }
+  const voices = data.kinds.tts.voices || [];
+  const box = el('voice-box');
+  if (!voices.length) {
+    // Rỗng là sự thật chứ không phải lỗi: talker chạy qua tiến trình con có
+    // thể không khai danh sách ra được. Nói thẳng và chỉ chỗ đổi.
+    box.innerHTML = '<span class="hint">Talker đang dùng không khai danh sách giọng. '
+      + 'Đổi talker hoặc gõ tên giọng ở <a href="/lab">Thử model</a>.</span>';
+    return;
+  }
+  const options = voices.map((v) =>
+    `<option value="${escape(v)}"${v === data.voice ? ' selected' : ''}>${escape(v)}</option>`).join('');
+  box.innerHTML = `<label class="lbl" for="voice">Giọng</label>`
+    + `<select id="voice">${options}</select>`
+    + '<span class="hint">Đổi ăn ngay từ cụm kế tiếp — cụm đang phát vẫn là giọng cũ.</span>';
+}
+
+async function setVoice(voice) {
+  try {
+    const response = await fetch('/engines/tts/voice', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ voice }),
+    });
+    const body = await response.json();
+    if (!response.ok) throw new Error(body.detail || `HTTP ${response.status}`);
+    note(`đổi giọng sang “${voice}”`);
+  } catch (error) {
+    note(`không đổi được giọng: ${error.message}`, 'error');
+    loadVoices();
+  }
+}
+
+el('voice-box').addEventListener('change', (event) => {
+  if (event.target.id === 'voice') setVoice(event.target.value);
+});
 
 function describeModels(models) {
   if (!models) return;
@@ -779,3 +827,4 @@ setInterval(pollTurns, 600);
 renderTrack(null, false);
 renderStats();
 renderLog();
+loadVoices();

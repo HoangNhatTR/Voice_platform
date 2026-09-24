@@ -47,6 +47,7 @@ phải khai `models.asr.options.partial_every_frames` (25 ≈ 500 ms trong
 `None` nghĩa là detector đang mù chữ.
 
 Heuristic tiếng Việt hiện tại giữ lượt mở khi:
+
 - câu kết thúc bằng từ nối lửng: "và", "thì", "để", "nếu"…
 - câu mới chỉ là mở đầu: "cho tôi hỏi", "tôi muốn"…
 - dãy số chưa đủ dài — người đọc số tài khoản luôn ngắt giữa các cụm, và cắt
@@ -113,12 +114,12 @@ chùm frame về sau khi nghẽn jitter, chỉ đồng hồ audio là đúng.
                                  └────── gửi lại thông tin tìm được ──────┘
 ```
 
-| Vai trò | Ai làm | Ở đâu |
-|---|---|---|
-| Nghe | Gipformer 1.5 65M RNN-T (ONNX int8) | trong tiến trình, CPU |
-| **Giao tiếp** (Speech agent) | Qwen3.5-9B Q4_K_M | llama-server `127.0.0.1:8088` |
+| Vai trò                               | Ai làm                                             | Ở đâu                                         |
+| -------------------------------------- | --------------------------------------------------- | ------------------------------------------------ |
+| Nghe                                   | Gipformer 1.5 65M RNN-T (ONNX int8)                 | trong tiến trình, CPU                          |
+| **Giao tiếp** (Speech agent)    | Qwen3.5-9B Q4_K_M                                   | llama-server`127.0.0.1:8088`                   |
 | **Tra cứu** (Back end - search) | `SearchAgent` — phiên LLM riêng, prompt riêng | cùng endpoint, tách được sang service khác |
-| Nói | VieNeu-TTS v3 Nano | tiến trình con, venv riêng, CPU |
+| Nói                                   | VieNeu-TTS v3 Nano                                  | tiến trình con, venv riêng, CPU               |
 
 Hai tác nhân nói chuyện qua `tasks/search.py`. Speech agent không biết bên kia
 là model, là API hay là mấy hàm tra bảng — đổi `models.search.backend` giữa
@@ -153,13 +154,13 @@ lượt 2:  ◄── search_delivered ◄── kết quả về ◄───�
 
 ### Số đo thật của đường này (23/09/2026)
 
-| Chặng | Thời gian |
-|---|---|
-| LLM vòng 0 — quyết định gọi tra cứu | 1.62 s |
-| Gửi yêu cầu (`SearchTool.run`) | 0.2 ms |
-| **Tiếng đầu tiên người dùng nghe** | **1.68 s** |
-| Back end - search chạy xong | 2.3–4.4 s (song song) |
-| Lượt phát kết quả, TTFA riêng | 1.8 s |
+| Chặng                                          | Thời gian             |
+| ----------------------------------------------- | ---------------------- |
+| LLM vòng 0 — quyết định gọi tra cứu      | 1.62 s                 |
+| Gửi yêu cầu (`SearchTool.run`)             | 0.2 ms                 |
+| **Tiếng đầu tiên người dùng nghe** | **1.68 s**       |
+| Back end - search chạy xong                    | 2.3–4.4 s (song song) |
+| Lượt phát kết quả, TTFA riêng             | 1.8 s                  |
 
 Câu "Để tôi tra cứu nhé." được **tổng hợp sẵn một lần cho cả tiến trình**. Trước
 khi làm vậy, tiếng đầu tiên rơi vào 3.23 s: 1.6 s cho vòng LLM quyết định, rồi
@@ -191,12 +192,12 @@ ngay một câu cố định thì đặt khoá `speak_now` trong `ToolResult.dat
 Đo trên Qwen3.5-9B với 10 câu cần công cụ và 8 câu không
 (`scripts/measure_tool_calling.py`):
 
-| System prompt | Gọi đúng | Gọi thừa |
-|---|---|---|
-| hướng dẫn giọng nói dài, rồi mới nhắc công cụ | **0/10** | 0/8 |
-| nhắc công cụ trước, rồi hướng dẫn dài | 2/10 | 0/8 |
-| chỉ nhắc công cụ | 10/10 | 0/8 |
-| **nhắc công cụ trước + một dòng giọng nói ngắn** | **10/10** | 0/8 |
+| System prompt                                                    | Gọi đúng     | Gọi thừa |
+| ---------------------------------------------------------------- | --------------- | ---------- |
+| hướng dẫn giọng nói dài, rồi mới nhắc công cụ         | **0/10**  | 0/8        |
+| nhắc công cụ trước, rồi hướng dẫn dài                  | 2/10            | 0/8        |
+| chỉ nhắc công cụ                                             | 10/10           | 0/8        |
+| **nhắc công cụ trước + một dòng giọng nói ngắn** | **10/10** | 0/8        |
 
 Một khối "viết như lời nói, tối đa hai câu, không liệt kê" đủ sức **tắt hẳn**
 tool calling. Vì vậy dòng nhắc công cụ được sinh ra từ registry và luôn đứng
@@ -220,15 +221,15 @@ máy trạng thái biết từ chối sẽ gọi tên lỗi ngay lúc nó xảy 
 
 Mục tiêu kỹ thuật, không phải SLA:
 
-| Chặng | Mục tiêu |
-|---|---|
-| VAD | < 50 ms |
-| Turn detection | < 100 ms sau ngưỡng im |
-| Phát hiện barge-in | < 120 ms |
-| Dừng tiếng sau ngắt lời | < 150 ms |
-| LLM token đầu | 300–500 ms |
-| TTS audio đầu | < 300 ms |
-| **TTFA end-to-end** | **300–800 ms** |
+| Chặng                      | Mục tiêu               |
+| --------------------------- | ------------------------ |
+| VAD                         | < 50 ms                  |
+| Turn detection              | < 100 ms sau ngưỡng im |
+| Phát hiện barge-in        | < 120 ms                 |
+| Dừng tiếng sau ngắt lời | < 150 ms                 |
+| LLM token đầu             | 300–500 ms              |
+| TTS audio đầu             | < 300 ms                 |
+| **TTFA end-to-end**   | **300–800 ms**    |
 
 TTFA mới là con số quyết định cảm giác, không phải tổng thời gian trả lời: câu
 5 giây bắt đầu sau 400 ms nghe như tức thì; câu 2 giây bắt đầu sau 2 giây nghe

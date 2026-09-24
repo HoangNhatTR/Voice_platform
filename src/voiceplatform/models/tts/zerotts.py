@@ -16,6 +16,7 @@ Tám giọng preset, không nhân bản giọng được ở bản này.
 from __future__ import annotations
 
 import asyncio
+import threading
 from collections.abc import AsyncIterator
 from typing import Any
 
@@ -127,34 +128,69 @@ class ZeroTtsEngine:
     async def synthesize(
         self, text: str, *, voice: str | None = None
     ) -> AsyncIterator[SpeechChunk]:
+        """Bơm generator đồng bộ qua MỘT thread, dừng bằng cờ hợp tác.
+
+        Bản đầu gọi `asyncio.to_thread(next, stream)` cho từng chunk. Nó chạy
+        đúng cho tới lần ngắt lời đầu tiên: huỷ một `to_thread` KHÔNG dừng được
+        thread, nên `finally` đóng generator trong khi thread vẫn đang ở trong
+        `next()` — `ValueError: generator already executing`, và thread thì
+        tiếp tục sinh audio cho một lượt đã chết.
+
+        Nên generator sống trọn đời trong đúng một thread, thread đó tự đóng nó,
+        và việc huỷ chỉ bật một `threading.Event` để nó dừng ở biên chunk. Khoá
+        được nhả bằng done-callback của chính thread, không phải khi coroutine
+        thoát — nếu không, lượt kế tiếp có thể chạm vào model trong lúc thread
+        cũ còn đang sinh nốt một chunk.
+        """
         await self.start()
         name = self._resolve(voice)
-        first = True
-        async with self._lock:
+        loop = asyncio.get_running_loop()
+        queue: asyncio.Queue[Any] = asyncio.Queue()
+        stop = threading.Event()
+        done = object()
+
+        def pump() -> None:
             stream = self._tts.synthesize_stream(text, voice=name, **self.generation)
             try:
-                while True:
-                    # Một lần nhảy thread cho mỗi chunk. `synthesize_stream` là
-                    # generator ĐỒNG BỘ và onnxruntime giữ GIL trong lúc chạy,
-                    # nên kéo nó thẳng trong vòng lặp sự kiện là đóng băng cả
-                    # đường audio vào.
-                    block = await asyncio.to_thread(next, stream, None)
-                    if block is None:
+                for block in stream:
+                    if stop.is_set():
                         break
-                    samples = np.asarray(block, dtype=np.float32).reshape(-1)
-                    if samples.size == 0:
-                        continue
-                    target = self.capabilities.native_sample_rate
-                    if target != self.source_sample_rate:
-                        samples = resample_linear(samples, self.source_sample_rate, target)
-                    yield SpeechChunk(
-                        samples=samples,
-                        sample_rate=target,
-                        text=text if first else "",
-                    )
-                    first = False
+                    loop.call_soon_threadsafe(queue.put_nowait, block)
+            except BaseException as exc:  # noqa: BLE001 - chuyển nguyên về consumer
+                loop.call_soon_threadsafe(queue.put_nowait, exc)
             finally:
                 stream.close()
+                loop.call_soon_threadsafe(queue.put_nowait, done)
+
+        await self._lock.acquire()
+        owns_lock = True
+        first = True
+        try:
+            worker = loop.run_in_executor(None, pump)
+            worker.add_done_callback(lambda _: self._lock.release())
+            owns_lock = False   # quyền nhả khoá đã chuyển sang thread
+            while True:
+                item = await queue.get()
+                if item is done:
+                    break
+                if isinstance(item, BaseException):
+                    raise item
+                samples = np.asarray(item, dtype=np.float32).reshape(-1)
+                if samples.size == 0:
+                    continue
+                target = self.capabilities.native_sample_rate
+                if target != self.source_sample_rate:
+                    samples = resample_linear(samples, self.source_sample_rate, target)
+                yield SpeechChunk(
+                    samples=samples,
+                    sample_rate=target,
+                    text=text if first else "",
+                )
+                first = False
+        finally:
+            stop.set()
+            if owns_lock:
+                self._lock.release()
 
     async def close(self) -> None:
         self._tts = None
