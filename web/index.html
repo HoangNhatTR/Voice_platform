@@ -3,48 +3,104 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Realtime Voice Platform</title>
+<title>Bàn đo · Voice Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-<main>
-  <header>
-    <h1>Realtime Voice Platform</h1>
-    <span id="state" data-value="offline">offline</span>
-    <span class="sub">bản kiểm thử — micro, ngắt lời, đo độ trễ</span>
-  </header>
 
-  <section class="panel">
-    <div class="row">
-      <button id="connect" class="primary">Kết nối</button>
-      <button id="interrupt">Ngắt lời</button>
-      <button id="mute">Tắt micro</button>
-      <div id="level" data-value="im" title="Mức tín hiệu micro"></div>
-      <span id="stats">chưa gửi gì</span>
+<header class="rail">
+  <span class="rail__dot" id="dot" data-state="offline" aria-hidden="true"></span>
+  <strong class="rail__state" id="state" role="status" aria-live="polite">chưa kết nối</strong>
+  <span class="rail__id" id="session"></span>
+  <span class="rail__engines" id="engines">Micro cần localhost hoặc HTTPS.</span>
+  <button id="connect" class="btn btn--go rail__cta">Kết nối</button>
+</header>
+
+<main class="lab">
+
+  <section class="stage" aria-labelledby="stage-h">
+    <div class="stage__head">
+      <h2 class="h" id="stage-h">Lượt <span id="stage-turn">—</span></h2>
+      <p class="stage__note" id="stage-note">Chưa có lượt nào. Bấm “Kết nối” rồi nói, hoặc gõ một câu bên phải.</p>
     </div>
-    <div id="engines">Bấm "Kết nối" để nạp phiên. Micro chỉ mở được ở localhost hoặc HTTPS.</div>
-  </section>
 
-  <section class="panel">
-    <div class="label">Bạn nói</div>
-    <div id="transcript"></div>
-    <div class="label" style="margin-top:12px">Trợ lý</div>
-    <div id="assistant"></div>
-  </section>
+    <p class="readout">
+      <span class="readout__num" id="ttfa">—</span><span class="readout__unit">ms</span>
+      <span class="readout__cap">tới tiếng đầu tiên, tính từ lúc chốt lượt</span>
+    </p>
 
-  <section class="panel">
-    <div class="row">
-      <input id="text" type="text" placeholder="Hoặc gõ tin nhắn rồi nhấn Enter" />
-      <button id="send">Gửi</button>
+    <div class="track" id="track">
+      <div class="track__ruler" id="ruler"></div>
+      <div class="track__lanes" id="lanes"></div>
     </div>
-    <div id="metrics" style="margin-top:10px">chưa có lượt nào</div>
+
+    <p class="track__key">Đậm là đang chờ kết quả, nhạt là kết quả đang chảy ra. Các làn chồng nhau vì chúng chạy song song thật.</p>
   </section>
 
-  <section class="panel">
-    <div class="label">Nhật ký phiên</div>
-    <div id="log"></div>
+  <aside class="console" aria-labelledby="console-h">
+    <h2 class="h" id="console-h">Điều khiển</h2>
+
+    <div class="meter" id="meter" role="img" aria-label="Mức tín hiệu micro"></div>
+
+    <div class="console__row">
+      <button id="mute" class="btn" disabled>Tắt micro</button>
+      <button id="interrupt" class="btn" disabled>Ngắt lời</button>
+    </div>
+
+    <form class="console__form" id="form">
+      <label class="lbl" for="text">Gõ một lượt</label>
+      <div class="console__row">
+        <input id="text" type="text" autocomplete="off" spellcheck="false"
+               placeholder="Giá vàng SJC hôm nay bao nhiêu?" />
+        <button class="btn btn--go" id="send" type="submit">Gửi</button>
+      </div>
+    </form>
+
+    <div class="say">
+      <p class="lbl">Bạn nói</p>
+      <p class="say__user" id="transcript">—</p>
+      <p class="lbl">Trợ lý</p>
+      <p class="say__bot" id="assistant">—</p>
+    </div>
+
+    <dl class="counters" id="counters"></dl>
+  </aside>
+
+  <section class="history" aria-labelledby="history-h">
+    <h2 class="h" id="history-h">Các lượt trước</h2>
+    <ol class="turns" id="turns">
+      <li class="turns__empty">Mỗi lượt trả lời xong sẽ xuất hiện ở đây. Bấm một dòng để xem lại làn của nó.</li>
+    </ol>
   </section>
+
+  <section class="stats" aria-labelledby="stats-h">
+    <h2 class="h" id="stats-h">Độ trễ theo chặng</h2>
+    <table class="tbl">
+      <thead>
+        <tr><th scope="col">Chặng</th><th scope="col">Đo từ → đến</th>
+            <th scope="col" class="num">n</th><th scope="col" class="num">p50</th>
+            <th scope="col" class="num">p95</th><th scope="col" class="num">max</th></tr>
+      </thead>
+      <tbody id="stats-body"></tbody>
+    </table>
+  </section>
+
+  <section class="tape" aria-labelledby="tape-h">
+    <div class="tape__head">
+      <h2 class="h h--dark" id="tape-h">Nhật ký</h2>
+      <div class="tape__filters" id="filters" role="group" aria-label="Lọc nhật ký"></div>
+      <span class="tape__count" id="log-count">0 dòng</span>
+      <button class="btn btn--ghost" id="save">Tải .jsonl</button>
+      <button class="btn btn--ghost" id="clear">Xoá</button>
+    </div>
+    <ol class="tape__lines" id="log" role="log" aria-live="off"></ol>
+  </section>
+
 </main>
+
 <script src="/static/client.js"></script>
 </body>
 </html>

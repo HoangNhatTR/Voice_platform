@@ -133,6 +133,28 @@ def create_app(config: Config) -> FastAPI:
     async def sessions() -> dict[str, Any]:
         return {sid: engine.stats() for sid, engine in platform.sessions.items()}
 
+    @app.get("/sessions/{session_id}/turns")
+    async def session_turns(session_id: str, limit: int = 8) -> Any:
+        """Raw per-turn timelines, the only view where stages overlap visibly.
+
+        /sessions returns derived numbers, and a derived number cannot show
+        that TTS started before the LLM finished — which is what most latency
+        problems actually look like. The test bench draws one lane per engine
+        from these stamps instead of guessing a sequence that does not exist.
+        """
+        engine = platform.sessions.get(session_id)
+        if engine is None:
+            return JSONResponse({"detail": "no such session"}, status_code=404)
+        keep = max(1, min(limit, 50))
+        turn_ids = sorted(engine.trace.turns)[-keep:]
+        return {
+            "session_id": session_id,
+            "state": engine.state.state.value,
+            "counters": dict(engine.counters),
+            "stale_drops": engine.gen.stale_drops,
+            "turns": [engine.trace.turns[i].summary() for i in turn_ids],
+        }
+
     @app.get("/config")
     async def show_config() -> dict[str, Any]:
         return config.to_dict()
