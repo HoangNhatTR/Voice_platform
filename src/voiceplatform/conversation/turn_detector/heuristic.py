@@ -33,6 +33,19 @@ _OPENERS = (
 )
 _DIGIT_RUN = re.compile(r"(\d[\d\s.]*)$")
 
+# ASR đọc số ra CHỮ, không ra chữ số: gipformer trả "không chín một" chứ không
+# trả "091". Luật dãy số chỉ khớp \d nên nó chưa từng chạy trên tiếng nói thật
+# — đo được 24/09: máy cắt lời ngay giữa một số tài khoản đang đọc dở.
+# Dạng đã fold dấu, kèm các biến thể chỉ xuất hiện khi đọc số: mốt, tư, lăm,
+# nhăm, lẻ, linh.
+_SPOKEN_DIGITS = {
+    "khong", "mot", "hai", "ba", "bon", "nam", "sau", "bay", "tam", "chin",
+    "tu", "lam", "nham", "le", "linh", "bon", "muoi",
+}
+# Hai từ số liền nhau còn là lượng ("một năm", "hai giờ"); ba từ trở lên thì
+# gần như chỉ có khi người ta đang ĐỌC một dãy số.
+_SPOKEN_RUN_MIN = 3
+
 
 def _fold(text: str) -> str:
     text = unicodedata.normalize("NFD", text.lower())
@@ -76,14 +89,20 @@ class HeuristicTurnDetector:
             return self.silence_ms
         last = words[-1].strip(".,")
 
+        # Dãy số xét TRƯỚC từ nối, và khi đã chắc là dãy số thì nó quyết định
+        # luôn. Bỏ dấu xong "sáu" thành "sau" và "tư" thành "tu" — cả hai đều
+        # nằm trong danh sách từ nối — nên một số đã đọc XONG mà kết thúc bằng
+        # sáu hay tư sẽ bị giữ thêm 920 ms vì nhầm sang luật khác.
+        length, has_ascii = self._number_tail(words, stripped)
+        if length and (has_ascii or length >= _SPOKEN_RUN_MIN):
+            return (
+                self.max_silence_ms
+                if length < self.digit_tail_complete_at
+                else self.silence_ms
+            )
+
         if last in _TRAILING_CONNECTORS or last in _HESITATIONS:
             return self.max_silence_ms
-
-        match = _DIGIT_RUN.search(stripped)
-        if match:
-            digits = re.sub(r"\D", "", match.group(1))
-            if 0 < len(digits) < self.digit_tail_complete_at:
-                return self.max_silence_ms
 
         if len(words) <= self.opener_max_words:
             for opener in _OPENERS:
@@ -91,3 +110,27 @@ class HeuristicTurnDetector:
                     return self.max_silence_ms
 
         return self.silence_ms
+
+    @staticmethod
+    def _number_tail(words: list[str], stripped: str) -> tuple[int, bool]:
+        """Độ dài dãy số ở CUỐI câu, và nó có chứa chữ số ASCII không.
+
+        Đếm ngược từ cuối: một token toàn chữ số đóng góp số ký tự của nó, một
+        từ đọc số đóng góp một. Gặp token không phải số thì dừng.
+        """
+        match = _DIGIT_RUN.search(stripped)
+        ascii_digits = re.sub(r"\D", "", match.group(1)) if match else ""
+        length = 0
+        has_ascii = False
+        for word in reversed(words):
+            token = word.strip(".,")
+            if token.isdigit():
+                length += len(token)
+                has_ascii = True
+            elif token in _SPOKEN_DIGITS:
+                length += 1
+            else:
+                break
+        if ascii_digits and not has_ascii:
+            return len(ascii_digits), True
+        return length, has_ascii
