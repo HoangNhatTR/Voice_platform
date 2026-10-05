@@ -49,7 +49,7 @@ from .barge_in import BargeInDetector
 from .context import ConversationContext
 from .pending import PendingSearches
 from .segmenter import PhraseSegmenter, pipeline_segmenter
-from .pauses import shape_pauses
+from .pauses import shape_pauses, tail_ms
 from .first_phrase import with_first_phrase_deadline
 from .speech_normalize import normalize_for_speech
 from .sink import AudioSink
@@ -211,6 +211,11 @@ class _Sent:
     start: float   # time.monotonic() of its first sample leaving the speaker
     end: float
     frames: list[AudioFrame] = field(default_factory=list)   # what was sent, for a resume
+    # The pause `conversation.pauses` put after the last word (up to 300 ms
+    # after a full stop). It is playback, not content: counting it as part
+    # of the phrase made a reply right after "Bạn muốn chuyển bao nhiêu?"
+    # an interruption of that question, and the history lost it.
+    tail: float = 0.0
 
 
 @dataclass(slots=True)
@@ -348,6 +353,10 @@ class ResponseState:
     def _end(self, sent: _Sent) -> float:
         return self.observed_end.get(sent.phrase.phrase_id, sent.end + self.offset_s)
 
+    def _heard_end(self, sent: _Sent) -> float:
+        """When its last word finished playing: the client reports the end of the pause after it."""
+        return self._end(sent) - sent.tail
+
     def current_started(self) -> float | None:
         if self.current is None:
             return None
@@ -357,11 +366,11 @@ class ResponseState:
         return None if self.current_start is None else self.current_start + self.offset_s
 
     def heard_by(self, at: float) -> list[Phrase]:
-        return [s.phrase for s in self.sent if self._end(s) <= at]
+        return [s.phrase for s in self.sent if self._heard_end(s) <= at]
 
     def unheard_by(self, at: float) -> list[Phrase]:
         """Content the user has not heard in full: replay from the cut phrase."""
-        rest = [s.phrase for s in self.sent if self._end(s) > at and not s.phrase.filler]
+        rest = [s.phrase for s in self.sent if self._heard_end(s) > at and not s.phrase.filler]
         if self.current is not None and not self.current.filler:
             rest.append(self.current)
         return rest
@@ -1609,6 +1618,7 @@ class ConversationEngine:
                 phrase_started = now_ms()
                 phrase_samples = 0
                 phrase_chunks = 0
+                tail_s = 0.0
                 if item.audio is None:
                     speech_text = (normalize_for_speech(item.text, self.config.conversation.pronunciations)
                                    if self.config.conversation.speech_normalization else item.text)
@@ -1617,6 +1627,7 @@ class ConversationEngine:
                         # Not the cached opener/ack: a longer tail there only
                         # delays the content queued behind it.
                         source = shape_pauses(source, item.text, self.config.conversation.pauses)
+                        tail_s = tail_ms(item.text, self.config.conversation.pauses) / 1000.0
                 elif hasattr(item.audio, "__aiter__"):
                     source = item.audio          # held audio of a cut turn
                 else:
@@ -1665,7 +1676,7 @@ class ConversationEngine:
                 if response.current_start is not None:
                     response.sent.append(
                         _Sent(item, response.current_start, response.play_end,
-                              frames=response.current_frames)
+                              frames=response.current_frames, tail=tail_s)
                     )
                 response.current = None
                 response.spoken.append(item.text)
@@ -1893,9 +1904,16 @@ class ConversationEngine:
             heard = response.heard_before + [p.text for p in response.heard_by(at) if p.role != "filler"]
             response.spoken = heard
             response.history_spoken = list(heard)
+            # Speech over the pause after the last word cut nothing: the answer
+            # was over. Marking it cut told the model its question was broken
+            # off, on exactly the turn where the user answers it at once.
+            said_all = (
+                response.queue_ended and response.current is None
+                and not response.unheard_by(at)
+            )
             if response.in_history:
                 self.context.commit_assistant(
-                    response.generated_text, " ".join(heard), interrupted=True
+                    response.generated_text, " ".join(heard), interrupted=not said_all
                 )
         # Only speech can turn out to be a cough; a button or a typed turn is
         # the user meaning it.
@@ -2132,7 +2150,11 @@ class ConversationEngine:
             draining=any(not t.done() for t in carried.drain),
             **({"cut": cut_info} if cut_info else {}),
         )
-        await self.sink.send_control(ControlMessage("state", {"state": "thinking", "source": "resume"}))
+        # Everything a barge-in looks for is in place BEFORE the first write
+        # below yields. A Stop or a typed turn landing during that write used
+        # to find no response and no drain of this generation: the cut
+        # answer's LLM kept streaming (free to run a tool) and its text
+        # reached the client after `idle` (found 05/10/2026).
         # Text the drained LLM writes from here on belongs to this generation.
         for producer, target in list(self._drain_targets.items()):
             if producer == carried.key or target == carried.key:
@@ -2145,18 +2167,24 @@ class ConversationEngine:
         queue: asyncio.Queue[Phrase | None] = asyncio.Queue()
         response.queue = queue
         for phrase in items:
-            await queue.put(phrase)
-        if old.generated:
+            queue.put_nowait(phrase)
+        if old.queue_ended:
+            response.llm_done = True
+            queue.put_nowait(None)
+        await self.sink.send_control(ControlMessage("state", {"state": "thinking", "source": "resume"}))
+        if old.generated and self.gen.is_current(key):
             await self.sink.send_control(
                 ControlMessage(
                     "assistant_delta",
                     {"text": old.generated_text, "generation_id": key.generation_id},
                 )
             )
-        if old.queue_ended:
-            response.llm_done = True
-            await queue.put(None)
-        else:
+        if not self.gen.is_current(key):
+            # Cut during one of those writes; the barge-in stopped the drain
+            # and told the client. Spawning now would leave tasks on a dead
+            # generation that nothing cancels.
+            return True
+        if not old.queue_ended:
             self.gen.spawn(self._pipe(old.queue, queue, response), key, name=f"pipe-{key}")
         # Không câu mở: "Vâng." chen vào trước khi nói tiếp nghe như một lượt mới.
         response.speak_task = self.gen.spawn(
@@ -2181,7 +2209,7 @@ class ConversationEngine:
         cut = old.cut_observed_s if old.cut_observed_s is not None else at
         entries = [
             (s.phrase, s.frames, None, old._start(s))
-            for s in old.sent if old._end(s) > at and not s.phrase.filler
+            for s in old.sent if old._heard_end(s) > at and not s.phrase.filler
         ]
         if old.current is not None and not old.current.filler:
             entries.append((old.current, old.current_frames, old.hold_done if old.holding else None,

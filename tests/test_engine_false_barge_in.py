@@ -35,11 +35,14 @@ def _heard_content(eng) -> list[str]:
     return [p.text for p in response.heard_by(time.monotonic()) if not p.filler]
 
 
-@pytest.fixture
-def slow_talker(config):
+@pytest.fixture(params=[False, True], ids=["pauses-off", "pauses-on"])
+def slow_talker(config, request):
     # 80 ms of audio per character, synthesised at a quarter of real time: the
     # server is always well ahead of the client, as it is with ZeroTTS.
     config.models.tts.options = {"first_audio_delay_ms": 10, "rtf": 0.25, "ms_per_char": 80}
+    # Also as deployed (configs/local-cpu.yaml): the pause after each phrase
+    # is audio the client plays, and the hearing accounting must see past it.
+    config.conversation.pauses.enabled = request.param
     return config
 
 
