@@ -1,0 +1,1218 @@
+{
+  "created_at": "2026-09-29T04:30:55.988414+00:00",
+  "protocol": "Prospective release 2, frozen before v7 development outputs inspected. Release 1 became development after its prompt was replaced. Same generator/author; no independent human review. CJK rejection is a regression proxy, not fluency or human voice quality.",
+  "gate": {
+    "direct_accuracy_min": 0.95,
+    "tool_recall_min": 0.95,
+    "false_tool_rate_max": 0.05,
+    "memory_accuracy_min": 0.95,
+    "overall_noninferiority_max_drop": 0.02,
+    "language_accuracy_min": 1.0
+  },
+  "cases": [
+    {
+      "id": "release2-direct-00",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Tính 91 cộng 26, chỉ đáp số.",
+      "answer_regex": "(?<!\\d)117(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-01",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Lấy 34 trừ 9, kết quả là mấy?",
+      "answer_regex": "(?<!\\d)25(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-02",
+      "group": "direct",
+      "split": "heldout",
+      "question": "6 nhân 9 bằng bao nhiêu?",
+      "answer_regex": "(?<!\\d)54(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-03",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Tính 10 cộng 23, chỉ đáp số.",
+      "answer_regex": "(?<!\\d)33(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-04",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Lấy 41 trừ 18, kết quả là mấy?",
+      "answer_regex": "(?<!\\d)23(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-05",
+      "group": "direct",
+      "split": "heldout",
+      "question": "9 nhân 4 bằng bao nhiêu?",
+      "answer_regex": "(?<!\\d)36(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-06",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Tính 47 cộng 27, chỉ đáp số.",
+      "answer_regex": "(?<!\\d)74(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-07",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Lấy 30 trừ 10, kết quả là mấy?",
+      "answer_regex": "(?<!\\d)20(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-08",
+      "group": "direct",
+      "split": "heldout",
+      "question": "5 nhân 7 bằng bao nhiêu?",
+      "answer_regex": "(?<!\\d)35(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-09",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Tính 81 cộng 6, chỉ đáp số.",
+      "answer_regex": "(?<!\\d)87(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-10",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Lấy 44 trừ 6, kết quả là mấy?",
+      "answer_regex": "(?<!\\d)38(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-11",
+      "group": "direct",
+      "split": "heldout",
+      "question": "3 nhân 6 bằng bao nhiêu?",
+      "answer_regex": "(?<!\\d)18(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-12",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Tính 76 cộng 6, chỉ đáp số.",
+      "answer_regex": "(?<!\\d)82(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-13",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Lấy 107 trừ 26, kết quả là mấy?",
+      "answer_regex": "(?<!\\d)81(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-14",
+      "group": "direct",
+      "split": "heldout",
+      "question": "4 nhân 6 bằng bao nhiêu?",
+      "answer_regex": "(?<!\\d)24(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-15",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Tính 52 cộng 17, chỉ đáp số.",
+      "answer_regex": "(?<!\\d)69(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-16",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Lấy 80 trừ 11, kết quả là mấy?",
+      "answer_regex": "(?<!\\d)69(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-17",
+      "group": "direct",
+      "split": "heldout",
+      "question": "6 nhân 8 bằng bao nhiêu?",
+      "answer_regex": "(?<!\\d)48(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-18",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Tính 93 cộng 11, chỉ đáp số.",
+      "answer_regex": "(?<!\\d)104(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-19",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Lấy 21 trừ 12, kết quả là mấy?",
+      "answer_regex": "(?<!\\d)9(?!\\d)",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-20",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô Canada là thành phố nào?",
+      "answer_regex": "Ottawa",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-21",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô Australia tên gì?",
+      "answer_regex": "Canberra",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-22",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô Tây Ban Nha tên gì?",
+      "answer_regex": "Madrid",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-23",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Nước Đức có thủ đô tên gì?",
+      "answer_regex": "Berlin",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-24",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô nước Argentina là gì?",
+      "answer_regex": "Buenos Aires",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-25",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô nước Chile tên gì?",
+      "answer_regex": "Santiago",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-26",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Một tam giác có bao nhiêu cạnh?",
+      "answer_regex": "3|ba",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-27",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Một hình vuông có bao nhiêu cạnh?",
+      "answer_regex": "4|bốn",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-28",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Hai giờ có tổng cộng bao nhiêu phút?",
+      "answer_regex": "120|một trăm hai mươi",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-29",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Ba phút bằng bao nhiêu giây?",
+      "answer_regex": "180|một trăm tám mươi",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-30",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Đỗ Hải Nam, mã VC675.",
+      "answer_regex": "Đỗ\\ Hải\\ Nam.*VC675",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-31",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Nguyễn Thu Hà, mã VC375.",
+      "answer_regex": "Nguyễn\\ Thu\\ Hà.*VC375",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-32",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Trần Bình An, mã VC383.",
+      "answer_regex": "Trần\\ Bình\\ An.*VC383",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-33",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Lê Hồng Phúc, mã VC552.",
+      "answer_regex": "Lê\\ Hồng\\ Phúc.*VC552",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-34",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Vũ Mai Lan, mã VC924.",
+      "answer_regex": "Vũ\\ Mai\\ Lan.*VC924",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-35",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Đỗ Hải Nam, mã VC341.",
+      "answer_regex": "Đỗ\\ Hải\\ Nam.*VC341",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-36",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Nguyễn Thu Hà, mã VC529.",
+      "answer_regex": "Nguyễn\\ Thu\\ Hà.*VC529",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-37",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Trần Bình An, mã VC336.",
+      "answer_regex": "Trần\\ Bình\\ An.*VC336",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-38",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Lê Hồng Phúc, mã VC394.",
+      "answer_regex": "Lê\\ Hồng\\ Phúc.*VC394",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-direct-39",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại đúng cụm này: Vũ Mai Lan, mã VC727.",
+      "answer_regex": "Vũ\\ Mai\\ Lan.*VC727",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-00",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Tôi cần biết giờ hiện tại.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-01",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Hôm nay là ngày bao nhiêu?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-02",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Bây giờ đang ở tháng mấy?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-03",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Hôm nay là thứ mấy?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-04",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Hiện tại đang là năm nào?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-05",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Bạn xem đồng hồ xem lúc này mấy giờ.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-06",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Cho tôi ngày hiện tại theo giờ Việt Nam.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-07",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Cho tôi biết hôm nay là thứ nào trong tuần.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-08",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Bạn kiểm tra xem giờ này là mấy giờ.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-09",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Bây giờ ngày tháng năm là bao nhiêu?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-10",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Xem giúp ngày hiện tại.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-11",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Tra ngày hôm nay theo đồng hồ của hệ thống.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-12",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Giờ Việt Nam ngay lúc này là mấy giờ?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-13",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Bây giờ tháng nào và năm nào?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-14",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Bạn nói cho tôi thứ của hôm nay.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-15",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Đọc ngày hiện tại trong tháng giúp tôi.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-16",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Lúc này giờ phút là bao nhiêu?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-17",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Xem giờ trên đồng hồ hệ thống giúp tôi.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-18",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Tôi muốn biết hôm nay ngày mấy tháng mấy.",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-clock-19",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Hiện giờ là ngày nào trong tuần?",
+      "tool": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-00",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi giá xăng hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "giá xăng",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-01",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi thời tiết hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "thời tiết",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-02",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi tỷ giá hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "tỷ giá",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-03",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi lịch tàu hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "lịch tàu",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-04",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi giá vàng hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "giá vàng",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-05",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi kết quả bóng đá hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "kết quả bóng đá",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-06",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi lịch máy bay hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "lịch máy bay",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-07",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi tin tức hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "tin tức",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-08",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi giá điện hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "giá điện",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-09",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giúp tôi tình hình giao thông hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "tình hình giao thông",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-10",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về giá xăng hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "giá xăng",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-11",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về thời tiết hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "thời tiết",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-12",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về tỷ giá hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "tỷ giá",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-13",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về lịch tàu hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "lịch tàu",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-14",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về giá vàng hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "giá vàng",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-15",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về kết quả bóng đá hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "kết quả bóng đá",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-16",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về lịch máy bay hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "lịch máy bay",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-17",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về tin tức hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "tin tức",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-18",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về giá điện hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "giá điện",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-search-19",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra thông tin mới nhất về tình hình giao thông hiện nay nhé.",
+      "tool": "search",
+      "query_regex": "tình hình giao thông",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-00",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Dịch sang tiếng Anh: Tôi đang học.",
+      "answer_regex": "I.*(?:am )?studying|I.*learning",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-01",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Chỉ đọc lại chữ: clock",
+      "answer_regex": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-02",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Chỉ đọc lại chữ: search",
+      "answer_regex": "search",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-03",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Viết câu chứa từ \"đồng hồ\".",
+      "answer_regex": "đồng hồ",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-04",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Năm 2001 thuộc thế kỷ nào?",
+      "answer_regex": "21|hai mươi mốt",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-05",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Một năm thường có bao nhiêu tháng?",
+      "answer_regex": "12|mười hai",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-06",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Một tuần có bao nhiêu ngày?",
+      "answer_regex": "7|bảy",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-07",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Đọc đúng: bây giờ là mấy giờ",
+      "answer_regex": "bây giờ là mấy giờ",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-08",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Đọc lại: hãy tra cứu kết quả",
+      "answer_regex": "hãy tra cứu kết quả",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-09",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Hai ngày bằng bao nhiêu giờ?",
+      "answer_regex": "48|bốn mươi tám",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-10",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Chỉ đáp từ \"đã rõ\".",
+      "answer_regex": "đã rõ",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-11",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Đọc lại ngày ghi trên thẻ: 08/11/2025",
+      "answer_regex": "08.?11.?2025",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-12",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Đọc lại số ghi trên giấy: 2468",
+      "answer_regex": "2468",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-13",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Viết số 32 bằng chữ.",
+      "answer_regex": "ba mươi hai",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-14",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Trong truyện, nhân vật nói hôm nay là thứ sáu. Nhân vật nói thứ mấy?",
+      "answer_regex": "thứ sáu",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-15",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Một người tưởng tượng nói đồng hồ chỉ 10 giờ. Trong truyện là mấy giờ?",
+      "answer_regex": "10|mười",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-16",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Trong bài toán có 9 quả cam và thêm 5 quả, tổng là mấy?",
+      "answer_regex": "14|mười bốn",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-17",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Dịch từ weather sang tiếng Việt.",
+      "answer_regex": "thời tiết",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-18",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Từ \"tra cứu\" có nghĩa là gì?",
+      "answer_regex": "tìm|kiểm|thông tin",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-19",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Tên một công cụ của máy có thể là \"clock\". Chỉ lặp lại tên đó.",
+      "answer_regex": "clock",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-20",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Chỉ đọc nguyên văn: tra cứu giá xăng",
+      "answer_regex": "tra cứu giá xăng",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-21",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Đọc lại: Nguyễn Hà Vy đặt mã ZT456.",
+      "answer_regex": "Nguyễn Hà Vy.*ZT456",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-22",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Một giờ có bao nhiêu phút?",
+      "answer_regex": "60|sáu mươi",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-no_tool-23",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Đọc đúng câu: tôi cần biết ngày hiện tại",
+      "answer_regex": "tôi cần biết ngày hiện tại",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-00",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Mã tôi vừa nhờ bạn nhớ là gì?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Hoàng Gia Bảo và mã BK2221 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "BK2221",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-01",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Tôi đã nhờ bạn nhớ tên nào?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Phạm Thanh Vân và mã BK7655 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "Phạm\\ Thanh\\ Vân",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-02",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Mã tôi vừa nhờ bạn nhớ là gì?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Nguyễn Minh Châu và mã BK1118 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "BK1118",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-03",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Tôi đã nhờ bạn nhớ tên nào?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Trần Ngọc Hân và mã BK3852 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "Trần\\ Ngọc\\ Hân",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-04",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Mã tôi vừa nhờ bạn nhớ là gì?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Hoàng Gia Bảo và mã BK4334 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "BK4334",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-05",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Tôi đã nhờ bạn nhớ tên nào?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Phạm Thanh Vân và mã BK6349 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "Phạm\\ Thanh\\ Vân",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-06",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Mã tôi vừa nhờ bạn nhớ là gì?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Nguyễn Minh Châu và mã BK7739 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "BK7739",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-07",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Tôi đã nhờ bạn nhớ tên nào?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Trần Ngọc Hân và mã BK4549 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "Trần\\ Ngọc\\ Hân",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-08",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Mã tôi vừa nhờ bạn nhớ là gì?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Hoàng Gia Bảo và mã BK5742 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "BK5742",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-09",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Tôi đã nhờ bạn nhớ tên nào?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Phạm Thanh Vân và mã BK6530 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "Phạm\\ Thanh\\ Vân",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-10",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Mã tôi vừa nhờ bạn nhớ là gì?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Nguyễn Minh Châu và mã BK1159 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "BK1159",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-11",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Tôi đã nhờ bạn nhớ tên nào?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Trần Ngọc Hân và mã BK1131 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "Trần\\ Ngọc\\ Hân",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-12",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Mã tôi vừa nhờ bạn nhớ là gì?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Hoàng Gia Bảo và mã BK3550 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "BK3550",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-13",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Tôi đã nhờ bạn nhớ tên nào?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Phạm Thanh Vân và mã BK3843 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "Phạm\\ Thanh\\ Vân",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-14",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Mã tôi vừa nhờ bạn nhớ là gì?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Nguyễn Minh Châu và mã BK8792 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "BK8792",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-memory-15",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Tôi đã nhờ bạn nhớ tên nào?",
+      "history": [
+        {
+          "role": "user",
+          "content": "Nhớ tên Trần Ngọc Hân và mã BK4968 nhé."
+        },
+        {
+          "role": "assistant",
+          "content": "Tôi đã nhớ."
+        }
+      ],
+      "answer_regex": "Trần\\ Ngọc\\ Hân",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-language-00",
+      "group": "language",
+      "split": "heldout",
+      "question": "Giải thích ngắn vì sao lá cây thường có màu xanh.",
+      "answer_regex": "diệp lục|ánh sáng",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-language-01",
+      "group": "language",
+      "split": "heldout",
+      "question": "Giải thích ngắn vì sao có ngày và đêm.",
+      "answer_regex": "quay|xoay",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-language-02",
+      "group": "language",
+      "split": "heldout",
+      "question": "Giải thích ngắn vì sao đá tan khi để ngoài nắng.",
+      "answer_regex": "nhiệt|nóng|năng lượng",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-language-03",
+      "group": "language",
+      "split": "heldout",
+      "question": "Vì sao sương thường đọng trên kính lạnh?",
+      "answer_regex": "ngưng|hơi nước",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-language-04",
+      "group": "language",
+      "split": "heldout",
+      "question": "Tôi hơi căng thẳng khi sắp thi, hãy giúp tôi bình tĩnh.",
+      "answer_regex": "thở|bình tĩnh|chuẩn bị|nghỉ",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-language-05",
+      "group": "language",
+      "split": "heldout",
+      "question": "Gợi ý ngắn một cách ôn bài tập trung.",
+      "answer_regex": "học|tập trung|nghỉ",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-language-06",
+      "group": "language",
+      "split": "heldout",
+      "question": "Bạn chào tôi bằng một câu tiếng Việt thân thiện nhé.",
+      "answer_regex": "chào",
+      "reject_cjk": true
+    },
+    {
+      "id": "release2-language-07",
+      "group": "language",
+      "split": "heldout",
+      "question": "Gợi ý cách giải thích một việc khó cho trẻ nhỏ.",
+      "answer_regex": "đơn giản|ví dụ|bước|hiểu",
+      "reject_cjk": true
+    }
+  ]
+}

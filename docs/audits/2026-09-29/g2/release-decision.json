@@ -1,0 +1,132 @@
+{
+  "suite_sha256": "f096071309526aee4967adc75ffb00ed5ed5d9b452f5724a5c978c85e9a16953",
+  "gate": {
+    "direct_accuracy_min": 0.95,
+    "tool_recall_min": 0.95,
+    "false_tool_rate_max": 0.05,
+    "memory_accuracy_min": 0.95,
+    "overall_noninferiority_max_drop": 0.02
+  },
+  "checks": {
+    "same_frozen_cases": true,
+    "same_prompt_tools_options": true,
+    "runtime_complete": true,
+    "direct_accuracy": true,
+    "clock_recall": true,
+    "search_recall": true,
+    "false_tool_rate": true,
+    "memory_accuracy": true,
+    "empirical_noninferiority": true
+  },
+  "accepted": true,
+  "baseline": {
+    "groups": {
+      "clock": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      },
+      "direct": {
+        "attempted": 40,
+        "valid": 40,
+        "accuracy": 1.0
+      },
+      "memory": {
+        "attempted": 16,
+        "valid": 16,
+        "accuracy": 1.0
+      },
+      "no_tool": {
+        "attempted": 24,
+        "valid": 23,
+        "accuracy": 0.9583333333333334
+      },
+      "search": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      }
+    },
+    "attempted": 120,
+    "valid": 119,
+    "accuracy": 0.9916666666666667,
+    "false_tool_rate": 0.0,
+    "false_tool_calls": 0,
+    "false_tool_denominator": 24,
+    "runtime_errors": [],
+    "failed_cases": [
+      {
+        "id": "release-no_tool-19",
+        "question": "Viết số 47 bằng chữ.",
+        "answer": "Bảy mươi bốn",
+        "calls": [],
+        "error": null
+      }
+    ]
+  },
+  "candidate": {
+    "groups": {
+      "clock": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      },
+      "direct": {
+        "attempted": 40,
+        "valid": 39,
+        "accuracy": 0.975
+      },
+      "memory": {
+        "attempted": 16,
+        "valid": 16,
+        "accuracy": 1.0
+      },
+      "no_tool": {
+        "attempted": 24,
+        "valid": 23,
+        "accuracy": 0.9583333333333334
+      },
+      "search": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      }
+    },
+    "attempted": 120,
+    "valid": 118,
+    "accuracy": 0.9833333333333333,
+    "false_tool_rate": 0.041666666666666664,
+    "false_tool_calls": 1,
+    "false_tool_denominator": 24,
+    "runtime_errors": [],
+    "failed_cases": [
+      {
+        "id": "release-direct-23",
+        "question": "Thủ đô của nước Ý tên gì?",
+        "answer": "",
+        "calls": [
+          {
+            "name": "search",
+            "arguments": {
+              "query": "Thủ đô của nước Ý tên gì"
+            }
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": "release-no_tool-16",
+        "question": "Trong truyện tưởng tượng, đồng hồ ghi 7 giờ. Nó ghi mấy giờ?",
+        "answer": "",
+        "calls": [
+          {
+            "name": "clock",
+            "arguments": {}
+          }
+        ],
+        "error": null
+      }
+    ]
+  },
+  "scope": "Empirical gates on 120 frozen technical cases. No population noninferiority or human conversation/listening claim."
+}

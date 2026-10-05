@@ -1,0 +1,53 @@
+{
+  "config": "configs/local-cpu.yaml",
+  "models": {
+    "mode": "cascade",
+    "asr": {
+      "name": "s2s:gipformer",
+      "capabilities": {
+        "streaming_partials": true,
+        "languages": [
+          "vi"
+        ],
+        "native_sample_rate": 16000
+      }
+    },
+    "llm": {
+      "name": "openai_compat",
+      "capabilities": {
+        "tools": true,
+        "streaming": true,
+        "context_tokens": 4096
+      }
+    },
+    "tts": {
+      "name": "zerotts",
+      "capabilities": {
+        "streaming": true,
+        "emotion_cues": false,
+        "voices": [],
+        "native_sample_rate": 48000,
+        "expected_rtf": 0.71
+      }
+    },
+    "s2s": null,
+    "search": {
+      "name": "llm",
+      "capabilities": null
+    }
+  },
+  "dependencies": {
+    "llm": {
+      "ok": true
+    },
+    "search": {
+      "ok": true
+    }
+  },
+  "models_ok": true,
+  "inference_tested": false,
+  "tools": [
+    "clock"
+  ],
+  "web_client": true
+}

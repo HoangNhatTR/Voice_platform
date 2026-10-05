@@ -1,0 +1,579 @@
+{
+  "at": "2026-09-29T08:02:58.448266+00:00",
+  "ready": {
+    "ok": true,
+    "started": true,
+    "maintenance": false,
+    "dependencies": {
+      "llm": {
+        "ok": true
+      },
+      "search": {
+        "ok": true
+      }
+    },
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+      "config_sha256": "e8b03448fdcd9d067f35af29b1ff498d057b43dfce35f09f7ea2e1f99b56b8a5",
+      "started_at": "2026-09-29T07:12:18.635274+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "max_sessions": 3
+  },
+  "config": {
+    "audio": {
+      "sample_rate": 16000,
+      "frame_ms": 20,
+      "channels": 1,
+      "output_sample_rate": 24000,
+      "output_frame_ms": 40
+    },
+    "media": {
+      "vad": {
+        "backend": "energy",
+        "threshold": 0.5,
+        "energy_threshold": 0.012,
+        "start_frames": 2,
+        "end_frames": 12,
+        "pre_roll_ms": 320
+      },
+      "aec": {
+        "backend": "client",
+        "enabled": true
+      },
+      "denoise": "none",
+      "jitter_target_ms": 60
+    },
+    "conversation": {
+      "turn_detection": {
+        "backend": "heuristic",
+        "silence_ms": 480,
+        "max_silence_ms": 1400,
+        "min_utterance_ms": 240,
+        "max_utterance_ms": 30000
+      },
+      "barge_in": {
+        "enabled": true,
+        "speech_frames": 6,
+        "guard_ms": 150,
+        "min_rms": 0.02,
+        "resume_after_false": true,
+        "resume_window_ms": 5000,
+        "merge_unanswered": true
+      },
+      "filler": {
+        "enabled": true,
+        "after_ms": 700,
+        "phrases": [
+          "Để tôi kiểm tra một chút.",
+          "Chờ tôi tra cứu nhanh nhé."
+        ]
+      },
+      "opener": {
+        "enabled": true,
+        "text": "Vâng.",
+        "after_ms": 800
+      },
+      "search": {
+        "enabled": true,
+        "max_inflight": 2,
+        "ttl_ms": 60000,
+        "delivery_prefix": "Về câu bạn hỏi lúc nãy",
+        "instant_ack": "Để tôi tra cứu nhé.",
+        "skip_redundant_ack": true
+      },
+      "history_turns": 12,
+      "streaming_first_phrase_chars": 48,
+      "streaming_first_phrase_wait_ms": 250,
+      "tool_instruction": "Bạn có các công cụ sau: {tools}. Đọc lại, lặp nguyên văn, dịch, trích dẫn hay tình huống giả định: chỉ trả lời theo văn bản, không gọi công cụ. {tool_routes} Kiến thức cố định và tính toán không cần tra cứu: trả lời trực tiếp. Khi cần công cụ, phải gọi rồi mới trả lời.",
+      "system_prompt": "Trả lời ngắn bằng tiếng Việt, không markdown.",
+      "orphan_turn_timeout_ms": 20000
+    },
+    "models": {
+      "mode": "cascade",
+      "asr": {
+        "backend": "gipformer",
+        "options": {
+          "model_dir": "models/gipformer1.5-65M-rnnt",
+          "precision": "int8",
+          "onnx_threads": 4,
+          "lowercase": true,
+          "partial_every_frames": 25
+        }
+      },
+      "llm": {
+        "backend": "openai_compat",
+        "options": {
+          "endpoint": "http://127.0.0.1:18108/v1",
+          "model": "qwen3.5-4b",
+          "max_tokens": 120,
+          "temperature": 0.0,
+          "enable_thinking": false,
+          "keepalive_connections": 0,
+          "timeout_s": 30.0,
+          "max_parallel": 3,
+          "max_queue": 8,
+          "context_tokens": 4096,
+          "prompt_budget_tokens": 1800,
+          "native_tokenizer": true,
+          "literal_request_policy": true,
+          "extra_body": {
+            "seed": 20260929
+          }
+        }
+      },
+      "tts": {
+        "backend": "zerotts",
+        "options": {
+          "voice": "kimoanh",
+          "revision": "c2bfbd67dc648cac455077333f7cf5c18a2e3bb4",
+          "local_files_only": true,
+          "intra_op_num_threads": 4,
+          "codec_intra_op_num_threads": 4,
+          "max_queue": 6,
+          "max_pending_chunks": 4,
+          "max_chunk_frames": 8
+        }
+      },
+      "s2s": {
+        "backend": "none",
+        "options": {}
+      },
+      "search": {
+        "backend": "llm",
+        "options": {
+          "endpoint": "http://127.0.0.1:18108/v1",
+          "model": "qwen3.5-4b",
+          "max_tokens": 160,
+          "temperature": 0.0,
+          "enable_thinking": false,
+          "keepalive_connections": 0,
+          "timeout_s": 30.0,
+          "max_parallel": 3,
+          "max_queue": 8,
+          "system_prompt": "Bạn là bộ phận tra cứu. Trả lời NGẮN và CHÍNH XÁC bằng tiếng Việt, tối đa hai câu, chỉ nêu dữ kiện. Không chào hỏi. Nếu không chắc chắn, nói thẳng là không tra được.",
+          "context_tokens": 4096,
+          "prompt_budget_tokens": 1800,
+          "native_tokenizer": true,
+          "literal_request_policy": true,
+          "extra_body": {
+            "seed": 20260929
+          }
+        }
+      },
+      "keep_warm_s": 240,
+      "prewarm_before_sessions": true,
+      "startup_timeout_s": 180.0,
+      "operation_timeout_s": 30.0
+    },
+    "tasks": {
+      "enabled": true,
+      "tools": [
+        "clock"
+      ],
+      "default_timeout_ms": 8000,
+      "max_parallel": 4,
+      "max_queue": 16
+    },
+    "observability": {
+      "trace_dir": "runtime/traces",
+      "write_traces": true,
+      "log_events": true,
+      "keep_turns": 200
+    },
+    "server": {
+      "host": "0.0.0.0",
+      "port": 18100,
+      "web_dir": "web",
+      "cors_origins": [
+        "*"
+      ],
+      "ssl_certfile": ".tls/server.crt",
+      "ssl_keyfile": ".tls/server.key",
+      "private_introspection": true,
+      "max_sessions": 3,
+      "max_audio_bytes": 131072,
+      "max_text_chars": 4000,
+      "idle_timeout_s": 120.0,
+      "max_session_s": 3600.0,
+      "readiness_timeout_s": 2.0,
+      "readiness_ttl_s": 2.0
+    }
+  },
+  "metrics": {
+    "snapshot": {
+      "counters": {
+        "frames_in": 1459,
+        "barge_ins": 1
+      },
+      "latency": {
+        "first_phrase_ready_ms": {
+          "n": 8,
+          "p50": 1053.094,
+          "p95": 1147.0,
+          "max": 1147.0
+        },
+        "first_any_audio_sent_ms": {
+          "n": 8,
+          "p50": 804.498,
+          "p95": 895.759,
+          "max": 895.759
+        },
+        "first_content_audio_sent_ms": {
+          "n": 8,
+          "p50": 1322.393,
+          "p95": 3168.859,
+          "max": 3168.859
+        },
+        "content_playback_start_ms": {
+          "n": 6,
+          "p50": 1354.411,
+          "p95": 3300.873,
+          "max": 3300.873
+        },
+        "content_playback_signal_ms": {
+          "n": 6,
+          "p50": 1354.411,
+          "p95": 3331.681,
+          "max": 3331.681
+        },
+        "content_underruns": {
+          "n": 8,
+          "p50": 0.0,
+          "p95": 3.0,
+          "max": 3.0
+        },
+        "content_gap_ms": {
+          "n": 8,
+          "p50": 0.0,
+          "p95": 261.333,
+          "max": 261.333
+        },
+        "content_phrase_gap_ms": {
+          "n": 8,
+          "p50": 665.213,
+          "p95": 2331.099,
+          "max": 2331.099
+        },
+        "llm_ttft_ms": {
+          "n": 8,
+          "p50": 525.739,
+          "p95": 656.51,
+          "max": 656.51
+        },
+        "llm_total_ms": {
+          "n": 8,
+          "p50": 1421.34,
+          "p95": 1660.379,
+          "max": 1660.379
+        },
+        "tts_ttfa_ms": {
+          "n": 8,
+          "p50": 0.2,
+          "p95": 366.5,
+          "max": 366.5
+        },
+        "e2e_ttfa_ms": {
+          "n": 8,
+          "p50": 804.3,
+          "p95": 895.6,
+          "max": 895.6
+        },
+        "response_total_ms": {
+          "n": 8,
+          "p50": 6156.8,
+          "p95": 8528.3,
+          "max": 8528.3
+        },
+        "llm_queue_ms": {
+          "n": 10,
+          "p50": 0.008,
+          "p95": 0.016,
+          "max": 0.016
+        },
+        "llm_request_ttft_ms": {
+          "n": 8,
+          "p50": 525.739,
+          "p95": 656.51,
+          "max": 656.51
+        },
+        "llm_request_total_ms": {
+          "n": 10,
+          "p50": 926.065,
+          "p95": 1660.379,
+          "max": 1660.379
+        },
+        "tts_queue_ms": {
+          "n": 15,
+          "p50": 1069.703,
+          "p95": 2788.596,
+          "max": 3078.427
+        },
+        "tts_compute_ms": {
+          "n": 15,
+          "p50": 1396.888,
+          "p95": 1674.587,
+          "max": 1802.39
+        },
+        "tts_first_chunk_ms": {
+          "n": 15,
+          "p50": 87.24,
+          "p95": 168.593,
+          "max": 174.037
+        },
+        "tts_lock_wait_ms": {
+          "n": 15,
+          "p50": 0.081,
+          "p95": 0.325,
+          "max": 0.363
+        },
+        "tts_rtf": {
+          "n": 15,
+          "p50": 0.601,
+          "p95": 0.694,
+          "max": 0.726
+        },
+        "asr_stream_duration_ms": {
+          "n": 2,
+          "p50": 1684.4,
+          "p95": 1945.0,
+          "max": 1945.0
+        },
+        "last_voice_to_content_sent_ms": {
+          "n": 2,
+          "p50": 1666.844,
+          "p95": 1802.494,
+          "max": 1802.494
+        },
+        "endpoint_ms": {
+          "n": 2,
+          "p50": 240.1,
+          "p95": 240.4,
+          "max": 240.4
+        },
+        "asr_first_partial_ms": {
+          "n": 2,
+          "p50": 499.3,
+          "p95": 519.7,
+          "max": 519.7
+        },
+        "asr_final_ms": {
+          "n": 2,
+          "p50": 44.6,
+          "p95": 46.8,
+          "max": 46.8
+        },
+        "tool_ms": {
+          "n": 2,
+          "p50": 0.1,
+          "p95": 0.1,
+          "max": 0.1
+        },
+        "llm_request_first_tool_ms": {
+          "n": 2,
+          "p50": 362.176,
+          "p95": 369.227,
+          "max": 369.227
+        },
+        "asr_partial_queue_ms": {
+          "n": 6,
+          "p50": 0.02,
+          "p95": 0.062,
+          "max": 0.062
+        },
+        "asr_partial_compute_ms": {
+          "n": 6,
+          "p50": 31.402,
+          "p95": 46.963,
+          "max": 46.963
+        },
+        "asr_final_queue_ms": {
+          "n": 2,
+          "p50": 0.008,
+          "p95": 0.012,
+          "max": 0.012
+        },
+        "asr_final_compute_ms": {
+          "n": 2,
+          "p50": 44.459,
+          "p95": 46.595,
+          "max": 46.595
+        },
+        "tool_queue_ms": {
+          "n": 2,
+          "p50": 0.009,
+          "p95": 0.01,
+          "max": 0.01
+        },
+        "tool_compute_ms": {
+          "n": 2,
+          "p50": 0.026,
+          "p95": 0.039,
+          "max": 0.039
+        }
+      }
+    },
+    "gauges": {
+      "asr": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "llm": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3,
+        "speech_active": 0,
+        "search_active": 0,
+        "speech_waiting": 0,
+        "search_waiting": 0,
+        "search_parallel": 1
+      },
+      "tts": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 7,
+        "parallel": 1
+      },
+      "search": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3,
+        "speech_active": 0,
+        "search_active": 0,
+        "speech_waiting": 0,
+        "search_waiting": 0,
+        "search_parallel": 1
+      },
+      "tool": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 20,
+        "parallel": 4
+      },
+      "sessions": 0,
+      "tts_workers": 0,
+      "asr_workers": 0,
+      "event_loop_lag_ms": {
+        "n": 600,
+        "p95": 0.297,
+        "max": 0.599
+      }
+    }
+  },
+  "props": {
+    "default_generation_settings": {
+      "params": {
+        "seed": 4294967295,
+        "temperature": 0.800000011920929,
+        "dynatemp_range": 0.0,
+        "dynatemp_exponent": 1.0,
+        "top_k": 40,
+        "top_p": 0.949999988079071,
+        "min_p": 0.05000000074505806,
+        "top_n_sigma": -1.0,
+        "xtc_probability": 0.0,
+        "xtc_threshold": 0.10000000149011612,
+        "typical_p": 1.0,
+        "repeat_last_n": 64,
+        "repeat_penalty": 1.0,
+        "presence_penalty": 0.0,
+        "frequency_penalty": 0.0,
+        "dry_multiplier": 0.0,
+        "dry_base": 1.75,
+        "dry_allowed_length": 2,
+        "dry_penalty_last_n": -1,
+        "mirostat": 0,
+        "mirostat_tau": 5.0,
+        "mirostat_eta": 0.10000000149011612,
+        "max_tokens": -1,
+        "n_predict": -1,
+        "n_keep": 0,
+        "n_discard": 0,
+        "ignore_eos": false,
+        "stream": false,
+        "n_probs": 0,
+        "min_keep": 0,
+        "chat_format": "Content-only",
+        "reasoning_format": "none",
+        "reasoning_in_content": false,
+        "generation_prompt": "",
+        "samplers": [
+          "penalties",
+          "dry",
+          "top_n_sigma",
+          "top_k",
+          "typ_p",
+          "top_p",
+          "min_p",
+          "xtc",
+          "temperature"
+        ],
+        "speculative.types": "none",
+        "timings_per_token": false,
+        "post_sampling_probs": false,
+        "backend_sampling": false,
+        "lora": []
+      },
+      "n_ctx": 4096
+    },
+    "total_slots": 3,
+    "model_alias": "qwen3.5-4b",
+    "model_ftype": "Q4_K - Medium",
+    "model_path": "/home/ai01/AIHoang/speech2speech/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+    "modalities": {
+      "vision": false,
+      "video": false,
+      "audio": false
+    },
+    "media_marker": "<__media_4TNo9CkXDcz7luqpZK9eIgO7uq5F7Opt__>",
+    "endpoint_slots": true,
+    "endpoint_props": false,
+    "endpoint_metrics": true,
+    "ui": true,
+    "ui_settings": {},
+    "chat_template": "{%- set image_count = namespace(value=0) %}\n{%- set video_count = namespace(value=0) %}\n{%- macro render_content(content, do_vision_count, is_system_content=false) %}\n    {%- if content is string %}\n        {{- content }}\n    {%- elif content is iterable and content is not mapping %}\n        {%- for item in content %}\n            {%- if 'image' in item or 'image_url' in item or item.type == 'image' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain images.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set image_count.value = image_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Picture ' ~ image_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|image_pad|><|vision_end|>' }}\n            {%- elif 'video' in item or item.type == 'video' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain videos.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set video_count.value = video_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Video ' ~ video_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|video_pad|><|vision_end|>' }}\n            {%- elif 'text' in item %}\n                {{- item.text }}\n            {%- else %}\n                {{- raise_exception('Unexpected item type in content.') }}\n            {%- endif %}\n        {%- endfor %}\n    {%- elif content is none or content is undefined %}\n        {{- '' }}\n    {%- else %}\n        {{- raise_exception('Unexpected content type.') }}\n    {%- endif %}\n{%- endmacro %}\n{%- if not messages %}\n    {{- raise_exception('No messages provided.') }}\n{%- endif %}\n{%- if tools and tools is iterable and tools is not mapping %}\n    {{- '<|im_start|>system\\n' }}\n    {{- \"# Tools\\n\\nYou have access to the following functions:\\n\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\" }}\n    {{- '\\n\\nIf you choose to call a function ONLY reply in the following format with NO suffix:\\n\\n<tool_call>\\n<function=example_function_name>\\n<parameter=example_parameter_1>\\nvalue_1\\n</parameter>\\n<parameter=example_parameter_2>\\nThis is the value for the second parameter\\nthat can span\\nmultiple lines\\n</parameter>\\n</function>\\n</tool_call>\\n\\n<IMPORTANT>\\nReminder:\\n- Function calls MUST follow the specified format: an inner <function=...></function> block must be nested within <tool_call></tool_call> XML tags\\n- Required parameters MUST be specified\\n- You may provide optional reasoning for your function call in natural language BEFORE the function call, but NOT after\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\n</IMPORTANT>' }}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {%- if content %}\n            {{- '\\n\\n' + content }}\n        {%- endif %}\n    {%- endif %}\n    {{- '<|im_end|>\\n' }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {{- '<|im_start|>system\\n' + content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" %}\n        {%- set content = render_content(message.content, false)|trim %}\n        {%- if not(content.startswith('<tool_response>') and content.endswith('</tool_response>')) %}\n            {%- set ns.multi_step_tool = false %}\n            {%- set ns.last_query_index = index %}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if ns.multi_step_tool %}\n    {{- raise_exception('No user query found in messages.') }}\n{%- endif %}\n{%- for message in messages %}\n    {%- set content = render_content(message.content, true)|trim %}\n    {%- if message.role == \"system\" %}\n        {%- if not loop.first %}\n            {{- raise_exception('System message must be at the beginning.') }}\n        {%- endif %}\n    {%- elif message.role == \"user\" %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in content %}\n                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- set reasoning_content = reasoning_content|trim %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content + '\\n</think>\\n\\n' + content }}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls and message.tool_calls is iterable and message.tool_calls is not mapping %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if tool_call.function is defined %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {%- if loop.first %}\n                    {%- if content|trim %}\n                        {{- '\\n\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- else %}\n                        {{- '<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- endif %}\n                {%- else %}\n                    {{- '\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                {%- endif %}\n                {%- if tool_call.arguments is mapping %}\n                    {%- for args_name in tool_call.arguments %}\n                        {%- set args_value = tool_call.arguments[args_name] %}\n                        {{- '<parameter=' + args_name + '>\\n' }}\n                        {%- set args_value = args_value | tojson | safe if args_value is mapping or (args_value is sequence and args_value is not string) else args_value | string %}\n                        {{- args_value }}\n                        {{- '\\n</parameter>\\n' }}\n                    {%- endfor %}\n                {%- endif %}\n                {{- '</function>\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.previtem and loop.previtem.role != \"tool\" %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if not loop.last and loop.nextitem.role != \"tool\" %}\n            {{- '<|im_end|>\\n' }}\n        {%- elif loop.last %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- else %}\n        {{- raise_exception('Unexpected message role.') }}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is true %}\n        {{- '<think>\\n' }}\n    {%- else %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}",
+    "chat_template_caps": {
+      "supports_object_arguments": true,
+      "supports_parallel_tool_calls": true,
+      "supports_preserve_reasoning": false,
+      "supports_string_content": true,
+      "supports_system_role": true,
+      "supports_tool_calls": true,
+      "supports_tools": true,
+      "supports_typed_content": false
+    },
+    "bos_token": ",",
+    "eos_token": "<|im_end|>",
+    "build_info": "b1-c588c4f",
+    "is_sleeping": false,
+    "cors_proxy_enabled": false
+  },
+  "units": {
+    "voice-platform-api.service": "MainPID=3372741\nActiveState=active\nSubState=running\nUnitFileState=enabled\n",
+    "voice-platform-llm.service": "MainPID=3372378\nActiveState=active\nSubState=running\nUnitFileState=enabled\n"
+  },
+  "benchmark_ports_listening": {
+    "19101": false,
+    "18208": false
+  },
+  "sessions_after_close": {},
+  "source_matches_disk": true,
+  "config_matches_served_config": true,
+  "meminfo": "MemTotal:       127601432 kB\nMemFree:        11343604 kB\nMemAvailable:   40581412 kB\nBuffers:         2210252 kB\nCached:         30226200 kB\nSwapCached:        60624 kB\nActive:         29001256 kB\nInactive:       49731724 kB\nActive(anon):   25633088 kB\nInactive(anon): 24784460 kB\nActive(file):    3368168 kB\nInactive(file): 24947264 kB\nUnevictable:       25436 kB\nMlocked:           25436 kB\nSwapTotal:      16777212 kB\nSwapFree:           5488 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:             11616 kB\nWriteback:            40 kB\nAnonPages:      46253416 kB\nMapped:          4213460 kB\nShmem:           4115388 kB\nKReclaimable:    2063820 kB\nSlab:            3288656 kB\nSReclaimable:    2063820 kB\nSUnreclaim:      1224836 kB\nKernelStack:       95088 kB\nShadowCallStack:   23860 kB\nPageTables:       509136 kB\nSecPageTables:     95568 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    80577928 kB\nCommitted_AS:   129965096 kB\nVmallocTotal:   135288315904 kB\nVmallocUsed:      390112 kB\nVmallocChunk:          0 kB\nPercpu:            38320 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:    702464 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:    432128 kB\nFilePmdMapped:         0 kB\nCmaTotal:         131072 kB\nCmaFree:           69320 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\n"
+}

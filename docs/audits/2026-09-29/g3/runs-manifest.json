@@ -1,0 +1,143 @@
+{
+ "arms": {
+  "baseline": {
+   "source_dir": "snapshot of G2 source (same sha as service 18100)",
+   "config": "configs/local-cpu.yaml"
+  },
+  "v1": {
+   "config": "local-g3-candidate.yaml at snapshot (vad: silero, speech_frames 3)"
+  },
+  "v2": {
+   "config": "configs/local-g3-candidate.yaml"
+  }
+ },
+ "snapshot_tree_sha256": {
+  "baseline": "f1dd158d20e7f303c0c071cf8562f580440a79650d8eba20756fdccd7c37344a",
+  "v1": "7842f2109f4e5d3e939fc160e3b242da9346a548a176b3e08670f23208018049",
+  "v2": "b220206d5b09063d31f1ed119e8c5542e5a78ac3e8cb74366988e1b962b9c8da"
+ },
+ "runs": {
+  "baseline": {
+   "started_at": "2026-09-29T16:44:18+0700",
+   "finished_at": "2026-09-29T18:02:25+0700",
+   "stimuli_sha256": "17e75a1f18d22381e24f63a0b6c6f9618794ed5f76847b4798e88b597bd06072",
+   "families": "hold,complete,continue,backchannel,noise,interrupt",
+   "echo_db": null,
+   "echo_onset_db": null,
+   "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+   "config_sha256": "da5e47d3a716a67289bfafc9236e0d716bb1e288144c56182e0246cad402434e",
+   "harness_sha256": "ad838d2513016687f982d41daeb701bc8b5ce92d52f4161a43da993cf781d9e2"
+  },
+  "baseline-confirm": {
+   "started_at": "2026-09-29T18:12:04+0700",
+   "finished_at": "2026-09-29T19:27:49+0700",
+   "stimuli_sha256": "0245d50f277ca8fa1c5ac689902de54fea2db35e0c780c085b165b2394ce6b75",
+   "families": "hold,complete,continue,backchannel,noise,interrupt",
+   "echo_db": null,
+   "echo_onset_db": null,
+   "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+   "config_sha256": "da5e47d3a716a67289bfafc9236e0d716bb1e288144c56182e0246cad402434e",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "baseline-real": {
+   "started_at": "2026-09-29T22:42:51+0700",
+   "finished_at": "2026-09-29T23:07:41+0700",
+   "stimuli_sha256": "6bdb755f10eaebcc11b2513dc19217b0def4d17ea2a7e90698c9a5c14c019da0",
+   "families": "hold,complete",
+   "echo_db": null,
+   "echo_onset_db": null,
+   "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+   "config_sha256": "da5e47d3a716a67289bfafc9236e0d716bb1e288144c56182e0246cad402434e",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "baseline-echo": {
+   "started_at": "2026-09-29T19:27:50+0700",
+   "finished_at": "2026-09-29T19:42:12+0700",
+   "stimuli_sha256": "17e75a1f18d22381e24f63a0b6c6f9618794ed5f76847b4798e88b597bd06072",
+   "families": "echo,noise,interrupt",
+   "echo_db": -28.0,
+   "echo_onset_db": -12.0,
+   "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+   "config_sha256": "da5e47d3a716a67289bfafc9236e0d716bb1e288144c56182e0246cad402434e",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "candidate-confirm": {
+   "started_at": "2026-09-29T19:42:27+0700",
+   "finished_at": "2026-09-29T20:57:13+0700",
+   "stimuli_sha256": "0245d50f277ca8fa1c5ac689902de54fea2db35e0c780c085b165b2394ce6b75",
+   "families": "hold,complete,continue,backchannel,noise,interrupt",
+   "echo_db": null,
+   "echo_onset_db": null,
+   "source_sha256": "ecebb3805020bbb8298e00d43aceb2922c1166724ccfa94c5f0d4e8ae03e32d4",
+   "config_sha256": "ada9f2a3eaeab2077e218f4a4019e9c7f73a574bae44882d428ed93ccc62dcde",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "v1-real": {
+   "started_at": "2026-09-29T21:26:07+0700",
+   "finished_at": "2026-09-29T21:50:13+0700",
+   "stimuli_sha256": "6bdb755f10eaebcc11b2513dc19217b0def4d17ea2a7e90698c9a5c14c019da0",
+   "families": "hold,complete",
+   "echo_db": null,
+   "echo_onset_db": null,
+   "source_sha256": "ecebb3805020bbb8298e00d43aceb2922c1166724ccfa94c5f0d4e8ae03e32d4",
+   "config_sha256": "ada9f2a3eaeab2077e218f4a4019e9c7f73a574bae44882d428ed93ccc62dcde",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "candidate-echo": {
+   "started_at": "2026-09-29T20:57:13+0700",
+   "finished_at": "2026-09-29T21:21:14+0700",
+   "stimuli_sha256": "17e75a1f18d22381e24f63a0b6c6f9618794ed5f76847b4798e88b597bd06072",
+   "families": "echo,noise,interrupt",
+   "echo_db": -28.0,
+   "echo_onset_db": -12.0,
+   "source_sha256": "ecebb3805020bbb8298e00d43aceb2922c1166724ccfa94c5f0d4e8ae03e32d4",
+   "config_sha256": "ada9f2a3eaeab2077e218f4a4019e9c7f73a574bae44882d428ed93ccc62dcde",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "v2-confirm": {
+   "started_at": "2026-09-29T22:14:21+0700",
+   "finished_at": "2026-09-29T22:42:36+0700",
+   "stimuli_sha256": "0245d50f277ca8fa1c5ac689902de54fea2db35e0c780c085b165b2394ce6b75",
+   "families": "hold,complete,continue",
+   "echo_db": null,
+   "echo_onset_db": null,
+   "source_sha256": "ead11f4a88db2ee6f3473248e1b62024c387f28e12dec519ccdd03de133395a0",
+   "config_sha256": "86fd0dfc55658faf45521920c64baf7a81012d0b8b984348c64b14f8ec90b581",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "v2-real": {
+   "started_at": "2026-09-29T21:50:26+0700",
+   "finished_at": "2026-09-29T22:14:21+0700",
+   "stimuli_sha256": "6bdb755f10eaebcc11b2513dc19217b0def4d17ea2a7e90698c9a5c14c019da0",
+   "families": "hold,complete",
+   "echo_db": null,
+   "echo_onset_db": null,
+   "source_sha256": "ead11f4a88db2ee6f3473248e1b62024c387f28e12dec519ccdd03de133395a0",
+   "config_sha256": "86fd0dfc55658faf45521920c64baf7a81012d0b8b984348c64b14f8ec90b581",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "v2-confirm-barge": {
+   "started_at": "2026-09-29T23:08:05+0700",
+   "finished_at": "2026-09-29T23:53:48+0700",
+   "stimuli_sha256": "0245d50f277ca8fa1c5ac689902de54fea2db35e0c780c085b165b2394ce6b75",
+   "families": "backchannel,noise,interrupt",
+   "echo_db": null,
+   "echo_onset_db": null,
+   "source_sha256": "ead11f4a88db2ee6f3473248e1b62024c387f28e12dec519ccdd03de133395a0",
+   "config_sha256": "86fd0dfc55658faf45521920c64baf7a81012d0b8b984348c64b14f8ec90b581",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  },
+  "v2-echo": {
+   "started_at": "2026-09-29T23:54:05+0700",
+   "finished_at": "2026-09-30T00:09:03+0700",
+   "stimuli_sha256": "17e75a1f18d22381e24f63a0b6c6f9618794ed5f76847b4798e88b597bd06072",
+   "families": "echo,noise,interrupt",
+   "echo_db": -28.0,
+   "echo_onset_db": -12.0,
+   "source_sha256": "ead11f4a88db2ee6f3473248e1b62024c387f28e12dec519ccdd03de133395a0",
+   "config_sha256": "86fd0dfc55658faf45521920c64baf7a81012d0b8b984348c64b14f8ec90b581",
+   "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9"
+  }
+ },
+ "note": "harness sha differs between runs only by the --echo-onset-db option and the progress counter; the arms of each comparison ran the same stimuli file"
+}

@@ -1,0 +1,35 @@
+               total        used        free      shared  buff/cache   available
+Mem:           121Gi        83Gi        28Gi       3.7Gi        14Gi        38Gi
+Swap:           15Gi        15Gi        77Mi
+Tue Sep 29 11:11:43 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.142                Driver Version: 580.142        CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GB10                    On  |   0000000F:01:00.0 Off |                  N/A |
+| N/A   62C    P0             23W /  N/A  | Not Supported          |     37%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            6876      C   python                                 2161MiB |
+|    0   N/A  N/A           30082      C   VLLM::EngineCore                       4763MiB |
+|    0   N/A  N/A          407801      C   ...nference-lab/.venv/bin/python        695MiB |
+|    0   N/A  N/A         1756929      C   /opt/venv/bin/python3                   292MiB |
+|    0   N/A  N/A         2103596      C   python                                 3284MiB |
+|    0   N/A  N/A         2694704      C   ffmpeg                                  187MiB |
+|    0   N/A  N/A         2701853      C   ffmpeg                                  187MiB |
+|    0   N/A  N/A         2773440      C   ffmpeg                                  210MiB |
+|    0   N/A  N/A         2773544      C   ffmpeg                                  187MiB |
+|    0   N/A  N/A         2992065      C   python                                 3256MiB |
+|    0   N/A  N/A         3032722      C   /usr/local/bin/python3.11             10430MiB |
+|    0   N/A  N/A         3350486      C   python                                  596MiB |
+|    0   N/A  N/A         3460429      C   /opt/venv/bin/python3.12                546MiB |
++-----------------------------------------------------------------------------------------+

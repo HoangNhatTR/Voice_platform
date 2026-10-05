@@ -1,0 +1,20 @@
+{
+  "before_pid": "3066070",
+  "during_failure": {
+    "liveness_status": 200,
+    "readiness_status": 503,
+    "dependencies": {
+      "llm": {
+        "ok": false,
+        "reason": "ConnectError"
+      },
+      "search": {
+        "ok": false,
+        "reason": "ConnectError"
+      }
+    }
+  },
+  "after_pid": "3130366",
+  "restarts": 1,
+  "recovered": true
+}

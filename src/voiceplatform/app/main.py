@@ -108,7 +108,14 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     try:
         plane = ModelPlane(config.models, output_sample_rate=config.audio.output_sample_rate)
         report["models"] = plane.describe()
-        report["models_ok"] = True
+        async def dependencies():
+            try:
+                return await plane.check_dependencies(config.server.readiness_timeout_s)
+            finally:
+                await plane.close()
+        report["dependencies"] = asyncio.run(dependencies())
+        report["models_ok"] = all(v["ok"] for v in report["dependencies"].values())
+        report["inference_tested"] = False
     except VoicePlatformError as exc:
         report["models_ok"] = False
         report["models_error"] = str(exc)

@@ -1,0 +1,994 @@
+{
+ "run": "/tmp/claude-1013/-home-ai01-AIHoang/05882303-1f5a-4864-acb5-4bbd04b19608/scratchpad/g3/baseline",
+ "asr_reference": true,
+ "manifest": {
+  "started_at": "2026-09-29T16:44:18+0700",
+  "finished_at": "2026-09-29T18:02:25+0700",
+  "stimuli_sha256": "17e75a1f18d22381e24f63a0b6c6f9618794ed5f76847b4798e88b597bd06072",
+  "echo_db": null,
+  "echo_delay_ms": 80.0,
+  "harness_sha256": "ad838d2513016687f982d41daeb701bc8b5ce92d52f4161a43da993cf781d9e2",
+  "basis": "synthetic TTS user speech and seeded noise into /v1/realtime at real-time pace; Python emulation of web/playback-worklet.js; same-host monotonic clock; no human speech, microphone, room acoustics, real AEC or LAN"
+ },
+ "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+ "families": {
+  "backchannel": {
+   "false_interruption": {
+    "k": 4,
+    "n": 96,
+    "rate": 0.0417,
+    "wilson95": [
+     0.0163,
+     0.1023
+    ]
+   },
+   "barge_in_fired": {
+    "k": 96,
+    "n": 96,
+    "rate": 1.0,
+    "wilson95": [
+     0.9615,
+     1.0
+    ]
+   },
+   "resume_after_decision_ms": {
+    "n": 92,
+    "p50": 208.4,
+    "p95": 427.3,
+    "p99": 850.8,
+    "max": 850.8
+   },
+   "silence_stop_to_resumed_audio_ms": {
+    "n": 96,
+    "p50": 1034.6,
+    "p95": 1711.3,
+    "p99": 2743.3,
+    "max": 2743.3
+   },
+   "onset_to_barge_in_ms": {
+    "n": 96,
+    "p50": 104.6,
+    "p95": 279.9,
+    "p99": 302.6,
+    "max": 302.6
+   },
+   "by_kind_wrong": {
+    "da": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "da vang": {
+     "k": 0,
+     "n": 8,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.3244
+     ]
+    },
+    "dung roi": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2992
+     ]
+    },
+    "o": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "ok": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "u": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "u u": {
+     "k": 1,
+     "n": 10,
+     "rate": 0.1,
+     "wilson95": [
+      0.0179,
+      0.4042
+     ]
+    },
+    "um": {
+     "k": 1,
+     "n": 10,
+     "rate": 0.1,
+     "wilson95": [
+      0.0179,
+      0.4042
+     ]
+    },
+    "vang": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2992
+     ]
+    },
+    "vang a": {
+     "k": 2,
+     "n": 10,
+     "rate": 0.2,
+     "wilson95": [
+      0.0567,
+      0.5098
+     ]
+    }
+   },
+   "errors": 0,
+   "skipped_not_playing": 0,
+   "failures": [
+    {
+     "id": "backchannel-015",
+     "outcome": "answered",
+     "heard_as": "thân ạ"
+    },
+    {
+     "id": "backchannel-031",
+     "outcome": "answered",
+     "heard_as": "từ"
+    },
+    {
+     "id": "backchannel-059",
+     "outcome": "answered",
+     "heard_as": "từ từ"
+    },
+    {
+     "id": "backchannel-085",
+     "outcome": "answered",
+     "heard_as": "thân ạ"
+    }
+   ]
+  },
+  "complete": {
+   "speech_end_to_confirm_ms": {
+    "n": 100,
+    "p50": 460.6,
+    "p95": 1360.6,
+    "p99": 1381.5,
+    "max": 1381.6
+   },
+   "confirm_to_asr_final_ms": {
+    "n": 100,
+    "p50": 36.5,
+    "p95": 58.6,
+    "p99": 80.6,
+    "max": 91.8
+   },
+   "speech_end_to_content_playback_ms": {
+    "n": 81,
+    "p50": 1309.8,
+    "p95": 2225.7,
+    "p99": 2361.4,
+    "max": 2361.4
+   },
+   "speech_end_to_content_playback_ms_tool_turns": {
+    "n": 19,
+    "p50": 5136.0,
+    "p95": 6618.8,
+    "p99": 6618.8,
+    "max": 6618.8
+   },
+   "held_over_1s": {
+    "k": 6,
+    "n": 100,
+    "rate": 0.06,
+    "wilson95": [
+     0.0278,
+     0.1248
+    ]
+   },
+   "split_into_two_turns": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   },
+   "errors": 0,
+   "failures": []
+  },
+  "continue": {
+   "lost_half": {
+    "k": 0,
+    "n": 50,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0714
+    ]
+   },
+   "lost_words": {
+    "k": 6,
+    "n": 50,
+    "rate": 0.12,
+    "wilson95": [
+     0.0562,
+     0.2381
+    ]
+   },
+   "merged": {
+    "k": 28,
+    "n": 50,
+    "rate": 0.56,
+    "wilson95": [
+     0.4231,
+     0.6884
+    ]
+   },
+   "part1_answered_before_part2": {
+    "k": 8,
+    "n": 50,
+    "rate": 0.16,
+    "wilson95": [
+     0.0834,
+     0.2851
+    ]
+   },
+   "errors": 0,
+   "failures": [
+    {
+     "id": "continue-00-1800",
+     "missing_keys": [
+      "tokyo"
+     ],
+     "texts": "bây giờ là mấy giờ ở tokyu vậy",
+     "merged": false
+    },
+    {
+     "id": "continue-03-1400",
+     "missing_keys": [
+      "hai triệu"
+     ],
+     "texts": "chín hai chín cho mẹ tôi nhé",
+     "merged": false
+    },
+    {
+     "id": "continue-09-650",
+     "missing_keys": [
+      "atm"
+     ],
+     "texts": "phí rút tiền phí rút tiền app ipm khác ngân hàng ",
+     "merged": true
+    },
+    {
+     "id": "continue-09-850",
+     "missing_keys": [
+      "phí"
+     ],
+     "texts": "ký rút tiền ký rút tiền ở cây atm khác ngân hàng ",
+     "merged": true
+    },
+    {
+     "id": "continue-09-1400",
+     "missing_keys": [
+      "atm"
+     ],
+     "texts": "phí rút tiền ở cây itm khác ngân hàng ",
+     "merged": false
+    },
+    {
+     "id": "continue-09-1800",
+     "missing_keys": [
+      "atm"
+     ],
+     "texts": "phí rút tiền phí rút tiền ở cây itm khác ngân hàng  ",
+     "merged": true
+    }
+   ]
+  },
+  "hold": {
+   "premature_confirm": {
+    "k": 18,
+    "n": 100,
+    "rate": 0.18,
+    "wilson95": [
+     0.117,
+     0.2667
+    ]
+   },
+   "audio_during_pause": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   },
+   "lost_half": {
+    "k": 1,
+    "n": 100,
+    "rate": 0.01,
+    "wilson95": [
+     0.0018,
+     0.0545
+    ]
+   },
+   "user_visible_cut": {
+    "k": 1,
+    "n": 100,
+    "rate": 0.01,
+    "wilson95": [
+     0.0018,
+     0.0545
+    ]
+   },
+   "lost_words": {
+    "k": 4,
+    "n": 100,
+    "rate": 0.04,
+    "wilson95": [
+     0.0157,
+     0.0984
+    ]
+   },
+   "merged": {
+    "k": 14,
+    "n": 100,
+    "rate": 0.14,
+    "wilson95": [
+     0.0853,
+     0.2214
+    ]
+   },
+   "errors": 0,
+   "required_silence_at_pause_ms": {
+    "n": 105,
+    "p50": 1400,
+    "p95": 1400,
+    "p99": 1400,
+    "max": 1400
+   },
+   "failures": [
+    {
+     "id": "hold-03-500",
+     "cut": false,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "chuyển"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "truyền năm trăm nghìn đến số tài khoản không một hai ba bốn năm sáu",
+     "asr_reference": "chuyển năm trăm nghìn đến số tài khoản không một hai ba bốn năm sáu",
+     "pause_candidates": [
+      "truyền năm trăm nghìn",
+      "chuyển năm trăm nghìn đến số tài khoản không một hai ba bốn năm sáu"
+     ]
+    },
+    {
+     "id": "hold-05-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "nếu tôi gửi tiết kiệm nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "asr_reference": "nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "pause_candidates": [
+      "nếu tôi gửi tiết kiệm",
+      "thì bao lâu mới được rút"
+     ]
+    },
+    {
+     "id": "hold-05-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "nếu tôi gửi tiết kiệm nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "asr_reference": "nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "pause_candidates": [
+      "nếu tôi gửi tiết kiệm",
+      "thì bao lâu mới được"
+     ]
+    },
+    {
+     "id": "hold-05-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "nếu tôi gửi tiết kiệm nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "asr_reference": "nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "pause_candidates": [
+      "nếu tôi gửi tiết kiệm",
+      "thì bao lâu mới được rút"
+     ]
+    },
+    {
+     "id": "hold-05-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "nếu tôi gửi tiết kiệm nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "asr_reference": "nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "pause_candidates": [
+      "nếu tôi gửi tiết kiệm",
+      "thì bao lâu mới được"
+     ]
+    },
+    {
+     "id": "hold-05-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "asr_reference": "nếu tôi gửi tiết kiệm thì bao lâu mới được rút",
+     "pause_candidates": [
+      "nếu tôi gửi tiết kiệm",
+      "thì bao lâu mới được rút"
+     ]
+    },
+    {
+     "id": "hold-07-500",
+     "cut": false,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "định"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "tôi để mở thêm một tài khoản nữa",
+     "asr_reference": "tôi để mở thêm một tài khoản nữa",
+     "pause_candidates": [
+      "tôi định",
+      "tôi để mở thêm một tài khoản nữa"
+     ]
+    },
+    {
+     "id": "hold-08-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "mà khách hàng là bốn năm mà khách hàng là bốn năm sáu bảy tám chín",
+     "asr_reference": "mã khách hàng là bốn năm sáu bảy tám chín",
+     "pause_candidates": [
+      "mà khách hàng là bốn năm",
+      "sáu bảy tám"
+     ]
+    },
+    {
+     "id": "hold-08-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "mã khách hàng là bốn năm sáu bảy tám chín",
+     "asr_reference": "mã khách hàng là bốn năm sáu bảy tám chín",
+     "pause_candidates": [
+      "mã khách hàng là bốn năm",
+      "sáu bảy tám"
+     ]
+    },
+    {
+     "id": "hold-08-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "mã khách hàng là bốn năm mã khách hàng là bốn năm sáu bảy tám chín",
+     "asr_reference": "mã khách hàng là bốn năm sáu bảy tám chín",
+     "pause_candidates": [
+      "mã khách hàng là bốn năm",
+      "sáu bảy tám chín"
+     ]
+    },
+    {
+     "id": "hold-08-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "mã khách hàng là bốn năm bảy tám chín",
+     "asr_reference": "mã khách hàng là bốn năm sáu bảy tám chín",
+     "pause_candidates": [
+      "mã khách hàng là bốn năm",
+      "bảy tám chín"
+     ]
+    },
+    {
+     "id": "hold-08-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "mã khách hàng là bốn năm sáu bảy tám chín",
+     "asr_reference": "mã khách hàng là bốn năm sáu bảy tám chín",
+     "pause_candidates": [
+      "mã khách hàng là bốn năm",
+      "sáu bảy tám"
+     ]
+    },
+    {
+     "id": "hold-13-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "lãi suất hiện tại là bao nhiêu vâng lãi suất hiện tại là bao nhiêu vâng có ưu đãi gì không  ",
+     "asr_reference": "lãi suất hiện tại là bao nhiêu và có ưu đãi gì không",
+     "pause_candidates": [
+      "lãi suất hiện tại là bao nhiêu",
+      "có ưu đãi gì không"
+     ]
+    },
+    {
+     "id": "hold-13-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "lãi suất hiện tại là bao nhiêu lãi suất hiện tại là bao nhiêu có ưu đãi gì không ",
+     "asr_reference": "lãi suất hiện tại là bao nhiêu có ưu đãi gì không",
+     "pause_candidates": [
+      "lãi suất hiện tại là bao nhiêu",
+      "lãi suất hiện tại là bao nhiêu",
+      "có ưu đãi gì không"
+     ]
+    },
+    {
+     "id": "hold-13-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "lãi suất hiện tại là bao nhiêu và lãi suất hiện tại là bao nhiêu và có ưu đãi gì không",
+     "asr_reference": "lãi suất hiện tại là bao nhiêu và có ưu đãi gì không",
+     "pause_candidates": [
+      "lãi suất hiện tại là bao nhiêu",
+      "lãi suất hiện tại là bao nhiêu",
+      "có ưu đãi gì không"
+     ]
+    },
+    {
+     "id": "hold-15-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "mình tự hỏi mình tự hỏi về thẻ ghi nợ quốc tế ",
+     "asr_reference": "mình cần hỏi về thẻ ghi nợ quốc tế",
+     "pause_candidates": [
+      "mình tự hỏi",
+      "về thẻ ghi nợ quốc"
+     ]
+    },
+    {
+     "id": "hold-15-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "ghi nợ"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "mình từng hỏi mình từng hỏi sa khi nợ quốc tế",
+     "asr_reference": "mình từng hỏi về thẻ khi nợ quốc tế",
+     "pause_candidates": [
+      "mình cần",
+      "về thẻ khi nợ quốc tế"
+     ]
+    },
+    {
+     "id": "hold-15-800",
+     "cut": false,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "ghi nợ"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "mình cần hỏi tới khi nào quốc tế",
+     "asr_reference": "mình cần hỏi tới khi nào quốc tế",
+     "pause_candidates": [
+      "mình cần học",
+      "mình cần hỏi cái thái khi nào quốc"
+     ]
+    },
+    {
+     "id": "hold-18-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "màn ơi màn ơi hôm nay tỷ giá đô la là bao nhiêu ",
+     "asr_reference": "bạn ơi hôm nay tỷ giá đô la là bao nhiêu",
+     "pause_candidates": [
+      "màn ơi",
+      "hôm nay tỷ giá đô la là bao nhiêu"
+     ]
+    },
+    {
+     "id": "hold-18-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [
+      "Bạn ơi"
+     ],
+     "merged": true,
+     "texts": "vài người vài người hôm nay tỷ giá đô la là bao nhiêu",
+     "asr_reference": "bạn ơi hôm nay trị giá đô la là bao nhiêu",
+     "pause_candidates": [
+      "vài người",
+      "hôm nay tỷ giá đô la là bao nhiêu"
+     ]
+    },
+    {
+     "id": "hold-19-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "gửi tiền vào tài khoản gửi tiền vào tài khoản chị lan ở chi nhánh cầu giấy",
+     "asr_reference": "gửi tiền vào tài khoản chị lan ở chi nhánh cầu giấy",
+     "pause_candidates": [
+      "gửi tiền vào tài khoản",
+      "chị lan ở chi nhánh cầu"
+     ]
+    }
+   ]
+  },
+  "interrupt": {
+   "answered_new_request": {
+    "k": 100,
+    "n": 100,
+    "rate": 1.0,
+    "wilson95": [
+     0.963,
+     1.0
+    ]
+   },
+   "missed_interruption": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   },
+   "lost_half": {
+    "k": 1,
+    "n": 100,
+    "rate": 0.01,
+    "wilson95": [
+     0.0018,
+     0.0545
+    ]
+   },
+   "lost_words": {
+    "k": 1,
+    "n": 100,
+    "rate": 0.01,
+    "wilson95": [
+     0.0018,
+     0.0545
+    ]
+   },
+   "old_audio_after_reset": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   },
+   "onset_to_stop_ms": {
+    "n": 100,
+    "p50": 122.2,
+    "p95": 190.0,
+    "p99": 363.4,
+    "max": 485.6
+   },
+   "onset_to_stop_ms_at_playback_onset": {
+    "n": 34,
+    "p50": 122.9,
+    "p95": 363.4,
+    "p99": 485.6,
+    "max": 485.6
+   },
+   "onset_to_server_barge_in_ms": {
+    "n": 100,
+    "p50": 120.8,
+    "p95": 185.9,
+    "p99": 362.0,
+    "max": 481.4
+   },
+   "errors": 0,
+   "skipped_not_playing": 0,
+   "failures": [
+    {
+     "id": "interrupt-030-onset",
+     "outcome": "answered",
+     "heard_as": "bạn kể cho tôi nghe một câu chuyện cổ tích ngắn về con cáo và con quạ đi thực sự",
+     "missing_keys": [
+      "dừng"
+     ]
+    }
+   ]
+  },
+  "noise": {
+   "false_interruption": {
+    "k": 5,
+    "n": 96,
+    "rate": 0.0521,
+    "wilson95": [
+     0.0224,
+     0.1162
+    ]
+   },
+   "barge_in_fired": {
+    "k": 50,
+    "n": 96,
+    "rate": 0.5208,
+    "wilson95": [
+     0.422,
+     0.618
+    ]
+   },
+   "resume_after_decision_ms": {
+    "n": 45,
+    "p50": 195.8,
+    "p95": 374.2,
+    "p99": 477.2,
+    "max": 477.2
+   },
+   "silence_stop_to_resumed_audio_ms": {
+    "n": 50,
+    "p50": 996.1,
+    "p95": 1715.3,
+    "p99": 1734.4,
+    "max": 1734.4
+   },
+   "onset_to_barge_in_ms": {
+    "n": 50,
+    "p50": 101.4,
+    "p95": 221.7,
+    "p99": 280.7,
+    "max": 280.7
+   },
+   "by_kind_wrong": {
+    "breath": {
+     "k": 0,
+     "n": 12,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2425
+     ]
+    },
+    "clap": {
+     "k": 0,
+     "n": 12,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2425
+     ]
+    },
+    "cough": {
+     "k": 0,
+     "n": 13,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2281
+     ]
+    },
+    "cough_double": {
+     "k": 5,
+     "n": 13,
+     "rate": 0.3846,
+     "wilson95": [
+      0.1771,
+      0.6448
+     ]
+    },
+    "keyboard": {
+     "k": 0,
+     "n": 12,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2425
+     ]
+    },
+    "knock": {
+     "k": 0,
+     "n": 12,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2425
+     ]
+    },
+    "rustle": {
+     "k": 0,
+     "n": 12,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2425
+     ]
+    },
+    "throat": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    }
+   },
+   "errors": 0,
+   "skipped_not_playing": 0,
+   "failures": [
+    {
+     "id": "noise-001-cough_double",
+     "outcome": "answered",
+     "heard_as": "đây"
+    },
+    {
+     "id": "noise-041-cough_double",
+     "outcome": "answered",
+     "heard_as": "đây"
+    },
+    {
+     "id": "noise-049-cough_double",
+     "outcome": "answered",
+     "heard_as": "đây"
+    },
+    {
+     "id": "noise-065-cough_double",
+     "outcome": "answered",
+     "heard_as": "đây"
+    },
+    {
+     "id": "noise-081-cough_double",
+     "outcome": "answered",
+     "heard_as": "đây"
+    }
+   ]
+  }
+ },
+ "unconfirmed_audio": {
+  "violations": [],
+  "turns": 1326
+ },
+ "gate": {
+  "premature_cut_lt_2pct": {
+   "k": 18,
+   "n": 100,
+   "rate": 0.18,
+   "wilson95": [
+    0.117,
+    0.2667
+   ]
+  },
+  "false_interruption_lt_3pct": {
+   "k": 9,
+   "n": 192,
+   "rate": 0.0469,
+   "wilson95": [
+    0.0249,
+    0.0867
+   ]
+  },
+  "resume_p95_le_500ms": [
+   {
+    "n": 45,
+    "p50": 195.8,
+    "p95": 374.2,
+    "p99": 477.2,
+    "max": 477.2
+   },
+   {
+    "n": 92,
+    "p50": 208.4,
+    "p95": 427.3,
+    "p99": 850.8,
+    "max": 850.8
+   }
+  ],
+  "stop_p95_le_300ms": {
+   "n": 100,
+   "p50": 122.2,
+   "p95": 190.0,
+   "p99": 363.4,
+   "max": 485.6
+  },
+  "user_visible_cut": {
+   "k": 1,
+   "n": 100,
+   "rate": 0.01,
+   "wilson95": [
+    0.0018,
+    0.0545
+   ]
+  },
+  "no_lost_half": {
+   "hold": {
+    "k": 1,
+    "n": 100,
+    "rate": 0.01,
+    "wilson95": [
+     0.0018,
+     0.0545
+    ]
+   },
+   "continue": {
+    "k": 0,
+    "n": 50,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0714
+    ]
+   },
+   "interrupt": {
+    "k": 1,
+    "n": 100,
+    "rate": 0.01,
+    "wilson95": [
+     0.0018,
+     0.0545
+    ]
+   }
+  },
+  "no_unconfirmed_audio": 0
+ }
+}

@@ -1,0 +1,37 @@
+/home/ai01/AIHoang/speech2speech/.deps/llama.cpp/ggml/src/ggml-cuda/ggml-cuda.cu:106: CUDA error
+0.00.246.964 E CUDA error: out of memory
+0.00.246.977 E   current device: 0, in function ggml_cuda_init at /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/ggml/src/ggml-cuda/ggml-cuda.cu:368
+0.00.246.981 E   cudaSetDevice(physical_id)
+[New LWP 2758518]
+[New LWP 2758468]
+[New LWP 2758467]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.ubuntu.com>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+0x0000ffef70847b74 in __GI___wait4 (pid=2758580, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:30
+warning: 30	../sysdeps/unix/sysv/linux/wait4.c: No such file or directory
+#0  0x0000ffef70847b74 in __GI___wait4 (pid=2758580, stat_loc=0x0, options=0, usage=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:30
+30	in ../sysdeps/unix/sysv/linux/wait4.c
+#1  0x0000ffef6fdf8cfc in ggml_print_backtrace () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libggml-base.so.0
+#2  0x0000ffef6fdf8ea0 in ggml_abort () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libggml-base.so.0
+#3  0x0000ffef6db3680c in ggml_cuda_error(char const*, char const*, char const*, int, char const*) () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libggml-cuda.so.0
+#4  0x0000ffef6db38c90 in ggml_cuda_init() () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libggml-cuda.so.0
+#5  0x0000ffef6db38dbc in ggml_cuda_info() () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libggml-cuda.so.0
+#6  0x0000ffef6db433bc in ggml_backend_cuda_reg () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libggml-cuda.so.0
+#7  0x0000ffef6fec2f4c in get_reg() () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libggml.so.0
+#8  0x0000ffef6fec32dc in ggml_backend_reg_count () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libggml.so.0
+#9  0x0000ffef6ff9569c in llama_supports_rpc () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libllama.so.0
+#10 0x0000ffef70435908 in common_params_parser_init(common_params&, llama_example, void (*)(int, char**)) () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libllama-common.so.0
+#11 0x0000ffef7044dae4 in common_params_parse(int, char**, common_params&, llama_example, void (*)(int, char**)) () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libllama-common.so.0
+#12 0x0000ffef70cae090 in llama_server(int, char**) () from /home/ai01/AIHoang/speech2speech/.deps/llama.cpp/build/bin/libllama-server-impl.so
+#13 0x0000ffef707984c4 in __libc_start_call_main (main=main@entry=0xb28bd38e1140 <main>, argc=argc@entry=28, argv=argv@entry=0xffffe5b00df8) at ../sysdeps/nptl/libc_start_call_main.h:58
+warning: 58	../sysdeps/nptl/libc_start_call_main.h: No such file or directory
+#14 0x0000ffef70798598 in __libc_start_main_impl (main=0xb28bd38e1140 <main>, argc=28, argv=0xffffe5b00df8, init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, stack_end=<optimized out>) at ../csu/libc-start.c:360
+warning: 360	../csu/libc-start.c: No such file or directory
+#15 0x0000b28bd38e11b0 in _start ()
+[Inferior 1 (process 2758421) detached]

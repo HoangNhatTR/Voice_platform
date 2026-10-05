@@ -31,6 +31,24 @@ Khi bị ngắt lời:
 barge_in → cancel → playback_reset → turn_start (lượt mới, giữ pre-roll)
 ```
 
+Từ G3 (29/09):
+
+```
+vad_end → endpoint_candidate(stable=false)
+        → asr_endpoint_transcript(text, stable, decode_ms)   giải mã TOÀN BỘ lời tại quãng nghỉ
+        → speculation_started                                shadow mode: LLM chạy, không phát gì
+turn_confirmed → asr_finalize_start/end(reused_endpoint_decode=true)
+        → speculation_adopted(lead_ms, buffered)  hoặc  speculation_discarded(reason)
+barge_in → … → interjection_rejected(speech_ms)      Silero không nghe thấy giọng người
+        → resumed(why, cut={phrase_id, played_ms, from_ms, basis})  nói tiếp từ chỗ dừng
+tts_first_audio → barge_in_guard(anchor=playback)     guard neo theo lúc client phát thật
+```
+
+Một lần đoán bị bỏ (`speculation_discarded`) được gắn `role =
+speculation_discarded` trên cùng `request_id`, nên không bao giờ thành TTFT của
+lượt. Counter mới: `speculations`, `speculations_adopted`,
+`speculations_discarded`, `speculation_skipped_busy`, `interjections_rejected`.
+
 `stale_dropped` xuất hiện mỗi khi có thứ gì về muộn dưới generation đã chết.
 Nó không phải lỗi — nó là bằng chứng fencing đang làm việc. Nhưng nó tăng đều
 đặn thì tức là có chặng đang chậm hơn mình tưởng.
@@ -59,7 +77,18 @@ chữ nào — nên con số nuốt trọn cả vòng 0, cả thời gian chạy
 vẽ từng vòng thành từng đoạn riêng nên chỗ này nhìn ra ngay; bảng số thì không.
 
 `barge_in_stop_ms` chỉ đo phía server. Độ trễ người dùng thật sự nghe được còn
-cộng thêm đệm phát của client (`cushion` trong `web/client.js`, mặc định 60 ms).
+cộng thêm phần audio client đã nhận mà chưa phát. Bộ phát AudioWorklet (schema
+đo 2) chờ `ready.playback_buffer_ms` — tức `conversation.barge_in.playback_startup_ms`,
+mặc định 160 ms — trước khi phát và sau mỗi lần hụt buffer; bộ phát cũ (schema 1)
+dùng đệm 60 ms (`cushion` trong `web/client.js`).
+
+Event do **client** báo (`playback_*`, `client_clock_sync`) đến theo nhịp client
+chọn, nên trace giữ có giới hạn: 64 event mỗi (cụm, loại) — 63 cái đầu và cái
+mới nhất — và 2048 event mỗi lượt (`CLIENT_EVENTS_PER_KEY` / `_PER_TURN`).
+Phần gộp/bỏ đếm ở `feedback_dropped` của từng lượt. Một lượt thật trung bình có
+dưới 100 event; số này chạm trần là dấu hiệu client lỗi hoặc cố tình gửi dồn.
+Text frame vượt nhịp 60/giây của một phiên bị bỏ trước cả khi tới engine, đếm ở
+`/metrics` → `counters.ws_control_rate_limited`.
 
 ## Lấy số ở đâu
 

@@ -1,0 +1,29 @@
+{
+  "zero-shared3-t4-spin": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 4,
+      "codec_intra_op_num_threads": 4,
+      "max_queue": 6,
+      "max_chunk_frames": 8,
+      "pool_size": 3,
+      "share_model": true
+    }
+  },
+  "zero-shared3-t4-spin1ms": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 4,
+      "codec_intra_op_num_threads": 4,
+      "max_queue": 6,
+      "max_chunk_frames": 8,
+      "pool_size": 3,
+      "share_model": true,
+      "onnx_spin_duration_us": 1000
+    }
+  }
+}

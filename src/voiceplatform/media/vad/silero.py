@@ -19,8 +19,11 @@ _SILERO_WINDOW = 512  # samples the model expects at 16 kHz
 class SileroVad(Vad):
     name = "silero"
 
-    def __init__(self, threshold: float = 0.5) -> None:
+    def __init__(self, threshold: float = 0.5, onnx: bool = True) -> None:
         self.threshold = threshold
+        # ONNX by default: measured 29/09 on this host, 0.083 ms per 32 ms
+        # window against 0.209 ms for the TorchScript model, same weights.
+        self.onnx = onnx
         self._model = None
         self._tail = np.zeros(0, dtype=np.float32)
         self._last = 0.0
@@ -36,8 +39,13 @@ class SileroVad(Vad):
                 "silero-vad and torch are required for the silero VAD backend"
             ) from exc
         self._torch = torch
-        self._model = load_silero_vad()
-        self._model.eval()
+        self._model = load_silero_vad(onnx=self.onnx)
+        if hasattr(self._model, "eval"):
+            self._model.eval()
+
+    def load(self) -> None:
+        """Load now (startup), not on the first frame of the first session."""
+        self._ensure()
 
     def reset(self) -> None:
         self._tail = np.zeros(0, dtype=np.float32)

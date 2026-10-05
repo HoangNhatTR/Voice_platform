@@ -1,0 +1,242 @@
+{
+  "config": "configs/local-cpu.yaml",
+  "ok": true,
+  "cases": [
+    {
+      "case": "newest_name_number",
+      "ok": true,
+      "answer": "Lê Hoàng, 3579.",
+      "error": null,
+      "calls": [],
+      "caller_unchanged": true,
+      "expected": [
+        "lê hoàng",
+        "3579"
+      ],
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1123444039.6952171,
+          "data": {
+            "stage": "llm",
+            "request_id": "75bee0a4ec4745aa",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1123444039.71101,
+          "data": {
+            "stage": "llm",
+            "request_id": "75bee0a4ec4745aa",
+            "priority": "speech",
+            "queue_ms": 0.02540898323059082,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1123444184.528909,
+          "data": {
+            "stage": "llm",
+            "request_id": "75bee0a4ec4745aa",
+            "prompt_chars": 3448,
+            "message_count": 4,
+            "tools": 1,
+            "prompt_tokens_counted": 1091,
+            "prompt_tokens_before_trim": 9793,
+            "prompt_budget_tokens": 1800,
+            "prompt_groups_dropped": 11,
+            "prompt_count_basis": "native_chat_template",
+            "prompt_prepare_ms": 143.97078394889832
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1123444812.876446,
+          "data": {
+            "stage": "llm",
+            "request_id": "75bee0a4ec4745aa"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1123445041.1099732,
+          "data": {
+            "stage": "llm",
+            "request_id": "75bee0a4ec4745aa",
+            "completion_tokens": 11,
+            "prompt_tokens": 1091,
+            "total_tokens": 1102,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "native_timings": {
+              "cache_n": 0,
+              "prompt_n": 1091,
+              "prompt_ms": 522.97,
+              "prompt_per_token_ms": 0.4793492208982585,
+              "prompt_per_second": 2086.1617301183624,
+              "predicted_n": 11,
+              "predicted_ms": 227.79,
+              "predicted_per_token_ms": 20.708181818181817,
+              "predicted_per_second": 48.29009175117433
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1123445042.118916,
+          "data": {
+            "stage": "llm",
+            "request_id": "75bee0a4ec4745aa",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "case": "current_tool_result",
+      "ok": true,
+      "answer": "Giờ là 15:26.",
+      "error": null,
+      "calls": [],
+      "caller_unchanged": true,
+      "expected": [
+        "15\\s*(?:giờ|:)",
+        "26"
+      ],
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1123445042.8907812,
+          "data": {
+            "stage": "llm",
+            "request_id": "285bc41b480d4543",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1123445042.905373,
+          "data": {
+            "stage": "llm",
+            "request_id": "285bc41b480d4543",
+            "priority": "speech",
+            "queue_ms": 0.02544116973876953,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1123445224.159318,
+          "data": {
+            "stage": "llm",
+            "request_id": "285bc41b480d4543",
+            "prompt_chars": 3512,
+            "message_count": 6,
+            "tools": 1,
+            "prompt_tokens_counted": 1135,
+            "prompt_tokens_before_trim": 9837,
+            "prompt_budget_tokens": 1800,
+            "prompt_groups_dropped": 11,
+            "prompt_count_basis": "native_chat_template",
+            "prompt_prepare_ms": 181.16122198104858
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1123445400.185995,
+          "data": {
+            "stage": "llm",
+            "request_id": "285bc41b480d4543"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1123445638.6765761,
+          "data": {
+            "stage": "llm",
+            "request_id": "285bc41b480d4543",
+            "completion_tokens": 11,
+            "prompt_tokens": 1135,
+            "total_tokens": 1146,
+            "prompt_tokens_details": {
+              "cached_tokens": 1050
+            },
+            "native_timings": {
+              "cache_n": 1050,
+              "prompt_n": 85,
+              "prompt_ms": 153.605,
+              "prompt_per_token_ms": 1.8071176470588235,
+              "prompt_per_second": 553.3674034048371,
+              "predicted_n": 11,
+              "predicted_ms": 238.286,
+              "predicted_per_token_ms": 21.662363636363636,
+              "predicted_per_second": 46.163014193028545
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1123445639.1147501,
+          "data": {
+            "stage": "llm",
+            "request_id": "285bc41b480d4543",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "case": "newest_request_over_budget",
+      "ok": true,
+      "answer": "",
+      "error": "latest request exceeds prompt token budget",
+      "calls": [],
+      "caller_unchanged": true,
+      "expected": [],
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1123445639.5152261,
+          "data": {
+            "stage": "llm",
+            "request_id": "4eab149bef2b4042",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1123445639.520283,
+          "data": {
+            "stage": "llm",
+            "request_id": "4eab149bef2b4042",
+            "priority": "speech",
+            "queue_ms": 0.007328987121582031,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1123445657.927196,
+          "data": {
+            "stage": "llm",
+            "request_id": "4eab149bef2b4042",
+            "outcome": "error"
+          }
+        }
+      ]
+    }
+  ],
+  "scope": "Synthetic long histories through the actual deployed native tokenizer and model. No latency inference from these probes."
+}

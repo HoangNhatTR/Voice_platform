@@ -49,3 +49,27 @@ async def test_orphan_turn_is_swept_and_the_session_recovers(config):
     finally:
         await eng.close()
         await eng.models.close()
+
+
+async def test_a_long_answer_still_playing_is_not_an_orphan(config):
+    """A turn lasts until its audio has played; long is not the same as stuck."""
+    config.conversation.orphan_turn_timeout_ms = 500
+    # ~4 s of audio, synthesised almost instantly: the turn sits in SPEAKING
+    # for seconds after the last frame went out.
+    config.models.tts.options = {"first_audio_delay_ms": 5, "rtf": 0.02, "ms_per_char": 60}
+    config.models.llm.options = {
+        "first_token_delay_ms": 5,
+        "token_delay_ms": 1,
+        "reply": "Một câu trả lời khá dài. Nó có nhiều cụm. Và nó phát lâu hơn nửa giây nhiều.",
+    }
+    eng, sink = build_engine(config)
+    await eng.models.start()
+    await eng.start()
+    try:
+        await eng.push_text("kể dài một chút")
+        assert await wait_until(eng, is_idle, max_ms=10000, feed_silence=False)
+        assert eng.counters.get("orphan_turns") is None
+        assert eng.context.turns[-1].spoken_text.endswith("nhiều.")
+    finally:
+        await eng.close()
+        await eng.models.close()

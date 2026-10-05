@@ -1,0 +1,246 @@
+{
+  "schema_version": 2,
+  "started_at": "2026-09-28T10:21:53.688Z",
+  "base": "https://127.0.0.1:19101",
+  "load": 3,
+  "mode": "worklet",
+  "count": 4,
+  "health": {
+    "ok": true,
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "0891bd16ff8e26f0683415604b0c44f71c4d15ac743f66cf5a4590dc9396d4fc",
+      "config_sha256": "2dbd71d4b8e73966b05f58f981982cc344141773dfbc0d2f27a79ed1aeb2488b",
+      "started_at": "2026-09-28T09:56:23.304552+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "models": {
+      "mode": "cascade",
+      "asr": {
+        "name": "s2s:gipformer",
+        "capabilities": {
+          "streaming_partials": true,
+          "languages": [
+            "vi"
+          ],
+          "native_sample_rate": 16000
+        }
+      },
+      "llm": {
+        "name": "openai_compat",
+        "capabilities": {
+          "tools": true,
+          "streaming": true,
+          "context_tokens": 8192
+        }
+      },
+      "tts": {
+        "name": "zerotts",
+        "capabilities": {
+          "streaming": true,
+          "emotion_cues": false,
+          "voices": [
+            "baotrang",
+            "giahuy",
+            "hamy",
+            "huuduc",
+            "kimoanh",
+            "maichi",
+            "quangminh",
+            "tiendat"
+          ],
+          "native_sample_rate": 24000,
+          "expected_rtf": 0.71
+        }
+      },
+      "s2s": null,
+      "search": {
+        "name": "llm",
+        "capabilities": null
+      }
+    },
+    "tools": [
+      "clock"
+    ]
+  },
+  "config": {
+    "audio": {
+      "sample_rate": 16000,
+      "frame_ms": 20,
+      "channels": 1,
+      "output_sample_rate": 24000,
+      "output_frame_ms": 40
+    },
+    "media": {
+      "vad": {
+        "backend": "energy",
+        "threshold": 0.5,
+        "energy_threshold": 0.012,
+        "start_frames": 2,
+        "end_frames": 12,
+        "pre_roll_ms": 320
+      },
+      "aec": {
+        "backend": "client",
+        "enabled": true
+      },
+      "denoise": "none",
+      "jitter_target_ms": 60
+    },
+    "conversation": {
+      "turn_detection": {
+        "backend": "heuristic",
+        "silence_ms": 480,
+        "max_silence_ms": 1400,
+        "min_utterance_ms": 240,
+        "max_utterance_ms": 30000
+      },
+      "barge_in": {
+        "enabled": true,
+        "speech_frames": 6,
+        "guard_ms": 150,
+        "min_rms": 0.02,
+        "resume_after_false": true,
+        "resume_window_ms": 5000,
+        "merge_unanswered": true
+      },
+      "filler": {
+        "enabled": true,
+        "after_ms": 700,
+        "phrases": [
+          "Để tôi kiểm tra một chút.",
+          "Chờ tôi tra cứu nhanh nhé."
+        ]
+      },
+      "opener": {
+        "enabled": true,
+        "text": "Vâng.",
+        "after_ms": 550
+      },
+      "search": {
+        "enabled": true,
+        "max_inflight": 2,
+        "ttl_ms": 60000,
+        "delivery_prefix": "Về câu bạn hỏi lúc nãy",
+        "instant_ack": "Để tôi tra cứu nhé."
+      },
+      "history_turns": 12,
+      "streaming_first_phrase_chars": 48,
+      "system_prompt": "Trả lời sẽ được đọc thành tiếng: viết ngắn, không markdown.",
+      "orphan_turn_timeout_ms": 20000
+    },
+    "models": {
+      "mode": "cascade",
+      "asr": {
+        "backend": "gipformer",
+        "options": {
+          "model_dir": "models/gipformer1.5-65M-rnnt",
+          "precision": "int8",
+          "onnx_threads": 4,
+          "lowercase": true,
+          "partial_every_frames": 25
+        }
+      },
+      "llm": {
+        "backend": "openai_compat",
+        "options": {
+          "endpoint": "http://127.0.0.1:18108/v1",
+          "model": "qwen3.5-9b",
+          "max_tokens": 120,
+          "temperature": 0.6,
+          "enable_thinking": false,
+          "keepalive_connections": 0,
+          "timeout_s": 30,
+          "max_parallel": 3,
+          "max_queue": 8
+        }
+      },
+      "tts": {
+        "backend": "zerotts",
+        "options": {
+          "voice": "kimoanh"
+        }
+      },
+      "s2s": {
+        "backend": "none",
+        "options": {}
+      },
+      "search": {
+        "backend": "llm",
+        "options": {
+          "endpoint": "http://127.0.0.1:18108/v1",
+          "model": "qwen3.5-9b",
+          "max_tokens": 160,
+          "temperature": 0.3,
+          "enable_thinking": false,
+          "keepalive_connections": 0,
+          "timeout_s": 30,
+          "max_parallel": 3,
+          "max_queue": 8,
+          "system_prompt": "Bạn là bộ phận tra cứu. Trả lời NGẮN và CHÍNH XÁC bằng tiếng Việt, tối đa hai câu, chỉ nêu dữ kiện. Không chào hỏi. Nếu không chắc chắn, nói thẳng là không tra được."
+        }
+      },
+      "keep_warm_s": 240,
+      "startup_timeout_s": 180,
+      "operation_timeout_s": 30
+    },
+    "tasks": {
+      "enabled": true,
+      "tools": [
+        "clock"
+      ],
+      "default_timeout_ms": 8000,
+      "max_parallel": 4,
+      "max_queue": 16
+    },
+    "observability": {
+      "trace_dir": "runtime/traces",
+      "write_traces": true,
+      "log_events": true,
+      "keep_turns": 200
+    },
+    "server": {
+      "host": "127.0.0.1",
+      "port": 19101,
+      "web_dir": "web",
+      "cors_origins": [
+        "*"
+      ],
+      "ssl_certfile": ".tls/server.crt",
+      "ssl_keyfile": ".tls/server.key",
+      "private_introspection": true,
+      "max_sessions": 3,
+      "max_audio_bytes": 131072,
+      "max_text_chars": 4000,
+      "idle_timeout_s": 120,
+      "max_session_s": 3600,
+      "readiness_timeout_s": 2,
+      "readiness_ttl_s": 2
+    }
+  },
+  "browser": "149.0.7827.0",
+  "playback_basis": "Chromium AudioWorklet render thread",
+  "stimulus_basis": "synthetic Vietnamese speech; no microphone/room/network/device equivalence",
+  "artifacts": {
+    "web/playback.js": "ce45d4636db0ee0b2b6853d1d43ae52690c37a3efe428622f1ae10720b575b44",
+    "web/playback-worklet.js": "8549a11192bcfe20ecccbc520249ed042e76fa0f9426cb39ff3207eab36911ef",
+    "web/benchmark.js": "b19441ae1e4a6f9bc580c2e324e49bff43533723207539dbb673183fd147a76b",
+    "scripts/benchmark_g1.cjs": "50cd56b0e0d678978f95080368a0bec7bb980ae1ae7eae7cc44f062797d51da4"
+  },
+  "platform_sessions_at_start": {},
+  "stimuli_sha256": "54b049b951b07bfecac2fa1dcc76b10d094182f7618d44afb60a908dd0a53b30",
+  "finished_at": "2026-09-28T10:25:26.729Z",
+  "failures": 0,
+  "sessions_after_close": {}
+}

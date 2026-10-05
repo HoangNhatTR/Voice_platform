@@ -1,0 +1,600 @@
+{
+  "created_at": "2026-09-29T02:53:50.100467+00:00",
+  "protocol": "Development regression including Vietnamese long-form answers. Original split names are retained only for provenance.",
+  "gate": {
+    "direct_accuracy_min": 0.95,
+    "tool_recall_min": 0.95,
+    "false_tool_rate_max": 0.05,
+    "memory_accuracy_min": 0.95,
+    "noninferiority_max_drop": 0.02
+  },
+  "cases": [
+    {
+      "id": "direct-00",
+      "group": "direct",
+      "split": "dev",
+      "question": "2 cộng 2 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)4(?!\\d)"
+    },
+    {
+      "id": "direct-01",
+      "group": "direct",
+      "split": "dev",
+      "question": "15 nhân 27 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)405(?!\\d)"
+    },
+    {
+      "id": "direct-02",
+      "group": "direct",
+      "split": "dev",
+      "question": "9 nhân 8 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)72(?!\\d)"
+    },
+    {
+      "id": "direct-03",
+      "group": "direct",
+      "split": "heldout",
+      "question": "12 cộng 5 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)17(?!\\d)"
+    },
+    {
+      "id": "direct-04",
+      "group": "direct",
+      "split": "heldout",
+      "question": "31 nhân 19 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)589(?!\\d)"
+    },
+    {
+      "id": "direct-05",
+      "group": "direct",
+      "split": "heldout",
+      "question": "7 nhân 6 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)42(?!\\d)"
+    },
+    {
+      "id": "direct-06",
+      "group": "direct",
+      "split": "heldout",
+      "question": "100 cộng 25 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)125(?!\\d)"
+    },
+    {
+      "id": "direct-07",
+      "group": "direct",
+      "split": "heldout",
+      "question": "48 cộng 12 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)60(?!\\d)"
+    },
+    {
+      "id": "direct-08",
+      "group": "direct",
+      "split": "heldout",
+      "question": "17 nhân 3 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)51(?!\\d)"
+    },
+    {
+      "id": "direct-09",
+      "group": "direct",
+      "split": "heldout",
+      "question": "11 nhân 11 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)121(?!\\d)"
+    },
+    {
+      "id": "direct-10",
+      "group": "direct",
+      "split": "heldout",
+      "question": "6 cộng 9 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)15(?!\\d)"
+    },
+    {
+      "id": "direct-11",
+      "group": "direct",
+      "split": "heldout",
+      "question": "50 cộng 7 bằng mấy? Chỉ trả lời kết quả.",
+      "answer_regex": "(?<!\\d)57(?!\\d)"
+    },
+    {
+      "id": "direct-12",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô Việt Nam là gì? Trả lời thật ngắn.",
+      "answer_regex": "Hà Nội"
+    },
+    {
+      "id": "direct-13",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô Nhật Bản là gì? Trả lời thật ngắn.",
+      "answer_regex": "Tokyo|Tô.k[iy][oô]"
+    },
+    {
+      "id": "direct-14",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô nước Pháp là gì? Trả lời thật ngắn.",
+      "answer_regex": "Paris|Pa.ri"
+    },
+    {
+      "id": "direct-15",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Thủ đô nước Thái Lan là gì? Trả lời thật ngắn.",
+      "answer_regex": "Bangkok|Băng.cốc"
+    },
+    {
+      "id": "direct-16",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Một giờ bằng bao nhiêu phút? Trả lời thật ngắn.",
+      "answer_regex": "60|sáu mươi"
+    },
+    {
+      "id": "direct-17",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Một mét bằng bao nhiêu centimét? Trả lời thật ngắn.",
+      "answer_regex": "100|một trăm"
+    },
+    {
+      "id": "direct-18",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Một kilogram bằng bao nhiêu gram? Trả lời thật ngắn.",
+      "answer_regex": "1000|1[.,]000|một nghìn|một ngàn"
+    },
+    {
+      "id": "direct-19",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Hành tinh chúng ta sống tên là gì? Trả lời thật ngắn.",
+      "answer_regex": "Trái Đất"
+    },
+    {
+      "id": "direct-20",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại nguyên văn, không thêm lời: Nguyễn Thị Hồng",
+      "answer_regex": "Nguyễn\\ Thị\\ Hồng"
+    },
+    {
+      "id": "direct-21",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại nguyên văn, không thêm lời: Bảo Anh",
+      "answer_regex": "Bảo\\ Anh"
+    },
+    {
+      "id": "direct-22",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại nguyên văn, không thêm lời: mã đặt chỗ AB123",
+      "answer_regex": "mã\\ đặt\\ chỗ\\ AB123"
+    },
+    {
+      "id": "direct-23",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại nguyên văn, không thêm lời: ngày 15 tháng 8 năm 2025",
+      "answer_regex": "ngày\\ 15\\ tháng\\ 8\\ năm\\ 2025"
+    },
+    {
+      "id": "direct-24",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại nguyên văn, không thêm lời: số điện thoại 0901234567",
+      "answer_regex": "số\\ điện\\ thoại\\ 0901234567"
+    },
+    {
+      "id": "direct-25",
+      "group": "direct",
+      "split": "heldout",
+      "question": "Đọc lại nguyên văn, không thêm lời: ba triệu năm trăm nghìn đồng",
+      "answer_regex": "ba\\ triệu\\ năm\\ trăm\\ nghìn\\ đồng"
+    },
+    {
+      "id": "clock-00",
+      "group": "clock",
+      "split": "dev",
+      "question": "Bây giờ là mấy giờ rồi?",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-01",
+      "group": "clock",
+      "split": "dev",
+      "question": "Mấy giờ rồi bạn?",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-02",
+      "group": "clock",
+      "split": "dev",
+      "question": "Cho tôi hỏi giờ hiện tại",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-03",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Hôm nay là thứ mấy?",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-04",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Hôm nay ngày bao nhiêu?",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-05",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Giờ này là mấy giờ nhỉ",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-06",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Bạn xem giúp tôi mấy giờ",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-07",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Ngày tháng hôm nay thế nào?",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-08",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Bây giờ mấy giờ ở đây",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-09",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Cho tôi biết thời gian hiện tại",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-10",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Cho tôi biết hôm nay là ngày mấy tháng mấy.",
+      "tool": "clock"
+    },
+    {
+      "id": "clock-11",
+      "group": "clock",
+      "split": "heldout",
+      "question": "Xem đồng hồ giúp tôi rồi nói giờ hiện tại.",
+      "tool": "clock"
+    },
+    {
+      "id": "search-00",
+      "group": "search",
+      "split": "dev",
+      "question": "Thời tiết ở Hà Nội hôm nay thế nào? Hãy tra cứu giúp tôi.",
+      "tool": "search",
+      "query_regex": "Hà Nội"
+    },
+    {
+      "id": "search-01",
+      "group": "search",
+      "split": "dev",
+      "question": "Tra cứu dự báo mưa hôm nay tại Đà Nẵng.",
+      "tool": "search",
+      "query_regex": "Đà Nẵng"
+    },
+    {
+      "id": "search-02",
+      "group": "search",
+      "split": "dev",
+      "question": "Tìm giá vé tàu Hà Nội đi Hải Phòng ngày mai.",
+      "tool": "search",
+      "query_regex": "Hải Phòng"
+    },
+    {
+      "id": "search-03",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giờ mở cửa hôm nay của bảo tàng Hà Nội.",
+      "tool": "search",
+      "query_regex": "bảo tàng"
+    },
+    {
+      "id": "search-04",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tìm tình trạng chuyến bay VN123 hiện tại.",
+      "tool": "search",
+      "query_regex": "VN123"
+    },
+    {
+      "id": "search-05",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu thông báo mới nhất của trường Đại học Bách khoa Hà Nội.",
+      "tool": "search",
+      "query_regex": "Bách khoa"
+    },
+    {
+      "id": "search-06",
+      "group": "search",
+      "split": "heldout",
+      "question": "Kiểm tra lịch biểu diễn tuần này ở Nhà hát Lớn Hà Nội.",
+      "tool": "search",
+      "query_regex": "Nhà hát"
+    },
+    {
+      "id": "search-07",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu giờ xe buýt 08 chạy hôm nay.",
+      "tool": "search",
+      "query_regex": "08|buýt"
+    },
+    {
+      "id": "search-08",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tìm tin mới nhất về tuyến metro số 1 tại Thành phố Hồ Chí Minh.",
+      "tool": "search",
+      "query_regex": "metro|Hồ Chí Minh"
+    },
+    {
+      "id": "search-09",
+      "group": "search",
+      "split": "heldout",
+      "question": "Tra cứu xem cửa hàng sách Nguyễn Văn Cừ hôm nay còn mở không.",
+      "tool": "search",
+      "query_regex": "Nguyễn Văn Cừ"
+    },
+    {
+      "id": "no_tool-00",
+      "group": "no_tool",
+      "split": "dev",
+      "question": "Chào bạn",
+      "answer_regex": "."
+    },
+    {
+      "id": "no_tool-01",
+      "group": "no_tool",
+      "split": "dev",
+      "question": "Bạn tên gì?",
+      "answer_regex": "."
+    },
+    {
+      "id": "no_tool-02",
+      "group": "no_tool",
+      "split": "dev",
+      "question": "Cảm ơn bạn nhé",
+      "answer_regex": "."
+    },
+    {
+      "id": "no_tool-03",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Bạn giúp được gì cho tôi?",
+      "answer_regex": "."
+    },
+    {
+      "id": "no_tool-04",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Dịch cụm “what time is it” sang tiếng Việt, không cần xem giờ hiện tại.",
+      "answer_regex": "giờ"
+    },
+    {
+      "id": "no_tool-05",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Trong câu chuyện giả tưởng, chiếc đồng hồ dừng ở 8 giờ. Nó dừng lúc mấy giờ?",
+      "answer_regex": "8|tám"
+    },
+    {
+      "id": "no_tool-06",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Ngày sinh đã biết của tôi là 12 tháng 5 năm 1990. Nhắc lại ngày sinh đó.",
+      "answer_regex": "1990"
+    },
+    {
+      "id": "no_tool-07",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Viết một câu ví dụ chứa từ thời tiết, không cần tra cứu dữ liệu.",
+      "answer_regex": "."
+    },
+    {
+      "id": "no_tool-08",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Thứ ba đứng sau thứ mấy?",
+      "answer_regex": "hai"
+    },
+    {
+      "id": "no_tool-09",
+      "group": "no_tool",
+      "split": "heldout",
+      "question": "Hai cộng hai bằng mấy?",
+      "answer_regex": "4|bốn"
+    },
+    {
+      "id": "memory-00",
+      "group": "memory",
+      "split": "dev",
+      "question": "Nhắc lại tên mới nhất của tôi, trả lời ngắn.",
+      "answer_regex": "Bình",
+      "history": [
+        {
+          "role": "user",
+          "content": "Ghi nhớ tên của tôi là An."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã nhớ."
+        },
+        {
+          "role": "user",
+          "content": "Tôi sửa lại: tên là Bình, không dùng giá trị trước."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã cập nhật."
+        }
+      ]
+    },
+    {
+      "id": "memory-01",
+      "group": "memory",
+      "split": "dev",
+      "question": "Nhắc lại thành phố mới nhất của tôi, trả lời ngắn.",
+      "answer_regex": "Hà\\ Nội",
+      "history": [
+        {
+          "role": "user",
+          "content": "Ghi nhớ thành phố của tôi là Huế."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã nhớ."
+        },
+        {
+          "role": "user",
+          "content": "Tôi sửa lại: thành phố là Hà Nội, không dùng giá trị trước."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã cập nhật."
+        }
+      ]
+    },
+    {
+      "id": "memory-02",
+      "group": "memory",
+      "split": "dev",
+      "question": "Nhắc lại mã đặt chỗ mới nhất của tôi, trả lời ngắn.",
+      "answer_regex": "CD456",
+      "history": [
+        {
+          "role": "user",
+          "content": "Ghi nhớ mã đặt chỗ của tôi là AB123."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã nhớ."
+        },
+        {
+          "role": "user",
+          "content": "Tôi sửa lại: mã đặt chỗ là CD456, không dùng giá trị trước."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã cập nhật."
+        }
+      ]
+    },
+    {
+      "id": "memory-03",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Nhắc lại món yêu thích mới nhất của tôi, trả lời ngắn.",
+      "answer_regex": "bún\\ bò",
+      "history": [
+        {
+          "role": "user",
+          "content": "Ghi nhớ món yêu thích của tôi là phở."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã nhớ."
+        },
+        {
+          "role": "user",
+          "content": "Tôi sửa lại: món yêu thích là bún bò, không dùng giá trị trước."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã cập nhật."
+        }
+      ]
+    },
+    {
+      "id": "memory-04",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Nhắc lại giờ hẹn đã thống nhất mới nhất của tôi, trả lời ngắn.",
+      "answer_regex": "9\\ giờ",
+      "history": [
+        {
+          "role": "user",
+          "content": "Ghi nhớ giờ hẹn đã thống nhất của tôi là 8 giờ."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã nhớ."
+        },
+        {
+          "role": "user",
+          "content": "Tôi sửa lại: giờ hẹn đã thống nhất là 9 giờ, không dùng giá trị trước."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã cập nhật."
+        }
+      ]
+    },
+    {
+      "id": "memory-05",
+      "group": "memory",
+      "split": "heldout",
+      "question": "Nhắc lại số lượng sách mới nhất của tôi, trả lời ngắn.",
+      "answer_regex": "5",
+      "history": [
+        {
+          "role": "user",
+          "content": "Ghi nhớ số lượng sách của tôi là 3."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã nhớ."
+        },
+        {
+          "role": "user",
+          "content": "Tôi sửa lại: số lượng sách là 5, không dùng giá trị trước."
+        },
+        {
+          "role": "assistant",
+          "content": "Đã cập nhật."
+        }
+      ]
+    },
+    {
+      "id": "language-sky",
+      "group": "language",
+      "split": "dev",
+      "question": "Giải thích ngắn vì sao bầu trời màu xanh.",
+      "answer_regex": "tán xạ"
+    },
+    {
+      "id": "language-planning",
+      "group": "language",
+      "split": "dev",
+      "question": "Gợi ý ngắn cách sắp xếp một buổi học tiếng Việt hiệu quả.",
+      "answer_regex": "."
+    },
+    {
+      "id": "language-empathy",
+      "group": "language",
+      "split": "dev",
+      "question": "Tôi hơi lo vì ngày mai phải thuyết trình. Bạn giúp tôi bình tĩnh lại nhé.",
+      "answer_regex": "."
+    }
+  ]
+}

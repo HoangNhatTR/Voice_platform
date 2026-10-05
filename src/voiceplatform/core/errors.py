@@ -27,6 +27,10 @@ class ModelTimeout(VoicePlatformError):
     """The engine took longer than its budget."""
 
 
+class CapacityExceeded(ModelUnavailable):
+    """The process has reached its bounded work capacity."""
+
+
 class ToolError(VoicePlatformError):
     pass
 

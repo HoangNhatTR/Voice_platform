@@ -17,13 +17,13 @@ USER ──► MEDIA ──► CONVERSATION ──► MODEL (ASR / LLM / TTS / S
 
 ```bash
 cd /home/ai01/AIHoang/voice-platform
-PYTHON=/home/ai01/AIHoang/speech2speech/.venv/bin/python \
-  ./scripts/dev.sh configs/local-cpu.yaml
-# mở http://127.0.0.1:18100 → gõ chữ hoặc bấm "Kết nối" rồi nói
+./scripts/install-services.py --start
+# mở https://localhost:18100 → gõ chữ hoặc bấm "Kết nối" rồi nói
 ```
 
-Cần `llama-server` đang chạy ở cổng 8088 (kiểm tra:
-`curl -s localhost:8088/v1/models`). ASR và TTS chạy trên CPU, không đụng GPU.
+Installer quản lý API HTTPS 18100 và `llama-server` 18108 (kiểm tra:
+`curl -s localhost:18108/v1/models`). ASR và TTS chạy trên CPU; LLM chạy trên GPU.
+Hiện dùng Qwen3.5-4B; 9B giữ làm comparator/fallback. Xem [vận hành](docs/OPERATIONS.md), [kết quả G2](docs/audits/2026-09-29/g2/REPORT.md) và [baseline G1 ngày 28/09](docs/audits/2026-09-28/g1/BASELINE.md).
 
 Hai trang:
 
@@ -32,8 +32,8 @@ Hai trang:
 | `/` | **Bàn đo** — nói hoặc gõ, xem từng bên tham gia chiếm bao nhiêu mili-giây trên cùng một trục, và tải nhật ký ra `.jsonl` |
 | `/lab` | **Thử model** — đổi engine đang chạy, và chạy riêng ASR / LLM / TTS / tra cứu để biết chặng nào chậm mà không phải đoán qua cả pipeline |
 
-`PYTHON=` là bắt buộc: engine thật cần torch/onnxruntime, hai thứ nằm trong
-venv của `speech2speech` chứ không phải `.venv` ở đây.
+Unit dùng interpreter của `speech2speech` vì engine thật cần torch/onnxruntime.
+Nếu chạy script dev thủ công, đặt `PYTHON=/home/ai01/AIHoang/speech2speech/.venv/bin/python`.
 
 ## Chạy thử không cần model
 
@@ -63,7 +63,18 @@ giữa chừng, và in ra thời gian từng chặng.
 # Stack thật, không cần trình duyệt và không cần micro:
 PYTHONPATH=src /home/ai01/AIHoang/speech2speech/.venv/bin/python \
   scripts/replay_wav.py -c configs/local-cpu.yaml --wav <bản-ghi.wav> --out reply.wav
+
+# Turn-taking trên stack thật, với một server ĐANG CHẠY (gọi từ chính máy đó):
+PYTHONPATH=src /home/ai01/AIHoang/speech2speech/.venv/bin/python \
+  scripts/conversation_check.py --base https://127.0.0.1:18100
 ```
+
+`conversation_check.py` dùng TTS của chính hệ thống làm "người dùng" (giọng
+khác), phát vào `/v1/realtime` đúng nhịp như micro, và kiểm năm tình huống:
+trả lời trọn lượt; ngừng giữa câu vẫn là MỘT lượt; nói chen thì máy dừng và
+trả lời câu mới; ho hoặc "ừ" chen vào thì máy dừng rồi **nói tiếp** chỗ đang
+dở. Hai tình huống sau chỉ PASS khi server thật sự đi đường resume, và phiên
+nào có `orphan_turns` là FAIL.
 
 `smoke.sh` chạy cả ba vì ba thứ khác nhau: unit test bắt lỗi logic, phiên mô
 phỏng bắt lỗi luồng, phiên WebSocket bắt lỗi giao thức nhị phân — lớp mà unit
@@ -92,10 +103,14 @@ Ba điều nên nói trước với người test:
 - **Lời nói được ghi lại.** Mỗi phiên để lại một JSONL trong `runtime/traces/`
   kèm transcript. `/sessions` bị khoá về loopback chính vì id phiên là chìa
   khoá mở transcript của phiên đó.
-- **Nhiều người cùng lúc thì chậm hơn, không hỏng.** Đo 24/09, ba phiên bấm gửi
-  cùng lúc: tiếng đầu 1070 / 2506 / 3495 ms, cả ba đều trả lời trọn vẹn. Nút
-  thắt là talker — một tiến trình con, một khoá, tổng hợp tuần tự. Đông hơn thì
-  con số này giãn tiếp theo tuyến tính.
+- **Tải đồng thời có giới hạn.** Admission hiện nhận tối đa ba phiên. Baseline
+  ngày 28/09 đo riêng content, filler và playback ở một/ba phiên; xem báo cáo G1
+  phía trên để biết số đo và workload. Giới hạn phiên không bảo đảm latency dưới một giây.
+- **Phiên rảnh bị đóng.** Quá 120 giây không nói, không gõ (tắt micro cũng vậy)
+  thì server đóng phiên và trang ghi lý do; bấm Kết nối lại, không cần tải lại trang.
+
+Bind ra ngoài loopback hoặc bật TLS là server tự khoá `/sessions`, `/config` và
+các route đổi engine về loopback, kể cả khi không dùng `lan.sh`.
 
 ## Chọn talker: hai lựa chọn đã đo
 
@@ -107,10 +122,10 @@ này với cùng một câu tiếng Việt, cùng `audio.output_sample_rate: 240
 | `vieneu_nano` (mượn qua subprocess) | 741 ms | **0,31** | không khai ra được | có |
 | `zerotts` (ONNX, trong tiến trình) | **89–136 ms** | 0,69 | **8 giọng, chọn được** | không |
 
-Hai con số này nói hai chuyện khác nhau và **tiếng đầu mới là chuyện quyết định
-cảm giác**: câu năm giây bắt đầu sau 100 ms nghe như tức thì, câu hai giây bắt
-đầu sau 700 ms nghe như hỏng. RTF chỉ thành vấn đề khi vượt 1,0 — lúc đó talker
-không theo kịp lời nói của chính nó.
+Đây là các screen lịch sử; G2 đã so cùng câu/24kHz và đo queue, RTF và playback.
+Tiếng đầu và throughput đều ảnh hưởng trải nghiệm: một worker RTF dưới một
+vẫn có thể không đủ cho ba luồng đọc đồng thời. Xem báo cáo G2; chất lượng nghe
+chưa được chấm mù bởi người nghe.
 
 ```bash
 pip install -r requirements-tts.txt   # zerotts: chỉ cần numpy + onnxruntime
@@ -135,7 +150,7 @@ PYTHONPATH=src python -m voiceplatform --config configs/local-gpu.yaml serve
 
 `configs/local-cpu.yaml` chạy đúng mô hình tách vai trò:
 
-- **Speech agent** — Qwen3.5-9B, lo hội thoại, turn-taking, ngắt lời. Khi cần
+- **Speech agent** — Qwen3.5-4B, lo hội thoại, turn-taking, ngắt lời. Khi cần
   dữ liệu nó gửi yêu cầu đi rồi **nói tiếp ngay**, không chờ.
 - **Back end - search** — một `SearchAgent` riêng (`models.search`), có prompt
   riêng, thay được bằng service khác mà Speech agent không đổi dòng nào.
@@ -169,7 +184,11 @@ Chi tiết cơ chế và số đo ở [`ARCHITECTURE.md`](ARCHITECTURE.md).
 - [`docs/OBSERVABILITY.md`](docs/OBSERVABILITY.md) — event, và định nghĩa từng con số
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — đã có gì, còn thiếu gì, làm gì tiếp
 
-## Số đo thật (24/09/2026, `configs/local-cpu.yaml`)
+## Số đo lịch sử (24/09/2026)
+
+Các số dưới đây thuộc cấu hình cũ. Chỉ số TTFA có thể gồm filler, không chứng
+minh nội dung hoặc playback dưới một giây. Số hiện tại và định nghĩa mốc nằm
+trong [báo cáo G2](docs/audits/2026-09-29/g2/REPORT.md).
 
 Đo bằng `scripts/replay_wav.py --realtime` trên một bản ghi 3.7 s:
 
@@ -182,7 +201,7 @@ Chi tiết cơ chế và số đo ở [`ARCHITECTURE.md`](ARCHITECTURE.md).
 | **TTFA end-to-end** | **~1.05 s** |
 | Tổng câu trả lời | ~2.0 s |
 
-### TTFA dưới một giây ở mọi loại lượt (24/09, n=15)
+### First-any-audio ở mẫu cũ (24/09, n=15, gồm opener)
 
 | Loại lượt | Trước | Sau |
 |---|---|---|
@@ -207,9 +226,14 @@ chỉ thấy chuỗi rỗng — đó là artefact của phép đo, không phải
 
 Đã chạy được: turn detection, barge-in (kể cả trong lúc đang nghĩ, trước tiếng
 đầu tiên), fencing, fast path + slow path, tool có deadline và filler, trace
-từng lượt, WebSocket transport, client trình duyệt, 89 test, và stack tiếng
+từng lượt, WebSocket transport, client trình duyệt, 216 Python test cùng một
+Node playback test đã qua trong G2, và stack tiếng
 Việt thật qua bridge.
 
 Chưa có (là **chỗ ngồi** đã định hình, không phải chỗ trống): WebRTC transport,
 AEC phía server, model S2S native, semantic turn detector bằng model tiếng
 Việt, và bộ retriever thật thay cho tool tra từ khoá.
+
+## Vận hành G0
+
+Stack local hiện được quản lý bằng hai systemd user service, LLM ở cổng 18108 và API HTTPS ở 18100. Xem [hướng dẫn vận hành](docs/OPERATIONS.md) và [kế hoạch realtime](docs/DEVELOPMENT_PLAN_REALTIME.md). `/healthz` là liveness; dùng `/readyz` để kiểm tra dependency trước khi nhận thoại.

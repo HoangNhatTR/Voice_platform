@@ -1,0 +1,20 @@
+{
+  "protocol": "Development regression from real frozen G1 audio failure. ASR output held unchanged; no spelling rewrite or special-case routing.",
+  "cases": [
+    {
+      "id": "asr-regression-search",
+      "group": "search",
+      "split": "dev",
+      "question": "cha cứ giúp tôi vì sao bầu trời có màu xanh",
+      "tool": "search",
+      "query_regex": "bầu trời|màu xanh"
+    },
+    {
+      "id": "asr-regression-no-tool",
+      "group": "direct",
+      "split": "dev",
+      "question": "Giải thích ngắn vì sao bầu trời màu xanh.",
+      "answer_regex": "tán xạ"
+    }
+  ]
+}

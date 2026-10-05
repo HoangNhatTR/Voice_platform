@@ -1,0 +1,1375 @@
+{
+ "run": "/tmp/claude-1013/-home-ai01-AIHoang/05882303-1f5a-4864-acb5-4bbd04b19608/scratchpad/g3/baseline-real",
+ "asr_reference": true,
+ "manifest": {
+  "started_at": "2026-09-29T22:42:51+0700",
+  "finished_at": "2026-09-29T23:07:41+0700",
+  "stimuli_sha256": "6bdb755f10eaebcc11b2513dc19217b0def4d17ea2a7e90698c9a5c14c019da0",
+  "echo_db": null,
+  "echo_delay_ms": 80.0,
+  "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9",
+  "basis": "synthetic TTS user speech and seeded noise into /v1/realtime at real-time pace; Python emulation of web/playback-worklet.js; same-host monotonic clock; no human speech, microphone, room acoustics, real AEC or LAN"
+ },
+ "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+ "families": {
+  "complete": {
+   "speech_end_to_confirm_ms": {
+    "n": 100,
+    "p50": 460.5,
+    "p95": 1380.0,
+    "p99": 1380.8,
+    "max": 1380.9
+   },
+   "confirm_to_asr_final_ms": {
+    "n": 100,
+    "p50": 41.0,
+    "p95": 63.5,
+    "p99": 69.1,
+    "max": 72.4
+   },
+   "speech_end_to_content_playback_ms": {
+    "n": 80,
+    "p50": 1239.6,
+    "p95": 1959.1,
+    "p99": 2349.2,
+    "max": 2349.2
+   },
+   "speech_end_to_content_playback_ms_tool_turns": {
+    "n": 20,
+    "p50": 3386.3,
+    "p95": 3927.7,
+    "p99": 3944.1,
+    "max": 3944.1
+   },
+   "held_over_1s": {
+    "k": 7,
+    "n": 100,
+    "rate": 0.07,
+    "wilson95": [
+     0.0343,
+     0.1375
+    ]
+   },
+   "split_into_two_turns": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   },
+   "errors": 0,
+   "failures": []
+  },
+  "hold": {
+   "premature_confirm": {
+    "k": 77,
+    "n": 100,
+    "rate": 0.77,
+    "wilson95": [
+     0.6785,
+     0.8416
+    ]
+   },
+   "audio_during_pause": {
+    "k": 7,
+    "n": 100,
+    "rate": 0.07,
+    "wilson95": [
+     0.0343,
+     0.1375
+    ]
+   },
+   "lost_half": {
+    "k": 15,
+    "n": 100,
+    "rate": 0.15,
+    "wilson95": [
+     0.0931,
+     0.2328
+    ]
+   },
+   "user_visible_cut": {
+    "k": 20,
+    "n": 100,
+    "rate": 0.2,
+    "wilson95": [
+     0.1334,
+     0.2888
+    ]
+   },
+   "lost_words": {
+    "k": 25,
+    "n": 100,
+    "rate": 0.25,
+    "wilson95": [
+     0.1755,
+     0.343
+    ]
+   },
+   "merged": {
+    "k": 51,
+    "n": 100,
+    "rate": 0.51,
+    "wilson95": [
+     0.4135,
+     0.6058
+    ]
+   },
+   "errors": 0,
+   "required_silence_at_pause_ms": {
+    "n": 103,
+    "p50": 480,
+    "p95": 1400,
+    "p99": 1400,
+    "max": 1400
+   },
+   "failures": [
+    {
+     "id": "real-hold-00-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "muốn dùng muốn dùng ngân hàng trên điện thoại",
+     "asr_reference": "muốn dùng ngân hàng trên điện thoại",
+     "pause_candidates": [
+      "muốn dùng",
+      "ngân hàng trên điện thoại"
+     ]
+    },
+    {
+     "id": "real-hold-00-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "muốn dùng muốn dùng ngân hàng trên điện thoại ",
+     "asr_reference": "muốn dùng ngân hàng trên điện thoại",
+     "pause_candidates": [
+      "muốn dùng",
+      "ngân hàng trên điện"
+     ]
+    },
+    {
+     "id": "real-hold-00-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "anh muốn dùng anh muốn dùng ngân hàng trên điện thoại ",
+     "asr_reference": "muốn dùng ngân hàng trên điện thoại",
+     "pause_candidates": [
+      "em muốn",
+      "ngân hàng trên điện thoại"
+     ]
+    },
+    {
+     "id": "real-hold-00-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "muốn dùng muốn dùng ngân hàng trên điện thoại",
+     "asr_reference": "muốn dùng ngân hàng trên điện thoại",
+     "pause_candidates": [
+      "muốn dùng",
+      "ngân hàng trên điện thoại"
+     ]
+    },
+    {
+     "id": "real-hold-00-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "muốn dùng ngân hàng trên điện thoại",
+     "asr_reference": "muốn dùng ngân hàng trên điện thoại",
+     "pause_candidates": [
+      "muốn dùng",
+      "ngân hàng trên điện thoại"
+     ]
+    },
+    {
+     "id": "real-hold-01-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "thẻ"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "hay anh nên biết hay anh nên biết tuần trước lịch sử ",
+     "asr_reference": "thay andit tuần trước lịch sử",
+     "pause_candidates": [
+      "hay an ninh",
+      "tuần trước lịch sử"
+     ]
+    },
+    {
+     "id": "real-hold-01-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "thẻ"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "kẻ đều biết kẻ đều biết tuần trước lịch sử",
+     "asr_reference": "trẻ đều biết tuần trước lịch sử",
+     "pause_candidates": [
+      "chỉ được",
+      "tuần trước lịch"
+     ]
+    },
+    {
+     "id": "real-hold-01-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "thẻ"
+     ],
+     "lost_halves": [
+      "thẻ debit"
+     ],
+     "merged": true,
+     "texts": "thầy mới biết thầy mới biết tuần trước lịch sử",
+     "asr_reference": "thẻ để biết tuần trước lịch sử",
+     "pause_candidates": [
+      "thầy chỉ để biết",
+      "tuần trước lịch"
+     ]
+    },
+    {
+     "id": "real-hold-01-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "thẻ daibit thẻ daibit tuần trước lịch sử ",
+     "asr_reference": "thẻ dayt tuần trước lịch sử",
+     "pause_candidates": [
+      "thể đến",
+      "tuần trước"
+     ]
+    },
+    {
+     "id": "real-hold-01-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "thẻ"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "tôi niêm yết tôi niêm yết tuần trước lịch sử",
+     "asr_reference": "vn tuần trước lịch sử",
+     "pause_candidates": [
+      "tôi niêm yết",
+      "tuần trước lịch"
+     ]
+    },
+    {
+     "id": "real-hold-02-800",
+     "cut": false,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "nhé"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "cho mình kích hoạt thẻ nha",
+     "asr_reference": "cho mình kích hoạt thẻ nha",
+     "pause_candidates": [
+      "cho mình kích hoạt thẻ",
+      "cho mình kích hoạt thẻ nha"
+     ]
+    },
+    {
+     "id": "real-hold-03-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "bật"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "mật ủy thác tự động thanh toán mật ủy thác tự động thanh toán miệng hàng tháng",
+     "asr_reference": "mật ủy thác tự động thanh toán miễn hàng tháng",
+     "pause_candidates": [
+      "mật ủy thác tự động thanh toán",
+      "miệng hanh"
+     ]
+    },
+    {
+     "id": "real-hold-03-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "bật"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "mật ủy thác tự động thanh toán mật ủy thác tự động thanh toán điện hàng tháng",
+     "asr_reference": "mật ủy thác tự động thanh toán điện hàng tháng",
+     "pause_candidates": [
+      "mật ủy thác tự động thanh toán",
+      "vn"
+     ]
+    },
+    {
+     "id": "real-hold-03-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "bật"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "mà ủy thác tự động thanh toán mà ủy thác tự động thanh toán điện hàng tháng",
+     "asr_reference": "mà ủy thác tự động thanh toán điện hàng tháng",
+     "pause_candidates": [
+      "mà ủy thác tự động thanh toán",
+      "điện hàng tháng"
+     ]
+    },
+    {
+     "id": "real-hold-03-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "bật"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "mật ủy thác tự động thanh toán mật ủy thác tự động thanh toán điện hàng tháng",
+     "asr_reference": "mật ủy thác tự động thanh toán điện hàng tháng",
+     "pause_candidates": [
+      "mật ủy thác tự động thanh toán",
+      "điện hàng tháng"
+     ]
+    },
+    {
+     "id": "real-hold-03-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "bật ủy thác tự động thanh toán điện hàng tháng",
+     "asr_reference": "bật ủy thác tự động thanh toán điện hàng tháng",
+     "pause_candidates": [
+      "bật ủy thác tự động thanh toán",
+      "điện hàng tháng"
+     ]
+    },
+    {
+     "id": "real-hold-04-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "xem"
+     ],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "trên lịch trên lịch từ sổ tiết kiệm",
+     "asr_reference": "xem lịch sử sổ tiết kiệm",
+     "pause_candidates": [
+      "trên lịch",
+      "từ số"
+     ]
+    },
+    {
+     "id": "real-hold-04-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "xem lịch ngu xem lịch ngu sổ tiết kiệm",
+     "asr_reference": "xem lịch mô sổ tiết kiệm",
+     "pause_candidates": [
+      "xem lịch",
+      "xem lịch gu",
+      "sổ"
+     ]
+    },
+    {
+     "id": "real-hold-04-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "xem"
+     ],
+     "lost_halves": [
+      "xem lịch"
+     ],
+     "merged": false,
+     "texts": "xôn lên sổ tiết kiệm",
+     "asr_reference": "sơn lý lịch sử sổ tiết kiệm",
+     "pause_candidates": [
+      "xôn lên",
+      "từ sổ tích"
+     ]
+    },
+    {
+     "id": "real-hold-04-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "xem là xem là sử sổ tiết kiệm",
+     "asr_reference": "xem lịch sử sổ tiết kiệm",
+     "pause_candidates": [
+      "xem lần",
+      "sử sổ tiết kiệm"
+     ]
+    },
+    {
+     "id": "real-hold-04-1000",
+     "cut": true,
+     "heard_during_pause": [
+      "content"
+     ],
+     "missing_keys": [
+      "xem"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "xin số tiết kiệm ",
+     "asr_reference": "xin số tiết kiệm",
+     "pause_candidates": [
+      "xin",
+      "xứ số tiếp"
+     ]
+    },
+    {
+     "id": "real-hold-05-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "em muốn hủy em muốn hủy phải thanh toán hóa đơn điện hàng tháng ",
+     "asr_reference": "em muốn hủy tháng thanh toán hóa đơn điện hàng tháng",
+     "pause_candidates": [
+      "em muốn quyền",
+      "phải thanh toán hóa đơn điện hàng tháng"
+     ]
+    },
+    {
+     "id": "real-hold-05-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "em muốn ủy em muốn ủy test thanh toán hóa đơn điện hàng tháng",
+     "asr_reference": "em muốn ủy thác thanh toán hóa đơn điện hàng tháng",
+     "pause_candidates": [
+      "em muốn",
+      "thác thanh toán hóa đơn điện hàng tháng"
+     ]
+    },
+    {
+     "id": "real-hold-05-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "em muốn ủy đã thanh toán hóa đơn điện hàng tháng",
+     "asr_reference": "em muốn ủy thác thanh toán hóa đơn điện hàng tháng",
+     "pause_candidates": [
+      "em muốn",
+      "đã thanh toán hóa đơn điện hàng tháng"
+     ]
+    },
+    {
+     "id": "real-hold-05-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "em muốn hủy test thanh toán hóa đơn điện hàng tháng",
+     "asr_reference": "em muốn hủy test thanh toán hóa đơn điện hàng tháng",
+     "pause_candidates": [
+      "em muốn quỳ",
+      "test thanh toán hóa đơn điện hàng tháng"
+     ]
+    },
+    {
+     "id": "real-hold-05-1000",
+     "cut": true,
+     "heard_during_pause": [
+      "content"
+     ],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "em muốn gì tháng thanh toán hóa đơn điện hàng tháng",
+     "asr_reference": "em muốn hủy thanh toán hóa đơn điện hàng tháng",
+     "pause_candidates": [
+      "em muốn gửi",
+      "test thanh toán hóa đơn điện",
+      "tháng thanh toán hóa đơn điện hàng"
+     ]
+    },
+    {
+     "id": "real-hold-06-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "cho tôi chuyển hết tiền trong tài khoản cho tôi chuyển hết tiền trong tài khoản vietcombank giúp mình",
+     "asr_reference": "cho tôi chuyển hết tiền trong tài khoản vietcombank giúp mình",
+     "pause_candidates": [
+      "cho tôi chuyển hết tiền trong tài khoản",
+      "cho tôi chuyển hết tiền trong tài khoản qua",
+      "vietcombank giúp mình"
+     ]
+    },
+    {
+     "id": "real-hold-07-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "chị ơi tra cứu biến trưởng quý vừa rồi chị ơi tra cứu biến trưởng quý vừa rồi được không ạ  ",
+     "asr_reference": "chị ơi tra cứu biến trưởngng quý vừa rồi được không ạ",
+     "pause_candidates": [
+      "chị ơi tra cứu biến trưởng quý vừa rồi",
+      "được không ạ"
+     ]
+    },
+    {
+     "id": "real-hold-07-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "chị ơi tra cứu biên dòng quý vừa rồi chị ơi tra cứu biên dòng quý vừa rồi được không ạ  ",
+     "asr_reference": "chị ơi tra cứu biên dòng quý vừa rồi được không ạ",
+     "pause_candidates": [
+      "chị ơi tra cứu biên dòng quý vừa",
+      "được không ạ"
+     ]
+    },
+    {
+     "id": "real-hold-07-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "chị ơi tra cứu biên xong quý vừa rồi chị ơi tra cứu biên xong quý vừa rồi được không ạ  ",
+     "asr_reference": "chị ơi tra cứu pin xong quý vừa rồi được không ạ",
+     "pause_candidates": [
+      "chị ơi tra cứu biên xong quý vừa rồi",
+      "được không ạ"
+     ]
+    },
+    {
+     "id": "real-hold-07-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "chị ơi tra cứu biên xong quý vừa rồi chị ơi tra cứu biên xong quý vừa rồi được không ạ  ",
+     "asr_reference": "chị ơi tra cứu biên xong quý vừa rồi được không ạ",
+     "pause_candidates": [
+      "chị ơi tra cứu biên xong quý vừa rồi",
+      "được không ạ"
+     ]
+    },
+    {
+     "id": "real-hold-07-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [
+      "được không ạ"
+     ],
+     "merged": false,
+     "texts": "chị ơi tra cứu biên quý vừa rồi",
+     "asr_reference": "chị ơi tra cứu biên dòng quý vừa rồi được không ạ",
+     "pause_candidates": [
+      "chị ơi tra cứu biên quý vừa",
+      ""
+     ]
+    },
+    {
+     "id": "real-hold-08-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "có thầy cho xem giao dịch không ạ",
+     "asr_reference": "có thầy cho xem các giao dịch không ạ",
+     "pause_candidates": [
+      "có thể cho xem",
+      "giao dịch không ạ"
+     ]
+    },
+    {
+     "id": "real-hold-08-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "có thể cho xem có thể cho xem cách giao dịch không ạ",
+     "asr_reference": "có thể cho xem cách giao dịch không ạ",
+     "pause_candidates": [
+      "có thể cho xem",
+      "cách giao dịch không"
+     ]
+    },
+    {
+     "id": "real-hold-08-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "có thể cho xem có thể cho xem có giao dịch không ạ",
+     "asr_reference": "có thể cho xem các giao dịch không ạ",
+     "pause_candidates": [
+      "có thể cho",
+      "các giao dịch",
+      "các giao dịch không ạ"
+     ]
+    },
+    {
+     "id": "real-hold-08-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "có thể cho xem có thể cho xem ca giao dịch không ạ",
+     "asr_reference": "có thể cho xem ca giao dịch không ạ",
+     "pause_candidates": [
+      "có thể cho",
+      "ca giao dịch không"
+     ]
+    },
+    {
+     "id": "real-hold-08-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "có thể cho xem có thể cho xem các giao dịch không ạ",
+     "asr_reference": "có thể cho xem các giao dịch không ạ",
+     "pause_candidates": [
+      "có thể cho xem",
+      "các giao dịch không ạ"
+     ]
+    },
+    {
+     "id": "real-hold-09-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "phí vượt hạn mức phí vượt hạn mức tín dụng thẻ visa sinature là bao nhiêu ",
+     "asr_reference": "phí vượt hạn mức tín dụng thẻ visa singnature là bao nhiêu",
+     "pause_candidates": [
+      "phí vượt hạn mức",
+      "tín dụng thẻ visa sinature là bao nhiêu"
+     ]
+    },
+    {
+     "id": "real-hold-09-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "phí vừa đủ hạn mức phí vừa đủ hạn mức tín dụng thẻ visa sinature là bao nhiêu",
+     "asr_reference": "phí vượt hạn mức tín dụng thẻ visa sinature là bao nhiêu",
+     "pause_candidates": [
+      "phí vừa đủ hạn mức",
+      "tín dụng thẻ visa sinature là bao nhiêu"
+     ]
+    },
+    {
+     "id": "real-hold-09-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "phí vượt hạn mức phí vượt hạn mức ứng dụng thẻ visa sidure là bao nhiêu",
+     "asr_reference": "phí vượt hạn mức tín dụng thẻ visa siết liure là bao nhiêu",
+     "pause_candidates": [
+      "phí vượt hạn mức",
+      "ứng dụng thẻ visa sidure là bao nhiêu"
+     ]
+    },
+    {
+     "id": "real-hold-09-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "phí vượt hạn mức phí vượt hạn mức ứng dụng thẻ fisa signature là bao nhiêu  ",
+     "asr_reference": "phí vượt hạn mức tín dụng thẻ visa signature là bao nhiêu",
+     "pause_candidates": [
+      "phí vượt hạn mức",
+      "ứng dụng thẻ visa signature là bao nhiêu"
+     ]
+    },
+    {
+     "id": "real-hold-09-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "phí vượt hạn mức tín dụng thẻ visa signature là bao nhiêu ",
+     "asr_reference": "phí vượt hạn mức tín dụng thẻ visa signature là bao nhiêu",
+     "pause_candidates": [
+      "phí vượt hạn mức",
+      "tín dụng thẻ visa signature là bao nhiêu"
+     ]
+    },
+    {
+     "id": "real-hold-10-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "tôi đọc lại mật khẩu tôi đọc lại mật khẩu internet banking lên việc post bank của tôi đi tôi quên",
+     "asr_reference": "đọc lại mật khẩu internet banking lên việc pos bank của tôi đi tôi quên",
+     "pause_candidates": [
+      "em đọc lại mật khẩu",
+      "internet banking viet post bank của tôi đi",
+      "internet banking lên việc post bank của tôi đi tôi"
+     ]
+    },
+    {
+     "id": "real-hold-10-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "đọc lại mật khẩu đọc lại mật khẩu internet banking liên việt os bank của tôi đi tôi quên",
+     "asr_reference": "đọc lại mật khẩu internet banking liên việt os bank của tôi đi tôi quên",
+     "pause_candidates": [
+      "đọc lại mật khẩu",
+      "internet banking liên việt os bank của tôi đi tôi quên"
+     ]
+    },
+    {
+     "id": "real-hold-10-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "đọc lại mật khẩu đọc lại mật khẩu internet banking liên việt post bank của tôi đi tôi quên",
+     "asr_reference": "đọc lại mật khẩu internet banking liên hệ pus bank của tôi đi tôi quên",
+     "pause_candidates": [
+      "đọc lại mật khẩu",
+      "internet banking liên việt post bank của tôi đi tôi quên"
+     ]
+    },
+    {
+     "id": "real-hold-10-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "đọc lại mật khẩu internet banking liên hệ post bank của tôi đi tôi quên",
+     "asr_reference": "đọc lại mật khẩu internet banking liên hệ post bank của tôi đi tôi quên",
+     "pause_candidates": [
+      "đọc lại mật",
+      "internet banking liên hệ post bank của tôi đi tôi quên"
+     ]
+    },
+    {
+     "id": "real-hold-10-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "đọc lại mật khẩu internet banking liên việt pos bank của tôi đi tôi quên",
+     "asr_reference": "đọc lại mật khẩu internet banking liên việt posbank của tôi đi tôi quên",
+     "pause_candidates": [
+      "đọc lại mật khẩu",
+      "internet banking liên việt pos bank của tôi đi tôi quên"
+     ]
+    },
+    {
+     "id": "real-hold-11-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [
+      "ngừng ủy thác"
+     ],
+     "merged": true,
+     "texts": "ngừng wity ngừng wity chuyển tiền cho ba má do gia đình không cần",
+     "asr_reference": "ngừng ủy thác chuyển tiền cho ba má do gia đình không cần",
+     "pause_candidates": [
+      "ngưng quy",
+      "chuyển tiền cho ba má do gia đình không"
+     ]
+    },
+    {
+     "id": "real-hold-11-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "ngừng ủy thác ngừng ủy thác chuyển tiền cho ba má do gia đình không cần",
+     "asr_reference": "ngừng ủy thác chuyển tiền cho ba má do gia đình không cần",
+     "pause_candidates": [
+      "người",
+      "chuyển tiền cho ba má do gia đình không cần"
+     ]
+    },
+    {
+     "id": "real-hold-11-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "ngừng ủy thác ngừng ủy thác chuyển tiền cho ba má do gia đình không cần",
+     "asr_reference": "ngừng ủy thác chuyển tiền cho ba má do gia đình không cần",
+     "pause_candidates": [
+      "ngừng ủy quyền",
+      "chuyển tiền cho ba má do gia đình không cần"
+     ]
+    },
+    {
+     "id": "real-hold-11-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "ngừng ủy thác ngừng ủy thác chuyển tiền cho ba má do gia đình không cần",
+     "asr_reference": "ngừng ủy thác chuyển tiền cho ba má do gia đình không cần",
+     "pause_candidates": [
+      "ngừng ủy thác",
+      "chuyển tiền cho ba má do gia đình không"
+     ]
+    },
+    {
+     "id": "real-hold-11-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "ngừng"
+     ],
+     "lost_halves": [
+      "ngừng ủy thác"
+     ],
+     "merged": true,
+     "texts": "wi wi chuyển tiền cho ba má do gia đình không cần",
+     "asr_reference": "luận ủy thác chuyển tiền cho ba má do gia đình không cần",
+     "pause_candidates": [
+      "ơn quý",
+      "chuyển tiền cho ba má do gia đình không cần"
+     ]
+    },
+    {
+     "id": "real-hold-13-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "anh ơi dịch vụ ngân hàng gạo anh ơi dịch vụ ngân hàng gạo này tầy quá",
+     "asr_reference": "anh ơi dịch vụ ngân hàng dạo này tệ quá",
+     "pause_candidates": [
+      "anh ơi",
+      "anh ơi dịch vụ ngân hàng gạo",
+      "này tầy quá"
+     ]
+    },
+    {
+     "id": "real-hold-13-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "anh ơi dịch vụ ngân hàng sao ạ anh ơi dịch vụ ngân hàng sao ạ này tệ quá",
+     "asr_reference": "anh ơi dịch vụ ngân hàng sao ạ này tệ quá",
+     "pause_candidates": [
+      "anh ơi dịch vụ ngân hàng dạ",
+      "nay tự"
+     ]
+    },
+    {
+     "id": "real-hold-13-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "anh ơi dịch vụ ngân hàng dạ clip này tê quá",
+     "asr_reference": "anh ơi dịch vụ ngân hàng giả này tệ quá",
+     "pause_candidates": [
+      "anh ơi dịch vụ ngân hàng",
+      "ngày đều"
+     ]
+    },
+    {
+     "id": "real-hold-13-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "anh ơi dịch vụ ngân hàng dạ anh ơi dịch vụ ngân hàng dạ này tệ quá",
+     "asr_reference": "anh ơi dịch vụ ngân hàng dạo này tệ quá",
+     "pause_candidates": [
+      "anh ơi dịch vụ ngân hàng dạo",
+      "này tự"
+     ]
+    },
+    {
+     "id": "real-hold-13-1000",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "anh ơi dịch vụ ngân hàng giàu này tệ quá",
+     "asr_reference": "anh ơi dịch vụ ngân hàng giàu này tệ quá",
+     "pause_candidates": [
+      "anh ơi dịch vụ ngân hàng giảm",
+      "đây tệ quá"
+     ]
+    },
+    {
+     "id": "real-hold-14-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [
+      "thác auto pay điện"
+     ],
+     "merged": true,
+     "texts": "anh cần tạo ủy anh cần tạo ủy thợ ô tô mây điện",
+     "asr_reference": "anh cần tạo ủy thác theo auto mây điện",
+     "pause_candidates": [
+      "anh cần tạo ủy",
+      "theo automat"
+     ]
+    },
+    {
+     "id": "real-hold-14-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "anh từng tạo quỹ anh từng tạo quỹ các autobai điện",
+     "asr_reference": "anh từng tạo quỹ các autobai điện",
+     "pause_candidates": [
+      "anh từng tạo quỹ",
+      "các autok bay"
+     ]
+    },
+    {
+     "id": "real-hold-14-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [
+      "thác auto pay điện"
+     ],
+     "merged": false,
+     "texts": "anh cần táo ủy app ô tô điện ",
+     "asr_reference": "anh cần táo ủy thác autok điện",
+     "pause_candidates": [
+      "anh cần tạo ủy",
+      "app ô tô điện"
+     ]
+    },
+    {
+     "id": "real-hold-14-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "anh cần tảo uy anh cần tảo uy thác autobai điện ",
+     "asr_reference": "anh cần tao ủy thác autobai điện",
+     "pause_candidates": [
+      "anh cần tảo uy",
+      "thác autobaidy"
+     ]
+    },
+    {
+     "id": "real-hold-14-1000",
+     "cut": true,
+     "heard_during_pause": [
+      "content"
+     ],
+     "missing_keys": [
+      "điện"
+     ],
+     "lost_halves": [
+      "thác auto pay điện"
+     ],
+     "merged": false,
+     "texts": "anh cần tảo ủy app automation",
+     "asr_reference": "anh cần tảo ủy thác autobadi điện",
+     "pause_candidates": [
+      "anh cần ta ủy",
+      "app automation"
+     ]
+    },
+    {
+     "id": "real-hold-15-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "Dump"
+     ],
+     "lost_halves": [
+      "Dump toàn"
+     ],
+     "merged": true,
+     "texts": "năm tuần năm tuần mozase khách hàng của xibank thế nào ",
+     "asr_reference": "năm toàn bộ database khách hàng của xibank thế nào",
+     "pause_candidates": [
+      "năm toàn",
+      "mozase khách hàng của xibank thế"
+     ]
+    },
+    {
+     "id": "real-hold-15-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "Dump"
+     ],
+     "lost_halves": [
+      "Dump toàn"
+     ],
+     "merged": true,
+     "texts": "năm năm bộ database khách hàng của xibank thế nào",
+     "asr_reference": "năm toàn bộ databa bay khách hàng của xibank thế nào",
+     "pause_candidates": [
+      "găng tay",
+      "bộ database khách hàng của xibank thế nào"
+     ]
+    },
+    {
+     "id": "real-hold-15-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "Dump"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "năm tuần database khách hàng của xibank thế nào",
+     "asr_reference": "năm bộ database khách hàng của xibank thế nào",
+     "pause_candidates": [
+      "năm toàn",
+      "database khách hàng của xibank thế nào"
+     ]
+    },
+    {
+     "id": "real-hold-15-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "Dump"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "năm toàn database khách hàng của xibank thế nào",
+     "asr_reference": "năm toàn bộ database khách hàng của xibank thế nào",
+     "pause_candidates": [
+      "năm",
+      "database khách hàng của xi thế nào"
+     ]
+    },
+    {
+     "id": "real-hold-15-1000",
+     "cut": true,
+     "heard_during_pause": [
+      "content"
+     ],
+     "missing_keys": [
+      "Dump"
+     ],
+     "lost_halves": [
+      "Dump toàn"
+     ],
+     "merged": false,
+     "texts": "năm bộ database khách hàng của xibank thế nào",
+     "asr_reference": "năm toàn bộ database khách hàng của xibank thế nào",
+     "pause_candidates": [
+      "năm toán",
+      "bộ database khách hàng của xi thế nào"
+     ]
+    },
+    {
+     "id": "real-hold-16-800",
+     "cut": false,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "vụ"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "chị ơi muốn phản ánh xin phụ trách",
+     "asr_reference": "chị ơi muốn phản ánh xin phụ",
+     "pause_candidates": [
+      "chị ơi muốn phản ánh",
+      "chị ơi muốn phản ánh"
+     ]
+    },
+    {
+     "id": "real-hold-17-1000",
+     "cut": true,
+     "heard_during_pause": [
+      "content"
+     ],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "in lịch sử giao dịch thẻ contec lên combank mấy tuần trước",
+     "asr_reference": "in lịch sử giao dịch thẻ contectlistcombank mấy tuần trước",
+     "pause_candidates": [
+      "in lịch sử giao dịch",
+      "contaclestambank mấy tuần"
+     ]
+    },
+    {
+     "id": "real-hold-18-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "lấy giao dịch thầy gô lấy giao dịch thầy gô vì tuần trước",
+     "asr_reference": "lấy giao dịch thẻ gô vị tuần trước",
+     "pause_candidates": [
+      "lấy giao dịch thẻ gỗ",
+      "vì tuần trước"
+     ]
+    },
+    {
+     "id": "real-hold-18-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "lấy giao dịch thẻ go lấy giao dịch thẻ go clip tuần trước",
+     "asr_reference": "lấy giao dịch thẻ go clip tuần trước",
+     "pause_candidates": [
+      "lấy giao dịch thẻ go",
+      "clip tuần trước"
+     ]
+    },
+    {
+     "id": "real-hold-18-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "lấy"
+     ],
+     "lost_halves": [
+      "lấy giao dịch thẻ Gold"
+     ],
+     "merged": false,
+     "texts": "lời giao dịch thầy go video tuần trước",
+     "asr_reference": "lời giao dịch thẻ go viết tuần trước",
+     "pause_candidates": [
+      "lời giao dịch thầy cô",
+      "mấy tuần trước"
+     ]
+    },
+    {
+     "id": "real-hold-18-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "lấy"
+     ],
+     "lost_halves": [
+      "lấy giao dịch thẻ Gold"
+     ],
+     "merged": false,
+     "texts": "lý giao dịch egu đến tuần trước",
+     "asr_reference": "lấy giao dịch eco viết tuần trước",
+     "pause_candidates": [
+      "lý giao dịch eco",
+      "đến tuần trước"
+     ]
+    },
+    {
+     "id": "real-hold-18-1000",
+     "cut": true,
+     "heard_during_pause": [
+      "content"
+     ],
+     "missing_keys": [
+      "lấy"
+     ],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "lý giao dịch thẻ gô fit tuần trước",
+     "asr_reference": "lý giao dịch thẻ gô tiếp tuần trước",
+     "pause_candidates": [
+      "lý giao dịch thẻ",
+      "fit tôi"
+     ]
+    },
+    {
+     "id": "real-hold-19-500",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "có hủy có hủy được lệnh vừa rồi không",
+     "asr_reference": "có hủy được lệnh vừa rồi không",
+     "pause_candidates": [
+      "có hủy",
+      "được lệnh vừa rồi không"
+     ]
+    },
+    {
+     "id": "real-hold-19-600",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "có"
+     ],
+     "lost_halves": [
+      "có hủy"
+     ],
+     "merged": false,
+     "texts": "anh ơi định vừa rồi không",
+     "asr_reference": "có hỏi được lệnh vừa rồi không",
+     "pause_candidates": [
+      "anh có",
+      "lần vừa rồi"
+     ]
+    },
+    {
+     "id": "real-hold-19-700",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": true,
+     "texts": "có huyện có huyện được lệnh vừa rồi không ",
+     "asr_reference": "có hủy được lệnh vừa rồi không",
+     "pause_candidates": [
+      "có huyện",
+      "được lệnh vừa rồi không"
+     ]
+    },
+    {
+     "id": "real-hold-19-800",
+     "cut": true,
+     "heard_during_pause": [],
+     "missing_keys": [
+      "không"
+     ],
+     "lost_halves": [
+      "được lệnh vừa rồi không"
+     ],
+     "merged": false,
+     "texts": "cố hủy bệnh vừa rồi",
+     "asr_reference": "có hủy được lệnh vừa rồi",
+     "pause_candidates": [
+      "cố hủy",
+      "bệnh vừa rồi"
+     ]
+    },
+    {
+     "id": "real-hold-19-1000",
+     "cut": true,
+     "heard_during_pause": [
+      "content"
+     ],
+     "missing_keys": [],
+     "lost_halves": [],
+     "merged": false,
+     "texts": "có wi được lệnh vừa rồi là không",
+     "asr_reference": "có hủy được lệnh vừa rồi là không",
+     "pause_candidates": [
+      "cố huy",
+      "được lên với",
+      "được lệnh vừa rồi"
+     ]
+    }
+   ]
+  }
+ },
+ "unconfirmed_audio": {
+  "violations": [],
+  "turns": 521
+ },
+ "gate": {
+  "premature_cut_lt_2pct": {
+   "k": 77,
+   "n": 100,
+   "rate": 0.77,
+   "wilson95": [
+    0.6785,
+    0.8416
+   ]
+  },
+  "user_visible_cut": {
+   "k": 20,
+   "n": 100,
+   "rate": 0.2,
+   "wilson95": [
+    0.1334,
+    0.2888
+   ]
+  },
+  "no_lost_half": {
+   "hold": {
+    "k": 15,
+    "n": 100,
+    "rate": 0.15,
+    "wilson95": [
+     0.0931,
+     0.2328
+    ]
+   }
+  },
+  "no_unconfirmed_audio": 0
+ }
+}

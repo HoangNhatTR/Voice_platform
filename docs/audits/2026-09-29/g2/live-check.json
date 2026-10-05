@@ -1,0 +1,270 @@
+{
+  "readiness": {
+    "ok": true,
+    "started": true,
+    "maintenance": false,
+    "dependencies": {
+      "llm": {
+        "ok": true
+      },
+      "search": {
+        "ok": true
+      }
+    },
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+      "config_sha256": "e8b03448fdcd9d067f35af29b1ff498d057b43dfce35f09f7ea2e1f99b56b8a5",
+      "started_at": "2026-09-29T07:12:18.635274+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "max_sessions": 3
+  },
+  "direct_llm": {
+    "engine": "openai_compat",
+    "system_prompt": "Trả lời ngắn bằng tiếng Việt, không markdown.",
+    "text": "Chào bạn!",
+    "ttft_ms": 531.6,
+    "total_ms": 614.7,
+    "chars": 9,
+    "chars_per_s": 14.6,
+    "tool_calls": [],
+    "finish_reason": "stop",
+    "contended": false,
+    "live_sessions": 0
+  },
+  "tool_call": {
+    "engine": "openai_compat",
+    "system_prompt": "Bạn có các công cụ sau: clock. Đọc lại, lặp nguyên văn, dịch, trích dẫn hay tình huống giả định: chỉ trả lời theo văn bản, không gọi công cụ. Câu hỏi về giờ, ngày, tháng, năm hoặc thứ hiện tại: bắt buộc gọi clock. Kiến thức cố định và tính toán không cần tra cứu: trả lời trực tiếp. Khi cần công cụ, phải gọi rồi mới trả lời.\n\nTrả lời ngắn bằng tiếng Việt, không markdown.",
+    "text": "",
+    "ttft_ms": null,
+    "total_ms": 709.6,
+    "chars": 0,
+    "chars_per_s": 0.0,
+    "tool_calls": [
+      {
+        "name": "clock",
+        "arguments": {}
+      }
+    ],
+    "finish_reason": "tool_calls",
+    "contended": false,
+    "live_sessions": 0
+  },
+  "search": {
+    "engine": "llm",
+    "ok": true,
+    "content": "Bầu trời màu xanh do hiện tượng tán xạ Rayleigh, trong đó các phân tử khí trong khí quyển tán xạ ánh sáng xanh dương nhiều hơn các màu khác. Ánh sáng xanh bị phân tán đều khắp bầu trời, khiến mắt người nhìn thấy màu xanh.",
+    "source": "openai_compat",
+    "error": null,
+    "latency_ms": 1553.2,
+    "contended": false,
+    "live_sessions": 0
+  },
+  "admission": {
+    "accepted": 3,
+    "extra_refused": true
+  },
+  "remote_trace": {
+    "anonymous": 403,
+    "own_token": 200,
+    "another_session": 403,
+    "sessions": 403,
+    "engine_options_hidden": true
+  },
+  "sessions_after_close": {},
+  "metrics": {
+    "snapshot": {
+      "counters": {},
+      "latency": {
+        "first_phrase_ready_ms": {
+          "n": 5,
+          "p50": 926.843,
+          "p95": 1126.138,
+          "max": 1126.138
+        },
+        "first_any_audio_sent_ms": {
+          "n": 5,
+          "p50": 802.107,
+          "p95": 804.498,
+          "max": 804.498
+        },
+        "first_content_audio_sent_ms": {
+          "n": 5,
+          "p50": 2073.483,
+          "p95": 3168.859,
+          "max": 3168.859
+        },
+        "content_playback_start_ms": {
+          "n": 5,
+          "p50": 2208.938,
+          "p95": 3300.873,
+          "max": 3300.873
+        },
+        "content_playback_signal_ms": {
+          "n": 5,
+          "p50": 2240.172,
+          "p95": 3331.681,
+          "max": 3331.681
+        },
+        "content_underruns": {
+          "n": 5,
+          "p50": 1.0,
+          "p95": 3.0,
+          "max": 3.0
+        },
+        "content_gap_ms": {
+          "n": 5,
+          "p50": 37.333,
+          "p95": 261.333,
+          "max": 261.333
+        },
+        "content_phrase_gap_ms": {
+          "n": 5,
+          "p50": 1872.118,
+          "p95": 2331.099,
+          "max": 2331.099
+        },
+        "llm_ttft_ms": {
+          "n": 5,
+          "p50": 555.522,
+          "p95": 656.51,
+          "max": 656.51
+        },
+        "llm_total_ms": {
+          "n": 5,
+          "p50": 1169.242,
+          "p95": 1660.379,
+          "max": 1660.379
+        },
+        "tts_ttfa_ms": {
+          "n": 5,
+          "p50": 0.2,
+          "p95": 0.5,
+          "max": 0.5
+        },
+        "e2e_ttfa_ms": {
+          "n": 5,
+          "p50": 801.9,
+          "p95": 804.3,
+          "max": 804.3
+        },
+        "response_total_ms": {
+          "n": 5,
+          "p50": 7007.3,
+          "p95": 8528.3,
+          "max": 8528.3
+        },
+        "llm_queue_ms": {
+          "n": 5,
+          "p50": 0.01,
+          "p95": 0.016,
+          "max": 0.016
+        },
+        "llm_request_ttft_ms": {
+          "n": 5,
+          "p50": 555.522,
+          "p95": 656.51,
+          "max": 656.51
+        },
+        "llm_request_total_ms": {
+          "n": 5,
+          "p50": 1169.242,
+          "p95": 1660.379,
+          "max": 1660.379
+        },
+        "tts_queue_ms": {
+          "n": 10,
+          "p50": 1407.166,
+          "p95": 3078.427,
+          "max": 3078.427
+        },
+        "tts_compute_ms": {
+          "n": 10,
+          "p50": 1276.527,
+          "p95": 1674.587,
+          "max": 1674.587
+        },
+        "tts_first_chunk_ms": {
+          "n": 10,
+          "p50": 87.24,
+          "p95": 168.593,
+          "max": 168.593
+        },
+        "tts_lock_wait_ms": {
+          "n": 10,
+          "p50": 0.069,
+          "p95": 0.132,
+          "max": 0.132
+        },
+        "tts_rtf": {
+          "n": 10,
+          "p50": 0.598,
+          "p95": 0.726,
+          "max": 0.726
+        }
+      }
+    },
+    "gauges": {
+      "asr": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "llm": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3,
+        "speech_active": 0,
+        "search_active": 0,
+        "speech_waiting": 0,
+        "search_waiting": 0,
+        "search_parallel": 1
+      },
+      "tts": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 7,
+        "parallel": 1
+      },
+      "search": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3,
+        "speech_active": 0,
+        "search_active": 0,
+        "speech_waiting": 0,
+        "search_waiting": 0,
+        "search_parallel": 1
+      },
+      "tool": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 20,
+        "parallel": 4
+      },
+      "sessions": 0,
+      "tts_workers": 0,
+      "asr_workers": 0,
+      "event_loop_lag_ms": {
+        "n": 600,
+        "p95": 0.548,
+        "max": 2.438
+      }
+    }
+  }
+}

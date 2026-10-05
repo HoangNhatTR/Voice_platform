@@ -1,9 +1,8 @@
 """Model-backed turn detection seat.
 
-Takes any async probe that scores "this utterance is complete" in [0, 1] — a
-small fine-tuned classifier is the shape that works (LiveKit's turn detector is
-a fine-tuned Qwen2.5-0.5B, which does not cover Vietnamese, so a Vietnamese one
-has to be trained rather than downloaded).
+Takes any async probe that scores "this utterance is complete" in [0, 1]. The
+optional data-only text model can be trained from human-labeled Vietnamese
+clips and evaluated on speakers held out from training.
 
 It is a seat with a working default: the heuristic detector is the fallback
 whenever the probe is missing, slow or throws, so wiring a model in later never
@@ -30,17 +29,18 @@ class SemanticTurnDetector:
         max_silence_ms: float = 1400.0,
         probe_timeout_ms: float = 60.0,
         complete_threshold: float = 0.6,
+        fast_silence_ms: float = 0.0,
     ) -> None:
         self.probe = probe
         self.silence_ms = silence_ms
         self.max_silence_ms = max_silence_ms
         self.probe_timeout_ms = probe_timeout_ms
         self.complete_threshold = complete_threshold
-        self._fallback = HeuristicTurnDetector(silence_ms, max_silence_ms)
+        self._fallback = HeuristicTurnDetector(silence_ms, max_silence_ms, fast_silence_ms=fast_silence_ms)
         self.probe_failures = 0
 
-    async def required_silence_ms(self, *, text: str, utterance_ms: float) -> float:
-        base = self._fallback.evaluate(text)
+    async def required_silence_ms(self, *, text: str, utterance_ms: float, stable: bool = False) -> float:
+        base = self._fallback.evaluate(text, stable=stable)
         if self.probe is None or not (text or "").strip():
             return base
         try:

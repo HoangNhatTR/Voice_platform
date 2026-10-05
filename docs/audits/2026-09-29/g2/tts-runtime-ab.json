@@ -1,0 +1,3143 @@
+{
+  "final-pilot-3": {
+    "manifest": {
+      "schema_version": 2,
+      "started_at": "2026-09-29T07:13:42.852Z",
+      "base": "https://127.0.0.1:19101",
+      "load": 3,
+      "mode": "worklet",
+      "count": 2,
+      "health": {
+        "ok": true,
+        "runtime": {
+          "revision": "2d10008",
+          "dirty": true,
+          "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+          "config_sha256": "da5e47d3a716a67289bfafc9236e0d716bb1e288144c56182e0246cad402434e",
+          "started_at": "2026-09-29T07:12:34.077382+00:00",
+          "python": "3.12.3",
+          "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+          "packages": {
+            "fastapi": "0.139.2",
+            "uvicorn": "0.51.0",
+            "httpx": "0.28.1",
+            "numpy": "2.4.6",
+            "onnxruntime": "1.27.0",
+            "zerotts": "0.1.5"
+          }
+        },
+        "sessions": 0,
+        "models": {
+          "mode": "cascade",
+          "asr": {
+            "name": "s2s:gipformer",
+            "capabilities": {
+              "streaming_partials": true,
+              "languages": [
+                "vi"
+              ],
+              "native_sample_rate": 16000
+            }
+          },
+          "llm": {
+            "name": "openai_compat",
+            "capabilities": {
+              "tools": true,
+              "streaming": true,
+              "context_tokens": 4096
+            }
+          },
+          "tts": {
+            "name": "zerotts",
+            "capabilities": {
+              "streaming": true,
+              "emotion_cues": false,
+              "voices": [
+                "baotrang",
+                "giahuy",
+                "hamy",
+                "huuduc",
+                "kimoanh",
+                "maichi",
+                "quangminh",
+                "tiendat"
+              ],
+              "native_sample_rate": 24000,
+              "expected_rtf": 0.71
+            }
+          },
+          "s2s": null,
+          "search": {
+            "name": "llm",
+            "capabilities": null
+          }
+        },
+        "tools": [
+          "clock"
+        ]
+      },
+      "config": {
+        "audio": {
+          "sample_rate": 16000,
+          "frame_ms": 20,
+          "channels": 1,
+          "output_sample_rate": 24000,
+          "output_frame_ms": 40
+        },
+        "media": {
+          "vad": {
+            "backend": "energy",
+            "threshold": 0.5,
+            "energy_threshold": 0.012,
+            "start_frames": 2,
+            "end_frames": 12,
+            "pre_roll_ms": 320
+          },
+          "aec": {
+            "backend": "client",
+            "enabled": true
+          },
+          "denoise": "none",
+          "jitter_target_ms": 60
+        },
+        "conversation": {
+          "turn_detection": {
+            "backend": "heuristic",
+            "silence_ms": 480,
+            "max_silence_ms": 1400,
+            "min_utterance_ms": 240,
+            "max_utterance_ms": 30000
+          },
+          "barge_in": {
+            "enabled": true,
+            "speech_frames": 6,
+            "guard_ms": 150,
+            "min_rms": 0.02,
+            "resume_after_false": true,
+            "resume_window_ms": 5000,
+            "merge_unanswered": true
+          },
+          "filler": {
+            "enabled": true,
+            "after_ms": 700,
+            "phrases": [
+              "Để tôi kiểm tra một chút.",
+              "Chờ tôi tra cứu nhanh nhé."
+            ]
+          },
+          "opener": {
+            "enabled": true,
+            "text": "Vâng.",
+            "after_ms": 800
+          },
+          "search": {
+            "enabled": true,
+            "max_inflight": 2,
+            "ttl_ms": 60000,
+            "delivery_prefix": "Về câu bạn hỏi lúc nãy",
+            "instant_ack": "Để tôi tra cứu nhé.",
+            "skip_redundant_ack": true
+          },
+          "history_turns": 12,
+          "streaming_first_phrase_chars": 48,
+          "streaming_first_phrase_wait_ms": 250,
+          "tool_instruction": "Bạn có các công cụ sau: {tools}. Đọc lại, lặp nguyên văn, dịch, trích dẫn hay tình huống giả định: chỉ trả lời theo văn bản, không gọi công cụ. {tool_routes} Kiến thức cố định và tính toán không cần tra cứu: trả lời trực tiếp. Khi cần công cụ, phải gọi rồi mới trả lời.",
+          "system_prompt": "Trả lời ngắn bằng tiếng Việt, không markdown.",
+          "orphan_turn_timeout_ms": 20000
+        },
+        "models": {
+          "mode": "cascade",
+          "asr": {
+            "backend": "gipformer",
+            "options": {
+              "model_dir": "models/gipformer1.5-65M-rnnt",
+              "precision": "int8",
+              "onnx_threads": 4,
+              "lowercase": true,
+              "partial_every_frames": 25
+            }
+          },
+          "llm": {
+            "backend": "openai_compat",
+            "options": {
+              "endpoint": "http://127.0.0.1:18108/v1",
+              "model": "qwen3.5-4b",
+              "max_tokens": 120,
+              "temperature": 0,
+              "enable_thinking": false,
+              "keepalive_connections": 0,
+              "timeout_s": 30,
+              "max_parallel": 3,
+              "max_queue": 8,
+              "context_tokens": 4096,
+              "prompt_budget_tokens": 1800,
+              "native_tokenizer": true,
+              "literal_request_policy": true,
+              "extra_body": {
+                "seed": 20260929
+              }
+            }
+          },
+          "tts": {
+            "backend": "zerotts",
+            "options": {
+              "voice": "kimoanh",
+              "revision": "c2bfbd67dc648cac455077333f7cf5c18a2e3bb4",
+              "local_files_only": true,
+              "intra_op_num_threads": 4,
+              "codec_intra_op_num_threads": 4,
+              "max_queue": 6,
+              "max_pending_chunks": 4,
+              "max_chunk_frames": 8
+            }
+          },
+          "s2s": {
+            "backend": "none",
+            "options": {}
+          },
+          "search": {
+            "backend": "llm",
+            "options": {
+              "endpoint": "http://127.0.0.1:18108/v1",
+              "model": "qwen3.5-4b",
+              "max_tokens": 160,
+              "temperature": 0,
+              "enable_thinking": false,
+              "keepalive_connections": 0,
+              "timeout_s": 30,
+              "max_parallel": 3,
+              "max_queue": 8,
+              "system_prompt": "Bạn là bộ phận tra cứu. Trả lời NGẮN và CHÍNH XÁC bằng tiếng Việt, tối đa hai câu, chỉ nêu dữ kiện. Không chào hỏi. Nếu không chắc chắn, nói thẳng là không tra được.",
+              "context_tokens": 4096,
+              "prompt_budget_tokens": 1800,
+              "native_tokenizer": true,
+              "literal_request_policy": true,
+              "extra_body": {
+                "seed": 20260929
+              }
+            }
+          },
+          "keep_warm_s": 240,
+          "prewarm_before_sessions": true,
+          "startup_timeout_s": 180,
+          "operation_timeout_s": 30
+        },
+        "tasks": {
+          "enabled": true,
+          "tools": [
+            "clock"
+          ],
+          "default_timeout_ms": 8000,
+          "max_parallel": 4,
+          "max_queue": 16
+        },
+        "observability": {
+          "trace_dir": "runtime/traces",
+          "write_traces": true,
+          "log_events": true,
+          "keep_turns": 200
+        },
+        "server": {
+          "host": "127.0.0.1",
+          "port": 19101,
+          "web_dir": "web",
+          "cors_origins": [
+            "*"
+          ],
+          "ssl_certfile": ".tls/server.crt",
+          "ssl_keyfile": ".tls/server.key",
+          "private_introspection": true,
+          "max_sessions": 3,
+          "max_audio_bytes": 131072,
+          "max_text_chars": 4000,
+          "idle_timeout_s": 120,
+          "max_session_s": 3600,
+          "readiness_timeout_s": 2,
+          "readiness_ttl_s": 2
+        }
+      },
+      "browser": "149.0.7827.0",
+      "playback_basis": "Chromium AudioWorklet render thread",
+      "stimulus_basis": "synthetic Vietnamese speech; no microphone/room/network/device equivalence",
+      "artifacts": {
+        "web/playback.js": "78c168ec7792c70d7d97332b2f4ec9207025a3775a318e11f6dc31a1f4280435",
+        "web/playback-worklet.js": "8549a11192bcfe20ecccbc520249ed042e76fa0f9426cb39ff3207eab36911ef",
+        "web/benchmark.js": "b19441ae1e4a6f9bc580c2e324e49bff43533723207539dbb673183fd147a76b",
+        "scripts/benchmark_g1.cjs": "50cd56b0e0d678978f95080368a0bec7bb980ae1ae7eae7cc44f062797d51da4"
+      },
+      "platform_sessions_at_start": {},
+      "stimuli_sha256": "c7cf0cb363884cf24620fc46a39eb882c338f408497d37f0d40c036d8ae6cb9a",
+      "finished_at": "2026-09-29T07:14:28.052Z",
+      "failures": 0,
+      "sessions_after_close": {}
+    },
+    "cases": 12,
+    "valid_cases": 12,
+    "failed_cases": [],
+    "by_case": {
+      "clock": {
+        "attempted": 3,
+        "valid": 3,
+        "content_turns": 3,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 3,
+            "p50": 40.0,
+            "p95": 44.8,
+            "p99": 44.8,
+            "max": 44.8
+          },
+          "asr_first_partial_ms": {
+            "n": 3,
+            "p50": 500.2,
+            "p95": 520.0,
+            "p99": 520.0,
+            "max": 520.0
+          },
+          "asr_stream_duration_ms": {
+            "n": 3,
+            "p50": 1564.3,
+            "p95": 1568.1,
+            "p99": 1568.1,
+            "max": 1568.1
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 3,
+            "p50": 0.0,
+            "p95": 48.0,
+            "p99": 48.0,
+            "max": 48.0
+          },
+          "content_phrase_gap_ms": {
+            "n": 3,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "content_playback_signal_ms": {
+            "n": 3,
+            "p50": 3094.39,
+            "p95": 4030.957,
+            "p99": 4030.957,
+            "max": 4030.957
+          },
+          "content_playback_start_ms": {
+            "n": 3,
+            "p50": 3055.275,
+            "p95": 4017.943,
+            "p99": 4017.943,
+            "max": 4017.943,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 1.0
+          },
+          "content_underruns": {
+            "n": 3,
+            "p50": 0.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 3,
+            "p50": 842.6,
+            "p95": 845.9,
+            "p99": 845.9,
+            "max": 845.9
+          },
+          "endpoint_ms": {
+            "n": 3,
+            "p50": 242.7,
+            "p95": 243.3,
+            "p99": 243.3,
+            "max": 243.3
+          },
+          "first_any_audio_sent_ms": {
+            "n": 3,
+            "p50": 842.838,
+            "p95": 846.069,
+            "p99": 846.069,
+            "max": 846.069
+          },
+          "first_content_audio_sent_ms": {
+            "n": 3,
+            "p50": 2923.589,
+            "p95": 3900.622,
+            "p99": 3900.622,
+            "max": 3900.622,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 1.0
+          },
+          "first_phrase_ready_ms": {
+            "n": 3,
+            "p50": 1860.104,
+            "p95": 1888.238,
+            "p99": 1888.238,
+            "max": 1888.238
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 3,
+            "p50": 3386.521,
+            "p95": 4364.619,
+            "p99": 4364.619,
+            "max": 4364.619
+          },
+          "llm_total_ms": {
+            "n": 3,
+            "p50": 1772.038,
+            "p95": 1820.587,
+            "p99": 1820.587,
+            "max": 1820.587
+          },
+          "llm_ttft_ms": {
+            "n": 3,
+            "p50": 643.962,
+            "p95": 644.76,
+            "p99": 644.76,
+            "max": 644.76
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 3,
+            "p50": 0.349,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          },
+          "response_total_ms": {
+            "n": 3,
+            "p50": 3822.5,
+            "p95": 4615.5,
+            "p99": 4615.5,
+            "max": 4615.5
+          },
+          "tool_ms": {
+            "n": 3,
+            "p50": 0.1,
+            "p95": 0.1,
+            "p99": 0.1,
+            "max": 0.1
+          },
+          "tts_ttfa_ms": {
+            "n": 3,
+            "p50": 0.2,
+            "p95": 0.4,
+            "p99": 0.4,
+            "max": 0.4
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 6,
+            "p50": 0.012,
+            "p95": 0.013,
+            "p99": 0.013,
+            "max": 0.013
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 3,
+            "p50": 643.962,
+            "p95": 644.76,
+            "p99": 644.76,
+            "max": 644.76,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 3,
+            "p50": 769.092,
+            "p95": 783.308,
+            "p99": 783.308,
+            "max": 783.308
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 6,
+            "p50": 868.773,
+            "p95": 951.814,
+            "p99": 951.814,
+            "max": 951.814
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 3,
+            "p50": 664.745,
+            "p95": 665.052,
+            "p99": 665.052,
+            "max": 665.052,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 3,
+            "p50": 195.365,
+            "p95": 224.008,
+            "p99": 224.008,
+            "max": 224.008
+          },
+          "tts_queue_ms": {
+            "n": 3,
+            "p50": 984.224,
+            "p95": 1933.456,
+            "p99": 1933.456,
+            "max": 1933.456
+          },
+          "tts_compute_ms": {
+            "n": 3,
+            "p50": 970.878,
+            "p95": 976.765,
+            "p99": 976.765,
+            "max": 976.765
+          },
+          "tts_first_chunk_ms": {
+            "n": 3,
+            "p50": 78.32,
+            "p95": 96.552,
+            "p99": 96.552,
+            "max": 96.552
+          },
+          "tts_lock_wait_ms": {
+            "n": 3,
+            "p50": 0.073,
+            "p95": 0.093,
+            "p99": 0.093,
+            "max": 0.093
+          },
+          "tts_rtf": {
+            "n": 3,
+            "p50": 0.607,
+            "p95": 0.61,
+            "p99": 0.61,
+            "max": 0.61
+          },
+          "asr_final_queue_ms": {
+            "n": 3,
+            "p50": 0.007,
+            "p95": 0.013,
+            "p99": 0.013,
+            "max": 0.013
+          },
+          "asr_final_compute_ms": {
+            "n": 3,
+            "p50": 38.745,
+            "p95": 44.135,
+            "p99": 44.135,
+            "max": 44.135
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 9,
+            "p50": 0.008,
+            "p95": 0.021,
+            "p99": 0.021,
+            "max": 0.021
+          },
+          "asr_partial_compute_ms": {
+            "n": 9,
+            "p50": 24.063,
+            "p95": 37.031,
+            "p99": 37.031,
+            "max": 37.031
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 3,
+            "p50": 0.006,
+            "p95": 0.014,
+            "p99": 0.014,
+            "max": 0.014
+          },
+          "tool_compute_ms": {
+            "n": 3,
+            "p50": 0.023,
+            "p95": 0.029,
+            "p99": 0.029,
+            "max": 0.029
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 3,
+            "p50": 4.0,
+            "p95": 4.1,
+            "p99": 4.1,
+            "max": 4.1
+          },
+          "clock_uncertainty_ms": {
+            "n": 3,
+            "p50": 0.349,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          }
+        },
+        "answers": {
+          "14 giờ 14 phút.": 1,
+          "14 giờ 14 phút": 2
+        },
+        "asr_texts": {
+          "bấy giờ là mấy giờ rồi": 3
+        },
+        "phrase_roles": {
+          "content": 3,
+          "filler": 3,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 3,
+        "content_turns_with_underrun": 1,
+        "prompt_chars": {
+          "n": 6,
+          "p50": 770.0,
+          "p95": 828.0,
+          "p99": 828.0,
+          "max": 828.0
+        },
+        "prompt_tokens": {
+          "n": 6,
+          "p50": 597.0,
+          "p95": 634.0,
+          "p99": 634.0,
+          "max": 634.0
+        },
+        "completion_tokens": {
+          "n": 6,
+          "p50": 9.0,
+          "p95": 14.0,
+          "p99": 14.0,
+          "max": 14.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 3,
+          "p50": 3470.194,
+          "p95": 4433.777,
+          "p99": 4433.777,
+          "max": 4433.777,
+          "budget": 1000,
+          "violations": 3,
+          "violation_rate": 1.0
+        }
+      },
+      "direct": {
+        "attempted": 6,
+        "valid": 6,
+        "content_turns": 6,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 6,
+            "p50": 56.7,
+            "p95": 78.0,
+            "p99": 78.0,
+            "max": 78.0
+          },
+          "asr_first_partial_ms": {
+            "n": 6,
+            "p50": 499.6,
+            "p95": 519.1,
+            "p99": 519.1,
+            "max": 519.1
+          },
+          "asr_stream_duration_ms": {
+            "n": 6,
+            "p50": 2553.9,
+            "p95": 2763.7,
+            "p99": 2763.7,
+            "max": 2763.7
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 48.0,
+            "p99": 48.0,
+            "max": 48.0
+          },
+          "content_phrase_gap_ms": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "content_playback_signal_ms": {
+            "n": 6,
+            "p50": 917.46,
+            "p95": 1405.917,
+            "p99": 1405.917,
+            "max": 1405.917
+          },
+          "content_playback_start_ms": {
+            "n": 6,
+            "p50": 893.875,
+            "p95": 1370.67,
+            "p99": 1370.67,
+            "max": 1370.67,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 0.5
+          },
+          "content_underruns": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 6,
+            "p50": 747.2,
+            "p95": 1229.3,
+            "p99": 1229.3,
+            "max": 1229.3
+          },
+          "endpoint_ms": {
+            "n": 6,
+            "p50": 243.0,
+            "p95": 245.1,
+            "p99": 245.1,
+            "max": 245.1
+          },
+          "first_any_audio_sent_ms": {
+            "n": 6,
+            "p50": 747.542,
+            "p95": 1229.501,
+            "p99": 1229.501,
+            "max": 1229.501
+          },
+          "first_content_audio_sent_ms": {
+            "n": 6,
+            "p50": 747.542,
+            "p95": 1229.501,
+            "p99": 1229.501,
+            "max": 1229.501,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 0.5
+          },
+          "first_phrase_ready_ms": {
+            "n": 6,
+            "p50": 496.901,
+            "p95": 642.443,
+            "p99": 642.443,
+            "max": 642.443
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 6,
+            "p50": 1213.519,
+            "p95": 1694.74,
+            "p99": 1694.74,
+            "max": 1694.74
+          },
+          "llm_total_ms": {
+            "n": 6,
+            "p50": 409.365,
+            "p95": 547.283,
+            "p99": 547.283,
+            "max": 547.283
+          },
+          "llm_ttft_ms": {
+            "n": 6,
+            "p50": 267.704,
+            "p95": 510.52,
+            "p99": 510.52,
+            "max": 510.52
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 6,
+            "p50": 0.349,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          },
+          "response_total_ms": {
+            "n": 6,
+            "p50": 1038.6,
+            "p95": 1474.5,
+            "p99": 1474.5,
+            "max": 1474.5
+          },
+          "tool_ms": {
+            "n": 0
+          },
+          "tts_ttfa_ms": {
+            "n": 6,
+            "p50": 250.3,
+            "p95": 829.1,
+            "p99": 829.1,
+            "max": 829.1
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 6,
+            "p50": 0.013,
+            "p95": 0.037,
+            "p99": 0.037,
+            "max": 0.037
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 6,
+            "p50": 267.704,
+            "p95": 510.52,
+            "p99": 510.52,
+            "max": 510.52,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 6,
+            "p50": 409.365,
+            "p95": 547.283,
+            "p99": 547.283,
+            "max": 547.283
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 6,
+            "p50": 290.632,
+            "p95": 526.578,
+            "p99": 526.578,
+            "max": 526.578,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 6,
+            "p50": 49.357,
+            "p95": 204.513,
+            "p99": 204.513,
+            "max": 204.513
+          },
+          "tts_queue_ms": {
+            "n": 6,
+            "p50": 169.992,
+            "p95": 763.351,
+            "p99": 763.351,
+            "max": 763.351
+          },
+          "tts_compute_ms": {
+            "n": 6,
+            "p50": 368.24,
+            "p95": 620.123,
+            "p99": 620.123,
+            "max": 620.123
+          },
+          "tts_first_chunk_ms": {
+            "n": 6,
+            "p50": 65.046,
+            "p95": 103.663,
+            "p99": 103.663,
+            "max": 103.663
+          },
+          "tts_lock_wait_ms": {
+            "n": 6,
+            "p50": 0.03,
+            "p95": 0.126,
+            "p99": 0.126,
+            "max": 0.126
+          },
+          "tts_rtf": {
+            "n": 6,
+            "p50": 0.642,
+            "p95": 0.969,
+            "p99": 0.969,
+            "max": 0.969
+          },
+          "asr_final_queue_ms": {
+            "n": 6,
+            "p50": 0.025,
+            "p95": 20.993,
+            "p99": 20.993,
+            "max": 20.993
+          },
+          "asr_final_compute_ms": {
+            "n": 6,
+            "p50": 49.455,
+            "p95": 77.283,
+            "p99": 77.283,
+            "max": 77.283
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 30,
+            "p50": 0.015,
+            "p95": 0.022,
+            "p99": 0.023,
+            "max": 0.023
+          },
+          "asr_partial_compute_ms": {
+            "n": 30,
+            "p50": 28.483,
+            "p95": 45.054,
+            "p99": 47.268,
+            "max": 47.268
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 0
+          },
+          "tool_compute_ms": {
+            "n": 0
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 6,
+            "p50": 10.4,
+            "p95": 13.2,
+            "p99": 13.2,
+            "max": 13.2
+          },
+          "clock_uncertainty_ms": {
+            "n": 6,
+            "p50": 0.349,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          }
+        },
+        "answers": {
+          "4": 3,
+          "Hà Nội": 3
+        },
+        "asr_texts": {
+          "hai cộng hai bằng mấy chỉ trả lời kết quả": 3,
+          "thủ đô việt nam là gì trả lời thật ngắn": 3
+        },
+        "phrase_roles": {
+          "content": 6,
+          "filler": 0,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 0,
+        "content_turns_with_underrun": 1,
+        "prompt_chars": {
+          "n": 6,
+          "p50": 487.0,
+          "p95": 532.0,
+          "p99": 532.0,
+          "max": 532.0
+        },
+        "prompt_tokens": {
+          "n": 6,
+          "p50": 493.0,
+          "p95": 515.0,
+          "p99": 515.0,
+          "max": 515.0
+        },
+        "completion_tokens": {
+          "n": 6,
+          "p50": 2.0,
+          "p95": 3.0,
+          "p99": 3.0,
+          "max": 3.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 6,
+          "p50": 1323.794,
+          "p95": 1800.079,
+          "p99": 1800.079,
+          "max": 1800.079,
+          "budget": 1000,
+          "violations": 5,
+          "violation_rate": 0.8333
+        }
+      },
+      "natural": {
+        "attempted": 3,
+        "valid": 3,
+        "content_turns": 3,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 3,
+            "p50": 64.7,
+            "p95": 64.7,
+            "p99": 64.7,
+            "max": 64.7
+          },
+          "asr_first_partial_ms": {
+            "n": 3,
+            "p50": 500.1,
+            "p95": 520.2,
+            "p99": 520.2,
+            "max": 520.2
+          },
+          "asr_stream_duration_ms": {
+            "n": 3,
+            "p50": 2728.0,
+            "p95": 2729.2,
+            "p99": 2729.2,
+            "max": 2729.2
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 3,
+            "p50": 26.667,
+            "p95": 389.333,
+            "p99": 389.333,
+            "max": 389.333
+          },
+          "content_phrase_gap_ms": {
+            "n": 3,
+            "p50": 5891.823,
+            "p95": 6599.506,
+            "p99": 6599.506,
+            "max": 6599.506
+          },
+          "content_playback_signal_ms": {
+            "n": 3,
+            "p50": 2646.615,
+            "p95": 3744.188,
+            "p99": 3744.188,
+            "max": 3744.188
+          },
+          "content_playback_start_ms": {
+            "n": 3,
+            "p50": 2618.157,
+            "p95": 3731.011,
+            "p99": 3731.011,
+            "max": 3731.011,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 1.0
+          },
+          "content_underruns": {
+            "n": 3,
+            "p50": 1.0,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 2.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 3,
+            "p50": 2474.7,
+            "p95": 3593.8,
+            "p99": 3593.8,
+            "max": 3593.8
+          },
+          "endpoint_ms": {
+            "n": 3,
+            "p50": 242.3,
+            "p95": 242.9,
+            "p99": 242.9,
+            "max": 242.9
+          },
+          "first_any_audio_sent_ms": {
+            "n": 3,
+            "p50": 2474.971,
+            "p95": 3594.066,
+            "p99": 3594.066,
+            "max": 3594.066
+          },
+          "first_content_audio_sent_ms": {
+            "n": 3,
+            "p50": 2474.971,
+            "p95": 3594.066,
+            "p99": 3594.066,
+            "max": 3594.066,
+            "budget": 1000,
+            "violations": 2,
+            "violation_rate": 0.6667
+          },
+          "first_phrase_ready_ms": {
+            "n": 3,
+            "p50": 770.391,
+            "p95": 771.114,
+            "p99": 771.114,
+            "max": 771.114
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 3,
+            "p50": 2938.708,
+            "p95": 4056.818,
+            "p99": 4056.818,
+            "max": 4056.818
+          },
+          "llm_total_ms": {
+            "n": 3,
+            "p50": 1719.473,
+            "p95": 1744.339,
+            "p99": 1744.339,
+            "max": 1744.339
+          },
+          "llm_ttft_ms": {
+            "n": 3,
+            "p50": 431.96,
+            "p95": 456.194,
+            "p99": 456.194,
+            "max": 456.194
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 3,
+            "p50": 0.349,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          },
+          "response_total_ms": {
+            "n": 3,
+            "p50": 17646.3,
+            "p95": 19589.0,
+            "p99": 19589.0,
+            "max": 19589.0
+          },
+          "tool_ms": {
+            "n": 0
+          },
+          "tts_ttfa_ms": {
+            "n": 3,
+            "p50": 1704.1,
+            "p95": 2820.6,
+            "p99": 2820.6,
+            "max": 2820.6
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 3,
+            "p50": 0.011,
+            "p95": 0.017,
+            "p99": 0.017,
+            "max": 0.017
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 3,
+            "p50": 431.96,
+            "p95": 456.194,
+            "p99": 456.194,
+            "max": 456.194,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 3,
+            "p50": 1719.473,
+            "p95": 1744.339,
+            "p99": 1744.339,
+            "max": 1744.339
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 3,
+            "p50": 455.514,
+            "p95": 481.326,
+            "p99": 481.326,
+            "max": 481.326,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 3,
+            "p50": 250.651,
+            "p95": 251.026,
+            "p99": 251.026,
+            "max": 251.026
+          },
+          "tts_queue_ms": {
+            "n": 9,
+            "p50": 3560.777,
+            "p95": 6592.591,
+            "p99": 6592.591,
+            "max": 6592.591
+          },
+          "tts_compute_ms": {
+            "n": 9,
+            "p50": 1906.864,
+            "p95": 3306.512,
+            "p99": 3306.512,
+            "max": 3306.512
+          },
+          "tts_first_chunk_ms": {
+            "n": 9,
+            "p50": 74.156,
+            "p95": 137.882,
+            "p99": 137.882,
+            "max": 137.882
+          },
+          "tts_lock_wait_ms": {
+            "n": 9,
+            "p50": 0.109,
+            "p95": 0.228,
+            "p99": 0.228,
+            "max": 0.228
+          },
+          "tts_rtf": {
+            "n": 9,
+            "p50": 0.563,
+            "p95": 0.923,
+            "p99": 0.923,
+            "max": 0.923
+          },
+          "asr_final_queue_ms": {
+            "n": 3,
+            "p50": 0.012,
+            "p95": 0.016,
+            "p99": 0.016,
+            "max": 0.016
+          },
+          "asr_final_compute_ms": {
+            "n": 3,
+            "p50": 64.043,
+            "p95": 64.453,
+            "p99": 64.453,
+            "max": 64.453
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 15,
+            "p50": 0.015,
+            "p95": 0.022,
+            "p99": 0.03,
+            "max": 0.03
+          },
+          "asr_partial_compute_ms": {
+            "n": 15,
+            "p50": 33.518,
+            "p95": 47.187,
+            "p99": 50.137,
+            "max": 50.137
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 0
+          },
+          "tool_compute_ms": {
+            "n": 0
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 3,
+            "p50": 9.5,
+            "p95": 10.3,
+            "p99": 10.3,
+            "max": 10.3
+          },
+          "clock_uncertainty_ms": {
+            "n": 3,
+            "p50": 0.349,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          }
+        },
+        "answers": {
+          "Ánh sáng mặt trời gồm nhiều màu, khi đi qua khí quyển, các phân tử không khí làm tán xạ ánh sáng xanh nhiều hơn các màu khác, khiến mắt ta nhìn thấy bầu trời màu xanh.": 3
+        },
+        "asr_texts": {
+          "giải thích ngắn gọn tại sao bầu trời có màu xanh": 3
+        },
+        "phrase_roles": {
+          "content": 9,
+          "filler": 0,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 0,
+        "content_turns_with_underrun": 2,
+        "prompt_chars": {
+          "n": 3,
+          "p50": 581.0,
+          "p95": 581.0,
+          "p99": 581.0,
+          "max": 581.0
+        },
+        "prompt_tokens": {
+          "n": 3,
+          "p50": 538.0,
+          "p95": 538.0,
+          "p99": 538.0,
+          "max": 538.0
+        },
+        "completion_tokens": {
+          "n": 3,
+          "p50": 43.0,
+          "p95": 43.0,
+          "p99": 43.0,
+          "max": 43.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 3,
+          "p50": 3053.521,
+          "p95": 4166.086,
+          "p99": 4166.086,
+          "max": 4166.086,
+          "budget": 1000,
+          "violations": 3,
+          "violation_rate": 1.0
+        }
+      }
+    },
+    "resources": {
+      "samples": 43,
+      "sampling_errors": 0,
+      "gpu_utilization_percent": {
+        "n": 43,
+        "p50": 20.0,
+        "p95": 73.0,
+        "p99": 94.0,
+        "max": 94.0
+      },
+      "host_cpu_percent": {
+        "n": 42,
+        "p50": 50.661,
+        "p95": 58.115,
+        "p99": 70.934,
+        "max": 70.934
+      },
+      "event_loop_window_max_ms": {
+        "n": 43,
+        "p50": 2.955,
+        "p95": 78.482,
+        "p99": 78.482,
+        "max": 78.482
+      },
+      "production_session_count": {
+        "n": 43,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      },
+      "min_available_ram_mb": 38577.1,
+      "queues": {
+        "llm_active": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 3.0,
+          "p99": 3.0,
+          "max": 3.0
+        },
+        "llm_waiting": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tts_active": {
+          "n": 43,
+          "p50": 1.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1.0
+        },
+        "tts_waiting": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 2.0,
+          "p99": 2.0,
+          "max": 2.0
+        },
+        "asr_active": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 2.0,
+          "max": 2.0
+        },
+        "asr_waiting": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tool_active": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tool_waiting": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "search_active": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 3.0,
+          "p99": 3.0,
+          "max": 3.0
+        },
+        "search_waiting": {
+          "n": 43,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        }
+      },
+      "native_llm_deferred": {
+        "n": 43,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      }
+    },
+    "sample_method": "Fixed synthetic speech, repeated in rolling bounded history; load-3 requests share batch/host and are correlated. Descriptive p95/p99, not a production SLA.",
+    "native_evidence": {
+      "requests_attempted": 15,
+      "requests_complete": 15,
+      "prompt_counts_with_usage": 15,
+      "prompt_count_matches_usage": 15,
+      "prompt_count_mismatches": [],
+      "requests_trimmed": 0,
+      "requests_over_budget": [],
+      "prompt_prepare_ms": {
+        "n": 15,
+        "p50": 22.869,
+        "p95": 27.905,
+        "p99": 35.994,
+        "max": 35.994
+      },
+      "prompt_tokens_counted": {
+        "n": 15,
+        "p50": 538.0,
+        "p95": 634.0,
+        "p99": 634.0,
+        "max": 634.0
+      },
+      "native_cached_tokens": {
+        "n": 15,
+        "p50": 510.0,
+        "p95": 578.0,
+        "p99": 578.0,
+        "max": 578.0
+      },
+      "native_new_prompt_tokens": {
+        "n": 15,
+        "p50": 45.0,
+        "p95": 63.0,
+        "p99": 492.0,
+        "max": 492.0
+      },
+      "native_prefill_ms": {
+        "n": 15,
+        "p50": 280.796,
+        "p95": 385.426,
+        "p99": 434.876,
+        "max": 434.876
+      },
+      "native_decode_ms": {
+        "n": 15,
+        "p50": 203.353,
+        "p95": 1286.671,
+        "p99": 1286.734,
+        "max": 1286.734
+      },
+      "content_phrases": 18,
+      "content_phrases_missing_playback": 0,
+      "content_phrases_negative_playback_delay": 0,
+      "scope": "All attempted requests retained; latency distributions from summarize_g1 exclude unsuccessful content. Native KV cache contains model state, never another session message added to a request."
+    }
+  },
+  "pool2-runtime-3": {
+    "manifest": {
+      "schema_version": 2,
+      "started_at": "2026-09-29T07:16:35.447Z",
+      "base": "https://127.0.0.1:19101",
+      "load": 3,
+      "mode": "worklet",
+      "count": 2,
+      "health": {
+        "ok": true,
+        "runtime": {
+          "revision": "2d10008",
+          "dirty": true,
+          "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+          "config_sha256": "a2e936236a9b0c9fcb1da507d3e3cbbe8e64d61b7c45c49e40cc3872020e8d45",
+          "started_at": "2026-09-29T07:16:22.188471+00:00",
+          "python": "3.12.3",
+          "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+          "packages": {
+            "fastapi": "0.139.2",
+            "uvicorn": "0.51.0",
+            "httpx": "0.28.1",
+            "numpy": "2.4.6",
+            "onnxruntime": "1.27.0",
+            "zerotts": "0.1.5"
+          }
+        },
+        "sessions": 0,
+        "models": {
+          "mode": "cascade",
+          "asr": {
+            "name": "s2s:gipformer",
+            "capabilities": {
+              "streaming_partials": true,
+              "languages": [
+                "vi"
+              ],
+              "native_sample_rate": 16000
+            }
+          },
+          "llm": {
+            "name": "openai_compat",
+            "capabilities": {
+              "tools": true,
+              "streaming": true,
+              "context_tokens": 4096
+            }
+          },
+          "tts": {
+            "name": "zerotts",
+            "capabilities": {
+              "streaming": true,
+              "emotion_cues": false,
+              "voices": [
+                "baotrang",
+                "giahuy",
+                "hamy",
+                "huuduc",
+                "kimoanh",
+                "maichi",
+                "quangminh",
+                "tiendat"
+              ],
+              "native_sample_rate": 24000,
+              "expected_rtf": 0.71
+            }
+          },
+          "s2s": null,
+          "search": {
+            "name": "llm",
+            "capabilities": null
+          }
+        },
+        "tools": [
+          "clock"
+        ]
+      },
+      "config": {
+        "audio": {
+          "sample_rate": 16000,
+          "frame_ms": 20,
+          "channels": 1,
+          "output_sample_rate": 24000,
+          "output_frame_ms": 40
+        },
+        "media": {
+          "vad": {
+            "backend": "energy",
+            "threshold": 0.5,
+            "energy_threshold": 0.012,
+            "start_frames": 2,
+            "end_frames": 12,
+            "pre_roll_ms": 320
+          },
+          "aec": {
+            "backend": "client",
+            "enabled": true
+          },
+          "denoise": "none",
+          "jitter_target_ms": 60
+        },
+        "conversation": {
+          "turn_detection": {
+            "backend": "heuristic",
+            "silence_ms": 480,
+            "max_silence_ms": 1400,
+            "min_utterance_ms": 240,
+            "max_utterance_ms": 30000
+          },
+          "barge_in": {
+            "enabled": true,
+            "speech_frames": 6,
+            "guard_ms": 150,
+            "min_rms": 0.02,
+            "resume_after_false": true,
+            "resume_window_ms": 5000,
+            "merge_unanswered": true
+          },
+          "filler": {
+            "enabled": true,
+            "after_ms": 700,
+            "phrases": [
+              "Để tôi kiểm tra một chút.",
+              "Chờ tôi tra cứu nhanh nhé."
+            ]
+          },
+          "opener": {
+            "enabled": true,
+            "text": "Vâng.",
+            "after_ms": 800
+          },
+          "search": {
+            "enabled": true,
+            "max_inflight": 2,
+            "ttl_ms": 60000,
+            "delivery_prefix": "Về câu bạn hỏi lúc nãy",
+            "instant_ack": "Để tôi tra cứu nhé.",
+            "skip_redundant_ack": true
+          },
+          "history_turns": 12,
+          "streaming_first_phrase_chars": 48,
+          "streaming_first_phrase_wait_ms": 250,
+          "tool_instruction": "Bạn có các công cụ sau: {tools}. Đọc lại, lặp nguyên văn, dịch, trích dẫn hay tình huống giả định: chỉ trả lời theo văn bản, không gọi công cụ. {tool_routes} Kiến thức cố định và tính toán không cần tra cứu: trả lời trực tiếp. Khi cần công cụ, phải gọi rồi mới trả lời.",
+          "system_prompt": "Trả lời ngắn bằng tiếng Việt, không markdown.",
+          "orphan_turn_timeout_ms": 20000
+        },
+        "models": {
+          "mode": "cascade",
+          "asr": {
+            "backend": "gipformer",
+            "options": {
+              "model_dir": "models/gipformer1.5-65M-rnnt",
+              "precision": "int8",
+              "onnx_threads": 4,
+              "lowercase": true,
+              "partial_every_frames": 25
+            }
+          },
+          "llm": {
+            "backend": "openai_compat",
+            "options": {
+              "endpoint": "http://127.0.0.1:18108/v1",
+              "model": "qwen3.5-4b",
+              "max_tokens": 120,
+              "temperature": 0,
+              "enable_thinking": false,
+              "keepalive_connections": 0,
+              "timeout_s": 30,
+              "max_parallel": 3,
+              "max_queue": 8,
+              "context_tokens": 4096,
+              "prompt_budget_tokens": 1800,
+              "native_tokenizer": true,
+              "literal_request_policy": true,
+              "extra_body": {
+                "seed": 20260929
+              }
+            }
+          },
+          "tts": {
+            "backend": "zerotts",
+            "options": {
+              "voice": "kimoanh",
+              "revision": "c2bfbd67dc648cac455077333f7cf5c18a2e3bb4",
+              "local_files_only": true,
+              "intra_op_num_threads": 4,
+              "codec_intra_op_num_threads": 4,
+              "max_queue": 6,
+              "max_pending_chunks": 4,
+              "max_chunk_frames": 8,
+              "pool_size": 2,
+              "share_model": true,
+              "onnx_spin_duration_us": 1000
+            }
+          },
+          "s2s": {
+            "backend": "none",
+            "options": {}
+          },
+          "search": {
+            "backend": "llm",
+            "options": {
+              "endpoint": "http://127.0.0.1:18108/v1",
+              "model": "qwen3.5-4b",
+              "max_tokens": 160,
+              "temperature": 0,
+              "enable_thinking": false,
+              "keepalive_connections": 0,
+              "timeout_s": 30,
+              "max_parallel": 3,
+              "max_queue": 8,
+              "system_prompt": "Bạn là bộ phận tra cứu. Trả lời NGẮN và CHÍNH XÁC bằng tiếng Việt, tối đa hai câu, chỉ nêu dữ kiện. Không chào hỏi. Nếu không chắc chắn, nói thẳng là không tra được.",
+              "context_tokens": 4096,
+              "prompt_budget_tokens": 1800,
+              "native_tokenizer": true,
+              "literal_request_policy": true,
+              "extra_body": {
+                "seed": 20260929
+              }
+            }
+          },
+          "keep_warm_s": 240,
+          "prewarm_before_sessions": true,
+          "startup_timeout_s": 180,
+          "operation_timeout_s": 30
+        },
+        "tasks": {
+          "enabled": true,
+          "tools": [
+            "clock"
+          ],
+          "default_timeout_ms": 8000,
+          "max_parallel": 4,
+          "max_queue": 16
+        },
+        "observability": {
+          "trace_dir": "runtime/traces",
+          "write_traces": true,
+          "log_events": true,
+          "keep_turns": 200
+        },
+        "server": {
+          "host": "127.0.0.1",
+          "port": 19101,
+          "web_dir": "web",
+          "cors_origins": [
+            "*"
+          ],
+          "ssl_certfile": ".tls/server.crt",
+          "ssl_keyfile": ".tls/server.key",
+          "private_introspection": true,
+          "max_sessions": 3,
+          "max_audio_bytes": 131072,
+          "max_text_chars": 4000,
+          "idle_timeout_s": 120,
+          "max_session_s": 3600,
+          "readiness_timeout_s": 2,
+          "readiness_ttl_s": 2
+        }
+      },
+      "browser": "149.0.7827.0",
+      "playback_basis": "Chromium AudioWorklet render thread",
+      "stimulus_basis": "synthetic Vietnamese speech; no microphone/room/network/device equivalence",
+      "artifacts": {
+        "web/playback.js": "78c168ec7792c70d7d97332b2f4ec9207025a3775a318e11f6dc31a1f4280435",
+        "web/playback-worklet.js": "8549a11192bcfe20ecccbc520249ed042e76fa0f9426cb39ff3207eab36911ef",
+        "web/benchmark.js": "b19441ae1e4a6f9bc580c2e324e49bff43533723207539dbb673183fd147a76b",
+        "scripts/benchmark_g1.cjs": "50cd56b0e0d678978f95080368a0bec7bb980ae1ae7eae7cc44f062797d51da4"
+      },
+      "platform_sessions_at_start": {},
+      "stimuli_sha256": "c7cf0cb363884cf24620fc46a39eb882c338f408497d37f0d40c036d8ae6cb9a",
+      "finished_at": "2026-09-29T07:17:14.922Z",
+      "failures": 0,
+      "sessions_after_close": {}
+    },
+    "cases": 12,
+    "valid_cases": 12,
+    "failed_cases": [],
+    "by_case": {
+      "clock": {
+        "attempted": 3,
+        "valid": 3,
+        "content_turns": 3,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 3,
+            "p50": 38.8,
+            "p95": 50.9,
+            "p99": 50.9,
+            "max": 50.9
+          },
+          "asr_first_partial_ms": {
+            "n": 3,
+            "p50": 500.4,
+            "p95": 520.6,
+            "p99": 520.6,
+            "max": 520.6
+          },
+          "asr_stream_duration_ms": {
+            "n": 3,
+            "p50": 1561.9,
+            "p95": 1574.9,
+            "p99": 1574.9,
+            "max": 1574.9
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 3,
+            "p50": 154.667,
+            "p95": 176.0,
+            "p99": 176.0,
+            "max": 176.0
+          },
+          "content_phrase_gap_ms": {
+            "n": 3,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "content_playback_signal_ms": {
+            "n": 3,
+            "p50": 2323.226,
+            "p95": 3340.826,
+            "p99": 3340.826,
+            "max": 3340.826
+          },
+          "content_playback_start_ms": {
+            "n": 3,
+            "p50": 2295.068,
+            "p95": 3308.699,
+            "p99": 3308.699,
+            "max": 3308.699,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 1.0
+          },
+          "content_underruns": {
+            "n": 3,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 3,
+            "p50": 839.2,
+            "p95": 851.4,
+            "p99": 851.4,
+            "max": 851.4
+          },
+          "endpoint_ms": {
+            "n": 3,
+            "p50": 242.0,
+            "p95": 242.7,
+            "p99": 242.7,
+            "max": 242.7
+          },
+          "first_any_audio_sent_ms": {
+            "n": 3,
+            "p50": 839.555,
+            "p95": 851.649,
+            "p99": 851.649,
+            "max": 851.649
+          },
+          "first_content_audio_sent_ms": {
+            "n": 3,
+            "p50": 2147.277,
+            "p95": 3200.586,
+            "p99": 3200.586,
+            "max": 3200.586,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 1.0
+          },
+          "first_phrase_ready_ms": {
+            "n": 3,
+            "p50": 2046.568,
+            "p95": 2047.633,
+            "p99": 2047.633,
+            "max": 2047.633
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 3,
+            "p50": 2610.47,
+            "p95": 3663.124,
+            "p99": 3663.124,
+            "max": 3663.124
+          },
+          "llm_total_ms": {
+            "n": 3,
+            "p50": 1968.834,
+            "p95": 1969.668,
+            "p99": 1969.668,
+            "max": 1969.668
+          },
+          "llm_ttft_ms": {
+            "n": 3,
+            "p50": 629.171,
+            "p95": 636.38,
+            "p99": 636.38,
+            "max": 636.38
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 3,
+            "p50": 0.2,
+            "p95": 0.3,
+            "p99": 0.3,
+            "max": 0.3
+          },
+          "response_total_ms": {
+            "n": 3,
+            "p50": 3187.2,
+            "p95": 3900.6,
+            "p99": 3900.6,
+            "max": 3900.6
+          },
+          "tool_ms": {
+            "n": 3,
+            "p50": 0.1,
+            "p95": 0.1,
+            "p99": 0.1,
+            "max": 0.1
+          },
+          "tts_ttfa_ms": {
+            "n": 3,
+            "p50": 0.3,
+            "p95": 0.3,
+            "p99": 0.3,
+            "max": 0.3
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 6,
+            "p50": 0.011,
+            "p95": 0.014,
+            "p99": 0.014,
+            "max": 0.014
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 3,
+            "p50": 629.171,
+            "p95": 636.38,
+            "p99": 636.38,
+            "max": 636.38,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 3,
+            "p50": 930.412,
+            "p95": 938.166,
+            "p99": 938.166,
+            "max": 938.166
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 6,
+            "p50": 849.968,
+            "p95": 1126.66,
+            "p99": 1126.66,
+            "max": 1126.66
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 3,
+            "p50": 654.329,
+            "p95": 654.771,
+            "p99": 654.771,
+            "max": 654.771,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 3,
+            "p50": 213.164,
+            "p95": 213.584,
+            "p99": 213.584,
+            "max": 213.584
+          },
+          "tts_queue_ms": {
+            "n": 3,
+            "p50": 0.011,
+            "p95": 1061.115,
+            "p99": 1061.115,
+            "max": 1061.115
+          },
+          "tts_compute_ms": {
+            "n": 3,
+            "p50": 1054.562,
+            "p95": 1131.618,
+            "p99": 1131.618,
+            "max": 1131.618
+          },
+          "tts_first_chunk_ms": {
+            "n": 3,
+            "p50": 94.437,
+            "p95": 100.184,
+            "p99": 100.184,
+            "max": 100.184
+          },
+          "tts_lock_wait_ms": {
+            "n": 3,
+            "p50": 0.001,
+            "p95": 0.001,
+            "p99": 0.001,
+            "max": 0.001
+          },
+          "tts_rtf": {
+            "n": 3,
+            "p50": 0.775,
+            "p95": 0.786,
+            "p99": 0.786,
+            "max": 0.786
+          },
+          "asr_final_queue_ms": {
+            "n": 3,
+            "p50": 0.004,
+            "p95": 0.007,
+            "p99": 0.007,
+            "max": 0.007
+          },
+          "asr_final_compute_ms": {
+            "n": 3,
+            "p50": 38.371,
+            "p95": 49.575,
+            "p99": 49.575,
+            "max": 49.575
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 9,
+            "p50": 0.009,
+            "p95": 0.015,
+            "p99": 0.015,
+            "max": 0.015
+          },
+          "asr_partial_compute_ms": {
+            "n": 9,
+            "p50": 26.823,
+            "p95": 44.065,
+            "p99": 44.065,
+            "max": 44.065
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 3,
+            "p50": 0.007,
+            "p95": 0.01,
+            "p99": 0.01,
+            "max": 0.01
+          },
+          "tool_compute_ms": {
+            "n": 3,
+            "p50": 0.014,
+            "p95": 0.027,
+            "p99": 0.027,
+            "max": 0.027
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 3,
+            "p50": 3.9,
+            "p95": 4.0,
+            "p99": 4.0,
+            "max": 4.0
+          },
+          "clock_uncertainty_ms": {
+            "n": 3,
+            "p50": 0.2,
+            "p95": 0.3,
+            "p99": 0.3,
+            "max": 0.3
+          }
+        },
+        "answers": {
+          "14 giờ 17 phút": 3
+        },
+        "asr_texts": {
+          "bấy giờ là mấy giờ rồi": 3
+        },
+        "phrase_roles": {
+          "content": 3,
+          "filler": 3,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 3,
+        "content_turns_with_underrun": 2,
+        "prompt_chars": {
+          "n": 6,
+          "p50": 773.0,
+          "p95": 831.0,
+          "p99": 831.0,
+          "max": 831.0
+        },
+        "prompt_tokens": {
+          "n": 6,
+          "p50": 598.0,
+          "p95": 635.0,
+          "p99": 635.0,
+          "max": 635.0
+        },
+        "completion_tokens": {
+          "n": 6,
+          "p50": 8.0,
+          "p95": 14.0,
+          "p99": 14.0,
+          "max": 14.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 3,
+          "p50": 2710.749,
+          "p95": 3723.766,
+          "p99": 3723.766,
+          "max": 3723.766,
+          "budget": 1000,
+          "violations": 3,
+          "violation_rate": 1.0
+        }
+      },
+      "direct": {
+        "attempted": 6,
+        "valid": 6,
+        "content_turns": 6,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 6,
+            "p50": 67.3,
+            "p95": 109.6,
+            "p99": 109.6,
+            "max": 109.6
+          },
+          "asr_first_partial_ms": {
+            "n": 6,
+            "p50": 519.8,
+            "p95": 540.3,
+            "p99": 540.3,
+            "max": 540.3
+          },
+          "asr_stream_duration_ms": {
+            "n": 6,
+            "p50": 2593.3,
+            "p95": 2751.7,
+            "p99": 2751.7,
+            "max": 2751.7
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 48.0,
+            "p99": 48.0,
+            "max": 48.0
+          },
+          "content_phrase_gap_ms": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "content_playback_signal_ms": {
+            "n": 6,
+            "p50": 1008.488,
+            "p95": 1387.566,
+            "p99": 1387.566,
+            "max": 1387.566
+          },
+          "content_playback_start_ms": {
+            "n": 6,
+            "p50": 1001.561,
+            "p95": 1362.836,
+            "p99": 1362.836,
+            "max": 1362.836,
+            "budget": 1000,
+            "violations": 4,
+            "violation_rate": 0.6667
+          },
+          "content_underruns": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 6,
+            "p50": 846.1,
+            "p95": 1234.2,
+            "p99": 1234.2,
+            "max": 1234.2
+          },
+          "endpoint_ms": {
+            "n": 6,
+            "p50": 242.4,
+            "p95": 243.9,
+            "p99": 243.9,
+            "max": 243.9
+          },
+          "first_any_audio_sent_ms": {
+            "n": 6,
+            "p50": 846.279,
+            "p95": 1234.616,
+            "p99": 1234.616,
+            "max": 1234.616
+          },
+          "first_content_audio_sent_ms": {
+            "n": 6,
+            "p50": 846.279,
+            "p95": 1234.616,
+            "p99": 1234.616,
+            "max": 1234.616,
+            "budget": 1000,
+            "violations": 2,
+            "violation_rate": 0.3333
+          },
+          "first_phrase_ready_ms": {
+            "n": 6,
+            "p50": 601.605,
+            "p95": 742.038,
+            "p99": 742.038,
+            "max": 742.038
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 6,
+            "p50": 1309.558,
+            "p95": 1697.506,
+            "p99": 1697.506,
+            "max": 1697.506
+          },
+          "llm_total_ms": {
+            "n": 6,
+            "p50": 506.411,
+            "p95": 641.181,
+            "p99": 641.181,
+            "max": 641.181
+          },
+          "llm_ttft_ms": {
+            "n": 6,
+            "p50": 415.185,
+            "p95": 591.047,
+            "p99": 591.047,
+            "max": 591.047
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 6,
+            "p50": 0.2,
+            "p95": 0.3,
+            "p99": 0.3,
+            "max": 0.3
+          },
+          "response_total_ms": {
+            "n": 6,
+            "p50": 1303.6,
+            "p95": 1517.9,
+            "p99": 1517.9,
+            "max": 1517.9
+          },
+          "tool_ms": {
+            "n": 0
+          },
+          "tts_ttfa_ms": {
+            "n": 6,
+            "p50": 105.7,
+            "p95": 712.6,
+            "p99": 712.6,
+            "max": 712.6
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 6,
+            "p50": 0.014,
+            "p95": 0.033,
+            "p99": 0.033,
+            "max": 0.033
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 6,
+            "p50": 415.185,
+            "p95": 591.047,
+            "p99": 591.047,
+            "max": 591.047,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 6,
+            "p50": 506.411,
+            "p95": 641.181,
+            "p99": 641.181,
+            "max": 641.181
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 6,
+            "p50": 442.173,
+            "p95": 616.56,
+            "p99": 616.56,
+            "max": 616.56,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 6,
+            "p50": 91.218,
+            "p95": 269.812,
+            "p99": 269.812,
+            "max": 269.812
+          },
+          "tts_queue_ms": {
+            "n": 6,
+            "p50": 0.015,
+            "p95": 619.698,
+            "p99": 619.698,
+            "max": 619.698
+          },
+          "tts_compute_ms": {
+            "n": 6,
+            "p50": 459.111,
+            "p95": 768.916,
+            "p99": 768.916,
+            "max": 768.916
+          },
+          "tts_first_chunk_ms": {
+            "n": 6,
+            "p50": 92.45,
+            "p95": 128.932,
+            "p99": 128.932,
+            "max": 128.932
+          },
+          "tts_lock_wait_ms": {
+            "n": 6,
+            "p50": 0.001,
+            "p95": 0.003,
+            "p99": 0.003,
+            "max": 0.003
+          },
+          "tts_rtf": {
+            "n": 6,
+            "p50": 0.82,
+            "p95": 0.874,
+            "p99": 0.874,
+            "max": 0.874
+          },
+          "asr_final_queue_ms": {
+            "n": 6,
+            "p50": 0.019,
+            "p95": 55.348,
+            "p99": 55.348,
+            "max": 55.348
+          },
+          "asr_final_compute_ms": {
+            "n": 6,
+            "p50": 47.902,
+            "p95": 66.709,
+            "p99": 66.709,
+            "max": 66.709
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 30,
+            "p50": 0.015,
+            "p95": 0.028,
+            "p99": 0.032,
+            "max": 0.032
+          },
+          "asr_partial_compute_ms": {
+            "n": 30,
+            "p50": 41.902,
+            "p95": 70.903,
+            "p99": 122.846,
+            "max": 122.846
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 0
+          },
+          "tool_compute_ms": {
+            "n": 0
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 6,
+            "p50": 8.3,
+            "p95": 13.2,
+            "p99": 13.2,
+            "max": 13.2
+          },
+          "clock_uncertainty_ms": {
+            "n": 6,
+            "p50": 0.2,
+            "p95": 0.3,
+            "p99": 0.3,
+            "max": 0.3
+          }
+        },
+        "answers": {
+          "4": 3,
+          "Hà Nội": 3
+        },
+        "asr_texts": {
+          "hai cộng hai bằng mấy chỉ trả lời kết quả": 3,
+          "thủ đô việt nam là gì trả lời thật ngắn": 3
+        },
+        "phrase_roles": {
+          "content": 6,
+          "filler": 0,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 0,
+        "content_turns_with_underrun": 3,
+        "prompt_chars": {
+          "n": 6,
+          "p50": 487.0,
+          "p95": 532.0,
+          "p99": 532.0,
+          "max": 532.0
+        },
+        "prompt_tokens": {
+          "n": 6,
+          "p50": 493.0,
+          "p95": 515.0,
+          "p99": 515.0,
+          "max": 515.0
+        },
+        "completion_tokens": {
+          "n": 6,
+          "p50": 2.0,
+          "p95": 3.0,
+          "p99": 3.0,
+          "max": 3.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 6,
+          "p50": 1449.149,
+          "p95": 1790.726,
+          "p99": 1790.726,
+          "max": 1790.726,
+          "budget": 1000,
+          "violations": 6,
+          "violation_rate": 1.0
+        }
+      },
+      "natural": {
+        "attempted": 3,
+        "valid": 3,
+        "content_turns": 3,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 3,
+            "p50": 54.0,
+            "p95": 72.7,
+            "p99": 72.7,
+            "max": 72.7
+          },
+          "asr_first_partial_ms": {
+            "n": 3,
+            "p50": 501.0,
+            "p95": 520.2,
+            "p99": 520.2,
+            "max": 520.2
+          },
+          "asr_stream_duration_ms": {
+            "n": 3,
+            "p50": 2718.0,
+            "p95": 2736.4,
+            "p99": 2736.4,
+            "max": 2736.4
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 3,
+            "p50": 581.333,
+            "p95": 832.0,
+            "p99": 832.0,
+            "max": 832.0
+          },
+          "content_phrase_gap_ms": {
+            "n": 3,
+            "p50": 1699.71,
+            "p95": 2811.765,
+            "p99": 2811.765,
+            "max": 2811.765
+          },
+          "content_playback_signal_ms": {
+            "n": 3,
+            "p50": 1432.459,
+            "p95": 3074.621,
+            "p99": 3074.621,
+            "max": 3074.621
+          },
+          "content_playback_start_ms": {
+            "n": 3,
+            "p50": 1393.392,
+            "p95": 3044.007,
+            "p99": 3044.007,
+            "max": 3044.007,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 1.0
+          },
+          "content_underruns": {
+            "n": 3,
+            "p50": 3.0,
+            "p95": 4.0,
+            "p99": 4.0,
+            "max": 4.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 3,
+            "p50": 855.1,
+            "p95": 874.6,
+            "p99": 874.6,
+            "max": 874.6
+          },
+          "endpoint_ms": {
+            "n": 3,
+            "p50": 242.7,
+            "p95": 243.0,
+            "p99": 243.0,
+            "max": 243.0
+          },
+          "first_any_audio_sent_ms": {
+            "n": 3,
+            "p50": 855.238,
+            "p95": 874.796,
+            "p99": 874.796,
+            "max": 874.796
+          },
+          "first_content_audio_sent_ms": {
+            "n": 3,
+            "p50": 1085.547,
+            "p95": 2884.907,
+            "p99": 2884.907,
+            "max": 2884.907,
+            "budget": 1000,
+            "violations": 3,
+            "violation_rate": 1.0
+          },
+          "first_phrase_ready_ms": {
+            "n": 3,
+            "p50": 917.267,
+            "p95": 917.653,
+            "p99": 917.653,
+            "max": 917.653
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 3,
+            "p50": 1548.276,
+            "p95": 3348.828,
+            "p99": 3348.828,
+            "max": 3348.828
+          },
+          "llm_total_ms": {
+            "n": 3,
+            "p50": 2087.359,
+            "p95": 2117.636,
+            "p99": 2117.636,
+            "max": 2117.636
+          },
+          "llm_ttft_ms": {
+            "n": 3,
+            "p50": 597.697,
+            "p95": 599.33,
+            "p99": 599.33,
+            "max": 599.33
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 3,
+            "p50": 0.2,
+            "p95": 0.3,
+            "p99": 0.3,
+            "max": 0.3
+          },
+          "response_total_ms": {
+            "n": 3,
+            "p50": 13683.3,
+            "p95": 13686.1,
+            "p99": 13686.1,
+            "max": 13686.1
+          },
+          "tool_ms": {
+            "n": 0
+          },
+          "tts_ttfa_ms": {
+            "n": 3,
+            "p50": 0.4,
+            "p95": 0.5,
+            "p99": 0.5,
+            "max": 0.5
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 3,
+            "p50": 0.013,
+            "p95": 0.014,
+            "p99": 0.014,
+            "max": 0.014
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 3,
+            "p50": 597.697,
+            "p95": 599.33,
+            "p99": 599.33,
+            "max": 599.33,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 3,
+            "p50": 2087.359,
+            "p95": 2117.636,
+            "p99": 2117.636,
+            "max": 2117.636
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 3,
+            "p50": 611.976,
+            "p95": 616.638,
+            "p99": 616.638,
+            "max": 616.638,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 3,
+            "p50": 250.518,
+            "p95": 250.729,
+            "p99": 250.729,
+            "max": 250.729
+          },
+          "tts_queue_ms": {
+            "n": 9,
+            "p50": 1070.373,
+            "p95": 3264.159,
+            "p99": 3264.159,
+            "max": 3264.159
+          },
+          "tts_compute_ms": {
+            "n": 9,
+            "p50": 2356.073,
+            "p95": 4542.552,
+            "p99": 4542.552,
+            "max": 4542.552
+          },
+          "tts_first_chunk_ms": {
+            "n": 9,
+            "p50": 112.073,
+            "p95": 166.927,
+            "p99": 166.927,
+            "max": 166.927
+          },
+          "tts_lock_wait_ms": {
+            "n": 9,
+            "p50": 0.001,
+            "p95": 0.002,
+            "p99": 0.002,
+            "max": 0.002
+          },
+          "tts_rtf": {
+            "n": 9,
+            "p50": 0.745,
+            "p95": 1.164,
+            "p99": 1.164,
+            "max": 1.164
+          },
+          "asr_final_queue_ms": {
+            "n": 3,
+            "p50": 0.003,
+            "p95": 0.008,
+            "p99": 0.008,
+            "max": 0.008
+          },
+          "asr_final_compute_ms": {
+            "n": 3,
+            "p50": 53.799,
+            "p95": 72.407,
+            "p99": 72.407,
+            "max": 72.407
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 15,
+            "p50": 0.011,
+            "p95": 0.02,
+            "p99": 0.021,
+            "max": 0.021
+          },
+          "asr_partial_compute_ms": {
+            "n": 15,
+            "p50": 30.915,
+            "p95": 47.047,
+            "p99": 81.367,
+            "max": 81.367
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 0
+          },
+          "tool_compute_ms": {
+            "n": 0
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 3,
+            "p50": 9.4,
+            "p95": 9.5,
+            "p99": 9.5,
+            "max": 9.5
+          },
+          "clock_uncertainty_ms": {
+            "n": 3,
+            "p50": 0.2,
+            "p95": 0.3,
+            "p99": 0.3,
+            "max": 0.3
+          }
+        },
+        "answers": {
+          "Ánh sáng mặt trời gồm nhiều màu, khi đi qua khí quyển, các phân tử không khí làm tán xạ ánh sáng xanh nhiều hơn các màu khác, khiến mắt ta nhìn thấy bầu trời màu xanh.": 2,
+          "Ánh sáng mặt trời gồm nhiều màu, khi đi qua khí quyển, các phân tử không khí làm tán xạ ánh sáng xanh nhiều hơn các màu khác, khiến mắt ta nhìn thấy bầu trời có màu xanh.": 1
+        },
+        "asr_texts": {
+          "giải thích ngắn gọn tại sao bầu trời có màu xanh": 3
+        },
+        "phrase_roles": {
+          "content": 9,
+          "filler": 3,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 3,
+        "content_turns_with_underrun": 3,
+        "prompt_chars": {
+          "n": 3,
+          "p50": 581.0,
+          "p95": 581.0,
+          "p99": 581.0,
+          "max": 581.0
+        },
+        "prompt_tokens": {
+          "n": 3,
+          "p50": 538.0,
+          "p95": 538.0,
+          "p99": 538.0,
+          "max": 538.0
+        },
+        "completion_tokens": {
+          "n": 3,
+          "p50": 43.0,
+          "p95": 44.0,
+          "p99": 44.0,
+          "max": 44.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 3,
+          "p50": 1828.744,
+          "p95": 3479.438,
+          "p99": 3479.438,
+          "max": 3479.438,
+          "budget": 1000,
+          "violations": 3,
+          "violation_rate": 1.0
+        }
+      }
+    },
+    "resources": {
+      "samples": 37,
+      "sampling_errors": 0,
+      "gpu_utilization_percent": {
+        "n": 37,
+        "p50": 36.0,
+        "p95": 69.0,
+        "p99": 95.0,
+        "max": 95.0
+      },
+      "host_cpu_percent": {
+        "n": 36,
+        "p50": 44.33,
+        "p95": 70.222,
+        "p99": 75.796,
+        "max": 75.796
+      },
+      "event_loop_window_max_ms": {
+        "n": 37,
+        "p50": 2.731,
+        "p95": 3.97,
+        "p99": 3.97,
+        "max": 3.97
+      },
+      "production_session_count": {
+        "n": 37,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      },
+      "min_available_ram_mb": 34443.5,
+      "queues": {
+        "llm_active": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 3.0,
+          "p99": 3.0,
+          "max": 3.0
+        },
+        "llm_waiting": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tts_active": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 2.0,
+          "p99": 2.0,
+          "max": 2.0
+        },
+        "tts_waiting": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1.0
+        },
+        "asr_active": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 2.0,
+          "max": 2.0
+        },
+        "asr_waiting": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tool_active": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tool_waiting": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "search_active": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 3.0,
+          "p99": 3.0,
+          "max": 3.0
+        },
+        "search_waiting": {
+          "n": 37,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        }
+      },
+      "native_llm_deferred": {
+        "n": 37,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      }
+    },
+    "sample_method": "Fixed synthetic speech, repeated in rolling bounded history; load-3 requests share batch/host and are correlated. Descriptive p95/p99, not a production SLA.",
+    "native_evidence": {
+      "requests_attempted": 15,
+      "requests_complete": 15,
+      "prompt_counts_with_usage": 15,
+      "prompt_count_matches_usage": 15,
+      "prompt_count_mismatches": [],
+      "requests_trimmed": 0,
+      "requests_over_budget": [],
+      "prompt_prepare_ms": {
+        "n": 15,
+        "p50": 21.997,
+        "p95": 26.883,
+        "p99": 41.186,
+        "max": 41.186
+      },
+      "prompt_tokens_counted": {
+        "n": 15,
+        "p50": 538.0,
+        "p95": 634.0,
+        "p99": 635.0,
+        "max": 635.0
+      },
+      "native_cached_tokens": {
+        "n": 15,
+        "p50": 510.0,
+        "p95": 578.0,
+        "p99": 579.0,
+        "max": 579.0
+      },
+      "native_new_prompt_tokens": {
+        "n": 15,
+        "p50": 56.0,
+        "p95": 263.0,
+        "p99": 264.0,
+        "max": 264.0
+      },
+      "native_prefill_ms": {
+        "n": 15,
+        "p50": 296.026,
+        "p95": 396.511,
+        "p99": 466.232,
+        "max": 466.232
+      },
+      "native_decode_ms": {
+        "n": 15,
+        "p50": 211.632,
+        "p95": 1488.643,
+        "p99": 1517.561,
+        "max": 1517.561
+      },
+      "content_phrases": 18,
+      "content_phrases_missing_playback": 0,
+      "content_phrases_negative_playback_delay": 0,
+      "scope": "All attempted requests retained; latency distributions from summarize_g1 exclude unsuccessful content. Native KV cache contains model state, never another session message added to a request."
+    }
+  }
+}

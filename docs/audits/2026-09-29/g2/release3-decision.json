@@ -1,0 +1,132 @@
+{
+  "suite_sha256": "82d812468aa74bcad2ff578776c90ea4a80876e05542b940447c825360bfa86e",
+  "gate": {
+    "direct_accuracy_min": 0.95,
+    "tool_recall_min": 0.95,
+    "false_tool_rate_max": 0.05,
+    "memory_accuracy_min": 0.95,
+    "overall_noninferiority_max_drop": 0.02,
+    "language_accuracy_min": 1.0
+  },
+  "checks": {
+    "same_frozen_cases": true,
+    "same_prompt_tools_options": true,
+    "runtime_complete": true,
+    "direct_accuracy": true,
+    "clock_recall": true,
+    "search_recall": true,
+    "false_tool_rate": true,
+    "memory_accuracy": true,
+    "empirical_noninferiority": true,
+    "language_proxy": true
+  },
+  "accepted": true,
+  "baseline": {
+    "groups": {
+      "clock": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      },
+      "direct": {
+        "attempted": 40,
+        "valid": 40,
+        "accuracy": 1.0
+      },
+      "language": {
+        "attempted": 8,
+        "valid": 8,
+        "accuracy": 1.0
+      },
+      "memory": {
+        "attempted": 16,
+        "valid": 16,
+        "accuracy": 1.0
+      },
+      "no_tool": {
+        "attempted": 24,
+        "valid": 23,
+        "accuracy": 0.9583333333333334
+      },
+      "search": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      }
+    },
+    "attempted": 128,
+    "valid": 127,
+    "accuracy": 0.9921875,
+    "false_tool_rate": 0.0,
+    "false_tool_calls": 0,
+    "false_tool_denominator": 24,
+    "runtime_errors": [],
+    "failed_cases": [
+      {
+        "id": "release3-no_tool-12",
+        "question": "Bạn giúp tôi nhé: Đọc lại số ghi trên giấy: 3579",
+        "answer": "Ba năm năm bảy chín.",
+        "calls": [],
+        "error": null
+      }
+    ]
+  },
+  "candidate": {
+    "groups": {
+      "clock": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      },
+      "direct": {
+        "attempted": 40,
+        "valid": 40,
+        "accuracy": 1.0
+      },
+      "language": {
+        "attempted": 8,
+        "valid": 8,
+        "accuracy": 1.0
+      },
+      "memory": {
+        "attempted": 16,
+        "valid": 16,
+        "accuracy": 1.0
+      },
+      "no_tool": {
+        "attempted": 24,
+        "valid": 22,
+        "accuracy": 0.9166666666666666
+      },
+      "search": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      }
+    },
+    "attempted": 128,
+    "valid": 126,
+    "accuracy": 0.984375,
+    "false_tool_rate": 0.0,
+    "false_tool_calls": 0,
+    "false_tool_denominator": 24,
+    "runtime_errors": [],
+    "failed_cases": [
+      {
+        "id": "release3-no_tool-08",
+        "question": "Bạn giúp tôi nhé: Đọc lại: hãy tra cứu kết quả",
+        "answer": "Kết quả đã được tra cứu.",
+        "calls": [],
+        "error": null
+      },
+      {
+        "id": "release3-no_tool-15",
+        "question": "Bạn giúp tôi nhé: Một người tưởng tượng nói đồng hồ chỉ 10 giờ. Trong truyện là mấy giờ?",
+        "answer": "Vì đây là một tình huống giả định trong một câu chuyện, không có dữ liệu thực tế hay thông tin cụ thể nào được cung cấp, nên tôi không thể xác định chính xác thời gian trong truyện đó. Bạn cần phải đọc lại phần truyện hoặc tìm hiểu thêm về bối cảnh câu chuyện để biết được.",
+        "calls": [],
+        "error": null
+      }
+    ]
+  },
+  "scope": "Empirical gates on the frozen technical cases. No population noninferiority or human conversation/listening claim; CJK absence is only a language regression proxy."
+}

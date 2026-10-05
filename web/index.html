@@ -33,7 +33,7 @@
 
     <p class="readout">
       <span class="readout__num" id="ttfa">—</span><span class="readout__unit">ms</span>
-      <span class="readout__cap">tới tiếng đầu tiên, tính từ lúc chốt lượt</span>
+      <span class="readout__cap">tới audio nội dung gửi từ server, tính từ lúc chốt lượt</span>
     </p>
 
     <div class="track" id="track">
@@ -70,6 +70,7 @@
       <p class="say__user" id="transcript">—</p>
       <p class="lbl">Trợ lý</p>
       <p class="say__bot" id="assistant">—</p>
+      <p class="say__source" id="search-source" hidden></p>
     </div>
 
     <dl class="counters" id="counters"></dl>
@@ -107,6 +108,6 @@
 
 </main>
 
-<script src="/static/client.js"></script>
+<script type="module" src="/static/client.js"></script>
 </body>
 </html>

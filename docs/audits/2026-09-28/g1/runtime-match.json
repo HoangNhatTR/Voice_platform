@@ -1,0 +1,134 @@
+{
+  "verified_at": "2026-09-29T02:35:54.781838+00:00",
+  "source_sha256": "0891bd16ff8e26f0683415604b0c44f71c4d15ac743f66cf5a4590dc9396d4fc",
+  "production_runtime": {
+    "revision": "2d10008",
+    "dirty": true,
+    "source_sha256": "0891bd16ff8e26f0683415604b0c44f71c4d15ac743f66cf5a4590dc9396d4fc",
+    "config_sha256": "6b094affed61bbcec4fbac2db3340a815e5065d41ecbd4b835a1a1756fa9ff05",
+    "started_at": "2026-09-28T09:56:23.330629+00:00",
+    "python": "3.12.3",
+    "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+    "packages": {
+      "fastapi": "0.139.2",
+      "uvicorn": "0.51.0",
+      "httpx": "0.28.1",
+      "numpy": "2.4.6",
+      "onnxruntime": "1.27.0",
+      "zerotts": "0.1.5"
+    }
+  },
+  "benchmark_runtime": {
+    "revision": "2d10008",
+    "dirty": true,
+    "source_sha256": "0891bd16ff8e26f0683415604b0c44f71c4d15ac743f66cf5a4590dc9396d4fc",
+    "config_sha256": "2dbd71d4b8e73966b05f58f981982cc344141773dfbc0d2f27a79ed1aeb2488b",
+    "started_at": "2026-09-28T09:56:23.304552+00:00",
+    "python": "3.12.3",
+    "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+    "packages": {
+      "fastapi": "0.139.2",
+      "uvicorn": "0.51.0",
+      "httpx": "0.28.1",
+      "numpy": "2.4.6",
+      "onnxruntime": "1.27.0",
+      "zerotts": "0.1.5"
+    }
+  },
+  "config_differences": [
+    "server.host",
+    "server.port"
+  ],
+  "frontend_sha256": {
+    "web/playback.js": "78c168ec7792c70d7d97332b2f4ec9207025a3775a318e11f6dc31a1f4280435",
+    "web/playback-worklet.js": "8549a11192bcfe20ecccbc520249ed042e76fa0f9426cb39ff3207eab36911ef",
+    "web/client.js": "563f943eb96f91054c7d2dcd6fd195b607f56b4e41f4c9db03d3ba1d7ef3a706",
+    "web/benchmark.js": "b19441ae1e4a6f9bc580c2e324e49bff43533723207539dbb673183fd147a76b"
+  },
+  "sessions_at_validation": {
+    "18100": {},
+    "19101": {}
+  },
+  "gauges_at_validation": {
+    "18100": {
+      "asr": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "llm": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "tts": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 17,
+        "parallel": 1
+      },
+      "search": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "tool": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 20,
+        "parallel": 4
+      },
+      "sessions": 0,
+      "tts_workers": 0,
+      "asr_workers": 0,
+      "event_loop_lag_ms": {
+        "n": 600,
+        "p95": 0.457,
+        "max": 6.545
+      }
+    },
+    "19101": {
+      "asr": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "llm": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "tts": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 17,
+        "parallel": 1
+      },
+      "search": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "tool": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 20,
+        "parallel": 4
+      },
+      "sessions": 0,
+      "tts_workers": 0,
+      "asr_workers": 0,
+      "event_loop_lag_ms": {
+        "n": 600,
+        "p95": 0.425,
+        "max": 1.231
+      }
+    }
+  }
+}

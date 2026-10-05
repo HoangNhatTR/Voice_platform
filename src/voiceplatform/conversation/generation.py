@@ -10,7 +10,7 @@ new turn's — which is the race that makes voice agents talk over themselves.
 from __future__ import annotations
 
 import asyncio
-from collections.abc import Coroutine
+from collections.abc import Callable, Coroutine
 from typing import Any
 
 from ..core.ids import GenerationKey
@@ -84,7 +84,13 @@ class GenerationManager:
         bucket = self._tasks.setdefault(target.generation_id, set())
         bucket.add(task)
         task.add_done_callback(bucket.discard)
+        task.add_done_callback(self._consume_exception)
         return task
+
+    @staticmethod
+    def _consume_exception(task: asyncio.Task) -> None:
+        if not task.cancelled():
+            task.exception()
 
     _SESSION_BUCKET = 0
 
@@ -99,7 +105,24 @@ class GenerationManager:
         bucket = self._tasks.setdefault(self._SESSION_BUCKET, set())
         bucket.add(task)
         task.add_done_callback(bucket.discard)
+        task.add_done_callback(self._consume_exception)
         return task
+
+    def detach(self, key: GenerationKey, *, keep: Callable[[asyncio.Task], bool]) -> list[asyncio.Task]:
+        """Move a generation's live tasks matching `keep` to the session bucket.
+
+        They then survive `cancel(key)` and die only with the session (or when
+        their owner cancels them). Used for a barge-in that may turn out to be
+        a cough: the voice stops at once, the LLM keeps writing until we know.
+        """
+        bucket = self._tasks.get(key.generation_id, set())
+        moved = [t for t in bucket if not t.done() and keep(t)]
+        session = self._tasks.setdefault(self._SESSION_BUCKET, set())
+        for task in moved:
+            bucket.discard(task)
+            session.add(task)
+            task.add_done_callback(session.discard)
+        return moved
 
     def live_tasks(self, key: GenerationKey | None = None) -> int:
         target = key or self._current
@@ -127,7 +150,8 @@ class GenerationManager:
             task.cancel()
         if tasks:
             await asyncio.wait(tasks, timeout=timeout_s)
-        self._tasks.pop(target.generation_id, None)
+        if not any(not task.done() for task in tasks):
+            self._tasks.pop(target.generation_id, None)
         return len(tasks)
 
     async def cancel_all(self) -> int:
@@ -139,7 +163,8 @@ class GenerationManager:
             count += len(tasks)
             if tasks:
                 await asyncio.wait(tasks, timeout=1.0)
-            self._tasks.pop(generation_id, None)
+            if not any(not task.done() for task in tasks):
+                self._tasks.pop(generation_id, None)
         self._current = None
         return count
 

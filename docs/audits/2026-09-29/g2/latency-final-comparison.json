@@ -1,0 +1,179 @@
+{
+  "same_inputs_options_source": true,
+  "model_order": "9B then4B on shared host",
+  "results": {
+    "9b": {
+      "meta": {
+        "model": "qwen3.5-9b",
+        "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+        "suite_sha256": "e346546e9908b34a9181ce67a0040c06fc0c96a9e7765a97e8a1a79b788bc54b",
+        "system": "Bạn có các công cụ sau: clock, search. Đọc lại, lặp nguyên văn, dịch, trích dẫn hay tình huống giả định: chỉ trả lời theo văn bản, không gọi công cụ. Câu hỏi về giờ, ngày, tháng, năm hoặc thứ hiện tại: bắt buộc gọi clock. Yêu cầu tra cứu hoặc kiểm tra thông tin mới: bắt buộc gọi search. Kiến thức cố định và tính toán không cần tra cứu: trả lời trực tiếp. Khi cần công cụ, phải gọi rồi mới trả lời.\n\nTrả lời ngắn bằng tiếng Việt, không markdown.",
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "clock",
+              "description": "Trả về ngày giờ hiện tại theo giờ địa phương.",
+              "parameters": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          {
+            "type": "function",
+            "function": {
+              "name": "search",
+              "description": "Gửi yêu cầu tra cứu thông tin mà bạn không tự biết chắc: dữ liệu thực tế, tin tức, số liệu, thông tin nội bộ. Trả về ngay; kết quả sẽ tới sau.",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "Câu hỏi cần tra, viết đầy đủ và rõ nghĩa."
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          }
+        ],
+        "options": {
+          "max_tokens": 120,
+          "temperature": 0.0,
+          "enable_thinking": false,
+          "context_tokens": 4096,
+          "prompt_budget_tokens": 1800,
+          "native_tokenizer": true,
+          "max_parallel": 3,
+          "max_queue": 8,
+          "literal_request_policy": true,
+          "extra_body": {
+            "seed": 20260929
+          }
+        },
+        "started_at": "2026-09-29T07:51:31.773716+00:00",
+        "finished_at": "2026-09-29T07:51:50.005716+00:00"
+      },
+      "loads": {
+        "1": {
+          "attempted": 20,
+          "valid": 20,
+          "ttft_ms": {
+            "n": 20,
+            "p50": 188.213,
+            "p95": 271.905,
+            "p99": 607.252,
+            "max": 607.252,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          }
+        },
+        "3": {
+          "attempted": 60,
+          "valid": 60,
+          "ttft_ms": {
+            "n": 60,
+            "p50": 334.411,
+            "p95": 744.658,
+            "p99": 1478.685,
+            "max": 1641.115,
+            "budget": 1000,
+            "violations": 2,
+            "violation_rate": 0.0333
+          }
+        }
+      }
+    },
+    "4b": {
+      "meta": {
+        "model": "qwen3.5-4b",
+        "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+        "suite_sha256": "e346546e9908b34a9181ce67a0040c06fc0c96a9e7765a97e8a1a79b788bc54b",
+        "system": "Bạn có các công cụ sau: clock, search. Đọc lại, lặp nguyên văn, dịch, trích dẫn hay tình huống giả định: chỉ trả lời theo văn bản, không gọi công cụ. Câu hỏi về giờ, ngày, tháng, năm hoặc thứ hiện tại: bắt buộc gọi clock. Yêu cầu tra cứu hoặc kiểm tra thông tin mới: bắt buộc gọi search. Kiến thức cố định và tính toán không cần tra cứu: trả lời trực tiếp. Khi cần công cụ, phải gọi rồi mới trả lời.\n\nTrả lời ngắn bằng tiếng Việt, không markdown.",
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "clock",
+              "description": "Trả về ngày giờ hiện tại theo giờ địa phương.",
+              "parameters": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          {
+            "type": "function",
+            "function": {
+              "name": "search",
+              "description": "Gửi yêu cầu tra cứu thông tin mà bạn không tự biết chắc: dữ liệu thực tế, tin tức, số liệu, thông tin nội bộ. Trả về ngay; kết quả sẽ tới sau.",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "Câu hỏi cần tra, viết đầy đủ và rõ nghĩa."
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              }
+            }
+          }
+        ],
+        "options": {
+          "max_tokens": 120,
+          "temperature": 0.0,
+          "enable_thinking": false,
+          "context_tokens": 4096,
+          "prompt_budget_tokens": 1800,
+          "native_tokenizer": true,
+          "max_parallel": 3,
+          "max_queue": 8,
+          "literal_request_policy": true,
+          "extra_body": {
+            "seed": 20260929
+          }
+        },
+        "started_at": "2026-09-29T07:52:52.610089+00:00",
+        "finished_at": "2026-09-29T07:53:05.223580+00:00"
+      },
+      "loads": {
+        "1": {
+          "attempted": 20,
+          "valid": 20,
+          "ttft_ms": {
+            "n": 20,
+            "p50": 145.102,
+            "p95": 156.871,
+            "p99": 479.166,
+            "max": 479.166,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          }
+        },
+        "3": {
+          "attempted": 60,
+          "valid": 60,
+          "ttft_ms": {
+            "n": 60,
+            "p50": 238.362,
+            "p95": 475.908,
+            "p99": 908.899,
+            "max": 982.48,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          }
+        }
+      }
+    }
+  },
+  "scope": "Same frozen V8/policy/options, fixed11-pair history; 20 one/60 correlated three samples, native LLM only. Not the404 real ASR/TTS/playback run."
+}

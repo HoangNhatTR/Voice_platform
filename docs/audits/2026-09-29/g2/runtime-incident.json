@@ -1,0 +1,13 @@
+{
+  "event": "owned benchmark llama-server exited 137 during overlapping TTS pool sweep",
+  "native_pid": 2672798,
+  "native_log": "logs/g2-llm-qwen25.log",
+  "mem_available_observed_gib": 1.6,
+  "kernel_oom_log_access": "not available to this user; exit 137 plus low RAM is consistent with memory pressure, exact kill source not verified",
+  "production_services": "both active after incident",
+  "affected_evidence": "confirmation-qwen25/qwen2.5-7b.json",
+  "runtime_errors": 50,
+  "action": "stopped owned overlapping model benchmarks; sequential rerun in a new directory; retain failures; cap native prompt cache and monitor RAM",
+  "second_startup_failure": "logs/g2-llm-qwen25-cache1024.log: CUDA out of memory, exit 134 before evaluation; no quality result claimed.",
+  "operational_resolution": "Stopped only voice-platform units during a controlled no-session maintenance; sequential native comparisons with 1024 MiB prompt cache. MemAvailable rose from approximately 11 to 37 GiB after stop; allocation cause not proven. Restarted production with accepted 7B and both services ready."
+}

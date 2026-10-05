@@ -1,0 +1,89 @@
+{
+ "measured_at": "2026-09-29T16:22+07:00",
+ "engine": "gipformer int8, onnx_threads=4, CPU",
+ "method": "backend.transcribe on tiled G1 speech, 5 runs per length, partial=True (offline transducer: same work as final)",
+ "host_load_1m": 5.43,
+ "rows": [
+  {
+   "audio_s": 0.5,
+   "p50_ms": 14.3,
+   "max_ms": 22.4
+  },
+  {
+   "audio_s": 1,
+   "p50_ms": 29.6,
+   "max_ms": 34.6
+  },
+  {
+   "audio_s": 2,
+   "p50_ms": 42.6,
+   "max_ms": 52.7
+  },
+  {
+   "audio_s": 3,
+   "p50_ms": 46.3,
+   "max_ms": 47.4
+  },
+  {
+   "audio_s": 4,
+   "p50_ms": 50.0,
+   "max_ms": 59.1
+  },
+  {
+   "audio_s": 6,
+   "p50_ms": 63.2,
+   "max_ms": 104.7
+  },
+  {
+   "audio_s": 8,
+   "p50_ms": 76.7,
+   "max_ms": 78.4
+  },
+  {
+   "audio_s": 12,
+   "p50_ms": 111.3,
+   "max_ms": 126.4
+  },
+  {
+   "audio_s": 16,
+   "p50_ms": 139.9,
+   "max_ms": 164.6
+  }
+ ],
+ "duty_cycle_at_partial_every_frames": {
+  "25": {
+   "0.5": 0.029,
+   "1": 0.059,
+   "2": 0.085,
+   "3": 0.093,
+   "4": 0.1,
+   "6": 0.126,
+   "8": 0.153,
+   "12": 0.223,
+   "16": 0.28
+  },
+  "15": {
+   "0.5": 0.048,
+   "1": 0.099,
+   "2": 0.142,
+   "3": 0.154,
+   "4": 0.167,
+   "6": 0.211,
+   "8": 0.256,
+   "12": 0.371,
+   "16": 0.466
+  },
+  "10": {
+   "0.5": 0.072,
+   "1": 0.148,
+   "2": 0.213,
+   "3": 0.231,
+   "4": 0.25,
+   "6": 0.316,
+   "8": 0.384,
+   "12": 0.556,
+   "16": 0.7
+  }
+ },
+ "decision": "keep partial_every_frames=25; the end-of-turn decision uses one endpoint decode per pause instead"
+}

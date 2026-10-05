@@ -1,0 +1,6 @@
+# Bằng chứng đo (audio TTS, gói nguồn, JSON lớn) đi qua Git LFS để clone code không phải kéo ~300 MB.
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+docs/audits/**/stimuli*.json filter=lfs diff=lfs merge=lfs -text
+docs/audits/**/resources.json filter=lfs diff=lfs merge=lfs -text
+docs/audits/**/privacy-live.json filter=lfs diff=lfs merge=lfs -text

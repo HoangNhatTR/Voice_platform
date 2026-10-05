@@ -1,0 +1,406 @@
+{
+ "run": "/tmp/claude-1013/-home-ai01-AIHoang/05882303-1f5a-4864-acb5-4bbd04b19608/scratchpad/g3/candidate-echo",
+ "asr_reference": true,
+ "manifest": {
+  "started_at": "2026-09-29T20:57:13+0700",
+  "finished_at": "2026-09-29T21:21:14+0700",
+  "stimuli_sha256": "17e75a1f18d22381e24f63a0b6c6f9618794ed5f76847b4798e88b597bd06072",
+  "echo_db": -28.0,
+  "echo_delay_ms": 80.0,
+  "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9",
+  "basis": "synthetic TTS user speech and seeded noise into /v1/realtime at real-time pace; Python emulation of web/playback-worklet.js; same-host monotonic clock; no human speech, microphone, room acoustics, real AEC or LAN"
+ },
+ "source_sha256": "ecebb3805020bbb8298e00d43aceb2922c1166724ccfa94c5f0d4e8ae03e32d4",
+ "families": {
+  "echo": {
+   "answers_cut_by_echo": {
+    "k": 12,
+    "n": 12,
+    "rate": 1.0,
+    "wilson95": [
+     0.7575,
+     1.0
+    ]
+   },
+   "listened_minutes": 2.36,
+   "failures": [
+    {
+     "id": "echo-000",
+     "resets_after_play_ms": [
+      261,
+      1038,
+      1797,
+      2578,
+      3158,
+      3938,
+      4698,
+      5478,
+      6078,
+      6837,
+      7599,
+      8198,
+      8799
+     ]
+    },
+    {
+     "id": "echo-001",
+     "resets_after_play_ms": [
+      6747,
+      8447,
+      10127,
+      10866
+     ]
+    },
+    {
+     "id": "echo-002",
+     "resets_after_play_ms": [
+      6308,
+      7047,
+      7748,
+      8448,
+      9167,
+      9867,
+      10548,
+      11266,
+      11966
+     ]
+    },
+    {
+     "id": "echo-003",
+     "resets_after_play_ms": [
+      3741,
+      8400,
+      9181,
+      9941,
+      10699,
+      11440
+     ]
+    },
+    {
+     "id": "echo-004",
+     "resets_after_play_ms": [
+      3622,
+      7881
+     ]
+    },
+    {
+     "id": "echo-005",
+     "resets_after_play_ms": [
+      3821,
+      7181,
+      11700
+     ]
+    },
+    {
+     "id": "echo-006",
+     "resets_after_play_ms": [
+      7913
+     ]
+    },
+    {
+     "id": "echo-007",
+     "resets_after_play_ms": [
+      4195,
+      9456
+     ]
+    },
+    {
+     "id": "echo-008",
+     "resets_after_play_ms": [
+      231
+     ]
+    },
+    {
+     "id": "echo-009",
+     "resets_after_play_ms": [
+      239,
+      1038,
+      1837,
+      2637,
+      3418,
+      4199,
+      4977,
+      5757,
+      6538,
+      7297,
+      8077,
+      8857,
+      9639,
+      10417,
+      11179,
+      11938
+     ]
+    },
+    {
+     "id": "echo-010",
+     "resets_after_play_ms": [
+      235,
+      1035,
+      4272,
+      5053,
+      5833,
+      6613,
+      7393,
+      8173,
+      8953
+     ]
+    },
+    {
+     "id": "echo-011",
+     "resets_after_play_ms": [
+      4270,
+      7189,
+      7970,
+      8710,
+      9430,
+      10190,
+      10951,
+      11730
+     ]
+    }
+   ]
+  },
+  "interrupt": {
+   "answered_new_request": {
+    "k": 23,
+    "n": 24,
+    "rate": 0.9583,
+    "wilson95": [
+     0.7976,
+     0.9926
+    ]
+   },
+   "missed_interruption": {
+    "k": 1,
+    "n": 24,
+    "rate": 0.0417,
+    "wilson95": [
+     0.0074,
+     0.2024
+    ]
+   },
+   "lost_half": {
+    "k": 0,
+    "n": 24,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.138
+    ]
+   },
+   "lost_words": {
+    "k": 0,
+    "n": 24,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.138
+    ]
+   },
+   "old_audio_after_reset": {
+    "k": 0,
+    "n": 24,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.138
+    ]
+   },
+   "onset_to_stop_ms": {
+    "n": 23,
+    "p50": 62.8,
+    "p95": 142.5,
+    "p99": 145.5,
+    "max": 145.5
+   },
+   "onset_to_stop_ms_at_playback_onset": {
+    "n": 9,
+    "p50": 44.5,
+    "p95": 145.5,
+    "p99": 145.5,
+    "max": 145.5
+   },
+   "onset_to_server_barge_in_ms": {
+    "n": 17,
+    "p50": 62.2,
+    "p95": 143.4,
+    "p99": 143.4,
+    "max": 143.4
+   },
+   "errors": 0,
+   "skipped_not_playing": 6,
+   "failures": [
+    {
+     "id": "interrupt-016",
+     "outcome": "not_fired",
+     "heard_as": "clip tôi là truyền cho mẹ tôi",
+     "missing_keys": []
+    }
+   ]
+  },
+  "noise": {
+   "false_interruption": {
+    "k": 2,
+    "n": 11,
+    "rate": 0.1818,
+    "wilson95": [
+     0.0514,
+     0.477
+    ]
+   },
+   "barge_in_fired": {
+    "k": 8,
+    "n": 11,
+    "rate": 0.7273,
+    "wilson95": [
+     0.4343,
+     0.9025
+    ]
+   },
+   "resume_after_decision_ms": {
+    "n": 6,
+    "p50": 0.0,
+    "p95": 1.2,
+    "p99": 1.2,
+    "max": 1.2
+   },
+   "silence_stop_to_resumed_audio_ms": {
+    "n": 8,
+    "p50": 620.2,
+    "p95": 1728.8,
+    "p99": 1728.8,
+    "max": 1728.8
+   },
+   "onset_to_barge_in_ms": {
+    "n": 2,
+    "p50": 41.1,
+    "p95": 1281.9,
+    "p99": 1281.9,
+    "max": 1281.9
+   },
+   "by_kind_wrong": {
+    "breath": {
+     "k": 0,
+     "n": 1,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.7935
+     ]
+    },
+    "clap": {
+     "k": 0,
+     "n": 2,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.6576
+     ]
+    },
+    "cough": {
+     "k": 0,
+     "n": 2,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.6576
+     ]
+    },
+    "cough_double": {
+     "k": 0,
+     "n": 1,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.7935
+     ]
+    },
+    "keyboard": {
+     "k": 0,
+     "n": 2,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.6576
+     ]
+    },
+    "knock": {
+     "k": 0,
+     "n": 1,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.7935
+     ]
+    },
+    "throat": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "wilson95": [
+      0.3424,
+      1.0
+     ]
+    }
+   },
+   "errors": 0,
+   "skipped_not_playing": 16,
+   "failures": [
+    {
+     "id": "noise-010-throat",
+     "outcome": "answered",
+     "heard_as": "ôi to"
+    },
+    {
+     "id": "noise-018-throat",
+     "outcome": "answered",
+     "heard_as": null
+    }
+   ]
+  }
+ },
+ "unconfirmed_audio": {
+  "violations": [],
+  "turns": 1019
+ },
+ "gate": {
+  "false_interruption_lt_3pct": {
+   "k": 2,
+   "n": 11,
+   "rate": 0.1818,
+   "wilson95": [
+    0.0514,
+    0.477
+   ]
+  },
+  "resume_p95_le_500ms": [
+   {
+    "n": 6,
+    "p50": 0.0,
+    "p95": 1.2,
+    "p99": 1.2,
+    "max": 1.2
+   }
+  ],
+  "stop_p95_le_300ms": {
+   "n": 23,
+   "p50": 62.8,
+   "p95": 142.5,
+   "p99": 145.5,
+   "max": 145.5
+  },
+  "user_visible_cut": null,
+  "no_lost_half": {
+   "interrupt": {
+    "k": 0,
+    "n": 24,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.138
+    ]
+   }
+  },
+  "no_unconfirmed_audio": 0
+ }
+}

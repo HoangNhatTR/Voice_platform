@@ -1,0 +1,86 @@
+{
+  "verified_at": "2026-09-29T02:38:12.099667+00:00",
+  "production_ready": {
+    "ok": true,
+    "started": true,
+    "maintenance": false,
+    "dependencies": {
+      "llm": {
+        "ok": true
+      },
+      "search": {
+        "ok": true
+      }
+    },
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "0891bd16ff8e26f0683415604b0c44f71c4d15ac743f66cf5a4590dc9396d4fc",
+      "config_sha256": "6b094affed61bbcec4fbac2db3340a815e5065d41ecbd4b835a1a1756fa9ff05",
+      "started_at": "2026-09-28T09:56:23.330629+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "max_sessions": 3
+  },
+  "services_active": [
+    "active",
+    "active"
+  ],
+  "production_sessions": {},
+  "production_gauges": {
+    "asr": {
+      "active": 0,
+      "waiting": 0,
+      "capacity": 11,
+      "parallel": 3
+    },
+    "llm": {
+      "active": 0,
+      "waiting": 0,
+      "capacity": 11,
+      "parallel": 3
+    },
+    "tts": {
+      "active": 0,
+      "waiting": 0,
+      "capacity": 17,
+      "parallel": 1
+    },
+    "search": {
+      "active": 0,
+      "waiting": 0,
+      "capacity": 11,
+      "parallel": 3
+    },
+    "tool": {
+      "active": 0,
+      "waiting": 0,
+      "capacity": 20,
+      "parallel": 4
+    },
+    "sessions": 0,
+    "tts_workers": 0,
+    "asr_workers": 0,
+    "event_loop_lag_ms": {
+      "n": 600,
+      "p95": 0.326,
+      "max": 1.264
+    }
+  },
+  "benchmark_19101_stopped": true,
+  "python_suite": "195 passed; see tests.log",
+  "render_and_clock_tests": "PASS; see playback-tests.log",
+  "live_dependency_tool_admission": "PASS; see live-checks.json",
+  "production_browser_smoke": "3/3 valid; see production-smoke/manifest.json",
+  "clock_guard_browser_smoke": "9/9 valid; see clock-guard-smoke/manifest.json"
+}

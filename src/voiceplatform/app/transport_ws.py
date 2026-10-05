@@ -57,11 +57,11 @@ class WebSocketTransport:
             self.closed = True
             log.info("control send failed, marking closed: %s", exc)
 
-    async def close(self, reason: str = "") -> None:
+    async def close(self, reason: str = "", code: int = 1000) -> None:
         if self.closed:
             return
         self.closed = True
         try:
-            await self.ws.close()
+            await self.ws.close(code=code, reason=reason or None)
         except Exception:  # pragma: no cover
             pass

@@ -1,0 +1,15 @@
+MainPID=3130366
+NRestarts=1
+ExecStart={ path=/home/ai01/AIHoang/voice-platform/scripts/start-local.sh ; argv[]=/home/ai01/AIHoang/voice-platform/scripts/start-local.sh llm ; ignore_errors=no ; start_time=[Mon 2026-09-28 13:58:05 +07] ; stop_time=[n/a] ; pid=3130366 ; code=(null) ; status=0/0 }
+Id=voice-platform-llm.service
+ActiveState=active
+SubState=running
+FragmentPath=/home/ai01/.config/systemd/user/voice-platform-llm.service
+
+MainPID=3772299
+NRestarts=0
+ExecStart={ path=/home/ai01/AIHoang/voice-platform/scripts/start-local.sh ; argv[]=/home/ai01/AIHoang/voice-platform/scripts/start-local.sh api ; ignore_errors=no ; start_time=[Mon 2026-09-28 16:56:23 +07] ; stop_time=[n/a] ; pid=3772299 ; code=(null) ; status=0/0 }
+Id=voice-platform-api.service
+ActiveState=active
+SubState=running
+FragmentPath=/home/ai01/.config/systemd/user/voice-platform-api.service

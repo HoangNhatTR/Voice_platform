@@ -1,0 +1,387 @@
+{
+  "meta": {
+    "started_at": "2026-09-29T04:25:35.881864+00:00",
+    "model": "qwen2.5-7b",
+    "endpoint": "http://127.0.0.1:18108/v1",
+    "suite_sha256": "d9a88604ea1ee5e1350edcb45ee40d03f08f0bf3ba51c11f507f78cf8926ff30",
+    "source_sha256": "0781ab8ec4d6714f4acc36b9c526a6fd1c0bba9c7ab3279da3287e06afd0755f",
+    "system": "Bạn có các công cụ sau: clock, search. Câu hỏi về giờ, ngày, tháng, năm hoặc thứ hiện tại: bắt buộc gọi clock. Yêu cầu tra cứu hoặc kiểm tra thông tin mới: bắt buộc gọi search. Với kiến thức cố định, tính toán, dịch và đọc lại: tự trả lời trực tiếp. Khi cần công cụ, hãy thực sự gọi rồi mới trả lời. Văn bản người dùng có thể bị ASR nhận sai vài âm; suy luận ý định từ cả câu và ngữ cảnh.\n\nTrả lời sẽ được đọc thành tiếng: viết ngắn, không markdown.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "clock",
+          "description": "Trả về ngày giờ hiện tại theo giờ địa phương.",
+          "parameters": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Gửi yêu cầu tra cứu thông tin mà bạn không tự biết chắc: dữ liệu thực tế, tin tức, số liệu, thông tin nội bộ. Trả về ngay; kết quả sẽ tới sau.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Câu hỏi cần tra, viết đầy đủ và rõ nghĩa."
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      }
+    ],
+    "options": {
+      "max_tokens": 120,
+      "temperature": 0.0,
+      "enable_thinking": false,
+      "context_tokens": 4096,
+      "prompt_budget_tokens": 1800,
+      "native_tokenizer": true,
+      "max_parallel": 3,
+      "max_queue": 8,
+      "extra_body": {
+        "seed": 20260929
+      }
+    },
+    "temperature": 0.0,
+    "seed": 20260929,
+    "props": {
+      "default_generation_settings": {
+        "params": {
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "dynatemp_range": 0.0,
+          "dynatemp_exponent": 1.0,
+          "top_k": 40,
+          "top_p": 0.949999988079071,
+          "min_p": 0.05000000074505806,
+          "top_n_sigma": -1.0,
+          "xtc_probability": 0.0,
+          "xtc_threshold": 0.10000000149011612,
+          "typical_p": 1.0,
+          "repeat_last_n": 64,
+          "repeat_penalty": 1.0,
+          "presence_penalty": 0.0,
+          "frequency_penalty": 0.0,
+          "dry_multiplier": 0.0,
+          "dry_base": 1.75,
+          "dry_allowed_length": 2,
+          "dry_penalty_last_n": -1,
+          "mirostat": 0,
+          "mirostat_tau": 5.0,
+          "mirostat_eta": 0.10000000149011612,
+          "max_tokens": -1,
+          "n_predict": -1,
+          "n_keep": 0,
+          "n_discard": 0,
+          "ignore_eos": false,
+          "stream": false,
+          "n_probs": 0,
+          "min_keep": 0,
+          "chat_format": "Content-only",
+          "reasoning_format": "none",
+          "reasoning_in_content": false,
+          "generation_prompt": "",
+          "samplers": [
+            "penalties",
+            "dry",
+            "top_n_sigma",
+            "top_k",
+            "typ_p",
+            "top_p",
+            "min_p",
+            "xtc",
+            "temperature"
+          ],
+          "speculative.types": "none",
+          "timings_per_token": false,
+          "post_sampling_probs": false,
+          "backend_sampling": false,
+          "lora": []
+        },
+        "n_ctx": 4096
+      },
+      "total_slots": 3,
+      "model_alias": "qwen2.5-7b",
+      "model_ftype": "Q4_K - Medium",
+      "model_path": "/home/ai01/AIHoang/voice-platform/models/llm/qwen2.5-7b/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+      "modalities": {
+        "vision": false,
+        "video": false,
+        "audio": false
+      },
+      "media_marker": "<__media_S9yPqilImANlSfZuJIecA47MfM8GDw4a__>",
+      "endpoint_slots": true,
+      "endpoint_props": false,
+      "endpoint_metrics": true,
+      "ui": true,
+      "ui_settings": {},
+      "chat_template": "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0]['role'] == 'system' %}\n        {{- messages[0]['content'] }}\n    {%- else %}\n        {{- 'You are Qwen, created by Alibaba Cloud. You are a helpful assistant.' }}\n    {%- endif %}\n    {{- \"\\n\\n# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0]['role'] == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0]['content'] + '<|im_end|>\\n' }}\n    {%- else %}\n        {{- '<|im_start|>system\\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- for message in messages %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) or (message.role == \"assistant\" and not message.tool_calls) %}\n        {{- '<|im_start|>' + message.role + '\\n' + message.content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {{- '<|im_start|>' + message.role }}\n        {%- if message.content %}\n            {{- '\\n' + message.content }}\n        {%- endif %}\n        {%- for tool_call in message.tool_calls %}\n            {%- if tool_call.function is defined %}\n                {%- set tool_call = tool_call.function %}\n            {%- endif %}\n            {{- '\\n<tool_call>\\n{\"name\": \"' }}\n            {{- tool_call.name }}\n            {{- '\", \"arguments\": ' }}\n            {{- tool_call.arguments | tojson }}\n            {{- '}\\n</tool_call>' }}\n        {%- endfor %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if (loop.index0 == 0) or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- message.content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n{%- endif %}",
+      "chat_template_caps": {
+        "supports_object_arguments": true,
+        "supports_parallel_tool_calls": true,
+        "supports_preserve_reasoning": false,
+        "supports_string_content": true,
+        "supports_system_role": true,
+        "supports_tool_calls": true,
+        "supports_tools": true,
+        "supports_typed_content": false
+      },
+      "bos_token": "<|endoftext|>",
+      "eos_token": "<|im_end|>",
+      "build_info": "b1-c588c4f",
+      "is_sleeping": false,
+      "cors_proxy_enabled": false
+    },
+    "sample_method": "Fixed technical answers/tools; no human rating. Model order is sequential. Load 3 is correlated, not independent production traffic.",
+    "finished_at": "2026-09-29T04:25:44.066290+00:00"
+  },
+  "quality": [
+    {
+      "id": "asr-regression-search",
+      "split": "dev",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "cha cứ giúp tôi vì sao bầu trời có màu xanh",
+      "answer": "Bầu trời có màu xanh do hiện tượng tán sắc ánh sáng. Khi ánh nắng mặt trời đi qua khí quyển của Trái đất, các phân tử khí và hạt nhỏ trong không khí sẽ làm thay đổi hướng đi của các tia sáng. Tia sáng màu xanh và blue có bước sóng ngắn hơn, do đó chúng bị tán ra nhiều hơn so với các tia sáng màu đỏ và vàng có bước sóng dài. Kết quả là, chúng ta nhìn thấy bầu trời có màu xanh.",
+      "calls": [],
+      "valid": false,
+      "error": null,
+      "ttft_ms": 256.868,
+      "first_tool_ms": null,
+      "http_ttft_ms": 249.356,
+      "total_ms": 5732.68,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1110921320.696564,
+          "data": {
+            "stage": "llm",
+            "request_id": "afc6397b5b334e0a",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1110921320.7081,
+          "data": {
+            "stage": "llm",
+            "request_id": "afc6397b5b334e0a",
+            "priority": "speech",
+            "queue_ms": 0.01662302017211914,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1110921328.2086701,
+          "data": {
+            "stage": "llm",
+            "request_id": "afc6397b5b334e0a",
+            "prompt_chars": 492,
+            "message_count": 2,
+            "tools": 2,
+            "prompt_tokens_counted": 387,
+            "prompt_tokens_before_trim": 387,
+            "prompt_budget_tokens": 1800,
+            "prompt_groups_dropped": 0,
+            "prompt_count_basis": "native_chat_template",
+            "prompt_prepare_ms": 7.473787069320679
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1110921577.5644338,
+          "data": {
+            "stage": "llm",
+            "request_id": "afc6397b5b334e0a"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1110927052.998798,
+          "data": {
+            "stage": "llm",
+            "request_id": "afc6397b5b334e0a",
+            "completion_tokens": 109,
+            "prompt_tokens": 387,
+            "total_tokens": 496,
+            "prompt_tokens_details": {
+              "cached_tokens": 86
+            },
+            "native_timings": {
+              "cache_n": 86,
+              "prompt_n": 301,
+              "prompt_ms": 231.454,
+              "prompt_per_token_ms": 0.7689501661129569,
+              "prompt_per_second": 1300.4743923198562,
+              "predicted_n": 109,
+              "predicted_ms": 5475.566,
+              "predicted_per_token_ms": 50.234550458715596,
+              "predicted_per_second": 19.90661787292857
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1110927053.377036,
+          "data": {
+            "stage": "llm",
+            "request_id": "afc6397b5b334e0a",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "asr-regression-no-tool",
+      "split": "dev",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Giải thích ngắn vì sao bầu trời màu xanh.",
+      "answer": "Bầu trời màu xanh vì ánh sáng từ Mặt Trời tương tác với khí quyển của Trái Đất. Các phân tử khí và hạt nhỏ trong không khí tán xạ ánh sáng ngắn波浪线",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 81.932,
+      "first_tool_ms": null,
+      "http_ttft_ms": 71.876,
+      "total_ms": 2450.316,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1110927053.842778,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d5e86e878434676",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1110927053.8485382,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d5e86e878434676",
+            "priority": "speech",
+            "queue_ms": 0.008432149887084961,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1110927063.898808,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d5e86e878434676",
+            "prompt_chars": 490,
+            "message_count": 2,
+            "tools": 2,
+            "prompt_tokens_counted": 387,
+            "prompt_tokens_before_trim": 387,
+            "prompt_budget_tokens": 1800,
+            "prompt_groups_dropped": 0,
+            "prompt_count_basis": "native_chat_template",
+            "prompt_prepare_ms": 10.022046089172363
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1110927135.774418,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d5e86e878434676"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1110929503.591293,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d5e86e878434676",
+            "completion_tokens": 47,
+            "prompt_tokens": 387,
+            "total_tokens": 434,
+            "prompt_tokens_details": {
+              "cached_tokens": 369
+            },
+            "native_timings": {
+              "cache_n": 369,
+              "prompt_n": 18,
+              "prompt_ms": 63.344,
+              "prompt_per_token_ms": 3.519111111111111,
+              "prompt_per_second": 284.1626673402374,
+              "predicted_n": 47,
+              "predicted_ms": 2367.949,
+              "predicted_per_token_ms": 50.38189361702128,
+              "predicted_per_second": 19.84840045119215
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1110929504.158714,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d5e86e878434676",
+            "outcome": "complete"
+          }
+        }
+      ]
+    }
+  ],
+  "quality_summary": {
+    "dev": {
+      "direct": {
+        "n": 1,
+        "valid": 1
+      },
+      "search": {
+        "n": 1,
+        "valid": 0
+      }
+    },
+    "heldout": {
+      "direct": {
+        "n": 0,
+        "valid": 0
+      },
+      "search": {
+        "n": 0,
+        "valid": 0
+      }
+    }
+  },
+  "latency": {
+    "1": {
+      "attempted": 0,
+      "valid": 0,
+      "ttft_ms": {
+        "n": 0
+      },
+      "samples": []
+    },
+    "3": {
+      "attempted": 0,
+      "valid": 0,
+      "ttft_ms": {
+        "n": 0
+      },
+      "samples": []
+    }
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "basis": "12 paired synthetic user TTS clips; one session per benchmark run; browser AudioWorklet clock proxy; no human ratings",
+  "pairs": 12,
+  "metrics": {
+    "g3": {
+      "valid": 12,
+      "playback_from_last_speech_p50_ms": 1034.8,
+      "playback_from_last_speech_p95_ms": 3047.8,
+      "llm_request_ttft_p95_ms": 422.3,
+      "content_underruns": 3
+    },
+    "g4": {
+      "valid": 12,
+      "playback_from_last_speech_p50_ms": 1157.6,
+      "playback_from_last_speech_p95_ms": 3212.2,
+      "llm_request_ttft_p95_ms": 372.8,
+      "content_underruns": 5
+    }
+  },
+  "cases": [
+    {
+      "item_id": "01",
+      "category": "direct_short",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 889.8,
+        "llm_request_ttft_ms": 82.708,
+        "content_underruns": 0,
+        "answer": "4"
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 929.9,
+        "llm_request_ttft_ms": 105.342,
+        "content_underruns": 0,
+        "answer": "4"
+      }
+    },
+    {
+      "item_id": "02",
+      "category": "direct_short",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 906.7,
+        "llm_request_ttft_ms": 116.309,
+        "content_underruns": 0,
+        "answer": "Hà Nội"
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 946.9,
+        "llm_request_ttft_ms": 132.899,
+        "content_underruns": 0,
+        "answer": "Hà Nội"
+      }
+    },
+    {
+      "item_id": "03",
+      "category": "explanation",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1077.7,
+        "llm_request_ttft_ms": 134.763,
+        "content_underruns": 0,
+        "answer": "Ánh sáng mặt trời gồm nhiều màu. Khi đi qua khí quyển, các phân tử không khí làm tán xạ ánh sáng xanh nhiều hơn các màu khác. Mắt người ta chỉ thấy màu xanh nên bầu trời có màu xanh."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1212.0,
+        "llm_request_ttft_ms": 132.584,
+        "content_underruns": 1,
+        "answer": "Ánh sáng mặt trời gồm nhiều màu, trong đó màu xanh bị phân tán nhiều nhất bởi các phân tử khí trong khí quyển. Hiện tượng này gọi là tán xạ Rayleigh."
+      }
+    },
+    {
+      "item_id": "04",
+      "category": "search_found",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 3047.8,
+        "llm_request_ttft_ms": 203.894,
+        "content_underruns": 0,
+        "answer": "Về câu bạn hỏi lúc nãy, Hồ Hoàn Kiếm nằm ở trung tâm Hà Nội, trên sông Hồng. Nguồn: openai_compat."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 3212.2,
+        "llm_request_ttft_ms": 372.754,
+        "content_underruns": 0,
+        "answer": "Về câu bạn hỏi lúc nãy, Hồ Hoàn Kiếm nằm ở phường Hoàn Kiếm, trung tâm thành phố Hà Nội. Nguồn: Hồ Hoàn Kiếm."
+      }
+    },
+    {
+      "item_id": "05",
+      "category": "date",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 2800.8,
+        "llm_request_ttft_ms": 134.883,
+        "content_underruns": 0,
+        "answer": "Lịch hẹn của bạn là ngày 30 tháng 9 năm 2026."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 2203.9,
+        "llm_request_ttft_ms": 339.889,
+        "content_underruns": 0,
+        "answer": "Ngày 30 tháng 9 năm 2026."
+      }
+    },
+    {
+      "item_id": "06",
+      "category": "money",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 998.7,
+        "llm_request_ttft_ms": 141.623,
+        "content_underruns": 0,
+        "answer": "Một triệu hai trăm năm mươi nghìn đồng."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1183.0,
+        "llm_request_ttft_ms": 302.273,
+        "content_underruns": 0,
+        "answer": "Một triệu hai trăm năm mươi nghìn đồng."
+      }
+    },
+    {
+      "item_id": "07",
+      "category": "identifier",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1611.2,
+        "llm_request_ttft_ms": 147.535,
+        "content_underruns": 1,
+        "answer": "12345678"
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1581.1,
+        "llm_request_ttft_ms": 153.264,
+        "content_underruns": 0,
+        "answer": "12345678"
+      }
+    },
+    {
+      "item_id": "08",
+      "category": "name",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 998.2,
+        "llm_request_ttft_ms": 129.781,
+        "content_underruns": 0,
+        "answer": "Đường Nguyễn Thị Minh Khai nằm ở Quận 1, Thành phố Hồ Chí Minh, là một trong những đường lớn và quan trọng nhất của quận này, chạy từ đường Lê Lợi đến đường Nguyễn Huệ."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1157.6,
+        "llm_request_ttft_ms": 156.378,
+        "content_underruns": 2,
+        "answer": "Đường Nguyễn Thị Minh Khai nằm ở Quận 1, Thành phố Hồ Chí Minh, là một trong những đường lớn và quan trọng nhất của quận này, chạy từ đường Lê Thánh Tông đến đường Nguyễn Huệ."
+      }
+    },
+    {
+      "item_id": "09",
+      "category": "abbreviation",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1086.7,
+        "llm_request_ttft_ms": 163.787,
+        "content_underruns": 2,
+        "answer": "Thành phố Hồ Chí Minh là viết tắt của Thành phố Hồ Chí Minh (không có từ viết tắt ngắn hơn cho tên đầy đủ này). Tuy nhiên, trong văn bản hành chính, nó thường được gọi tắt là \"TP.HCM\"."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 971.8,
+        "llm_request_ttft_ms": 148.79,
+        "content_underruns": 2,
+        "answer": "Thành phố Hồ Chí Minh là viết tắt của Thành phố Hồ Chí Minh (không có từ viết tắt ngắn hơn cho tên đầy đủ này trong ngữ cảnh hành chính chính thức). Tuy nhiên, trong đời sống, người ta thường gọi tắt là \"TP.HCM\"."
+      }
+    },
+    {
+      "item_id": "10",
+      "category": "confirmation",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 941.7,
+        "llm_request_ttft_ms": 158.167,
+        "content_underruns": 0,
+        "answer": "Đã xác nhận."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 993.0,
+        "llm_request_ttft_ms": 170.41,
+        "content_underruns": 0,
+        "answer": "Đã xác nhận."
+      }
+    },
+    {
+      "item_id": "11",
+      "category": "explanation",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1072.9,
+        "llm_request_ttft_ms": 132.943,
+        "content_underruns": 0,
+        "answer": "Ngủ đủ giấc giúp cơ thể phục hồi, não bộ củng cố trí nhớ và điều hòa hormone, từ đó duy trì sức khỏe và năng lượng tốt."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1159.7,
+        "llm_request_ttft_ms": 159.131,
+        "content_underruns": 0,
+        "answer": "Ngủ đủ giấc giúp cơ thể phục hồi, não bộ củng cố trí nhớ và điều hòa hormone, từ đó duy trì sức khỏe và năng lượng tốt."
+      }
+    },
+    {
+      "item_id": "12",
+      "category": "question",
+      "g3": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 1034.8,
+        "llm_request_ttft_ms": 422.253,
+        "content_underruns": 0,
+        "answer": "Tất nhiên, bạn cứ hỏi tiếp nhé."
+      },
+      "g4": {
+        "valid": true,
+        "last_speech_to_content_signal_ms": 927.8,
+        "llm_request_ttft_ms": 286.481,
+        "content_underruns": 0,
+        "answer": "Tất nhiên, bạn cứ hỏi tiếp nhé."
+      }
+    }
+  ],
+  "direct_only": {
+    "g3": {
+      "n": 11,
+      "playback_from_last_speech_p50_ms": 1034.8,
+      "playback_from_last_speech_p95_ms": 2800.8,
+      "llm_request_ttft_p95_ms": 422.3,
+      "content_underruns": 3
+    },
+    "g4": {
+      "n": 11,
+      "playback_from_last_speech_p50_ms": 1157.6,
+      "playback_from_last_speech_p95_ms": 2203.9,
+      "llm_request_ttft_p95_ms": 339.9,
+      "content_underruns": 5
+    }
+  }
+}

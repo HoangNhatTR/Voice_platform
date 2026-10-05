@@ -1,0 +1,347 @@
+{
+ "run": "/tmp/claude-1013/-home-ai01-AIHoang/05882303-1f5a-4864-acb5-4bbd04b19608/scratchpad/g3/baseline-echo",
+ "asr_reference": true,
+ "manifest": {
+  "started_at": "2026-09-29T19:27:50+0700",
+  "finished_at": "2026-09-29T19:42:12+0700",
+  "stimuli_sha256": "17e75a1f18d22381e24f63a0b6c6f9618794ed5f76847b4798e88b597bd06072",
+  "echo_db": -28.0,
+  "echo_delay_ms": 80.0,
+  "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9",
+  "basis": "synthetic TTS user speech and seeded noise into /v1/realtime at real-time pace; Python emulation of web/playback-worklet.js; same-host monotonic clock; no human speech, microphone, room acoustics, real AEC or LAN"
+ },
+ "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+ "families": {
+  "echo": {
+   "answers_cut_by_echo": {
+    "k": 7,
+    "n": 12,
+    "rate": 0.5833,
+    "wilson95": [
+     0.3195,
+     0.8067
+    ]
+   },
+   "listened_minutes": 2.21,
+   "failures": [
+    {
+     "id": "echo-002",
+     "resets_after_play_ms": [
+      5807,
+      6707
+     ]
+    },
+    {
+     "id": "echo-003",
+     "resets_after_play_ms": [
+      256
+     ]
+    },
+    {
+     "id": "echo-005",
+     "resets_after_play_ms": [
+      248
+     ]
+    },
+    {
+     "id": "echo-007",
+     "resets_after_play_ms": [
+      3790
+     ]
+    },
+    {
+     "id": "echo-009",
+     "resets_after_play_ms": [
+      11406
+     ]
+    },
+    {
+     "id": "echo-010",
+     "resets_after_play_ms": [
+      253,
+      8453,
+      9392,
+      10332
+     ]
+    },
+    {
+     "id": "echo-011",
+     "resets_after_play_ms": [
+      3632
+     ]
+    }
+   ]
+  },
+  "interrupt": {
+   "answered_new_request": {
+    "k": 28,
+    "n": 29,
+    "rate": 0.9655,
+    "wilson95": [
+     0.8282,
+     0.9939
+    ]
+   },
+   "missed_interruption": {
+    "k": 1,
+    "n": 29,
+    "rate": 0.0345,
+    "wilson95": [
+     0.0061,
+     0.1718
+    ]
+   },
+   "lost_half": {
+    "k": 0,
+    "n": 29,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.117
+    ]
+   },
+   "lost_words": {
+    "k": 0,
+    "n": 29,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.117
+    ]
+   },
+   "old_audio_after_reset": {
+    "k": 0,
+    "n": 29,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.117
+    ]
+   },
+   "onset_to_stop_ms": {
+    "n": 28,
+    "p50": 103.1,
+    "p95": 143.0,
+    "p99": 161.7,
+    "max": 161.7
+   },
+   "onset_to_stop_ms_at_playback_onset": {
+    "n": 9,
+    "p50": 103.9,
+    "p95": 143.0,
+    "p99": 143.0,
+    "max": 143.0
+   },
+   "onset_to_server_barge_in_ms": {
+    "n": 29,
+    "p50": 101.3,
+    "p95": 141.6,
+    "p99": 160.9,
+    "max": 160.9
+   },
+   "errors": 0,
+   "skipped_not_playing": 1,
+   "failures": [
+    {
+     "id": "interrupt-015-onset",
+     "outcome": "not_fired",
+     "heard_as": "ông dừng lại đi",
+     "missing_keys": []
+    }
+   ]
+  },
+  "noise": {
+   "false_interruption": {
+    "k": 6,
+    "n": 22,
+    "rate": 0.2727,
+    "wilson95": [
+     0.1315,
+     0.4815
+    ]
+   },
+   "barge_in_fired": {
+    "k": 14,
+    "n": 22,
+    "rate": 0.6364,
+    "wilson95": [
+     0.4295,
+     0.8027
+    ]
+   },
+   "resume_after_decision_ms": {
+    "n": 8,
+    "p50": 151.1,
+    "p95": 171.9,
+    "p99": 171.9,
+    "max": 171.9
+   },
+   "silence_stop_to_resumed_audio_ms": {
+    "n": 14,
+    "p50": 1089.6,
+    "p95": 1714.0,
+    "p99": 1714.0,
+    "max": 1714.0
+   },
+   "onset_to_barge_in_ms": {
+    "n": 13,
+    "p50": 101.9,
+    "p95": 240.3,
+    "p99": 240.3,
+    "max": 240.3
+   },
+   "by_kind_wrong": {
+    "breath": {
+     "k": 0,
+     "n": 2,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.6576
+     ]
+    },
+    "clap": {
+     "k": 0,
+     "n": 3,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.5615
+     ]
+    },
+    "cough": {
+     "k": 0,
+     "n": 3,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.5615
+     ]
+    },
+    "cough_double": {
+     "k": 3,
+     "n": 4,
+     "rate": 0.75,
+     "wilson95": [
+      0.3006,
+      0.9544
+     ]
+    },
+    "keyboard": {
+     "k": 0,
+     "n": 4,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.4899
+     ]
+    },
+    "knock": {
+     "k": 0,
+     "n": 2,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.6576
+     ]
+    },
+    "rustle": {
+     "k": 2,
+     "n": 3,
+     "rate": 0.6667,
+     "wilson95": [
+      0.2077,
+      0.9385
+     ]
+    },
+    "throat": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "wilson95": [
+      0.2065,
+      1.0
+     ]
+    }
+   },
+   "errors": 0,
+   "skipped_not_playing": 0,
+   "failures": [
+    {
+     "id": "noise-001-cough_double",
+     "outcome": "answered",
+     "heard_as": "đây"
+    },
+    {
+     "id": "noise-006-rustle",
+     "outcome": "answered",
+     "heard_as": "hả"
+    },
+    {
+     "id": "noise-009-cough_double",
+     "outcome": "answered",
+     "heard_as": "đây"
+    },
+    {
+     "id": "noise-014-rustle",
+     "outcome": "answered",
+     "heard_as": "wa"
+    },
+    {
+     "id": "noise-018-throat",
+     "outcome": "answered",
+     "heard_as": "chúng tôi"
+    },
+    {
+     "id": "noise-025-cough_double",
+     "outcome": "answered",
+     "heard_as": "có"
+    }
+   ]
+  }
+ },
+ "unconfirmed_audio": {
+  "violations": [],
+  "turns": 197
+ },
+ "gate": {
+  "false_interruption_lt_3pct": {
+   "k": 6,
+   "n": 22,
+   "rate": 0.2727,
+   "wilson95": [
+    0.1315,
+    0.4815
+   ]
+  },
+  "resume_p95_le_500ms": [
+   {
+    "n": 8,
+    "p50": 151.1,
+    "p95": 171.9,
+    "p99": 171.9,
+    "max": 171.9
+   }
+  ],
+  "stop_p95_le_300ms": {
+   "n": 28,
+   "p50": 103.1,
+   "p95": 143.0,
+   "p99": 161.7,
+   "max": 161.7
+  },
+  "user_visible_cut": null,
+  "no_lost_half": {
+   "interrupt": {
+    "k": 0,
+    "n": 29,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.117
+    ]
+   }
+  },
+  "no_unconfirmed_audio": 0
+ }
+}

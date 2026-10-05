@@ -1,0 +1,189 @@
+{
+  "checked_at": "2026-09-28T07:06:04.732220+00:00",
+  "health": {
+    "ok": true,
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "b748d82eee0e50ad5bc3f4f1e7380e2fb34f43870657fe67c237fbe82e41c27c",
+      "config_sha256": "2fb1d08720e14fba83664445bb49658d3c473fd7a893173c78f107bf850ec19e",
+      "started_at": "2026-09-28T07:04:13.353777+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "models": {
+      "mode": "cascade",
+      "asr": {
+        "name": "s2s:gipformer",
+        "capabilities": {
+          "streaming_partials": true,
+          "languages": [
+            "vi"
+          ],
+          "native_sample_rate": 16000
+        }
+      },
+      "llm": {
+        "name": "openai_compat",
+        "capabilities": {
+          "tools": true,
+          "streaming": true,
+          "context_tokens": 8192
+        }
+      },
+      "tts": {
+        "name": "zerotts",
+        "capabilities": {
+          "streaming": true,
+          "emotion_cues": false,
+          "voices": [
+            "baotrang",
+            "giahuy",
+            "hamy",
+            "huuduc",
+            "kimoanh",
+            "maichi",
+            "quangminh",
+            "tiendat"
+          ],
+          "native_sample_rate": 24000,
+          "expected_rtf": 0.71
+        }
+      },
+      "s2s": null,
+      "search": {
+        "name": "llm",
+        "capabilities": null
+      }
+    },
+    "tools": [
+      "clock"
+    ]
+  },
+  "readiness": {
+    "ok": true,
+    "started": true,
+    "maintenance": false,
+    "dependencies": {
+      "llm": {
+        "ok": true
+      },
+      "search": {
+        "ok": true
+      }
+    },
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "b748d82eee0e50ad5bc3f4f1e7380e2fb34f43870657fe67c237fbe82e41c27c",
+      "config_sha256": "2fb1d08720e14fba83664445bb49658d3c473fd7a893173c78f107bf850ec19e",
+      "started_at": "2026-09-28T07:04:13.353777+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "max_sessions": 3
+  },
+  "sessions": {},
+  "metrics": {
+    "snapshot": {
+      "counters": {
+        "frames_in": 608
+      },
+      "latency": {
+        "endpoint_ms": {
+          "n": 1,
+          "p50": 239.8,
+          "p95": 239.8,
+          "max": 239.8
+        },
+        "asr_first_partial_ms": {
+          "n": 1,
+          "p50": 519.7,
+          "p95": 519.7,
+          "max": 519.7
+        },
+        "asr_final_ms": {
+          "n": 1,
+          "p50": 1575.1,
+          "p95": 1575.1,
+          "max": 1575.1
+        },
+        "llm_ttft_ms": {
+          "n": 1,
+          "p50": 1138.9,
+          "p95": 1138.9,
+          "max": 1138.9
+        },
+        "llm_total_ms": {
+          "n": 1,
+          "p50": 954.5,
+          "p95": 954.5,
+          "max": 954.5
+        },
+        "tts_ttfa_ms": {
+          "n": 1,
+          "p50": 0.1,
+          "p95": 0.1,
+          "max": 0.1
+        },
+        "tool_ms": {
+          "n": 1,
+          "p50": 0.1,
+          "p95": 0.1,
+          "max": 0.1
+        },
+        "e2e_ttfa_ms": {
+          "n": 1,
+          "p50": 586.5,
+          "p95": 586.5,
+          "max": 586.5
+        },
+        "response_total_ms": {
+          "n": 1,
+          "p50": 6437.4,
+          "p95": 6437.4,
+          "max": 6437.4
+        }
+      }
+    }
+  },
+  "source_matches_disk": true,
+  "services": {
+    "voice-platform-api.service": {
+      "Restart": "on-failure",
+      "MainPID": "3146746",
+      "Result": "success",
+      "NRestarts": "0",
+      "ActiveState": "active",
+      "UnitFileState": "enabled"
+    },
+    "voice-platform-llm.service": {
+      "Restart": "on-failure",
+      "MainPID": "3130366",
+      "Result": "success",
+      "NRestarts": "1",
+      "ActiveState": "active",
+      "UnitFileState": "enabled"
+    }
+  },
+  "linger": "yes",
+  "pinned_packages_checked": 65
+}

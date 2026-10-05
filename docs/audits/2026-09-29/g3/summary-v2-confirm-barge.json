@@ -1,0 +1,430 @@
+{
+ "run": "/tmp/claude-1013/-home-ai01-AIHoang/05882303-1f5a-4864-acb5-4bbd04b19608/scratchpad/g3/v2-confirm-barge",
+ "asr_reference": true,
+ "manifest": {
+  "started_at": "2026-09-29T23:08:05+0700",
+  "finished_at": "2026-09-29T23:53:48+0700",
+  "stimuli_sha256": "0245d50f277ca8fa1c5ac689902de54fea2db35e0c780c085b165b2394ce6b75",
+  "echo_db": null,
+  "echo_delay_ms": 80.0,
+  "harness_sha256": "519ccf0164c9df29e55394d9626d8a9ef9b36dceaaaf534f152aa67245c6e4f9",
+  "basis": "synthetic TTS user speech and seeded noise into /v1/realtime at real-time pace; Python emulation of web/playback-worklet.js; same-host monotonic clock; no human speech, microphone, room acoustics, real AEC or LAN"
+ },
+ "source_sha256": "ead11f4a88db2ee6f3473248e1b62024c387f28e12dec519ccdd03de133395a0",
+ "families": {
+  "backchannel": {
+   "false_interruption": {
+    "k": 4,
+    "n": 94,
+    "rate": 0.0426,
+    "wilson95": [
+     0.0167,
+     0.1044
+    ]
+   },
+   "barge_in_fired": {
+    "k": 94,
+    "n": 94,
+    "rate": 1.0,
+    "wilson95": [
+     0.9607,
+     1.0
+    ]
+   },
+   "resume_after_decision_ms": {
+    "n": 90,
+    "p50": 1.1,
+    "p95": 5.1,
+    "p99": 5.3,
+    "max": 5.3
+   },
+   "silence_stop_to_resumed_audio_ms": {
+    "n": 94,
+    "p50": 718.9,
+    "p95": 1716.1,
+    "p99": 2552.9,
+    "max": 2552.9
+   },
+   "onset_to_barge_in_ms": {
+    "n": 94,
+    "p50": 103.5,
+    "p95": 242.4,
+    "p99": 301.1,
+    "max": 301.1
+   },
+   "by_kind_wrong": {
+    "da": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "da vang": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "dung roi": {
+     "k": 2,
+     "n": 10,
+     "rate": 0.2,
+     "wilson95": [
+      0.0567,
+      0.5098
+     ]
+    },
+    "o": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "ok": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2992
+     ]
+    },
+    "u": {
+     "k": 0,
+     "n": 8,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.3244
+     ]
+    },
+    "u u": {
+     "k": 2,
+     "n": 8,
+     "rate": 0.25,
+     "wilson95": [
+      0.0715,
+      0.5907
+     ]
+    },
+    "um": {
+     "k": 0,
+     "n": 9,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2992
+     ]
+    },
+    "vang": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "vang a": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    }
+   },
+   "errors": 0,
+   "skipped_not_playing": 1,
+   "failures": [
+    {
+     "id": "backchannel-009",
+     "outcome": "answered",
+     "heard_as": "từ từ ừ"
+    },
+    {
+     "id": "backchannel-017",
+     "outcome": "answered",
+     "heard_as": "đương nhiên đúng rồi"
+    },
+    {
+     "id": "backchannel-079",
+     "outcome": "answered",
+     "heard_as": "từ từ ừ"
+    },
+    {
+     "id": "backchannel-087",
+     "outcome": "answered",
+     "heard_as": "đương nhiên đúng rồi"
+    }
+   ]
+  },
+  "interrupt": {
+   "answered_new_request": {
+    "k": 100,
+    "n": 100,
+    "rate": 1.0,
+    "wilson95": [
+     0.963,
+     1.0
+    ]
+   },
+   "missed_interruption": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   },
+   "lost_half": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   },
+   "lost_words": {
+    "k": 2,
+    "n": 100,
+    "rate": 0.02,
+    "wilson95": [
+     0.0055,
+     0.07
+    ]
+   },
+   "old_audio_after_reset": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   },
+   "onset_to_stop_ms": {
+    "n": 100,
+    "p50": 122.2,
+    "p95": 223.6,
+    "p99": 303.1,
+    "max": 324.5
+   },
+   "onset_to_stop_ms_at_playback_onset": {
+    "n": 34,
+    "p50": 128.8,
+    "p95": 303.1,
+    "p99": 324.5,
+    "max": 324.5
+   },
+   "onset_to_server_barge_in_ms": {
+    "n": 100,
+    "p50": 121.2,
+    "p95": 222.2,
+    "p99": 301.2,
+    "max": 322.9
+   },
+   "errors": 0,
+   "skipped_not_playing": 0,
+   "failures": [
+    {
+     "id": "interrupt-011",
+     "outcome": "answered",
+     "heard_as": "nhưng lại không phải cái đó",
+     "missing_keys": [
+      "dừng"
+     ]
+    },
+    {
+     "id": "interrupt-081-onset",
+     "outcome": "answered",
+     "heard_as": "nhưng lại không phải cái đó",
+     "missing_keys": [
+      "dừng"
+     ]
+    }
+   ]
+  },
+  "noise": {
+   "false_interruption": {
+    "k": 0,
+    "n": 96,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.0385
+    ]
+   },
+   "barge_in_fired": {
+    "k": 50,
+    "n": 96,
+    "rate": 0.5208,
+    "wilson95": [
+     0.422,
+     0.618
+    ]
+   },
+   "resume_after_decision_ms": {
+    "n": 50,
+    "p50": 2.1,
+    "p95": 4.3,
+    "p99": 5.2,
+    "max": 5.2
+   },
+   "silence_stop_to_resumed_audio_ms": {
+    "n": 50,
+    "p50": 758.6,
+    "p95": 903.9,
+    "p99": 945.4,
+    "max": 945.4
+   },
+   "onset_to_barge_in_ms": {
+    "n": 50,
+    "p50": 101.6,
+    "p95": 240.9,
+    "p99": 301.5,
+    "max": 301.5
+   },
+   "by_kind_wrong": {
+    "breath": {
+     "k": 0,
+     "n": 11,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2588
+     ]
+    },
+    "clap": {
+     "k": 0,
+     "n": 10,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2775
+     ]
+    },
+    "cough": {
+     "k": 0,
+     "n": 13,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2281
+     ]
+    },
+    "cough_double": {
+     "k": 0,
+     "n": 13,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2281
+     ]
+    },
+    "keyboard": {
+     "k": 0,
+     "n": 11,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2588
+     ]
+    },
+    "knock": {
+     "k": 0,
+     "n": 13,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2281
+     ]
+    },
+    "rustle": {
+     "k": 0,
+     "n": 12,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2425
+     ]
+    },
+    "throat": {
+     "k": 0,
+     "n": 13,
+     "rate": 0.0,
+     "wilson95": [
+      0.0,
+      0.2281
+     ]
+    }
+   },
+   "errors": 0,
+   "skipped_not_playing": 4,
+   "failures": []
+  }
+ },
+ "unconfirmed_audio": {
+  "violations": [],
+  "turns": 778
+ },
+ "gate": {
+  "false_interruption_lt_3pct": {
+   "k": 4,
+   "n": 190,
+   "rate": 0.0211,
+   "wilson95": [
+    0.0082,
+    0.0529
+   ]
+  },
+  "resume_p95_le_500ms": [
+   {
+    "n": 50,
+    "p50": 2.1,
+    "p95": 4.3,
+    "p99": 5.2,
+    "max": 5.2
+   },
+   {
+    "n": 90,
+    "p50": 1.1,
+    "p95": 5.1,
+    "p99": 5.3,
+    "max": 5.3
+   }
+  ],
+  "stop_p95_le_300ms": {
+   "n": 100,
+   "p50": 122.2,
+   "p95": 223.6,
+   "p99": 303.1,
+   "max": 324.5
+  },
+  "user_visible_cut": null,
+  "no_lost_half": {
+   "interrupt": {
+    "k": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson95": [
+     0.0,
+     0.037
+    ]
+   }
+  },
+  "no_unconfirmed_audio": 0
+ }
+}

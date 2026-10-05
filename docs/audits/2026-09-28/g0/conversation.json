@@ -1,0 +1,345 @@
+{
+  "readiness": {
+    "ok": true,
+    "started": true,
+    "maintenance": false,
+    "dependencies": {
+      "llm": {
+        "ok": true
+      },
+      "search": {
+        "ok": true
+      }
+    },
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "b748d82eee0e50ad5bc3f4f1e7380e2fb34f43870657fe67c237fbe82e41c27c",
+      "config_sha256": "2fb1d08720e14fba83664445bb49658d3c473fd7a893173c78f107bf850ec19e",
+      "started_at": "2026-09-28T07:04:13.353777+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "max_sessions": 3
+  },
+  "scenarios": [
+    {
+      "name": "full_turn",
+      "ok": true,
+      "detail": "tiếng đầu sau 909 ms kể từ lúc hết câu · ASR: “bây giờ là mấy giờ rồi”",
+      "timeline": {
+        "session_id": "s0001-e0083130",
+        "state": "idle",
+        "counters": {
+          "frames_in": 592
+        },
+        "stale_drops": 0,
+        "turns": [
+          {
+            "session_id": "s0001-e0083130",
+            "turn_id": 1,
+            "metrics": {
+              "endpoint_ms": 239.8,
+              "asr_final_ms": 1575.1,
+              "asr_first_partial_ms": 519.7,
+              "llm_ttft_ms": 1138.9,
+              "llm_total_ms": 954.5,
+              "tts_ttfa_ms": 0.1,
+              "tool_ms": 0.1,
+              "e2e_ttfa_ms": 586.5,
+              "response_total_ms": 6437.4,
+              "barge_in_stop_ms": null
+            },
+            "events": [
+              {
+                "type": "state_changed",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034087055.583,
+                "data": {
+                  "previous": "idle",
+                  "current": "listening",
+                  "reason": "speech started"
+                }
+              },
+              {
+                "type": "turn_start",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034087055.608
+              },
+              {
+                "type": "asr_start",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034087055.624
+              },
+              {
+                "type": "vad_start",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034087055.648,
+                "data": {
+                  "rms": 0.23459
+                }
+              },
+              {
+                "type": "asr_first_partial",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034087575.336,
+                "data": {
+                  "text": "bây giờ là"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034087575.345,
+                "data": {
+                  "text": "bây giờ là"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034088075.353,
+                "data": {
+                  "text": "bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "vad_end",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034088355.336,
+                "data": {
+                  "utterance_ms": 1620.0
+                }
+              },
+              {
+                "type": "endpoint_candidate",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034088355.426,
+                "data": {
+                  "required_silence_ms": 480,
+                  "text": "bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034088575.063,
+                "data": {
+                  "text": "bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1034088595.184,
+                "data": {
+                  "previous": "listening",
+                  "current": "thinking",
+                  "reason": "silence 480ms"
+                }
+              },
+              {
+                "type": "turn_confirmed",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034088595.22,
+                "data": {
+                  "reason": "silence 480ms",
+                  "utterance_ms": 1860.0
+                }
+              },
+              {
+                "type": "asr_final",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034088630.703,
+                "data": {
+                  "text": "bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "llm_start",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034088630.897,
+                "data": {
+                  "round": 0
+                }
+              },
+              {
+                "type": "filler",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089181.654,
+                "data": {
+                  "text": "Vâng.",
+                  "source": "opener"
+                }
+              },
+              {
+                "type": "tts_start",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089181.678
+              },
+              {
+                "type": "tts_first_audio",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089181.738,
+                "data": {
+                  "sample_rate": 24000
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089181.747,
+                "data": {
+                  "previous": "thinking",
+                  "current": "speaking",
+                  "reason": "first audio"
+                }
+              },
+              {
+                "type": "llm_complete",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089585.445,
+                "data": {
+                  "round": 0
+                }
+              },
+              {
+                "type": "tool_start",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089585.612,
+                "data": {
+                  "tool": "clock",
+                  "arguments": {}
+                }
+              },
+              {
+                "type": "tool_complete",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089585.726,
+                "data": {
+                  "tool": "clock",
+                  "latency_ms": 0.1
+                }
+              },
+              {
+                "type": "llm_start",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089586.231,
+                "data": {
+                  "round": 1
+                }
+              },
+              {
+                "type": "llm_first_token",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034089769.794
+              },
+              {
+                "type": "llm_complete",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034091530.504,
+                "data": {
+                  "round": 1
+                }
+              },
+              {
+                "type": "tts_complete",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034095032.635,
+                "data": {
+                  "phrases": 3
+                }
+              },
+              {
+                "type": "turn_end",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034097283.282,
+                "data": {
+                  "answered": true
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0001-e0083130",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1034097283.295,
+                "data": {
+                  "previous": "speaking",
+                  "current": "idle",
+                  "reason": "turn finished"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "counters": {
+        "frames_in": 608
+      },
+      "assistant_text": "Bây giờ là 14 giờ 5 phút, thứ hai, ngày 28 tháng 9 năm 2026.",
+      "audio_frames": 168
+    }
+  ]
+}

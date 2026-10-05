@@ -1,0 +1,82 @@
+audio:
+  sample_rate: 16000
+  frame_ms: 20
+media:
+  vad:
+    backend: energy
+    energy_threshold: 0.012
+    start_frames: 2
+    end_frames: 12
+    pre_roll_ms: 320
+conversation:
+  streaming_first_phrase_chars: 48
+  system_prompt: 'Trả lời sẽ được đọc thành tiếng: viết ngắn, không markdown.'
+  turn_detection:
+    backend: heuristic
+    silence_ms: 480
+    max_silence_ms: 1400
+  barge_in:
+    enabled: true
+    speech_frames: 6
+    guard_ms: 150
+  search:
+    enabled: true
+    max_inflight: 2
+    ttl_ms: 60000
+    delivery_prefix: Về câu bạn hỏi lúc nãy
+  tool_instruction: 'Bạn có các công cụ sau: {tools}. {tool_routes} Với kiến thức
+    cố định, tính toán, dịch và đọc lại: tự trả lời trực tiếp. Khi cần công cụ, hãy
+    thực sự gọi rồi mới trả lời. Văn bản người dùng có thể bị ASR nhận sai vài âm;
+    suy luận ý định từ cả câu và ngữ cảnh.'
+models:
+  keep_warm_s: 240
+  mode: cascade
+  asr:
+    backend: gipformer
+    options:
+      model_dir: models/gipformer1.5-65M-rnnt
+      precision: int8
+      onnx_threads: 4
+      lowercase: true
+      partial_every_frames: 25
+  llm:
+    backend: openai_compat
+    options:
+      endpoint: http://127.0.0.1:18108/v1
+      model: qwen3.5-9b
+      max_tokens: 120
+      temperature: 0.6
+      enable_thinking: false
+      keepalive_connections: 0
+      timeout_s: 30.0
+      max_parallel: 3
+      max_queue: 8
+  tts:
+    backend: zerotts
+    options:
+      voice: kimoanh
+  search:
+    backend: llm
+    options:
+      endpoint: http://127.0.0.1:18108/v1
+      model: qwen3.5-9b
+      max_tokens: 160
+      temperature: 0.3
+      enable_thinking: false
+      keepalive_connections: 0
+      timeout_s: 30.0
+      max_parallel: 3
+      max_queue: 8
+      system_prompt: Bạn là bộ phận tra cứu. Trả lời NGẮN và CHÍNH XÁC bằng tiếng
+        Việt, tối đa hai câu, chỉ nêu dữ kiện. Không chào hỏi. Nếu không chắc chắn,
+        nói thẳng là không tra được.
+tasks:
+  tools:
+  - clock
+  max_parallel: 4
+  max_queue: 16
+server:
+  host: 127.0.0.1
+  port: 18100
+  max_sessions: 3
+  private_introspection: true

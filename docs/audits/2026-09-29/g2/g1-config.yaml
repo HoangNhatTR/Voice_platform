@@ -1,0 +1,114 @@
+# ASR Gipformer + ZeroTTS chạy CPU; Qwen 9B chạy GPU qua service riêng.
+# Deployment: scripts/install-services.py; LLM 18108, API TLS 18100.
+# Interpreter và dependency đã pin trong requirements-local.lock.
+# Số đo latency hiện tại xem docs/audits/2026-09-28/; không dùng số cũ
+# trong comment như cam kết hiệu năng.
+
+audio:
+  sample_rate: 16000
+  frame_ms: 20
+
+media:
+  vad:
+    backend: energy        # silero cần torch trong tiến trình; energy đã đủ trên giọng thật
+    energy_threshold: 0.012
+    start_frames: 2
+    end_frames: 12
+    pre_roll_ms: 320
+
+conversation:
+  # ZeroTTS stream: giữ cụm đầu dài hơn để tránh ngắt nhịp giữa ý.
+  streaming_first_phrase_chars: 48
+  # Ngắn là có chủ ý, không phải viết tạm. Bản dài ("tối đa hai câu, không
+  # liệt kê...") đo được 0/10 lượt gọi công cụ trên Qwen3.5-9B; bản này 10/10,
+  # 0 lượt gọi thừa. Sửa chữ ở đây thì chạy lại scripts/measure_tool_calling.py.
+  system_prompt: "Trả lời sẽ được đọc thành tiếng: viết ngắn, không markdown."
+  turn_detection:
+    backend: heuristic
+    silence_ms: 480
+    max_silence_ms: 1400
+  barge_in:
+    enabled: true
+    speech_frames: 6
+    guard_ms: 150
+  search:
+    enabled: true
+    max_inflight: 2
+    ttl_ms: 60000
+    delivery_prefix: "Về câu bạn hỏi lúc nãy"
+
+models:
+  # Máy dùng chung, swap đầy: trang bộ nhớ của ASR/TTS CPU bị đẩy ra lúc
+  # không ai dùng, và người đầu tiên sau đó nghe giật (1.5 s, RTF 1.2).
+  keep_warm_s: 240
+  mode: cascade
+  asr:
+    backend: gipformer
+    options:
+      model_dir: models/gipformer1.5-65M-rnnt
+      precision: int8
+      onnx_threads: 4
+      lowercase: true
+      # Không có dòng này thì KHÔNG có partial nào, và turn detector heuristic
+      # chỉ nhận text rỗng — tức là luôn trả về silence_ms cơ sở, mọi luật
+      # "từ nối / câu mở đầu / dãy số" đều không chạy. Giải mã lại cả prefix
+      # mỗi 25 frame (500 ms); gipformer chạy trong thread riêng nên không
+      # chặn vòng lặp audio.
+      partial_every_frames: 25
+  llm:
+    backend: openai_compat
+    options:
+      endpoint: http://127.0.0.1:18108/v1
+      model: qwen3.5-9b
+      max_tokens: 120
+      temperature: 0.6
+      enable_thinking: false
+      keepalive_connections: 0
+      timeout_s: 30.0
+      max_parallel: 3
+      max_queue: 8
+  tts:
+    # ZeroTTS: ONNX thuần, chạy thẳng trong tiến trình này, chỉ cần numpy +
+    # onnxruntime. Đo cùng câu, cùng 24 kHz: tiếng đầu 89-136 ms so với 741 ms
+    # của VieNeu Nano. Đổi lại RTF 0,69 so với 0,31 — nhưng TTFA mới là con số
+    # quyết định cảm giác, và 0,69 vẫn dưới 1,0 nên talker không tụt lại.
+    # ZeroTTS KHÔNG có cue cảm xúc, nên "[cười]" bị bỏ trước khi tới nó.
+    backend: zerotts
+    options:
+      voice: kimoanh
+    # Muốn quay về VieNeu Nano (có cue cảm xúc, tổng hợp cả cụm nhanh hơn):
+    #   backend: vieneu_nano
+    #   options: {expected_rtf: 0.65}
+    # Đổi được ngay lúc đang chạy ở trang /lab, không cần sửa file này.
+
+  # "Back end - search" trong sơ đồ: một tác nhân RIÊNG lo tra cứu.
+  # Ở đây nó trỏ vào cùng llama-server nhưng là một phiên khác với prompt
+  # khác — tách vai trò trước, tách phần cứng sau. Đổi `endpoint` sang một
+  # service khác là xong, Speech agent không biết gì.
+  search:
+    backend: llm
+    options:
+      endpoint: http://127.0.0.1:18108/v1
+      model: qwen3.5-9b
+      max_tokens: 160
+      temperature: 0.3        # tra cứu thì cần ổn định, không cần bay bổng
+      enable_thinking: false
+      keepalive_connections: 0
+      timeout_s: 30.0
+      max_parallel: 3
+      max_queue: 8
+      system_prompt: >-
+        Bạn là bộ phận tra cứu. Trả lời NGẮN và CHÍNH XÁC bằng tiếng Việt, tối
+        đa hai câu, chỉ nêu dữ kiện. Không chào hỏi. Nếu không chắc chắn, nói
+        thẳng là không tra được.
+
+tasks:
+  tools: [clock]
+  max_parallel: 4
+  max_queue: 16
+
+server:
+  host: 127.0.0.1
+  port: 18100
+  max_sessions: 3
+  private_introspection: true

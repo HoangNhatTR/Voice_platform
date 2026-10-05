@@ -13,5 +13,5 @@ class VadOnlyTurnDetector:
     def __init__(self, silence_ms: float = 480.0) -> None:
         self.silence_ms = silence_ms
 
-    async def required_silence_ms(self, *, text: str, utterance_ms: float) -> float:
+    async def required_silence_ms(self, *, text: str, utterance_ms: float, stable: bool = False) -> float:
         return self.silence_ms

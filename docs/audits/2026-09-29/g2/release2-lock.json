@@ -1,0 +1,10 @@
+{
+  "at": "2026-09-29T04:33:53.715003+00:00",
+  "candidate": "qwen3.5-4b",
+  "prompt": "prompt-v7-vietnamese.yaml",
+  "source_sha256": "0781ab8ec4d6714f4acc36b9c526a6fd1c0bba9c7ab3279da3287e06afd0755f",
+  "quality_release2_sha256": "cc28b81f0a0a9721e2d5b2e5408c7e6895a573cda7a246c4900de459c3f313f2",
+  "prompt_sha256": "88064cf6811a2c1f6b3ecee8c5cbb0452a080cc911192824a006f89b46c48601",
+  "native_profile": "parallel=3, context_per_slot=4096, batch=ubatch=256, cache=true, cache_ram=1024MiB",
+  "selection_evidence": "Development 66/67, no CJK; actual native load1/load3 p95 165/535ms. 7B retired after Vietnamese-language regressions despite technical release1 pass. Release1 now development because prompt/model selection continued. Release2 outputs untouched before lock."
+}

@@ -44,6 +44,7 @@ from ..models import registry as model_registry
 from ..models.base import Message
 from ..observability.logging import get_logger
 from ..tasks.search import SearchRequest
+from .access import local_only
 
 log = get_logger("lab")
 
@@ -120,7 +121,7 @@ class LabService:
         self.config = config
         # Tiến trình chỉ có MỘT ASR và MỘT talker. Hai bài thử chồng nhau sẽ
         # báo thời gian của không ai cả.
-        self._lock = asyncio.Lock()
+        self._lock = getattr(platform, "model_lock", asyncio.Lock())
 
     # --- trạng thái ----------------------------------------------------
     def describe(self) -> dict[str, Any]:
@@ -136,7 +137,7 @@ class LabService:
             spec: EngineSpec = getattr(self.config.models, kind)
             kinds[kind] = {
                 "backend": spec.backend,
-                "options": spec.options,
+                "options": redact_options(spec.options),
                 "choices": list(choices),
                 "loaded": loaded.get(kind),
             }
@@ -176,61 +177,59 @@ class LabService:
     # --- đổi engine ----------------------------------------------------
     async def swap(self, kind: str, backend: str, options: dict[str, Any]) -> dict[str, Any]:
         if kind not in _KINDS:
-            raise VoicePlatformError(f"không có loại engine '{kind}'")
-        if self.platform.sessions:
-            raise Busy(
-                f"đang có {len(self.platform.sessions)} phiên chạy. Đóng các tab "
-                "bàn đo rồi thử lại — tráo engine dưới chân một lượt đang nói là "
-                "cách chắc chắn nhất để có một lỗi không tái hiện được."
-            )
-        spec = EngineSpec(backend=backend, options=dict(options or {}))
-        async with self._lock:
-            builders = {
-                "asr": lambda: model_registry.build_asr(spec),
-                "llm": lambda: model_registry.build_llm(spec),
-                "tts": lambda: model_registry.build_tts(
-                    spec, output_sample_rate=self.config.audio.output_sample_rate
-                ),
-                "search": lambda: model_registry.build_search_agent(spec),
-            }
-            started = time.monotonic()
-            engine = builders[kind]()
-            if engine is not None:
-                try:
-                    await engine.start()
-                except Exception:
-                    # Engine cũ vẫn nguyên: chỉ đóng nó SAU khi bản mới đã nạp
-                    # được. Đóng trước là mất cả hai khi model mới không lên.
-                    close = getattr(engine, "close", None)
-                    if close is not None:
-                        try:
-                            await close()
-                        except Exception:
-                            pass
-                    raise
-            previous = getattr(self.platform.models, kind)
-            setattr(self.platform.models, kind, engine)
-            setattr(self.config.models, kind, spec)
-            if kind == "tts":
-                # Câu "Để tôi tra cứu nhé." đã tổng hợp sẵn bằng talker CŨ, ở
-                # tốc độ lấy mẫu CŨ. Giữ lại là phát một câu sai cao độ ngay
-                # lượt tra cứu kế tiếp.
-                self.platform.models._speech_cache.clear()
-                # Giọng cũ hiếm khi tồn tại ở engine mới. Giữ lại thì mỗi lần
-                # tổng hợp là một dòng cảnh báo rồi âm thầm đổi giọng.
-                voices = engine.capabilities.voices if engine is not None else ()
-                current = getattr(self.platform, "voice", None)
-                if current and voices and current not in voices:
-                    log.info("giọng %r không có ở engine mới, bỏ về mặc định", current)
-                    self.platform.voice = None
-                    self.config.models.tts.options.pop("voice", None)
-            if previous is not None and previous is not engine:
-                try:
+            raise VoicePlatformError(f"unknown engine kind: {kind}")
+        if not isinstance(options, dict):
+            raise VoicePlatformError("options must be an object")
+        async with asyncio.timeout(self.config.models.startup_timeout_s), self._lock:
+            if self.platform.sessions:
+                raise Busy("đang có phiên chạy; hãy đóng phiên trước khi đổi model")
+            self.platform.maintenance = True
+            engine = None
+            committed = False
+            try:
+                previous_spec = getattr(self.config.models, kind)
+                if backend == previous_spec.backend:
+                    options = restore_secrets(options, previous_spec.options)
+                spec = EngineSpec(backend=backend, options=dict(options))
+                builders = {
+                    "asr": lambda: model_registry.build_asr(spec),
+                    "llm": lambda: model_registry.build_llm(spec),
+                    "tts": lambda: model_registry.build_tts(spec, output_sample_rate=self.config.audio.output_sample_rate),
+                    "search": lambda: model_registry.build_search_agent(spec),
+                }
+                engine = builders[kind]()
+                if engine is not None:
+                    async with asyncio.timeout(self.config.models.startup_timeout_s):
+                        await engine.start()
+                        checker = getattr(engine, "check_ready", None)
+                        if checker is not None and not (await checker())["ok"]:
+                            raise VoicePlatformError("new model dependency is not ready")
+                if self.platform.sessions:
+                    raise Busy("a session opened while the model was loading")
+                previous = getattr(self.platform.models, kind)
+                setattr(self.platform.models, kind, engine)
+                setattr(self.config.models, kind, spec)
+                if kind in ("llm", "search"):
+                    self.platform.models.bind_llm_admission()
+                committed = True
+                if kind == "tts":
+                    self.platform.models._speech_cache.clear()
+                    voices = engine.capabilities.voices if engine is not None else ()
+                    current = getattr(self.platform, "voice", None)
+                    if current and voices and current not in voices:
+                        self.platform.voice = None
+                        self.config.models.tts.options.pop("voice", None)
+                if previous is not None and previous is not engine:
                     await previous.close()
-                except Exception as exc:  # pragma: no cover - backend dependent
-                    log.warning("không đóng được engine cũ: %s", exc)
-            log.info("đã đổi %s sang %s trong %.0f ms", kind, backend,
-                     (time.monotonic() - started) * 1000)
+            finally:
+                try:
+                    if engine is not None and not committed:
+                        await engine.close()
+                finally:
+                    self.platform.maintenance = False
+                    invalidate = getattr(self.platform, "invalidate_readiness", None)
+                    if invalidate:
+                        invalidate()
         return self.describe()
 
     # --- các bài thử ---------------------------------------------------
@@ -239,21 +238,23 @@ class LabService:
         return {"contended": live > 0, "live_sessions": live}
 
     async def try_asr(self, audio: np.ndarray, rate: int, reference: str) -> dict[str, Any]:
-        engine = self.platform.models.asr
         target = self.config.audio.sample_rate
         frame = self.config.frame_samples
-        async with self._lock:
+        async with asyncio.timeout(self.config.models.operation_timeout_s), self._lock:
+            engine = self.platform.models.asr
             started = time.monotonic()
             stream = await engine.open_stream(sample_rate=rate)
-            partials = 0
-            for index in range(0, audio.size, frame):
-                block = audio[index : index + frame]
-                result = await stream.push(AudioFrame(samples=block, sample_rate=rate))
-                if result is not None and result.text:
-                    partials += 1
-            transcript = await stream.finish()
-            elapsed_ms = (time.monotonic() - started) * 1000
-            await stream.close()
+            try:
+                partials = 0
+                for index in range(0, audio.size, frame):
+                    block = audio[index : index + frame]
+                    result = await stream.push(AudioFrame(samples=block, sample_rate=rate))
+                    if result is not None and result.text:
+                        partials += 1
+                transcript = await stream.finish()
+                elapsed_ms = (time.monotonic() - started) * 1000
+            finally:
+                await stream.close()
         audio_ms = 1000.0 * audio.size / rate
         text = (transcript.text or "").strip()
         out: dict[str, Any] = {
@@ -276,17 +277,17 @@ class LabService:
         return out
 
     async def try_tts(self, text: str, voice: str | None) -> dict[str, Any]:
-        engine = self.platform.models.tts
-        # Giọng thật sự dùng: tham số của bài thử, nếu không có thì giọng phiên.
-        used = voice or getattr(self.platform, "voice", None)
-        segmenter = pipeline_segmenter(engine.capabilities)
-        phrases = segmenter.push(text) + segmenter.flush()
-        if not phrases:
-            raise VoicePlatformError("sau khi chuẩn hoá không còn chữ nào để đọc")
-        chunks: list[np.ndarray] = []
-        rows: list[dict[str, Any]] = []
-        rate = engine.capabilities.native_sample_rate
-        async with self._lock:
+        async with asyncio.timeout(self.config.models.operation_timeout_s), self._lock:
+            engine = self.platform.models.tts
+            # Giọng thật sự dùng: tham số của bài thử, nếu không có thì giọng phiên.
+            used = voice or getattr(self.platform, "voice", None)
+            segmenter = pipeline_segmenter(engine.capabilities, self.config.conversation.streaming_first_phrase_chars)
+            phrases = segmenter.push(text) + segmenter.flush()
+            if not phrases:
+                raise VoicePlatformError("sau khi chuẩn hoá không còn chữ nào để đọc")
+            chunks: list[np.ndarray] = []
+            rows: list[dict[str, Any]] = []
+            rate = engine.capabilities.native_sample_rate
             run_started = time.monotonic()
             for phrase in phrases:
                 phrase_started = time.monotonic()
@@ -326,12 +327,12 @@ class LabService:
         }
 
     async def try_llm(self, prompt: str, with_tools: bool) -> dict[str, Any]:
-        engine = self.platform.models.llm
         # Dựng prompt bằng đúng ConversationContext của sản phẩm: thứ tự khối
         # công cụ so với khối giọng nói đã đo được là chênh 0/10 với 10/10 lượt
         # gọi đúng, nên một bài thử dựng prompt kiểu khác là vô nghĩa.
         context = ConversationContext(
-            self.config.conversation.system_prompt, self.config.conversation.history_turns
+            self.config.conversation.system_prompt, self.config.conversation.history_turns,
+            tool_instruction=self.config.conversation.tool_instruction,
         )
         context.start_turn(1, prompt)
         tool_names = None
@@ -350,7 +351,8 @@ class LabService:
         finish = None
         started = time.monotonic()
         ttft: float | None = None
-        async with self._lock:
+        async with asyncio.timeout(self.config.models.operation_timeout_s), self._lock:
+            engine = self.platform.models.llm
             async for delta in engine.stream(messages, tools=tools):
                 if delta.text:
                     if ttft is None:
@@ -377,13 +379,11 @@ class LabService:
         }
 
     async def try_search(self, query: str) -> dict[str, Any]:
-        agent = self.platform.models.search
-        if agent is None:
-            raise VoicePlatformError(
-                "chưa cấu hình tác nhân tra cứu (models.search.backend đang là 'none')"
-            )
         started = time.monotonic()
-        async with self._lock:
+        async with asyncio.timeout(self.config.models.operation_timeout_s), self._lock:
+            agent = self.platform.models.search
+            if agent is None:
+                raise VoicePlatformError("chưa cấu hình tác nhân tra cứu")
             result = await agent.search(SearchRequest(query=query, turn_id=0))
         return {
             "engine": getattr(agent, "name", "?"),
@@ -396,6 +396,32 @@ class LabService:
         }
 
 
+
+def redact_options(value: Any, key: str = "") -> Any:
+    secret = key not in {"max_tokens", "context_tokens", "token_delay_ms", "first_token_delay_ms"} and any(word in key.lower() for word in ("key", "token", "secret", "password", "authorization", "credential"))
+    if secret:
+        return "[redacted]"
+    if isinstance(value, dict):
+        return {k: redact_options(v, k) for k, v in value.items()}
+    if isinstance(value, list):
+        return [redact_options(v) for v in value]
+    if isinstance(value, str) and "://" in value:
+        from urllib.parse import urlsplit
+        url = urlsplit(value)
+        if url.username or url.password or url.query:
+            return "[redacted]"
+    return value
+
+
+def restore_secrets(value: dict, previous: dict) -> dict:
+    result = dict(value)
+    for key, old in previous.items():
+        if result.get(key) == "[redacted]" or (key not in result and redact_options(old, key) == "[redacted]"):
+            result[key] = old
+        elif isinstance(result.get(key), dict) and isinstance(old, dict):
+            result[key] = restore_secrets(result[key], old)
+    return result
+
 class Busy(VoicePlatformError):
     """Việc không làm được lúc này, không phải một cấu hình sai."""
 
@@ -403,12 +429,32 @@ class Busy(VoicePlatformError):
 # ------------------------------------------------------------------ định tuyến
 
 def register(app: FastAPI, platform: Any, config: Config) -> None:
+    """Mọi route ĐỔI trạng thái chung hoặc ngốn CPU của cả server đều khoá về
+    máy chủ khi mở LAN: một người test bấm đổi engine là đổi cho mọi phiên,
+    và một bài thử TTS dài chiếm đúng talker mà người khác đang nghe. Đọc
+    danh sách engine/giọng thì vẫn mở — trang `/` cần nó.
+    """
     service = LabService(platform, config)
     web_dir = config.server.web_dir
 
     def _fail(exc: Exception) -> JSONResponse:
         status = 409 if isinstance(exc, Busy) else 400
         return JSONResponse({"detail": str(exc)}, status_code=status)
+
+    async def _json_body(request: Request) -> dict[str, Any] | JSONResponse:
+        # JSON chỉ nhận đúng application/json: kiểu đó buộc trình duyệt hỏi
+        # preflight, còn text/plain thì một form hay fetch no-cors của trang
+        # khác gửi được mà không cần hỏi ai.
+        kind = request.headers.get("content-type", "").split(";")[0].strip().lower()
+        if kind != "application/json":
+            return JSONResponse({"detail": "cần Content-Type: application/json"}, status_code=415)
+        try:
+            payload = await request.json()
+        except ValueError:
+            return JSONResponse({"detail": "JSON không hợp lệ"}, status_code=400)
+        if not isinstance(payload, dict):
+            return JSONResponse({"detail": "body phải là một object JSON"}, status_code=400)
+        return payload
 
     @app.get("/lab")
     async def lab_page() -> Any:
@@ -420,12 +466,20 @@ def register(app: FastAPI, platform: Any, config: Config) -> None:
         return JSONResponse({"detail": "chưa có web/lab.html"}, status_code=404)
 
     @app.get("/engines")
-    async def engines() -> Any:
-        return service.describe()
+    async def engines(request: Request) -> Any:
+        description = service.describe()
+        if local_only(request, config) is not None:
+            for entry in description["kinds"].values():
+                entry["options"] = {}
+        return description
 
     @app.post("/engines/{kind}")
     async def set_engine(kind: str, request: Request) -> Any:
-        body = await request.json()
+        if (denied := local_only(request, config)) is not None:
+            return denied
+        body = await _json_body(request)
+        if isinstance(body, JSONResponse):
+            return body
         try:
             return await service.swap(
                 kind, str(body.get("backend", "")), body.get("options") or {}
@@ -438,7 +492,11 @@ def register(app: FastAPI, platform: Any, config: Config) -> None:
 
     @app.post("/engines/tts/voice")
     async def set_voice(request: Request) -> Any:
-        body = await request.json()
+        if (denied := local_only(request, config)) is not None:
+            return denied
+        body = await _json_body(request)
+        if isinstance(body, JSONResponse):
+            return body
         try:
             return service.set_voice(body.get("voice"))
         except VoicePlatformError as exc:
@@ -446,7 +504,14 @@ def register(app: FastAPI, platform: Any, config: Config) -> None:
 
     @app.post("/try/asr")
     async def try_asr(request: Request) -> Any:
-        payload = await request.body()
+        if (denied := local_only(request, config)) is not None:
+            return denied
+        chunks = bytearray()
+        async for chunk in request.stream():
+            chunks.extend(chunk)
+            if len(chunks) > _MAX_AUDIO_BYTES:
+                return _fail(VoicePlatformError("file quá lớn (tối đa 32 MB)"))
+        payload = bytes(chunks)
         if not payload:
             return _fail(VoicePlatformError("không có dữ liệu âm thanh"))
         if len(payload) > _MAX_AUDIO_BYTES:
@@ -469,7 +534,11 @@ def register(app: FastAPI, platform: Any, config: Config) -> None:
 
     @app.post("/try/tts")
     async def try_tts(request: Request) -> Any:
-        body = await request.json()
+        if (denied := local_only(request, config)) is not None:
+            return denied
+        body = await _json_body(request)
+        if isinstance(body, JSONResponse):
+            return body
         text = str(body.get("text", "")).strip()[:_MAX_TEXT]
         if not text:
             return _fail(VoicePlatformError("chưa nhập chữ để đọc"))
@@ -483,7 +552,11 @@ def register(app: FastAPI, platform: Any, config: Config) -> None:
 
     @app.post("/try/llm")
     async def try_llm(request: Request) -> Any:
-        body = await request.json()
+        if (denied := local_only(request, config)) is not None:
+            return denied
+        body = await _json_body(request)
+        if isinstance(body, JSONResponse):
+            return body
         prompt = str(body.get("prompt", "")).strip()[:_MAX_TEXT]
         if not prompt:
             return _fail(VoicePlatformError("chưa nhập câu hỏi"))
@@ -497,7 +570,11 @@ def register(app: FastAPI, platform: Any, config: Config) -> None:
 
     @app.post("/try/search")
     async def try_search(request: Request) -> Any:
-        body = await request.json()
+        if (denied := local_only(request, config)) is not None:
+            return denied
+        body = await _json_body(request)
+        if isinstance(body, JSONResponse):
+            return body
         query = str(body.get("query", "")).strip()[:_MAX_TEXT]
         if not query:
             return _fail(VoicePlatformError("chưa nhập câu cần tra"))

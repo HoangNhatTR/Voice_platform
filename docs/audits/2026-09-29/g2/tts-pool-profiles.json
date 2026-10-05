@@ -1,0 +1,35 @@
+{
+  "zero-pool1-t4": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 4,
+      "codec_intra_op_num_threads": 4,
+      "pool_size": 1,
+      "max_queue": 6
+    }
+  },
+  "zero-pool2-t4": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 4,
+      "codec_intra_op_num_threads": 4,
+      "pool_size": 2,
+      "max_queue": 6
+    }
+  },
+  "zero-pool3-t4": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 4,
+      "codec_intra_op_num_threads": 4,
+      "pool_size": 3,
+      "max_queue": 6
+    }
+  }
+}

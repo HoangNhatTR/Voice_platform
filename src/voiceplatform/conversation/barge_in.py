@@ -35,21 +35,45 @@ class BargeInDetector:
         self.config = config
         self._counter = RunCounter(threshold=0.5, required=config.speech_frames)
         self._armed_at_ms: float | None = None
+        self._guard_until_ms = 0.0
         self.stats = BargeInStats()
 
     @property
     def armed(self) -> bool:
         return self._armed_at_ms is not None
 
-    def arm(self, at_ms: float) -> None:
+    def arm(self, at_ms: float, guard_ms: float | None = None) -> None:
         """Assistant audio started going out.
 
         `at_ms` is the session's *audio* clock, not wall time: the guard window
         has to be measured in the same units as the frames it guards, or a
         replay faster than real time skips the guard entirely.
         """
+        if self._armed_at_ms is not None and self._counter.run > 0:
+            # Re-armed at the first audio while the user is already talking
+            # (armed since the turn was confirmed): that speech started before
+            # there was any sound to echo. Guarding it would push the barge-in
+            # past the 320 ms pre-roll and lose the first syllable.
+            self._armed_at_ms = at_ms
+            self._guard_until_ms = at_ms
+            return
         self._armed_at_ms = at_ms
+        self._guard_until_ms = at_ms + (self.config.guard_ms if guard_ms is None else guard_ms)
         self._counter.reset()
+
+    @property
+    def speech_in_progress(self) -> bool:
+        return self._counter.run > 0
+
+    @property
+    def run_frames(self) -> int:
+        """Frames in the current run: all of them, right after it fired."""
+        return self._counter.run
+
+    def set_guard_until(self, until_ms: float) -> None:
+        """Move the end of the echo guard (the client reported its real onset)."""
+        if self._armed_at_ms is not None and not self.speech_in_progress:
+            self._guard_until_ms = until_ms
 
     def disarm(self) -> None:
         self._armed_at_ms = None
@@ -58,9 +82,11 @@ class BargeInDetector:
     def update(self, probability: float, frame: AudioFrame, now_ms: float) -> bool:
         if not self.config.enabled or self._armed_at_ms is None:
             return False
-        if now_ms - self._armed_at_ms < self.config.guard_ms:
+        if now_ms < self._guard_until_ms and frame.rms < self.config.guard_min_rms:
             # Still inside the echo guard: do not even count the frame, or the
-            # run survives the guard and fires the instant it lifts.
+            # run survives the guard and fires the instant it lifts. Frames
+            # louder than guard_min_rms (a voice at the microphone, not echo
+            # from across the room) are counted; 1.0 counts none.
             self._counter.reset()
             self.stats.suppressed_guard += 1
             return False

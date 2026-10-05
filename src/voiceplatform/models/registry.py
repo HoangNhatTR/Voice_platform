@@ -6,11 +6,20 @@ machine with no torch can still run the mock stack, the tests and the server.
 
 from __future__ import annotations
 
+import asyncio
+import time
+from collections import OrderedDict
 from typing import Any
 
+import numpy as np
+
+from ..core.audio import AudioFrame
 from ..core.config import EngineSpec, ModelsConfig
 from ..core.errors import ConfigError
+from ..observability.logging import get_logger
 from .base import AsrEngine, LlmEngine, S2sEngine, TtsEngine
+
+log = get_logger("models")
 
 # Một nguồn duy nhất: factory kiểm tra theo đây, và màn chọn model cũng đọc
 # đúng đây. Hai danh sách rời nhau là cách một lựa chọn có trong giao diện mà
@@ -18,7 +27,7 @@ from .base import AsrEngine, LlmEngine, S2sEngine, TtsEngine
 ASR_BACKENDS = ("mock", "gipformer", "phowhisper", "parakeet", "s2s_bridge")
 LLM_BACKENDS = ("mock", "openai_compat", "llama_cpp_server", "vllm", "ollama", "openai")
 TTS_BACKENDS = ("mock", "zerotts", "vieneu", "vieneu_nano", "vixtts", "f5", "subprocess", "s2s_bridge")
-SEARCH_BACKENDS = ("none", "mock", "tools", "llm")
+SEARCH_BACKENDS = ("none", "mock", "tools", "llm", "wikipedia_vi")
 
 
 def build_asr(spec: EngineSpec) -> AsrEngine:
@@ -71,6 +80,13 @@ def build_tts(spec: EngineSpec, *, output_sample_rate: int | None = None) -> Tts
         # Không đi qua bridge: gói này không thuộc speech2speech.
         if output_sample_rate is not None:
             options.setdefault("output_sample_rate", output_sample_rate)
+        pool_size = int(options.pop("pool_size", 1))
+        share_model = options.pop("share_model", False)
+        if pool_size != 1:
+            from .tts.pool import TtsPool
+
+            return TtsPool(lambda: ZeroTtsEngine(**options), pool_size=pool_size,
+                           max_queue=int(options.get("max_queue", 8)), share_model=share_model)
         return ZeroTtsEngine(**options)
     if backend in TTS_BACKENDS:
         from .tts.bridge_viet_s2s import BridgeTtsEngine
@@ -101,6 +117,10 @@ def build_search_agent(spec: EngineSpec, *, executor: Any = None) -> Any:
         from ..tasks.search import MockSearchAgent
 
         return MockSearchAgent(**spec.options)
+    if backend == "wikipedia_vi":
+        from ..tasks.search import WikipediaSearchAgent
+
+        return WikipediaSearchAgent(**spec.options)
     if backend == "tools":
         from ..tasks.search import ToolSearchAgent
 
@@ -122,6 +142,7 @@ def build_search_agent(spec: EngineSpec, *, executor: Any = None) -> Any:
         options = dict(spec.options)
         system_prompt = options.pop("system_prompt", None)
         max_tokens = int(options.pop("max_tokens", 160))
+        options.setdefault('request_priority','search')
         from .llm.openai_compat import OpenAiCompatLlm
 
         engine = OpenAiCompatLlm(**options)
@@ -137,24 +158,133 @@ class ModelPlane:
         # Câu cố định ("Để tôi tra cứu nhé.") được tổng hợp MỘT lần cho cả
         # tiến trình. Trên talker CPU, tổng hợp lại mỗi lần tốn 1.6 giây — đúng
         # bằng quãng im lặng mà câu đó sinh ra để lấp.
-        self._speech_cache: dict[tuple[str, str], list[Any]] = {}
+        self._speech_cache: OrderedDict[tuple[str, str], list[Any]] = OrderedDict()
         self._cache_lock: Any = None
+        self._last_touch = float("-inf")
+        self._started = False
+        self.llm_warmup_input = None
+        if config.mode != "cascade":
+            raise ConfigError("only cascade mode is implemented")
         self.mode = config.mode
         self.asr = build_asr(config.asr)
         self.llm = build_llm(config.llm)
         self.tts = build_tts(config.tts, output_sample_rate=output_sample_rate)
         self.s2s = build_s2s(config.s2s)
         self.search = build_search_agent(config.search)
+        self.bind_llm_admission()
+
+    def bind_llm_admission(self) -> None:
+        # Share admission when roles use the same native server. Independent
+        # semaphores merely move their queues into llama-server and let search
+        # occupy every slot. Distinct endpoints retain independent limiters.
+        search_engine=getattr(self.search,'engine',None)
+        for engine in (self.llm, search_engine):
+            if hasattr(engine, '_private_limiter'):
+                engine.limiter = engine._private_limiter
+        if (getattr(self.llm,'endpoint',None) and
+                getattr(search_engine,'endpoint',None)==self.llm.endpoint):
+            search_engine.limiter=self.llm.limiter
 
     async def start(self) -> None:
-        for engine in (self.asr, self.llm, self.tts, self.s2s, self.search):
-            if engine is not None:
-                await engine.start()
+        opened = []
+        try:
+            async with asyncio.timeout(self.config.startup_timeout_s):
+                for engine in (self.asr, self.llm, self.tts, self.s2s, self.search):
+                    if engine is not None:
+                        opened.append(engine)
+                        await engine.start()
+            self._started = True
+        except BaseException:
+            for engine in reversed(opened):
+                try:
+                    await engine.close()
+                except Exception:
+                    log.exception("startup cleanup failed")
+            raise
 
     async def close(self) -> None:
-        for engine in (self.asr, self.llm, self.tts, self.s2s, self.search):
+        self._started = False
+        errors = []
+        for engine in (self.search, self.s2s, self.tts, self.llm, self.asr):
             if engine is not None:
-                await engine.close()
+                try:
+                    await engine.close()
+                except Exception as exc:
+                    errors.append(exc)
+                    log.exception("model close failed")
+        self._speech_cache.clear()
+        if errors:
+            raise errors[0]
+
+    async def check_dependencies(self, timeout_s: float = 2.0) -> dict[str, Any]:
+        async def one(engine: Any) -> dict[str, Any]:
+            if engine is None:
+                return {"ok": True, "configured": False}
+            checker = getattr(engine, "check_ready", None)
+            if checker is None:
+                checker = getattr(getattr(engine, "engine", None), "check_ready", None)
+            if checker is None:
+                return {"ok": True, "remote": False}
+            try:
+                async with asyncio.timeout(timeout_s):
+                    return await checker(timeout_s=timeout_s)
+            except Exception as exc:
+                return {"ok": False, "reason": type(exc).__name__}
+        llm, search = await asyncio.gather(one(self.llm), one(self.search))
+        return {"llm": llm, "search": search}
+
+    async def touch(self, *, min_interval_s: float = 30.0, include_llm: bool = True) -> bool:
+        """Một lượt ASR + TTS thật nhỏ để kéo trang bộ nhớ của model về lại RAM.
+
+        Bộ nhớ đệm câu (`cached_speech`) KHÔNG làm được việc này: trúng cache
+        thì không có gì chạy. Đo 25/09 trên máy dùng chung, swap đầy: lần TTS
+        đầu sau lúc server nằm im mất 1537 ms (RTF 1.2), các lần sau 60-80 ms.
+        Kết quả bỏ đi; lỗi chỉ ghi log — làm ấm hỏng không được làm hỏng phiên.
+        """
+        now = time.monotonic()
+        if now - self._last_touch < min_interval_s:
+            return False
+        self._last_touch = now
+        warmup = getattr(self.llm, "warmup", None)
+        if include_llm and warmup is not None and self.llm_warmup_input is not None:
+            try:
+                messages, tools = self.llm_warmup_input
+                await warmup(messages, tools=tools)
+            except Exception as exc:
+                log.warning("làm ấm LLM thất bại: %s", exc)
+        # Mock không có trang nào để kéo về; chạy nó chỉ tiêu mất một câu
+        # trong kịch bản của mock ASR và làm lệch test.
+        if getattr(self.tts, "name", "") != "mock":
+            await self._touch_tts()
+        if getattr(self.asr, "name", "") != "mock":
+            await self._touch_asr()
+        return True
+
+    async def _touch_tts(self) -> None:
+        try:
+            async with asyncio.timeout(self.config.operation_timeout_s):
+                touch = getattr(self.tts, "touch", None)
+                if touch is not None:
+                    await touch()
+                else:
+                    async for _ in self.tts.synthesize("Vâng."):
+                        pass
+        except Exception as exc:  # pragma: no cover - backend dependent
+            log.warning("làm ấm TTS thất bại: %s", exc)
+
+    async def _touch_asr(self) -> None:
+        try:
+            async with asyncio.timeout(self.config.operation_timeout_s):
+                rate = int(getattr(self.asr.capabilities, "native_sample_rate", 16000) or 16000)
+                stream = await self.asr.open_stream(sample_rate=rate)
+                noise = (0.001 * np.random.default_rng(0).normal(0, 1, rate * 3 // 10)).astype(np.float32)
+                try:
+                    await stream.push(AudioFrame(samples=noise, sample_rate=rate))
+                    await stream.finish()
+                finally:
+                    await stream.close()
+        except Exception as exc:  # pragma: no cover - backend dependent
+            log.warning("làm ấm ASR thất bại: %s", exc)
 
     def warm_speech(self, text: str, voice: str | None = None) -> list[Any] | None:
         """Audio ĐÃ tổng hợp sẵn, hoặc None. Không bao giờ chờ.
@@ -173,11 +303,14 @@ class ModelPlane:
             return self._speech_cache[key]
         if self._cache_lock is None:
             self._cache_lock = asyncio.Lock()
-        async with self._cache_lock:
+        async with asyncio.timeout(self.config.operation_timeout_s), self._cache_lock:
             if key in self._speech_cache:
                 return self._speech_cache[key]
             chunks = [c async for c in self.tts.synthesize(text, voice=voice)]
             self._speech_cache[key] = chunks
+            self._speech_cache.move_to_end(key)
+            while len(self._speech_cache) > 32:
+                self._speech_cache.popitem(last=False)
             return chunks
 
     def describe(self) -> dict[str, Any]:

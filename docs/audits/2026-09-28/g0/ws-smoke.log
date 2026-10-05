@@ -1,0 +1,16 @@
+14:05:21 INFO  voiceplatform.server | model plane ready: {"mode": "cascade", "asr": {"name": "mock", "capabilities": {"streaming_partials": true, "languages": ["vi"], "native_sample_rate": 16000}}, "llm": {"name": "mock", "capabilities": {"tools": true, "streaming": true, "context_tokens": 8192}}, "tts": {"name": "mock", "capabilities": {"streaming": true, "emotion_cues": false, "voices": ["mock-a", "mock-b"], "native_sample_rate": 24000, "expected_rtf": 0.4}}, "s2s": null, "search": null}
+14:05:21 INFO  voiceplatform.server | session s0001-6c2166ad: client rate 16000 Hz
+{
+  "control_messages": [
+    "assistant_delta",
+    "ready",
+    "speaking",
+    "state",
+    "transcript"
+  ],
+  "audio_frames": 81,
+  "generations": [
+    1
+  ]
+}
+SMOKE OK

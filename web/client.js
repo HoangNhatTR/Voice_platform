@@ -1,3 +1,4 @@
+import { VoicePlayback } from '/static/playback.js';
 // Bàn đo: micro vào, tiếng ra, và mọi mốc thời gian của từng chặng.
 //
 // Hai phần cần đọc kỹ:
@@ -30,6 +31,7 @@ const state = {
   connected: false,
   muted: false,
   pendingText: null,
+  voice: null,           // giọng của RIÊNG phiên này, server báo trong `ready`
   deltaGeneration: null,
   level: 0,
   framesIn: 0,
@@ -41,6 +43,10 @@ const state = {
   log: [],
   filter: 'all',
 };
+
+const playback = new VoicePlayback(data => {
+  if (state.ws?.readyState === WebSocket.OPEN) state.ws.send(JSON.stringify(data));
+});
 
 const el = (id) => document.getElementById(id);
 
@@ -62,15 +68,32 @@ const WHO = {
 const STAGES = [
   { key: 'endpoint_ms', who: 'wait', name: 'Chờ chốt lượt', from: 'endpoint_candidate cuối → turn_confirmed' },
   { key: 'asr_first_partial_ms', who: 'asr', name: 'ASR chữ đầu', from: 'asr_start → asr_first_partial' },
-  { key: 'asr_final_ms', who: 'asr', name: 'ASR toàn chặng', from: 'asr_start → asr_final' },
-  { key: 'llm_ttft_ms', who: 'llm', name: 'LLM token đầu', from: 'llm_start → llm_first_token' },
-  { key: 'llm_total_ms', who: 'llm', name: 'LLM trọn vòng', from: 'llm_start → llm_complete' },
+  { key: 'asr_final_ms', who: 'asr', name: 'ASR giải mã cuối', from: 'asr_finalize_start → asr_finalize_end' },
+  { key: 'llm_ttft_ms', who: 'llm', name: 'LLM content token đầu', from: 'request sent → content delta đầu của vòng có chữ' },
+  { key: 'llm_total_ms', who: 'llm', name: 'LLM tổng các vòng', from: 'tổng request_total_ms, không cộng tool' },
   { key: 'tool_ms', who: 'tool', name: 'Công cụ', from: 'tool_start → tool_complete' },
-  { key: 'tts_ttfa_ms', who: 'tts', name: 'TTS câu đầu', from: 'tts_start → tts_first_audio' },
-  { key: 'e2e_ttfa_ms', who: 'tts', name: 'TTFA end-to-end', from: 'turn_confirmed → tts_first_audio' },
+  { key: 'tts_ttfa_ms', who: 'tts', name: 'TTS audio bất kỳ đầu', from: 'tts_start → tts_first_audio' },
+  { key: 'first_content_audio_sent_ms', who: 'tts', name: 'Audio nội dung gửi', from: 'turn_confirmed → content audio_sent' },
+  { key: 'content_playback_start_ms', who: 'tts', name: 'Playback nội dung', from: 'turn_confirmed → browser render (clock sync)' },
+  { key: 'first_any_audio_sent_ms', who: 'tts', name: 'Audio bất kỳ gửi', from: 'gồm cả ack/filler/fallback' },
+  { key: 'llm_queue_ms', who: 'llm', name: 'Chờ slot LLM', from: 'queued → slot acquired, từng request' },
+  { key: 'llm_request_ttft_ms', who: 'llm', name: 'LLM token từng request', from: 'request sent → first content token' },
+  { key: 'tts_queue_ms', who: 'tts', name: 'Chờ slot TTS', from: 'queued → slot acquired' },
+  { key: 'tts_first_chunk_ms', who: 'tts', name: 'TTS chunk đầu', from: 'native inference start → first chunk' },
   { key: 'response_total_ms', who: 'tts', name: 'Cả câu trả lời', from: 'turn_confirmed → tts_complete' },
   { key: 'barge_in_stop_ms', who: 'over', name: 'Dừng khi ngắt lời', from: 'barge_in → playback_reset' },
 ];
+
+// Lý do server ghi trong close frame khi chính nó đóng phiên.
+const CLOSE_REASONS = {
+  idle_timeout: 'không có hoạt động quá lâu',
+  max_session_age: 'phiên đã quá thời gian tối đa',
+  audio_timeout: 'server xử lý audio quá hạn',
+  invalid_audio_frame: 'khối audio không hợp lệ',
+  invalid_sample_rate: 'sample rate không hợp lệ',
+  message_too_big: 'thông điệp quá lớn',
+  unavailable_or_at_capacity: 'server bận hoặc đã đủ phiên',
+};
 
 const FILTERS = [
   ['all', 'tất cả'], ['asr', 'nghe'], ['llm', 'nghĩ'],
@@ -157,6 +180,7 @@ function ensurePlayback(rate) {
 }
 
 function stopPlayback(reason) {
+  if (state.measurementSchema >= 2) playback.reset(state.currentGeneration);
   let stopped = 0;
   for (const source of state.sources) {
     try {
@@ -171,6 +195,9 @@ function stopPlayback(reason) {
 }
 
 function playFrame(generationId, pcm, rate) {
+  if (state.measurementSchema >= 2) {
+    playback.push(generationId, pcm, rate); state.framesOut += 1; return;
+  }
   if (generationId < state.currentGeneration) {
     state.dropped += 1;   // tiếng muộn của lượt người dùng đã ngắt
     return;
@@ -281,19 +308,24 @@ function connect() {
     note('đã kết nối');
   };
 
-  ws.onclose = () => {
+  ws.onclose = (event) => {
+    if (state.ws !== ws) return;   // socket cũ đóng muộn, sau khi đã kết nối lại
     state.connected = false;
     el('connect').textContent = 'Kết nối';
     el('interrupt').disabled = true;
     setState('offline');
     stopPlayback('mất kết nối');
     stopCapture();
-    note('đã ngắt kết nối');
+    // Server nói lý do khi chính nó đóng phiên (rảnh quá lâu, quá tuổi phiên…).
+    const reason = event && event.reason;
+    const why = reason ? ` — ${CLOSE_REASONS[reason] || 'server đóng phiên'} (${reason}, mã ${event.code})` : '';
+    note(`đã ngắt kết nối${why}`);
   };
 
   ws.onerror = () => note('lỗi websocket', 'error');
 
   ws.onmessage = (event) => {
+    if (state.ws !== ws) return;
     if (typeof event.data === 'string') {
       handleControl(JSON.parse(event.data));
       return;
@@ -313,14 +345,36 @@ function setState(name) {
 }
 
 function handleControl(message) {
+  if (state.measurementSchema >= 2) playback.control(message);
   switch (message.type) {
     case 'ready':
-      state.sessionId = message.session_id;
+      state.measurementSchema = message.measurement_schema || 1;
+      // Phiên mới đánh số lượt và generation lại từ 1. Giữ ngưỡng fencing của
+      // phiên trước (kết nối lại mà không tải lại trang) thì N câu trả lời đầu
+      // của phiên mới bị bỏ im lặng, ở cả bộ phát worklet lẫn bộ phát cũ.
+      state.currentGeneration = 0;
+      state.deltaGeneration = null;
+      state.turns.clear();
+      state.seenEvents.clear();
+      state.pinned = null;
+      playback.newSession();
+      renderTrack(null, false);
+      renderTurns();
+      renderStats();
+      // Lấy tốc độ server vừa báo TRƯỚC khi khai lại trong hello.
       state.inputRate = message.input_sample_rate || state.inputRate;
       state.outputRate = message.output_sample_rate || state.outputRate;
+      if (state.measurementSchema >= 2) {
+        playback.options.startupMs = Number.isFinite(message.playback_buffer_ms) ? message.playback_buffer_ms : 160;
+        state.ws.send(JSON.stringify({type:'hello',sample_rate:state.inputRate,playback_feedback:true}));
+        playback.sync(state.ws);
+      }
+      state.sessionId = message.session_id;
+      state.sessionToken = message.session_token;
       el('session').textContent = `${message.session_id} · vào ${state.inputRate} Hz · ra ${state.outputRate} Hz`;
       setState('idle');
       describeModels(message.models);
+      state.voice = message.voice || null;
       loadVoices();
       note(`phiên sẵn sàng · ${state.inputRate} Hz vào · ${state.outputRate} Hz ra`, 'session_open');
       startCapture().catch((err) => {
@@ -345,12 +399,39 @@ function handleControl(message) {
       if (state.deltaGeneration !== message.generation_id) {
         state.deltaGeneration = message.generation_id;
         el('assistant').textContent = '';
+        el('search-source').replaceChildren();
+        el('search-source').hidden = true;
       }
       el('assistant').textContent += message.text;
       break;
+    case 'search_source': {
+      const url = String(message.url || '');
+      if (!url.startsWith('https://vi.wikipedia.org/wiki/')) break;
+      state.deltaGeneration = message.generation_id;
+      el('assistant').textContent = '';
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = `Nguồn: ${message.title || 'Wikipedia tiếng Việt'}`;
+      el('search-source').replaceChildren(link);
+      el('search-source').hidden = false;
+      break;
+    }
     case 'speaking':
       setState('speaking');
       state.currentGeneration = message.generation_id;
+      break;
+    case 'clock_sync': case 'audio_segment': case 'audio_end': case 'audio_generation_end':
+      break;
+    case 'voice':
+      if (message.ok) {
+        state.voice = message.voice || null;
+        note(`đổi giọng sang “${message.voice || 'mặc định'}” (chỉ phiên này)`);
+      } else {
+        note(`không đổi được giọng: ${message.error}`, 'error');
+        loadVoices();
+      }
       break;
     case 'playback_reset':
       // Server đã huỷ phía nó rồi; đây là nửa việc chỉ client làm được.
@@ -383,26 +464,20 @@ async function loadVoices() {
     return;
   }
   const options = voices.map((v) =>
-    `<option value="${escape(v)}"${v === data.voice ? ' selected' : ''}>${escape(v)}</option>`).join('');
+    `<option value="${escape(v)}"${v === (state.voice || data.voice) ? ' selected' : ''}>${escape(v)}</option>`).join('');
   box.innerHTML = `<label class="lbl" for="voice">Giọng</label>`
     + `<select id="voice">${options}</select>`
     + '<span class="hint">Đổi ăn ngay từ cụm kế tiếp — cụm đang phát vẫn là giọng cũ.</span>';
 }
 
-async function setVoice(voice) {
-  try {
-    const response = await fetch('/engines/tts/voice', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ voice }),
-    });
-    const body = await response.json();
-    if (!response.ok) throw new Error(body.detail || `HTTP ${response.status}`);
-    note(`đổi giọng sang “${voice}”`);
-  } catch (error) {
-    note(`không đổi được giọng: ${error.message}`, 'error');
-    loadVoices();
+function setVoice(voice) {
+  // Qua chính WebSocket của phiên, không qua POST /engines/tts/voice: route đó
+  // đổi giọng cho MỌI phiên và bị khoá về máy chủ khi mở LAN.
+  if (!state.ws || state.ws.readyState !== WebSocket.OPEN) {
+    note('chưa kết nối — kết nối rồi mới đổi giọng được', 'error');
+    return;
   }
+  state.ws.send(JSON.stringify({ type: 'voice', voice }));
 }
 
 el('voice-box').addEventListener('change', (event) => {
@@ -478,14 +553,20 @@ function buildLanes(turn) {
   }
 
   const llm = [];
-  for (const [from, to] of pairSpans(events, 'llm_start', ['llm_complete'])) {
-    const ttft = firstBetween(events, 'llm_first_token', from, to);
-    if (ttft !== null) {
-      llm.push({ a: rel(from), b: rel(ttft), label: 'chờ token đầu' });
-      if (to !== null) llm.push({ a: rel(ttft), b: rel(to), tail: true, label: 'soạn câu' });
-    } else if (to !== null) {
-      llm.push({ a: rel(from), b: rel(to), label: 'vòng không sinh chữ' });
-    }
+  for (const round of turn.llm_rounds || []) {
+    const own = events.filter(e => e.data?.request_id === round.request_id);
+    const stamp = type => own.find(e => e.type === type)?.ts_ms ?? null;
+    const from = stamp('llm_request_sent');
+    const to = stamp('llm_complete') ?? stamp('llm_terminated');
+    const first = stamp('llm_first_token') ?? stamp('llm_first_tool_delta');
+    const name = round.role === 'search' ? 'tra cứu' : `vòng ${round.round+1}`;
+    if (from != null && first != null) {
+      llm.push({a:rel(from),b:rel(first),label:`${name}: chờ delta đầu`});
+      if (to != null) llm.push({a:rel(first),b:rel(to),tail:true,label:`${name}: sinh kết quả`});
+    } else if (from != null && to != null) llm.push({a:rel(from),b:rel(to),label:`${name}: không có delta`});
+    const queued=stamp('model_queued'), acquired=stamp('model_slot_acquired');
+    if (queued != null && acquired != null && acquired-queued >= 1)
+      llm.push({a:rel(queued),b:rel(acquired),label:`${name}: chờ slot ứng dụng`});
   }
   if (llm.length) lanes.push({ who: 'llm', name: 'nghĩ', spans: llm, pins: [] });
 
@@ -501,19 +582,19 @@ function buildLanes(turn) {
   }
 
   const tts = [];
-  const ttfa = rel(firstOf('tts_first_audio'));
-  for (const [from, to] of pairSpans(events, 'tts_start', ['tts_complete'])) {
-    const firstAudio = firstBetween(events, 'tts_first_audio', from, to);
-    if (firstAudio !== null) {
-      tts.push({ a: rel(from), b: rel(firstAudio), label: 'tổng hợp câu đầu' });
-      if (to !== null) tts.push({ a: rel(firstAudio), b: rel(to), tail: true, label: 'đang phát' });
-    } else if (to !== null) {
-      tts.push({ a: rel(from), b: rel(to), label: 'không ra tiếng' });
+  const ttfa = turn.metrics?.first_content_audio_sent_ms ?? null;
+  const labels = {content:'nội dung',ack:'xác nhận',filler:'câu đệm',fallback:'báo lỗi'};
+  const pins = [];
+  for (const phrase of turn.phrases || []) {
+    const label = labels[phrase.role] || phrase.role;
+    if (phrase.audio_sent_at_ms != null) {
+      tts.push({a:rel(phrase.ready_at_ms), b:rel(phrase.audio_sent_at_ms), label:`${label}: chờ tiếng đầu`});
+      pins.push({at:rel(phrase.audio_sent_at_ms),tag:label});
     }
+    if (phrase.playback_started_at_ms != null && phrase.playback_stopped_at_ms != null)
+      tts.push({a:rel(phrase.playback_started_at_ms),b:rel(phrase.playback_stopped_at_ms),tail:true,label:`phát ${label}`});
   }
-  // Không gắn mốc TTFA: nó nằm đúng chỗ đậm chuyển sang nhạt, và con số đã
-  // to nhất trang ngay phía trên. Mốc chỉ dành cho thứ không tự hiện ra.
-  if (tts.length) lanes.push({ who: 'tts', name: 'nói', spans: tts, pins: [] });
+  if (tts.length) lanes.push({who:'tts',name:'nói',spans:tts,pins});
 
   const bargeIn = rel(firstOf('barge_in'));
   const reset = rel(firstOf('playback_reset'));
@@ -539,7 +620,7 @@ function buildLanes(turn) {
     }
     for (const pin of lane.pins) { work = Math.max(work, pin.at); full = Math.max(full, pin.at); }
   }
-  return { turnId: turn.turn_id, lanes, end: work, full, ttfa, metrics: turn.metrics || {} };
+  return { turnId: turn.turn_id, lanes, end: work, full, ttfa, metrics: turn.metrics || {}, outcome:turn.outcome, rounds:turn.llm_rounds || [], operations:turn.operations || [] };
 }
 
 function niceScale(ms) {
@@ -600,12 +681,12 @@ function renderTrack(built, fresh) {
   track.insertAdjacentHTML('beforeend', budget);
 
   el('stage-turn').textContent = built.turnId;
-  const ttfa = built.metrics.e2e_ttfa_ms;
+  const ttfa = built.metrics.first_content_audio_sent_ms;
   el('ttfa').textContent = ttfa == null ? '—' : Math.round(ttfa);
   el('ttfa').dataset.over = ttfa != null && ttfa > BUDGET_MS ? 'yes' : 'no';
   el('stage-note').textContent = ttfa == null
-    ? 'Lượt này chưa ra tiếng.'
-    : `Cả câu ${Math.round(built.metrics.response_total_ms ?? 0)} ms.`;
+    ? 'Lượt này chưa gửi audio nội dung.'
+    : `Playback nội dung: ${built.metrics.content_playback_start_ms == null ? "chưa có số đo" : Math.round(built.metrics.content_playback_start_ms)+" ms"}. Hụt buffer: ${built.metrics.content_underruns ?? 0} lần.`;
 
   track.classList.toggle('track--fresh', !!fresh);
   if (fresh) {
@@ -618,7 +699,7 @@ function renderTrack(built, fresh) {
 
 function renderTurns() {
   const box = el('turns');
-  const built = [...state.turns.values()].filter((t) => t.metrics.e2e_ttfa_ms != null);
+  const built = [...state.turns.values()];
   if (!built.length) {
     box.innerHTML = '<li class="turns__empty">Mỗi lượt trả lời xong sẽ xuất hiện ở đây. Bấm một dòng để xem lại làn của nó.</li>';
     return;
@@ -639,11 +720,11 @@ function renderTurns() {
       return `<span class="turn__seg" style="--who:var(--${lane.who});top:${i * 3}px;`
         + `left:${left}%;width:${width}%"></span>`;
     }).join('');
-    const over = t.metrics.e2e_ttfa_ms > BUDGET_MS;
+    const over = t.metrics.first_content_audio_sent_ms > BUDGET_MS;
     return `<li><button class="turn" data-turn="${t.turnId}" aria-current="${t.turnId === current}">`
       + `<span class="turn__id">lượt ${t.turnId}</span>`
       + `<span class="turn__bar">${stripes}</span>`
-      + `<span class="turn__ms" data-over="${over ? 'yes' : 'no'}">${Math.round(t.metrics.e2e_ttfa_ms)} ms</span>`
+      + `<span class="turn__ms" data-over="${over ? 'yes' : 'no'}">${t.metrics.first_content_audio_sent_ms == null ? (t.outcome?.fallback ? 'báo lỗi' : 'chưa có nội dung') : Math.round(t.metrics.first_content_audio_sent_ms)+' ms'}</span>`
       + '</button></li>';
   }).join('');
 }
@@ -657,12 +738,18 @@ function percentile(values, q) {
 
 function renderStats() {
   const series = {};
+  const requestFields = {
+    llm_queue_ms: ['rounds','queue_ms'], llm_request_ttft_ms: ['rounds','request_ttft_ms'],
+    tts_queue_ms: ['operations','queue_ms'], tts_first_chunk_ms: ['operations','first_chunk_ms'],
+  };
   for (const built of state.turns.values()) {
+    if (built.outcome?.success === false) continue;
     for (const stage of STAGES) {
-      const value = built.metrics[stage.key];
-      if (typeof value === 'number' && isFinite(value)) {
+      const mapping=requestFields[stage.key];
+      const rows=mapping ? built[mapping[0]].filter(r=>r.outcome==='complete' && (mapping[0]==='rounds' ? r.role!=='search' : r.stage==='tts'&&r.role==='content')) : null;
+      const values=rows ? rows.map(r=>r[mapping[1]]) : [built.metrics[stage.key]];
+      for (const value of values) if (typeof value === 'number' && isFinite(value))
         (series[stage.key] ||= []).push(value);
-      }
     }
   }
   el('stats-body').innerHTML = STAGES.map((stage) => {
@@ -695,7 +782,9 @@ async function pollTurns() {
   if (!state.connected || !state.sessionId) return;
   let payload;
   try {
-    const response = await fetch(`/sessions/${state.sessionId}/turns?limit=12`);
+    const response = await fetch(`/sessions/${state.sessionId}/turns?limit=12`, {
+      headers: { Authorization: `Bearer ${state.sessionToken || ""}` },
+    });
     if (!response.ok) return;
     payload = await response.json();
   } catch (_) {
@@ -723,8 +812,8 @@ async function pollTurns() {
     if (!built) continue;
     const had = state.turns.get(turn.turn_id);
     state.turns.set(turn.turn_id, built);
-    if (built.metrics.e2e_ttfa_ms != null
-        && (!had || had.metrics.e2e_ttfa_ms == null)) newest = built;
+    if (built.metrics.first_content_audio_sent_ms != null
+        && (!had || had.metrics.first_content_audio_sent_ms == null)) newest = built;
   }
   if (state.log.length > LOG_MAX) state.log.splice(0, state.log.length - LOG_MAX);
 
@@ -732,7 +821,7 @@ async function pollTurns() {
   else if (state.pinned !== null && state.turns.has(state.pinned)) {
     renderTrack(state.turns.get(state.pinned), false);
   } else if (!state.pinned) {
-    const done = [...state.turns.values()].filter((t) => t.metrics.e2e_ttfa_ms != null);
+    const done = [...state.turns.values()].filter((t) => t.metrics.first_content_audio_sent_ms != null);
     if (done.length) renderTrack(done[done.length - 1], false);
   }
   renderTurns();
@@ -789,7 +878,7 @@ el('turns').addEventListener('click', (event) => {
   const id = Number(button.dataset.turn);
   const built = state.turns.get(id);
   if (!built) return;
-  const newest = [...state.turns.values()].filter((t) => t.metrics.e2e_ttfa_ms != null).pop();
+  const newest = [...state.turns.values()].filter((t) => t.metrics.first_content_audio_sent_ms != null).pop();
   state.pinned = newest && newest.turnId === id ? null : id;
   renderTrack(built, false);
   renderTurns();

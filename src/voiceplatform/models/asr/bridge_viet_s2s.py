@@ -13,6 +13,11 @@ import asyncio
 import numpy as np
 
 from ...core.audio import AudioFrame, resample_linear
+from ...core.errors import ModelTimeout, ModelUnavailable
+from ...core.limits import WorkLimiter
+from ...core.events import EventType
+from ...core.clock import now_ms
+from ...observability.probe import current_probe, observing
 from ..base import AsrCapabilities, Transcript
 from ..bridge import load_viet_s2s, split_options
 
@@ -26,6 +31,8 @@ class _BridgeAsrStream:
         self._frames = 0
         self._partial_task: asyncio.Task | None = None
         self._pending_partial: Transcript | None = None
+        self._workers: set[asyncio.Task] = set()
+        self.probe = current_probe()
 
     def _audio(self) -> np.ndarray:
         if not self._chunks:
@@ -59,9 +66,64 @@ class _BridgeAsrStream:
             return result
         return None
 
-    async def _decode(self, audio: np.ndarray, *, partial: bool) -> Transcript | None:
+    async def decode_now(self) -> Transcript:
+        """Decode everything pushed so far, now, and return it.
+
+        The endpoint decision needs the text of the WHOLE utterance at the
+        moment the speaker pauses; the last periodic partial is up to
+        `partial_every_frames` old plus its own decode time. The backend is
+        an offline transducer, so this is exactly what `finish()` would say
+        about the same audio.
+        """
+        audio = self._audio()
+        if audio.size == 0:
+            return Transcript(text="", is_final=False, language=self._language)
+        result = await self._decode(audio, partial=True, operation="endpoint")
+        return result or Transcript(text="", is_final=False, language=self._language)
+
+    async def _decode(self, audio: np.ndarray, *, partial: bool, operation: str | None = None) -> Transcript | None:
         native = self._engine.capabilities.native_sample_rate
-        out = await self._engine.backend.transcribe(audio, native, partial=partial)
+        started = False
+        parent = current_probe() or self.probe
+        probe = parent.child(operation=operation or ("partial" if partial else "final")) if parent else None
+        async def decode():
+            nonlocal started
+            with observing(probe):
+                return await run_decode()
+        async def run_decode():
+            nonlocal started
+            async with self._engine.limiter.slot():
+                if self._engine._closing:
+                    raise ModelUnavailable("ASR is closing")
+                started = True
+                at = now_ms()
+                if probe:
+                    probe.mark(EventType.MODEL_INFERENCE_START, audio_ms=audio.size*1000.0/native)
+                outcome = "complete"
+                try:
+                    return await self._engine.backend.transcribe(audio, native, partial=partial)
+                except BaseException:
+                    outcome = "error"
+                    raise
+                finally:
+                    if probe:
+                        probe.mark(EventType.MODEL_INFERENCE_END, compute_ms=now_ms()-at, outcome=outcome)
+        # Cancelling an await on to_thread does not stop native inference.
+        # Shield its owner and retain it until the backend really returns.
+        worker = asyncio.create_task(decode(), name="asr-decode")
+        self._workers.add(worker)
+        self._engine._workers.add(worker)
+        worker.add_done_callback(self._workers.discard)
+        worker.add_done_callback(self._engine._workers.discard)
+        worker.add_done_callback(lambda task: task.exception() if not task.cancelled() else None)
+        try:
+            async with asyncio.timeout(self._engine.decode_timeout_s):
+                out = await asyncio.shield(worker)
+        except BaseException:
+            if not started:
+                worker.cancel()
+                await asyncio.gather(worker, return_exceptions=True)
+            raise
         text = getattr(out, "text", "") or ""
         if not text.strip():
             return None
@@ -75,6 +137,7 @@ class _BridgeAsrStream:
     async def finish(self) -> Transcript:
         if self._partial_task and not self._partial_task.done():
             self._partial_task.cancel()
+            await asyncio.gather(self._partial_task, return_exceptions=True)
         audio = self._audio()
         if audio.size == 0:
             return Transcript(text="", is_final=True, language=self._language)
@@ -84,6 +147,12 @@ class _BridgeAsrStream:
     async def close(self) -> None:
         if self._partial_task and not self._partial_task.done():
             self._partial_task.cancel()
+        if self._partial_task is not None:
+            await asyncio.gather(self._partial_task, return_exceptions=True)
+        if self._workers:
+            _, pending = await asyncio.wait(self._workers, timeout=self._engine.close_timeout_s)
+            if pending:
+                raise ModelTimeout("ASR stream inference did not stop before close deadline")
         self._chunks.clear()
 
 
@@ -91,6 +160,11 @@ class BridgeAsrEngine:
     def __init__(self, backend: str = "phowhisper", **options) -> None:
         root, opts = split_options(options)
         self.name = f"s2s:{backend}"
+        self.limiter = WorkLimiter(int(opts.pop("max_parallel", 3)), int(opts.pop("max_queue", 8)))
+        self.decode_timeout_s = float(opts.pop("decode_timeout_s", 30.0))
+        self.close_timeout_s = float(opts.pop("close_timeout_s", 5.0))
+        self._workers: set[asyncio.Task] = set()
+        self._closing = False
         self.partial_every_frames = int(opts.pop("partial_every_frames", 0))
         module = load_viet_s2s(root)
         from viet_s2s.backends import create_asr
@@ -107,6 +181,8 @@ class BridgeAsrEngine:
         self._module = module
 
     async def start(self) -> None:
+        if self._closing:
+            raise ModelUnavailable("ASR is closing")
         if not self._loaded:
             await self.backend.load()
             self._loaded = True
@@ -116,6 +192,11 @@ class BridgeAsrEngine:
         return _BridgeAsrStream(self, sample_rate, language)
 
     async def close(self) -> None:
+        self._closing = True
+        if self._workers:
+            _, pending = await asyncio.wait(self._workers, timeout=self.close_timeout_s)
+            if pending:
+                raise ModelTimeout("ASR inference did not stop before model close deadline")
         close = getattr(self.backend, "close", None)
         if close is not None:
             await close()

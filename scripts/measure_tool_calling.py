@@ -48,6 +48,8 @@ NO_TOOL = [
     "Cảm ơn bạn nhé",
     "Bạn có khỏe không?",
     "Hai cộng hai bằng mấy?",
+    "Tôi muốn nhắc lại lịch hẹn vào ngày 30 tháng 9 năm 2026.",
+    "Đọc lại ngày 25 tháng 12 năm 2025 giúp tôi.",
 ]
 
 
@@ -63,24 +65,38 @@ async def main(args: argparse.Namespace) -> int:
     config = Config.load(args.config) if args.config else Config()
     registry = build_registry(config.tasks.tools)
     tools = registry.openai_tools()
-    context = ConversationContext(config.conversation.system_prompt)
+    context = ConversationContext(config.conversation.system_prompt, tool_instruction=config.conversation.tool_instruction)
     system = context.messages(tool_names=registry.names())[0].content
 
     print("công cụ :", registry.names())
     print("system  :", system.replace("\n", " ⏎ ")[:200])
-    llm = OpenAiCompatLlm(endpoint=args.endpoint, model=args.model, enable_thinking=False)
+    options = dict(config.models.llm.options) if config.models.llm.backend == "openai_compat" else {}
+    options.update(endpoint=args.endpoint, model=args.model, enable_thinking=False)
+    llm = OpenAiCompatLlm(**options)
     try:
         hit = 0
+        misses = []
         for q in NEEDS_TOOL:
-            hit += await called_tool(llm, system, q, tools)
+            called = await called_tool(llm, system, q, tools)
+            hit += called
+            if not called:
+                misses.append(q)
         false = 0
+        extras = []
         for q in NO_TOOL:
-            false += await called_tool(llm, system, q, tools)
+            called = await called_tool(llm, system, q, tools)
+            false += called
+            if called:
+                extras.append(q)
     finally:
         await llm.close()
 
     print(f"\ngọi đúng : {hit}/{len(NEEDS_TOOL)}")
     print(f"gọi thừa : {false}/{len(NO_TOOL)}")
+    if misses:
+        print("bỏ sót   :", misses)
+    if extras:
+        print("gọi thừa ở:", extras)
     ok = hit >= 0.8 * len(NEEDS_TOOL) and false <= 0.1 * len(NO_TOOL)
     print("ĐẠT" if ok else "KHÔNG ĐẠT (cần ≥80% gọi đúng, ≤10% gọi thừa)")
     return 0 if ok else 1

@@ -1,0 +1,94 @@
+{
+  "method": "Require content playback >= server audio send minus 5 ms clock tolerance. Old first filler timestamps with zero output anchor are excluded from filler latency; no raw trace changed.",
+  "runs": {
+    "baseline-1": {
+      "phrases_checked": 314,
+      "content_checked": 200,
+      "invalid": [
+        {
+          "case_id": "direct-000-s1",
+          "phrase_id": "g1-p1",
+          "role": "filler",
+          "played_minus_sent_ms": -5421.13
+        }
+      ],
+      "invalid_content": 0
+    },
+    "baseline-3": {
+      "phrases_checked": 367,
+      "content_checked": 204,
+      "invalid": [
+        {
+          "case_id": "direct-000-s3",
+          "phrase_id": "g1-p1",
+          "role": "filler",
+          "played_minus_sent_ms": -5395.131
+        },
+        {
+          "case_id": "direct-000-s2",
+          "phrase_id": "g1-p1",
+          "role": "filler",
+          "played_minus_sent_ms": -5242.911
+        }
+      ],
+      "invalid_content": 0
+    },
+    "history-fix-smoke": {
+      "phrases_checked": 12,
+      "content_checked": 12,
+      "invalid": [],
+      "invalid_content": 0
+    },
+    "supplementary-final-1": {
+      "phrases_checked": 9,
+      "content_checked": 4,
+      "invalid": [
+        {
+          "case_id": "search-000-s1",
+          "phrase_id": "g1-p1",
+          "role": "filler",
+          "played_minus_sent_ms": -5880.369
+        }
+      ],
+      "invalid_content": 0
+    },
+    "supplementary-final-3": {
+      "phrases_checked": 53,
+      "content_checked": 29,
+      "invalid": [
+        {
+          "case_id": "natural-000-s2",
+          "phrase_id": "g1-p1",
+          "role": "filler",
+          "played_minus_sent_ms": -5418.65
+        },
+        {
+          "case_id": "natural-000-s3",
+          "phrase_id": "g1-p1",
+          "role": "filler",
+          "played_minus_sent_ms": -5385.764
+        }
+      ],
+      "invalid_content": 0
+    },
+    "supplementary-final-1-extra": {
+      "phrases_checked": 11,
+      "content_checked": 9,
+      "invalid": [
+        {
+          "case_id": "natural-000-s1",
+          "phrase_id": "g1-p1",
+          "role": "filler",
+          "played_minus_sent_ms": -5399.336
+        }
+      ],
+      "invalid_content": 0
+    },
+    "clock-guard-smoke": {
+      "phrases_checked": 31,
+      "content_checked": 14,
+      "invalid": [],
+      "invalid_content": 0
+    }
+  }
+}

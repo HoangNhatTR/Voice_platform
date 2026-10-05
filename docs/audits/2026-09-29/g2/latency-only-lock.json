@@ -1,0 +1,22 @@
+{
+  "frozen_at": "2026-09-29T07:36:24.697483+00:00",
+  "files": {
+    "scripts/benchmark_g2_llm.py": "fa1f17589255e0d688294b6a32da3d817c24160a4a4e0ef06348384e0381ad56",
+    "scripts/benchmark_g2_native.py": "28f9751a6b7084d2b4b9203f24e6962932381c772402bcd0b12d7e0490d803c4",
+    "docs/audits/2026-09-29/g2/prompt-v8-negative.yaml": "c0e82d5d32dd691fa11f1ee3e6e7cb0eefaf298d00adafcbacd76eeeec2bb380",
+    "docs/audits/2026-09-29/g2/llm-budget-literal.json": "c03c5c2ccbef11c877ecec6c467217419b1c9178fc253d1e01c1dc661bdc7937",
+    "docs/audits/2026-09-29/g2/latency-only-suite.json": "e346546e9908b34a9181ce67a0040c06fc0c96a9e7765a97e8a1a79b788bc54b",
+    "docs/audits/2026-09-29/g2/native-release-profiles.json": "b50a28ff10e785f9ab0eb3c7e571bd198936e57f5ff44333be5fc106d2acb9c2"
+  },
+  "models": [
+    "qwen3.5-9b",
+    "qwen3.5-4b"
+  ],
+  "loads": {
+    "1": 20,
+    "3": 60
+  },
+  "model_order": "9B then4B; sequential on shared host, not randomized",
+  "tuning_after_lock": false,
+  "purpose": "Comparable native TTFT with final prompt/policy/options and same fixed11-pair history. No re-tuning quality release3."
+}

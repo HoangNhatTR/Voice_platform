@@ -1,0 +1,2073 @@
+{
+  "supplementary-1": {
+    "manifest": {
+      "schema_version": 2,
+      "started_at": "2026-09-29T07:37:55.340Z",
+      "base": "https://127.0.0.1:19101",
+      "load": 1,
+      "mode": "worklet",
+      "count": 4,
+      "health": {
+        "ok": true,
+        "runtime": {
+          "revision": "2d10008",
+          "dirty": true,
+          "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+          "config_sha256": "da5e47d3a716a67289bfafc9236e0d716bb1e288144c56182e0246cad402434e",
+          "started_at": "2026-09-29T07:17:58.471943+00:00",
+          "python": "3.12.3",
+          "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+          "packages": {
+            "fastapi": "0.139.2",
+            "uvicorn": "0.51.0",
+            "httpx": "0.28.1",
+            "numpy": "2.4.6",
+            "onnxruntime": "1.27.0",
+            "zerotts": "0.1.5"
+          }
+        },
+        "sessions": 0,
+        "models": {
+          "mode": "cascade",
+          "asr": {
+            "name": "s2s:gipformer",
+            "capabilities": {
+              "streaming_partials": true,
+              "languages": [
+                "vi"
+              ],
+              "native_sample_rate": 16000
+            }
+          },
+          "llm": {
+            "name": "openai_compat",
+            "capabilities": {
+              "tools": true,
+              "streaming": true,
+              "context_tokens": 4096
+            }
+          },
+          "tts": {
+            "name": "zerotts",
+            "capabilities": {
+              "streaming": true,
+              "emotion_cues": false,
+              "voices": [
+                "baotrang",
+                "giahuy",
+                "hamy",
+                "huuduc",
+                "kimoanh",
+                "maichi",
+                "quangminh",
+                "tiendat"
+              ],
+              "native_sample_rate": 24000,
+              "expected_rtf": 0.71
+            }
+          },
+          "s2s": null,
+          "search": {
+            "name": "llm",
+            "capabilities": null
+          }
+        },
+        "tools": [
+          "clock"
+        ]
+      },
+      "config": {
+        "audio": {
+          "sample_rate": 16000,
+          "frame_ms": 20,
+          "channels": 1,
+          "output_sample_rate": 24000,
+          "output_frame_ms": 40
+        },
+        "media": {
+          "vad": {
+            "backend": "energy",
+            "threshold": 0.5,
+            "energy_threshold": 0.012,
+            "start_frames": 2,
+            "end_frames": 12,
+            "pre_roll_ms": 320
+          },
+          "aec": {
+            "backend": "client",
+            "enabled": true
+          },
+          "denoise": "none",
+          "jitter_target_ms": 60
+        },
+        "conversation": {
+          "turn_detection": {
+            "backend": "heuristic",
+            "silence_ms": 480,
+            "max_silence_ms": 1400,
+            "min_utterance_ms": 240,
+            "max_utterance_ms": 30000
+          },
+          "barge_in": {
+            "enabled": true,
+            "speech_frames": 6,
+            "guard_ms": 150,
+            "min_rms": 0.02,
+            "resume_after_false": true,
+            "resume_window_ms": 5000,
+            "merge_unanswered": true
+          },
+          "filler": {
+            "enabled": true,
+            "after_ms": 700,
+            "phrases": [
+              "Để tôi kiểm tra một chút.",
+              "Chờ tôi tra cứu nhanh nhé."
+            ]
+          },
+          "opener": {
+            "enabled": true,
+            "text": "Vâng.",
+            "after_ms": 800
+          },
+          "search": {
+            "enabled": true,
+            "max_inflight": 2,
+            "ttl_ms": 60000,
+            "delivery_prefix": "Về câu bạn hỏi lúc nãy",
+            "instant_ack": "Để tôi tra cứu nhé.",
+            "skip_redundant_ack": true
+          },
+          "history_turns": 12,
+          "streaming_first_phrase_chars": 48,
+          "streaming_first_phrase_wait_ms": 250,
+          "tool_instruction": "Bạn có các công cụ sau: {tools}. Đọc lại, lặp nguyên văn, dịch, trích dẫn hay tình huống giả định: chỉ trả lời theo văn bản, không gọi công cụ. {tool_routes} Kiến thức cố định và tính toán không cần tra cứu: trả lời trực tiếp. Khi cần công cụ, phải gọi rồi mới trả lời.",
+          "system_prompt": "Trả lời ngắn bằng tiếng Việt, không markdown.",
+          "orphan_turn_timeout_ms": 20000
+        },
+        "models": {
+          "mode": "cascade",
+          "asr": {
+            "backend": "gipformer",
+            "options": {
+              "model_dir": "models/gipformer1.5-65M-rnnt",
+              "precision": "int8",
+              "onnx_threads": 4,
+              "lowercase": true,
+              "partial_every_frames": 25
+            }
+          },
+          "llm": {
+            "backend": "openai_compat",
+            "options": {
+              "endpoint": "http://127.0.0.1:18108/v1",
+              "model": "qwen3.5-4b",
+              "max_tokens": 120,
+              "temperature": 0,
+              "enable_thinking": false,
+              "keepalive_connections": 0,
+              "timeout_s": 30,
+              "max_parallel": 3,
+              "max_queue": 8,
+              "context_tokens": 4096,
+              "prompt_budget_tokens": 1800,
+              "native_tokenizer": true,
+              "literal_request_policy": true,
+              "extra_body": {
+                "seed": 20260929
+              }
+            }
+          },
+          "tts": {
+            "backend": "zerotts",
+            "options": {
+              "voice": "kimoanh",
+              "revision": "c2bfbd67dc648cac455077333f7cf5c18a2e3bb4",
+              "local_files_only": true,
+              "intra_op_num_threads": 4,
+              "codec_intra_op_num_threads": 4,
+              "max_queue": 6,
+              "max_pending_chunks": 4,
+              "max_chunk_frames": 8
+            }
+          },
+          "s2s": {
+            "backend": "none",
+            "options": {}
+          },
+          "search": {
+            "backend": "llm",
+            "options": {
+              "endpoint": "http://127.0.0.1:18108/v1",
+              "model": "qwen3.5-4b",
+              "max_tokens": 160,
+              "temperature": 0,
+              "enable_thinking": false,
+              "keepalive_connections": 0,
+              "timeout_s": 30,
+              "max_parallel": 3,
+              "max_queue": 8,
+              "system_prompt": "Bạn là bộ phận tra cứu. Trả lời NGẮN và CHÍNH XÁC bằng tiếng Việt, tối đa hai câu, chỉ nêu dữ kiện. Không chào hỏi. Nếu không chắc chắn, nói thẳng là không tra được.",
+              "context_tokens": 4096,
+              "prompt_budget_tokens": 1800,
+              "native_tokenizer": true,
+              "literal_request_policy": true,
+              "extra_body": {
+                "seed": 20260929
+              }
+            }
+          },
+          "keep_warm_s": 240,
+          "prewarm_before_sessions": true,
+          "startup_timeout_s": 180,
+          "operation_timeout_s": 30
+        },
+        "tasks": {
+          "enabled": true,
+          "tools": [
+            "clock"
+          ],
+          "default_timeout_ms": 8000,
+          "max_parallel": 4,
+          "max_queue": 16
+        },
+        "observability": {
+          "trace_dir": "runtime/traces",
+          "write_traces": true,
+          "log_events": true,
+          "keep_turns": 200
+        },
+        "server": {
+          "host": "127.0.0.1",
+          "port": 19101,
+          "web_dir": "web",
+          "cors_origins": [
+            "*"
+          ],
+          "ssl_certfile": ".tls/server.crt",
+          "ssl_keyfile": ".tls/server.key",
+          "private_introspection": true,
+          "max_sessions": 3,
+          "max_audio_bytes": 131072,
+          "max_text_chars": 4000,
+          "idle_timeout_s": 120,
+          "max_session_s": 3600,
+          "readiness_timeout_s": 2,
+          "readiness_ttl_s": 2
+        }
+      },
+      "browser": "149.0.7827.0",
+      "playback_basis": "Chromium AudioWorklet render thread",
+      "stimulus_basis": "synthetic Vietnamese speech; no microphone/room/network/device equivalence",
+      "artifacts": {
+        "web/playback.js": "78c168ec7792c70d7d97332b2f4ec9207025a3775a318e11f6dc31a1f4280435",
+        "web/playback-worklet.js": "8549a11192bcfe20ecccbc520249ed042e76fa0f9426cb39ff3207eab36911ef",
+        "web/benchmark.js": "b19441ae1e4a6f9bc580c2e324e49bff43533723207539dbb673183fd147a76b",
+        "scripts/benchmark_g1.cjs": "50cd56b0e0d678978f95080368a0bec7bb980ae1ae7eae7cc44f062797d51da4"
+      },
+      "platform_sessions_at_start": {},
+      "stimuli_sha256": "c7cf0cb363884cf24620fc46a39eb882c338f408497d37f0d40c036d8ae6cb9a",
+      "finished_at": "2026-09-29T07:41:28.903Z",
+      "failures": 1,
+      "sessions_after_close": {}
+    },
+    "cases": 5,
+    "valid_cases": 4,
+    "failed_cases": [
+      {
+        "id": "search-000-s1",
+        "error": "Error: benchmark timeout"
+      }
+    ],
+    "by_case": {
+      "clock": {
+        "attempted": 1,
+        "valid": 1,
+        "content_turns": 1,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 1,
+            "p50": 38.4,
+            "p95": 38.4,
+            "p99": 38.4,
+            "max": 38.4
+          },
+          "asr_first_partial_ms": {
+            "n": 1,
+            "p50": 500.6,
+            "p95": 500.6,
+            "p99": 500.6,
+            "max": 500.6
+          },
+          "asr_stream_duration_ms": {
+            "n": 1,
+            "p50": 1562.5,
+            "p95": 1562.5,
+            "p99": 1562.5,
+            "max": 1562.5
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 1,
+            "p50": 218.667,
+            "p95": 218.667,
+            "p99": 218.667,
+            "max": 218.667
+          },
+          "content_phrase_gap_ms": {
+            "n": 1,
+            "p50": 0.065,
+            "p95": 0.065,
+            "p99": 0.065,
+            "max": 0.065
+          },
+          "content_playback_signal_ms": {
+            "n": 1,
+            "p50": 1387.83,
+            "p95": 1387.83,
+            "p99": 1387.83,
+            "max": 1387.83
+          },
+          "content_playback_start_ms": {
+            "n": 1,
+            "p50": 1349.456,
+            "p95": 1349.456,
+            "p99": 1349.456,
+            "max": 1349.456,
+            "budget": 1000,
+            "violations": 1,
+            "violation_rate": 1.0
+          },
+          "content_underruns": {
+            "n": 1,
+            "p50": 3.0,
+            "p95": 3.0,
+            "p99": 3.0,
+            "max": 3.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 1,
+            "p50": 840.0,
+            "p95": 840.0,
+            "p99": 840.0,
+            "max": 840.0
+          },
+          "endpoint_ms": {
+            "n": 1,
+            "p50": 243.2,
+            "p95": 243.2,
+            "p99": 243.2,
+            "max": 243.2
+          },
+          "first_any_audio_sent_ms": {
+            "n": 1,
+            "p50": 840.273,
+            "p95": 840.273,
+            "p99": 840.273,
+            "max": 840.273
+          },
+          "first_content_audio_sent_ms": {
+            "n": 1,
+            "p50": 1234.936,
+            "p95": 1234.936,
+            "p99": 1234.936,
+            "max": 1234.936,
+            "budget": 1000,
+            "violations": 1,
+            "violation_rate": 1.0
+          },
+          "first_phrase_ready_ms": {
+            "n": 1,
+            "p50": 1096.365,
+            "p95": 1096.365,
+            "p99": 1096.365,
+            "max": 1096.365
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 1,
+            "p50": 1698.759,
+            "p95": 1698.759,
+            "p99": 1698.759,
+            "max": 1698.759
+          },
+          "llm_total_ms": {
+            "n": 1,
+            "p50": 1469.671,
+            "p95": 1469.671,
+            "p99": 1469.671,
+            "max": 1469.671
+          },
+          "llm_ttft_ms": {
+            "n": 1,
+            "p50": 182.138,
+            "p95": 182.138,
+            "p99": 182.138,
+            "max": 182.138
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 1,
+            "p50": 0.35,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          },
+          "response_total_ms": {
+            "n": 1,
+            "p50": 4862.2,
+            "p95": 4862.2,
+            "p99": 4862.2,
+            "max": 4862.2
+          },
+          "tool_ms": {
+            "n": 1,
+            "p50": 0.1,
+            "p95": 0.1,
+            "p99": 0.1,
+            "max": 0.1
+          },
+          "tts_ttfa_ms": {
+            "n": 1,
+            "p50": 0.3,
+            "p95": 0.3,
+            "p99": 0.3,
+            "max": 0.3
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 2,
+            "p50": 0.011,
+            "p95": 0.013,
+            "p99": 0.013,
+            "max": 0.013
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 1,
+            "p50": 182.138,
+            "p95": 182.138,
+            "p99": 182.138,
+            "max": 182.138,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 1,
+            "p50": 370.532,
+            "p95": 370.532,
+            "p99": 370.532,
+            "max": 370.532
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 2,
+            "p50": 540.774,
+            "p95": 928.897,
+            "p99": 928.897,
+            "max": 928.897
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 1,
+            "p50": 199.146,
+            "p95": 199.146,
+            "p99": 199.146,
+            "max": 199.146,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 1,
+            "p50": 293.613,
+            "p95": 293.613,
+            "p99": 293.613,
+            "max": 293.613
+          },
+          "tts_queue_ms": {
+            "n": 2,
+            "p50": 0.007,
+            "p95": 0.018,
+            "p99": 0.018,
+            "max": 0.018
+          },
+          "tts_compute_ms": {
+            "n": 2,
+            "p50": 1517.641,
+            "p95": 2226.625,
+            "p99": 2226.625,
+            "max": 2226.625
+          },
+          "tts_first_chunk_ms": {
+            "n": 2,
+            "p50": 89.123,
+            "p95": 136.921,
+            "p99": 136.921,
+            "max": 136.921
+          },
+          "tts_lock_wait_ms": {
+            "n": 2,
+            "p50": 0.003,
+            "p95": 0.114,
+            "p99": 0.114,
+            "max": 0.114
+          },
+          "tts_rtf": {
+            "n": 2,
+            "p50": 0.647,
+            "p95": 0.703,
+            "p99": 0.703,
+            "max": 0.703
+          },
+          "asr_final_queue_ms": {
+            "n": 1,
+            "p50": 0.015,
+            "p95": 0.015,
+            "p99": 0.015,
+            "max": 0.015
+          },
+          "asr_final_compute_ms": {
+            "n": 1,
+            "p50": 38.155,
+            "p95": 38.155,
+            "p99": 38.155,
+            "max": 38.155
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 3,
+            "p50": 0.014,
+            "p95": 0.02,
+            "p99": 0.02,
+            "max": 0.02
+          },
+          "asr_partial_compute_ms": {
+            "n": 3,
+            "p50": 21.855,
+            "p95": 22.733,
+            "p99": 22.733,
+            "max": 22.733
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 1,
+            "p50": 0.012,
+            "p95": 0.012,
+            "p99": 0.012,
+            "max": 0.012
+          },
+          "tool_compute_ms": {
+            "n": 1,
+            "p50": 0.028,
+            "p95": 0.028,
+            "p99": 0.028,
+            "max": 0.028
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 1,
+            "p50": 4.0,
+            "p95": 4.0,
+            "p99": 4.0,
+            "max": 4.0
+          },
+          "clock_uncertainty_ms": {
+            "n": 1,
+            "p50": 0.35,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          }
+        },
+        "answers": {
+          "Bây giờ là 14 giờ 38 phút, thứ Ba ngày 29 tháng 9 năm 2026.": 1
+        },
+        "asr_texts": {
+          "bấy giờ là mấy giờ rồi": 1
+        },
+        "phrase_roles": {
+          "content": 2,
+          "filler": 1,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 1,
+        "content_turns_with_underrun": 1,
+        "prompt_chars": {
+          "n": 2,
+          "p50": 843.0,
+          "p95": 901.0,
+          "p99": 901.0,
+          "max": 901.0
+        },
+        "prompt_tokens": {
+          "n": 2,
+          "p50": 594.0,
+          "p95": 631.0,
+          "p99": 631.0,
+          "max": 631.0
+        },
+        "completion_tokens": {
+          "n": 2,
+          "p50": 14.0,
+          "p95": 30.0,
+          "p99": 30.0,
+          "max": 30.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 1,
+          "p50": 1764.965,
+          "p95": 1764.965,
+          "p99": 1764.965,
+          "max": 1764.965,
+          "budget": 1000,
+          "violations": 1,
+          "violation_rate": 1.0
+        }
+      },
+      "idle": {
+        "attempted": 1,
+        "valid": 1,
+        "content_turns": 1,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 1,
+            "p50": 37.1,
+            "p95": 37.1,
+            "p99": 37.1,
+            "max": 37.1
+          },
+          "asr_first_partial_ms": {
+            "n": 1,
+            "p50": 520.2,
+            "p95": 520.2,
+            "p99": 520.2,
+            "max": 520.2
+          },
+          "asr_stream_duration_ms": {
+            "n": 1,
+            "p50": 2980.5,
+            "p95": 2980.5,
+            "p99": 2980.5,
+            "max": 2980.5
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "content_phrase_gap_ms": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "content_playback_signal_ms": {
+            "n": 1,
+            "p50": 780.241,
+            "p95": 780.241,
+            "p99": 780.241,
+            "max": 780.241
+          },
+          "content_playback_start_ms": {
+            "n": 1,
+            "p50": 759.152,
+            "p95": 759.152,
+            "p99": 759.152,
+            "max": 759.152,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "content_underruns": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 1,
+            "p50": 632.5,
+            "p95": 632.5,
+            "p99": 632.5,
+            "max": 632.5
+          },
+          "endpoint_ms": {
+            "n": 1,
+            "p50": 242.7,
+            "p95": 242.7,
+            "p99": 242.7,
+            "max": 242.7
+          },
+          "first_any_audio_sent_ms": {
+            "n": 1,
+            "p50": 632.737,
+            "p95": 632.737,
+            "p99": 632.737,
+            "max": 632.737
+          },
+          "first_content_audio_sent_ms": {
+            "n": 1,
+            "p50": 632.737,
+            "p95": 632.737,
+            "p99": 632.737,
+            "max": 632.737,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_phrase_ready_ms": {
+            "n": 1,
+            "p50": 567.794,
+            "p95": 567.794,
+            "p99": 567.794,
+            "max": 567.794
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 1,
+            "p50": 1096.293,
+            "p95": 1096.293,
+            "p99": 1096.293,
+            "max": 1096.293
+          },
+          "llm_total_ms": {
+            "n": 1,
+            "p50": 510.207,
+            "p95": 510.207,
+            "p99": 510.207,
+            "max": 510.207
+          },
+          "llm_ttft_ms": {
+            "n": 1,
+            "p50": 472.753,
+            "p95": 472.753,
+            "p99": 472.753,
+            "max": 472.753
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 1,
+            "p50": 0.35,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          },
+          "response_total_ms": {
+            "n": 1,
+            "p50": 976.5,
+            "p95": 976.5,
+            "p99": 976.5,
+            "max": 976.5
+          },
+          "tool_ms": {
+            "n": 0
+          },
+          "tts_ttfa_ms": {
+            "n": 1,
+            "p50": 64.7,
+            "p95": 64.7,
+            "p99": 64.7,
+            "max": 64.7
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 1,
+            "p50": 0.016,
+            "p95": 0.016,
+            "p99": 0.016,
+            "max": 0.016
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 1,
+            "p50": 472.753,
+            "p95": 472.753,
+            "p99": 472.753,
+            "max": 472.753,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 1,
+            "p50": 510.207,
+            "p95": 510.207,
+            "p99": 510.207,
+            "max": 510.207
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 1,
+            "p50": 492.55,
+            "p95": 492.55,
+            "p99": 492.55,
+            "max": 492.55,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 1,
+            "p50": 37.45,
+            "p95": 37.45,
+            "p99": 37.45,
+            "max": 37.45
+          },
+          "tts_queue_ms": {
+            "n": 1,
+            "p50": 0.007,
+            "p95": 0.007,
+            "p99": 0.007,
+            "max": 0.007
+          },
+          "tts_compute_ms": {
+            "n": 1,
+            "p50": 403.245,
+            "p95": 403.245,
+            "p99": 403.245,
+            "max": 403.245
+          },
+          "tts_first_chunk_ms": {
+            "n": 1,
+            "p50": 63.456,
+            "p95": 63.456,
+            "p99": 63.456,
+            "max": 63.456
+          },
+          "tts_lock_wait_ms": {
+            "n": 1,
+            "p50": 0.002,
+            "p95": 0.002,
+            "p99": 0.002,
+            "max": 0.002
+          },
+          "tts_rtf": {
+            "n": 1,
+            "p50": 0.56,
+            "p95": 0.56,
+            "p99": 0.56,
+            "max": 0.56
+          },
+          "asr_final_queue_ms": {
+            "n": 1,
+            "p50": 0.007,
+            "p95": 0.007,
+            "p99": 0.007,
+            "max": 0.007
+          },
+          "asr_final_compute_ms": {
+            "n": 1,
+            "p50": 36.908,
+            "p95": 36.908,
+            "p99": 36.908,
+            "max": 36.908
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 5,
+            "p50": 0.015,
+            "p95": 0.02,
+            "p99": 0.02,
+            "max": 0.02
+          },
+          "asr_partial_compute_ms": {
+            "n": 5,
+            "p50": 24.029,
+            "p95": 31.786,
+            "p99": 31.786,
+            "max": 31.786
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 0
+          },
+          "tool_compute_ms": {
+            "n": 0
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 1,
+            "p50": 11.8,
+            "p95": 11.8,
+            "p99": 11.8,
+            "max": 11.8
+          },
+          "clock_uncertainty_ms": {
+            "n": 1,
+            "p50": 0.35,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          }
+        },
+        "answers": {
+          "Hà Nội": 1
+        },
+        "asr_texts": {
+          "thủ đô việt nam là gì trả lời thật ngắn": 1
+        },
+        "phrase_roles": {
+          "content": 1,
+          "filler": 0,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 0,
+        "content_turns_with_underrun": 0,
+        "prompt_chars": {
+          "n": 1,
+          "p50": 3992.0,
+          "p95": 3992.0,
+          "p99": 3992.0,
+          "max": 3992.0
+        },
+        "prompt_tokens": {
+          "n": 1,
+          "p50": 1445.0,
+          "p95": 1445.0,
+          "p99": 1445.0,
+          "max": 1445.0
+        },
+        "completion_tokens": {
+          "n": 1,
+          "p50": 3.0,
+          "p95": 3.0,
+          "p99": 3.0,
+          "max": 3.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 1,
+          "p50": 1210.031,
+          "p95": 1210.031,
+          "p99": 1210.031,
+          "max": 1210.031,
+          "budget": 1000,
+          "violations": 1,
+          "violation_rate": 1.0
+        }
+      },
+      "long_context": {
+        "attempted": 1,
+        "valid": 1,
+        "content_turns": 1,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 1,
+            "p50": 56.0,
+            "p95": 56.0,
+            "p99": 56.0,
+            "max": 56.0
+          },
+          "asr_first_partial_ms": {
+            "n": 1,
+            "p50": 499.5,
+            "p95": 499.5,
+            "p99": 499.5,
+            "max": 499.5
+          },
+          "asr_stream_duration_ms": {
+            "n": 1,
+            "p50": 2659.4,
+            "p95": 2659.4,
+            "p99": 2659.4,
+            "max": 2659.4
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "content_phrase_gap_ms": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "content_playback_signal_ms": {
+            "n": 1,
+            "p50": 527.291,
+            "p95": 527.291,
+            "p99": 527.291,
+            "max": 527.291
+          },
+          "content_playback_start_ms": {
+            "n": 1,
+            "p50": 499.518,
+            "p95": 499.518,
+            "p99": 499.518,
+            "max": 499.518,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "content_underruns": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 1,
+            "p50": 378.0,
+            "p95": 378.0,
+            "p99": 378.0,
+            "max": 378.0
+          },
+          "endpoint_ms": {
+            "n": 1,
+            "p50": 242.7,
+            "p95": 242.7,
+            "p99": 242.7,
+            "max": 242.7
+          },
+          "first_any_audio_sent_ms": {
+            "n": 1,
+            "p50": 378.321,
+            "p95": 378.321,
+            "p99": 378.321,
+            "max": 378.321
+          },
+          "first_content_audio_sent_ms": {
+            "n": 1,
+            "p50": 378.321,
+            "p95": 378.321,
+            "p99": 378.321,
+            "max": 378.321,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_phrase_ready_ms": {
+            "n": 1,
+            "p50": 308.116,
+            "p95": 308.116,
+            "p99": 308.116,
+            "max": 308.116
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 1,
+            "p50": 841.412,
+            "p95": 841.412,
+            "p99": 841.412,
+            "max": 841.412
+          },
+          "llm_total_ms": {
+            "n": 1,
+            "p50": 231.343,
+            "p95": 231.343,
+            "p99": 231.343,
+            "max": 231.343
+          },
+          "llm_ttft_ms": {
+            "n": 1,
+            "p50": 190.686,
+            "p95": 190.686,
+            "p99": 190.686,
+            "max": 190.686
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 1,
+            "p50": 0.35,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          },
+          "response_total_ms": {
+            "n": 1,
+            "p50": 617.5,
+            "p95": 617.5,
+            "p99": 617.5,
+            "max": 617.5
+          },
+          "tool_ms": {
+            "n": 0
+          },
+          "tts_ttfa_ms": {
+            "n": 1,
+            "p50": 69.9,
+            "p95": 69.9,
+            "p99": 69.9,
+            "max": 69.9
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 1,
+            "p50": 0.017,
+            "p95": 0.017,
+            "p99": 0.017,
+            "max": 0.017
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 1,
+            "p50": 190.686,
+            "p95": 190.686,
+            "p99": 190.686,
+            "max": 190.686,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 1,
+            "p50": 231.343,
+            "p95": 231.343,
+            "p99": 231.343,
+            "max": 231.343
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 1,
+            "p50": 210.531,
+            "p95": 210.531,
+            "p99": 210.531,
+            "max": 210.531,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 1,
+            "p50": 40.652,
+            "p95": 40.652,
+            "p99": 40.652,
+            "max": 40.652
+          },
+          "tts_queue_ms": {
+            "n": 1,
+            "p50": 0.011,
+            "p95": 0.011,
+            "p99": 0.011,
+            "max": 0.011
+          },
+          "tts_compute_ms": {
+            "n": 1,
+            "p50": 305.859,
+            "p95": 305.859,
+            "p99": 305.859,
+            "max": 305.859
+          },
+          "tts_first_chunk_ms": {
+            "n": 1,
+            "p50": 69.274,
+            "p95": 69.274,
+            "p99": 69.274,
+            "max": 69.274
+          },
+          "tts_lock_wait_ms": {
+            "n": 1,
+            "p50": 0.002,
+            "p95": 0.002,
+            "p99": 0.002,
+            "max": 0.002
+          },
+          "tts_rtf": {
+            "n": 1,
+            "p50": 0.546,
+            "p95": 0.546,
+            "p99": 0.546,
+            "max": 0.546
+          },
+          "asr_final_queue_ms": {
+            "n": 1,
+            "p50": 0.029,
+            "p95": 0.029,
+            "p99": 0.029,
+            "max": 0.029
+          },
+          "asr_final_compute_ms": {
+            "n": 1,
+            "p50": 55.667,
+            "p95": 55.667,
+            "p99": 55.667,
+            "max": 55.667
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 5,
+            "p50": 0.015,
+            "p95": 0.031,
+            "p99": 0.031,
+            "max": 0.031
+          },
+          "asr_partial_compute_ms": {
+            "n": 5,
+            "p50": 23.628,
+            "p95": 43.273,
+            "p99": 43.273,
+            "max": 43.273
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 0
+          },
+          "tool_compute_ms": {
+            "n": 0
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 1,
+            "p50": 6.6,
+            "p95": 6.6,
+            "p99": 6.6,
+            "max": 6.6
+          },
+          "clock_uncertainty_ms": {
+            "n": 1,
+            "p50": 0.35,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          }
+        },
+        "answers": {
+          "4": 1
+        },
+        "asr_texts": {
+          "hai cộng hai bằng mấy chỉ trả lời kết quả": 1
+        },
+        "phrase_roles": {
+          "content": 1,
+          "filler": 0,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 0,
+        "content_turns_with_underrun": 0,
+        "prompt_chars": {
+          "n": 1,
+          "p50": 3952.0,
+          "p95": 3952.0,
+          "p99": 3952.0,
+          "max": 3952.0
+        },
+        "prompt_tokens": {
+          "n": 1,
+          "p50": 1423.0,
+          "p95": 1423.0,
+          "p99": 1423.0,
+          "max": 1423.0
+        },
+        "completion_tokens": {
+          "n": 1,
+          "p50": 2.0,
+          "p95": 2.0,
+          "p99": 2.0,
+          "max": 2.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 1,
+          "p50": 943.582,
+          "p95": 943.582,
+          "p99": 943.582,
+          "max": 943.582,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      },
+      "natural": {
+        "attempted": 1,
+        "valid": 1,
+        "content_turns": 1,
+        "ack_turns": 0,
+        "metrics": {
+          "asr_final_ms": {
+            "n": 1,
+            "p50": 33.2,
+            "p95": 33.2,
+            "p99": 33.2,
+            "max": 33.2
+          },
+          "asr_first_partial_ms": {
+            "n": 1,
+            "p50": 499.1,
+            "p95": 499.1,
+            "p99": 499.1,
+            "max": 499.1
+          },
+          "asr_stream_duration_ms": {
+            "n": 1,
+            "p50": 2697.4,
+            "p95": 2697.4,
+            "p99": 2697.4,
+            "max": 2697.4
+          },
+          "barge_in_stop_ms": {
+            "n": 0
+          },
+          "content_gap_ms": {
+            "n": 1,
+            "p50": 773.333,
+            "p95": 773.333,
+            "p99": 773.333,
+            "max": 773.333
+          },
+          "content_phrase_gap_ms": {
+            "n": 1,
+            "p50": 0.109,
+            "p95": 0.109,
+            "p99": 0.109,
+            "max": 0.109
+          },
+          "content_playback_signal_ms": {
+            "n": 1,
+            "p50": 902.46,
+            "p95": 902.46,
+            "p99": 902.46,
+            "max": 902.46
+          },
+          "content_playback_start_ms": {
+            "n": 1,
+            "p50": 870.407,
+            "p95": 870.407,
+            "p99": 870.407,
+            "max": 870.407,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "content_underruns": {
+            "n": 1,
+            "p50": 2.0,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 2.0
+          },
+          "e2e_ttfa_ms": {
+            "n": 1,
+            "p50": 627.9,
+            "p95": 627.9,
+            "p99": 627.9,
+            "max": 627.9
+          },
+          "endpoint_ms": {
+            "n": 1,
+            "p50": 243.2,
+            "p95": 243.2,
+            "p99": 243.2,
+            "max": 243.2
+          },
+          "first_any_audio_sent_ms": {
+            "n": 1,
+            "p50": 628.461,
+            "p95": 628.461,
+            "p99": 628.461,
+            "max": 628.461
+          },
+          "first_content_audio_sent_ms": {
+            "n": 1,
+            "p50": 628.461,
+            "p95": 628.461,
+            "p99": 628.461,
+            "max": 628.461,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_phrase_ready_ms": {
+            "n": 1,
+            "p50": 422.554,
+            "p95": 422.554,
+            "p99": 422.554,
+            "max": 422.554
+          },
+          "last_voice_to_content_sent_ms": {
+            "n": 1,
+            "p50": 1093.134,
+            "p95": 1093.134,
+            "p99": 1093.134,
+            "max": 1093.134
+          },
+          "llm_total_ms": {
+            "n": 1,
+            "p50": 2476.888,
+            "p95": 2476.888,
+            "p99": 2476.888,
+            "max": 2476.888
+          },
+          "llm_ttft_ms": {
+            "n": 1,
+            "p50": 115.766,
+            "p95": 115.766,
+            "p99": 115.766,
+            "max": 115.766
+          },
+          "playback_clock_uncertainty_ms": {
+            "n": 1,
+            "p50": 0.35,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          },
+          "response_total_ms": {
+            "n": 1,
+            "p50": 13663.6,
+            "p95": 13663.6,
+            "p99": 13663.6,
+            "max": 13663.6
+          },
+          "tool_ms": {
+            "n": 0
+          },
+          "tts_ttfa_ms": {
+            "n": 1,
+            "p50": 205.3,
+            "p95": 205.3,
+            "p99": 205.3,
+            "max": 205.3
+          }
+        },
+        "stages": {
+          "llm_queue_ms": {
+            "n": 1,
+            "p50": 0.032,
+            "p95": 0.032,
+            "p99": 0.032,
+            "max": 0.032
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 1,
+            "p50": 115.766,
+            "p95": 115.766,
+            "p99": 115.766,
+            "max": 115.766,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 1,
+            "p50": 2476.888,
+            "p95": 2476.888,
+            "p99": 2476.888,
+            "max": 2476.888
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 1,
+            "p50": 137.564,
+            "p95": 137.564,
+            "p99": 137.564,
+            "max": 137.564,
+            "budget": 1000,
+            "violations": 0,
+            "violation_rate": 0.0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 1,
+            "p50": 250.975,
+            "p95": 250.975,
+            "p99": 250.975,
+            "max": 250.975
+          },
+          "tts_queue_ms": {
+            "n": 6,
+            "p50": 0.011,
+            "p95": 0.016,
+            "p99": 0.016,
+            "max": 0.016
+          },
+          "tts_compute_ms": {
+            "n": 6,
+            "p50": 2320.406,
+            "p95": 3188.48,
+            "p99": 3188.48,
+            "max": 3188.48
+          },
+          "tts_first_chunk_ms": {
+            "n": 6,
+            "p50": 81.171,
+            "p95": 204.144,
+            "p99": 204.144,
+            "max": 204.144
+          },
+          "tts_lock_wait_ms": {
+            "n": 6,
+            "p50": 0.167,
+            "p95": 0.232,
+            "p99": 0.232,
+            "max": 0.232
+          },
+          "tts_rtf": {
+            "n": 6,
+            "p50": 0.53,
+            "p95": 1.037,
+            "p99": 1.037,
+            "max": 1.037
+          },
+          "asr_final_queue_ms": {
+            "n": 1,
+            "p50": 0.012,
+            "p95": 0.012,
+            "p99": 0.012,
+            "max": 0.012
+          },
+          "asr_final_compute_ms": {
+            "n": 1,
+            "p50": 32.934,
+            "p95": 32.934,
+            "p99": 32.934,
+            "max": 32.934
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 5,
+            "p50": 0.015,
+            "p95": 0.024,
+            "p99": 0.024,
+            "max": 0.024
+          },
+          "asr_partial_compute_ms": {
+            "n": 5,
+            "p50": 26.142,
+            "p95": 29.706,
+            "p99": 29.706,
+            "max": 29.706
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 0
+          },
+          "tool_compute_ms": {
+            "n": 0
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {
+          "max_feed_lateness_ms": {
+            "n": 1,
+            "p50": 7.7,
+            "p95": 7.7,
+            "p99": 7.7,
+            "max": 7.7
+          },
+          "clock_uncertainty_ms": {
+            "n": 1,
+            "p50": 0.35,
+            "p95": 0.35,
+            "p99": 0.35,
+            "max": 0.35
+          }
+        },
+        "answers": {
+          "Bầu trời có màu xanh do hiện tượng tán xạ Rayleigh. Khi ánh sáng mặt trời (gồm nhiều màu) đi qua khí quyển, các phân tử khí làm tán xạ ánh sáng xanh dương nhiều hơn các màu khác vì bước sóng của ánh sáng xanh ngắn hơn. Ánh sáng xanh bị tán xạ ra mọi hướng, nên khi chúng ta nhìn lên bầu trời, mắt nhận được nhiều ánh sáng xanh.": 1
+        },
+        "asr_texts": {
+          "giải thích ngắn gọn tại sao bầu trời có màu xanh": 1
+        },
+        "phrase_roles": {
+          "content": 6,
+          "filler": 0,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 0,
+        "content_turns_with_underrun": 1,
+        "prompt_chars": {
+          "n": 1,
+          "p50": 494.0,
+          "p95": 494.0,
+          "p99": 494.0,
+          "max": 494.0
+        },
+        "prompt_tokens": {
+          "n": 1,
+          "p50": 494.0,
+          "p95": 494.0,
+          "p99": 494.0,
+          "max": 494.0
+        },
+        "completion_tokens": {
+          "n": 1,
+          "p50": 84.0,
+          "p95": 84.0,
+          "p99": 84.0,
+          "max": 84.0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 1,
+          "p50": 1306.668,
+          "p95": 1306.668,
+          "p99": 1306.668,
+          "max": 1306.668,
+          "budget": 1000,
+          "violations": 1,
+          "violation_rate": 1.0
+        }
+      },
+      "search": {
+        "attempted": 1,
+        "valid": 0,
+        "content_turns": 0,
+        "ack_turns": 0,
+        "metrics": {},
+        "stages": {
+          "llm_queue_ms": {
+            "n": 0
+          },
+          "search_llm_queue_ms": {
+            "n": 0
+          },
+          "llm_request_ttft_ms": {
+            "n": 0
+          },
+          "search_llm_request_ttft_ms": {
+            "n": 0
+          },
+          "llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "search_llm_request_first_tool_ms": {
+            "n": 0
+          },
+          "llm_request_total_ms": {
+            "n": 0
+          },
+          "search_llm_request_total_ms": {
+            "n": 0
+          },
+          "llm_queued_to_content_delta_ms": {
+            "n": 0
+          },
+          "first_content_delta_to_phrase_ms": {
+            "n": 0
+          },
+          "tts_queue_ms": {
+            "n": 0
+          },
+          "tts_compute_ms": {
+            "n": 0
+          },
+          "tts_first_chunk_ms": {
+            "n": 0
+          },
+          "tts_lock_wait_ms": {
+            "n": 0
+          },
+          "tts_rtf": {
+            "n": 0
+          },
+          "asr_final_queue_ms": {
+            "n": 0
+          },
+          "asr_final_compute_ms": {
+            "n": 0
+          },
+          "asr_final_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_final_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_final_rtf": {
+            "n": 0
+          },
+          "asr_partial_queue_ms": {
+            "n": 0
+          },
+          "asr_partial_compute_ms": {
+            "n": 0
+          },
+          "asr_partial_first_chunk_ms": {
+            "n": 0
+          },
+          "asr_partial_lock_wait_ms": {
+            "n": 0
+          },
+          "asr_partial_rtf": {
+            "n": 0
+          },
+          "tool_queue_ms": {
+            "n": 0
+          },
+          "tool_compute_ms": {
+            "n": 0
+          },
+          "tool_first_chunk_ms": {
+            "n": 0
+          },
+          "tool_lock_wait_ms": {
+            "n": 0
+          },
+          "tool_rtf": {
+            "n": 0
+          }
+        },
+        "inputs": {},
+        "answers": {},
+        "asr_texts": {},
+        "phrase_roles": {
+          "content": 6,
+          "filler": 0,
+          "ack": 0,
+          "fallback": 0
+        },
+        "turns_with_filler": 0,
+        "content_turns_with_underrun": 0,
+        "prompt_chars": {
+          "n": 0
+        },
+        "prompt_tokens": {
+          "n": 0
+        },
+        "completion_tokens": {
+          "n": 0
+        },
+        "synthetic_signal_last_speech_to_content_playback_ms": {
+          "n": 0
+        },
+        "search_routes": [
+          {
+            "case_id": "search-000-s1",
+            "valid": false,
+            "origin_to_ack_playback_ms": null,
+            "origin_to_result_playback_ms": 833.731,
+            "delivery_to_result_playback_ms": null,
+            "dispatch_to_delivery_ms": null
+          }
+        ]
+      }
+    },
+    "resources": {
+      "samples": 211,
+      "sampling_errors": 0,
+      "gpu_utilization_percent": {
+        "n": 211,
+        "p50": 35.0,
+        "p95": 85.0,
+        "p99": 96.0,
+        "max": 96.0
+      },
+      "host_cpu_percent": {
+        "n": 210,
+        "p50": 27.831,
+        "p95": 60.577,
+        "p99": 71.934,
+        "max": 85.003
+      },
+      "event_loop_window_max_ms": {
+        "n": 211,
+        "p50": 3.217,
+        "p95": 3.309,
+        "p99": 33.549,
+        "max": 33.549
+      },
+      "production_session_count": {
+        "n": 211,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      },
+      "min_available_ram_mb": 37237.8,
+      "queues": {
+        "llm_active": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1.0
+        },
+        "llm_waiting": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tts_active": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1.0
+        },
+        "tts_waiting": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "asr_active": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "asr_waiting": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tool_active": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "tool_waiting": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "search_active": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1.0
+        },
+        "search_waiting": {
+          "n": 211,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        }
+      },
+      "native_llm_deferred": {
+        "n": 211,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      }
+    },
+    "sample_method": "Fixed synthetic speech, repeated in rolling bounded history; load-3 requests share batch/host and are correlated. Descriptive p95/p99, not a production SLA.",
+    "native_evidence": {
+      "requests_attempted": 6,
+      "requests_complete": 6,
+      "prompt_counts_with_usage": 6,
+      "prompt_count_matches_usage": 6,
+      "prompt_count_mismatches": [],
+      "requests_trimmed": 0,
+      "requests_over_budget": [],
+      "prompt_prepare_ms": {
+        "n": 6,
+        "p50": 19.77,
+        "p95": 23.189,
+        "p99": 23.189,
+        "max": 23.189
+      },
+      "prompt_tokens_counted": {
+        "n": 6,
+        "p50": 631.0,
+        "p95": 1445.0,
+        "p99": 1445.0,
+        "max": 1445.0
+      },
+      "native_cached_tokens": {
+        "n": 6,
+        "p50": 490.0,
+        "p95": 1382.0,
+        "p99": 1382.0,
+        "max": 1382.0
+      },
+      "native_new_prompt_tokens": {
+        "n": 6,
+        "p50": 56.0,
+        "p95": 975.0,
+        "p99": 975.0,
+        "max": 975.0
+      },
+      "native_prefill_ms": {
+        "n": 6,
+        "p50": 155.266,
+        "p95": 455.59,
+        "p99": 455.59,
+        "max": 455.59
+      },
+      "native_decode_ms": {
+        "n": 6,
+        "p50": 365.863,
+        "p95": 2360.011,
+        "p99": 2360.011,
+        "max": 2360.011
+      },
+      "content_phrases": 16,
+      "content_phrases_missing_playback": 0,
+      "content_phrases_negative_playback_delay": 0,
+      "scope": "All attempted requests retained; latency distributions from summarize_g1 exclude unsuccessful content. Native KV cache contains model state, never another session message added to a request."
+    }
+  }
+}

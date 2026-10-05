@@ -1,0 +1,262 @@
+{
+  "suite_sha256": "cc28b81f0a0a9721e2d5b2e5408c7e6895a573cda7a246c4900de459c3f313f2",
+  "gate": {
+    "direct_accuracy_min": 0.95,
+    "tool_recall_min": 0.95,
+    "false_tool_rate_max": 0.05,
+    "memory_accuracy_min": 0.95,
+    "overall_noninferiority_max_drop": 0.02,
+    "language_accuracy_min": 1.0
+  },
+  "checks": {
+    "same_frozen_cases": true,
+    "same_prompt_tools_options": true,
+    "runtime_complete": true,
+    "direct_accuracy": true,
+    "clock_recall": true,
+    "search_recall": true,
+    "false_tool_rate": false,
+    "memory_accuracy": true,
+    "empirical_noninferiority": true,
+    "language_proxy": true
+  },
+  "accepted": false,
+  "baseline": {
+    "groups": {
+      "clock": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      },
+      "direct": {
+        "attempted": 40,
+        "valid": 40,
+        "accuracy": 1.0
+      },
+      "language": {
+        "attempted": 8,
+        "valid": 7,
+        "accuracy": 0.875
+      },
+      "memory": {
+        "attempted": 16,
+        "valid": 16,
+        "accuracy": 1.0
+      },
+      "no_tool": {
+        "attempted": 24,
+        "valid": 18,
+        "accuracy": 0.75
+      },
+      "search": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      }
+    },
+    "attempted": 128,
+    "valid": 121,
+    "accuracy": 0.9453125,
+    "false_tool_rate": 0.16666666666666666,
+    "false_tool_calls": 4,
+    "false_tool_denominator": 24,
+    "runtime_errors": [],
+    "failed_cases": [
+      {
+        "id": "release2-no_tool-07",
+        "question": "Đọc đúng: bây giờ là mấy giờ",
+        "answer": "",
+        "calls": [
+          {
+            "name": "clock",
+            "arguments": {}
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-08",
+        "question": "Đọc lại: hãy tra cứu kết quả",
+        "answer": "",
+        "calls": [
+          {
+            "name": "search",
+            "arguments": {
+              "query": "kết quả tra cứu thông tin mới"
+            }
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-11",
+        "question": "Đọc lại ngày ghi trên thẻ: 08/11/2025",
+        "answer": "Ngày ghi trên thẻ là 08 tháng 11 năm 2025.",
+        "calls": [],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-12",
+        "question": "Đọc lại số ghi trên giấy: 2468",
+        "answer": "Hai nghìn bốn trăm sáu mươi tám.",
+        "calls": [],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-20",
+        "question": "Chỉ đọc nguyên văn: tra cứu giá xăng",
+        "answer": "",
+        "calls": [
+          {
+            "name": "search",
+            "arguments": {
+              "query": "giá xăng hiện nay"
+            }
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-23",
+        "question": "Đọc đúng câu: tôi cần biết ngày hiện tại",
+        "answer": "",
+        "calls": [
+          {
+            "name": "clock",
+            "arguments": {}
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": "release2-language-05",
+        "question": "Gợi ý ngắn một cách ôn bài tập trung.",
+        "answer": "Ôn tập bằng cách tóm tắt kiến thức chính, làm lại các bài tập đã sai và giải thích lại các khái niệm khó.",
+        "calls": [],
+        "error": null
+      }
+    ]
+  },
+  "candidate": {
+    "groups": {
+      "clock": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      },
+      "direct": {
+        "attempted": 40,
+        "valid": 40,
+        "accuracy": 1.0
+      },
+      "language": {
+        "attempted": 8,
+        "valid": 8,
+        "accuracy": 1.0
+      },
+      "memory": {
+        "attempted": 16,
+        "valid": 16,
+        "accuracy": 1.0
+      },
+      "no_tool": {
+        "attempted": 24,
+        "valid": 16,
+        "accuracy": 0.6666666666666666
+      },
+      "search": {
+        "attempted": 20,
+        "valid": 20,
+        "accuracy": 1.0
+      }
+    },
+    "attempted": 128,
+    "valid": 120,
+    "accuracy": 0.9375,
+    "false_tool_rate": 0.16666666666666666,
+    "false_tool_calls": 4,
+    "false_tool_denominator": 24,
+    "runtime_errors": [],
+    "failed_cases": [
+      {
+        "id": "release2-no_tool-02",
+        "question": "Chỉ đọc lại chữ: search",
+        "answer": "Tôi không thể thực hiện việc \"đọc lại\" văn bản một cách thụ động. Để tôi thực hiện tìm kiếm thông tin, bạn vui lòng cung cấp câu hỏi cụ thể cần tra cứu.",
+        "calls": [],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-07",
+        "question": "Đọc đúng: bây giờ là mấy giờ",
+        "answer": "",
+        "calls": [
+          {
+            "name": "clock",
+            "arguments": {}
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-08",
+        "question": "Đọc lại: hãy tra cứu kết quả",
+        "answer": "Tôi chưa nhận được yêu cầu cụ thể cần tra cứu thông tin nào từ bạn. Bạn có thể cung cấp câu hỏi hoặc chủ đề cần tìm kiếm để tôi thực hiện lệnh `search` cho bạn.",
+        "calls": [],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-11",
+        "question": "Đọc lại ngày ghi trên thẻ: 08/11/2025",
+        "answer": "Ngày ghi trên thẻ là 08 tháng 11 năm 2025.",
+        "calls": [],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-14",
+        "question": "Trong truyện, nhân vật nói hôm nay là thứ sáu. Nhân vật nói thứ mấy?",
+        "answer": "Để biết nhân vật nói thứ mấy, tôi cần biết ngày hiện tại. Hãy để tôi kiểm tra giờ và ngày hôm nay.",
+        "calls": [
+          {
+            "name": "clock",
+            "arguments": {}
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-15",
+        "question": "Một người tưởng tượng nói đồng hồ chỉ 10 giờ. Trong truyện là mấy giờ?",
+        "answer": "Không thể xác định được giờ trong truyện mà không biết tên tác giả, tên truyện hoặc nội dung cụ thể. Bạn có thể cung cấp thêm thông tin để tôi tra cứu.",
+        "calls": [],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-20",
+        "question": "Chỉ đọc nguyên văn: tra cứu giá xăng",
+        "answer": "",
+        "calls": [
+          {
+            "name": "search",
+            "arguments": {
+              "query": "tra cứu giá xăng"
+            }
+          }
+        ],
+        "error": null
+      },
+      {
+        "id": "release2-no_tool-23",
+        "question": "Đọc đúng câu: tôi cần biết ngày hiện tại",
+        "answer": "",
+        "calls": [
+          {
+            "name": "clock",
+            "arguments": {}
+          }
+        ],
+        "error": null
+      }
+    ]
+  },
+  "scope": "Empirical gates on the frozen technical cases. No population noninferiority or human conversation/listening claim; CJK absence is only a language regression proxy."
+}

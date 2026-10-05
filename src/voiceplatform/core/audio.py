@@ -7,6 +7,7 @@ no stage has to guess what it was handed.
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -132,6 +133,63 @@ class LinearResampler:
         self._pos = self._pos + step * count - n
         self._prev = float(samples[-1])
         return out
+
+
+class BandLimitedResampler:
+    """Windowed-sinc polyphase resampling, continuous across chunks.
+
+    Neither linear resampler low-passes first, so going DOWN in rate folds
+    everything above the new Nyquist back into the band. 48 kHz -> 24 kHz
+    with `resample_linear` is plain decimation: a 15 kHz sibilant came out at
+    9 kHz at full level. This one cuts at 90% of the lower Nyquist (flat to
+    10 kHz, -60 dB at 12 kHz for 48 -> 24 kHz with the defaults).
+
+    State carries over: a stream fed in chunks of any size gives exactly the
+    samples one call on the whole stream gives, so seams cannot click and the
+    output count follows the input clock. Causal, so audio is delayed by
+    (taps-1)/2 input samples (1 ms at 48 kHz), and that last millisecond stays
+    in the filter until more input comes.
+    """
+
+    def __init__(self, src_rate: int, dst_rate: int, taps: int = 96, beta: float = 8.0) -> None:
+        if src_rate <= 0 or dst_rate <= 0 or taps < 2:
+            raise ValueError("invalid resampler settings")
+        g = math.gcd(src_rate, dst_rate)
+        self.src_rate, self.dst_rate = src_rate, dst_rate
+        self.up, self.down = dst_rate // g, src_rate // g
+        self._taps = taps
+        n = taps * self.up
+        cutoff = 0.9 * 0.5 / max(self.up, self.down)   # cycles per upsampled sample
+        t = np.arange(n) - (n - 1) / 2.0
+        h = 2 * cutoff * np.sinc(2 * cutoff * t) * np.kaiser(n, beta)
+        self._h = h * (self.up / h.sum())
+        # phases[p, j] weighs input x[m - j] for output phase p.
+        self._phases = np.ascontiguousarray(self._h.reshape(taps, self.up).T)
+        self.reset()
+
+    def reset(self) -> None:
+        self._history = np.zeros(self._taps - 1)
+        self._t = (self._taps - 1) * self.up   # next output, in upsampled steps
+
+    def process(self, samples: Samples) -> Samples:
+        if self.src_rate == self.dst_rate:
+            return samples.astype(np.float32, copy=False)
+        buf = np.concatenate([self._history, np.asarray(samples, dtype=np.float64).reshape(-1)])
+        k = self._taps
+        ts = np.arange(self._t, buf.size * self.up, self.down)
+        if ts.size:
+            m = ts // self.up
+            if self.up == 1:
+                out = np.convolve(buf, self._h, mode="valid")[m - (k - 1)]
+            else:
+                idx = m[:, None] - np.arange(k)[None, :]
+                out = np.einsum("ij,ij->i", buf[idx], self._phases[ts % self.up])
+            self._t = int(ts[-1]) + self.down
+        else:
+            out = np.zeros(0)
+        self._t -= (buf.size - (k - 1)) * self.up
+        self._history = buf[buf.size - (k - 1):]
+        return out.astype(np.float32)
 
 
 class RingBuffer:

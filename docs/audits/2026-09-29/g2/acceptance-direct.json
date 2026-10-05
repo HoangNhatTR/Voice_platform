@@ -1,0 +1,19 @@
+{
+  "direct_success": {
+    "1": 200,
+    "3": 204
+  },
+  "model_quality_gate": true,
+  "one_session": {
+    "queued_ttft_p95_le300": true,
+    "content_playback_p95_lt1000": true,
+    "synthetic_speech_end_playback_p95_lt1000": true
+  },
+  "three_session": {
+    "queued_ttft_p95_lt1000": true,
+    "content_playback_p95_lt1000": false,
+    "continuous_long_audio_capacity": false
+  },
+  "human_naturalness": "not tested",
+  "physical_acoustic_sla": "not tested"
+}

@@ -1,0 +1,16 @@
+{"model": "qwen3.5-9b", "quality": {"dev": {"clock": {"n": 0, "valid": 0}, "direct": {"n": 0, "valid": 0}, "memory": {"n": 0, "valid": 0}, "no_tool": {"n": 0, "valid": 0}, "search": {"n": 0, "valid": 0}}, "heldout": {"clock": {"n": 20, "valid": 20}, "direct": {"n": 40, "valid": 40}, "memory": {"n": 16, "valid": 16}, "no_tool": {"n": 24, "valid": 23}, "search": {"n": 20, "valid": 20}}}, "latency": {"1": {"attempted": 0, "valid": 0, "ttft_ms": {"n": 0}}, "3": {"attempted": 0, "valid": 0, "ttft_ms": {"n": 0}}}}
+Traceback (most recent call last):
+  File "/home/ai01/AIHoang/voice-platform/scripts/benchmark_g2_native.py", line 68, in <module>
+    asyncio.run(main(p.parse_args()))
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/ai01/AIHoang/voice-platform/scripts/benchmark_g2_native.py", line 18, in main
+    probe.bind(('127.0.0.1',args.port))
+OSError: [Errno 98] Address already in use

@@ -1,0 +1,1266 @@
+{
+  "profile": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 1,
+      "codec_intra_op_num_threads": 1
+    }
+  },
+  "phrases": [
+    "Bằng bốn.",
+    "Hà Nội.",
+    "Ánh sáng mặt trời gồm nhiều màu.",
+    "Bầu trời có màu xanh vì ánh sáng xanh bị không khí tán xạ mạnh hơn các màu khác.",
+    "Nguyễn Hoàng Anh đặt chỗ mã AB123.",
+    "Số điện thoại là 0901234567, giá ba triệu năm trăm nghìn đồng."
+  ],
+  "sample_rate": 24000,
+  "load_ms": 3333.0897740088403,
+  "rows": [
+    {
+      "text": "Bằng bốn.",
+      "seed": 20260929,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-0-0.wav",
+      "wav_sha256": "fa4c094205bf57f53ca714eebe77da7ceaa91e6244fcab0bd011405c4010688c",
+      "first_chunk_ms": 181.11191596835852,
+      "first_signal_chunk_ms": 181.11191596835852,
+      "total_ms": 1205.7469370774925,
+      "audio_ms": 800.0,
+      "wall_rtf": 1.5071836713468656,
+      "compute_rtf": 1.503024570941925,
+      "chunks": [
+        {
+          "arrival_ms": 181.11191596835852,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 406.80758794769645,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 853.2231971621513,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1204.8634360544384,
+          "samples": 5760
+        }
+      ],
+      "simulated_gap_ms": 303.75152008607984,
+      "simulated_gap_count": 2,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106610703.245935,
+          "data": {
+            "stage": "tts",
+            "request_id": "c2c879e7887648c3",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106610703.2571352,
+          "data": {
+            "stage": "tts",
+            "request_id": "c2c879e7887648c3",
+            "queue_ms": 0.023440122604370117,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106610703.649013,
+          "data": {
+            "stage": "tts",
+            "request_id": "c2c879e7887648c3",
+            "lock_wait_ms": 0.3614768981933594
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106610703.800071,
+          "data": {
+            "stage": "tts",
+            "request_id": "c2c879e7887648c3"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106610883.995973,
+          "data": {
+            "stage": "tts",
+            "request_id": "c2c879e7887648c3"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106611908.816613,
+          "data": {
+            "stage": "tts",
+            "request_id": "c2c879e7887648c3",
+            "compute_ms": 1202.41965675354,
+            "audio_ms": 800.0,
+            "rtf": 1.503024570941925,
+            "chunks": 4,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Hà Nội.",
+      "seed": 20260930,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-0-1.wav",
+      "wav_sha256": "c214859034040aa743f01b8f0eadd8fc6448a5db42b2a717a1102816b7000275",
+      "first_chunk_ms": 178.07404813356698,
+      "first_signal_chunk_ms": 178.07404813356698,
+      "total_ms": 1168.0673549417406,
+      "audio_ms": 720.0,
+      "wall_rtf": 1.6223157707524176,
+      "compute_rtf": 1.619364372226927,
+      "chunks": [
+        {
+          "arrival_ms": 178.07404813356698,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 444.4056120701134,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 915.9558671526611,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1167.2101269941777,
+          "samples": 3840
+        }
+      ],
+      "simulated_gap_ms": 337.8818190190941,
+      "simulated_gap_count": 2,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106611909.489086,
+          "data": {
+            "stage": "tts",
+            "request_id": "6d4653b261144fee",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106611909.498383,
+          "data": {
+            "stage": "tts",
+            "request_id": "6d4653b261144fee",
+            "queue_ms": 0.010689020156860352,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106611909.6028,
+          "data": {
+            "stage": "tts",
+            "request_id": "6d4653b261144fee",
+            "lock_wait_ms": 0.08184099197387695
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106611909.743394,
+          "data": {
+            "stage": "tts",
+            "request_id": "6d4653b261144fee"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106612087.236249,
+          "data": {
+            "stage": "tts",
+            "request_id": "6d4653b261144fee"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106613077.305222,
+          "data": {
+            "stage": "tts",
+            "request_id": "6d4653b261144fee",
+            "compute_ms": 1165.9423480033875,
+            "audio_ms": 720.0,
+            "rtf": 1.619364372226927,
+            "chunks": 4,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Ánh sáng mặt trời gồm nhiều màu.",
+      "seed": 20260931,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-0-2.wav",
+      "wav_sha256": "1288f4d526fecd3649c263fe1bd173fe6603f30fed497cc955c39b7f3f268f4a",
+      "first_chunk_ms": 195.42335090227425,
+      "first_signal_chunk_ms": 195.42335090227425,
+      "total_ms": 3557.110243011266,
+      "audio_ms": 2240.0,
+      "wall_rtf": 1.587995644201458,
+      "compute_rtf": 1.5864258448992457,
+      "chunks": [
+        {
+          "arrival_ms": 195.42335090227425,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 449.56341199576855,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 958.0250410363078,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1926.58586287871,
+          "samples": 15360
+        },
+        {
+          "arrival_ms": 3555.8249768801033,
+          "samples": 24960
+        }
+      ],
+      "simulated_gap_ms": 2000.401625977829,
+      "simulated_gap_count": 4,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106613077.856334,
+          "data": {
+            "stage": "tts",
+            "request_id": "d3eb81f4e7a547e8",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106613077.861358,
+          "data": {
+            "stage": "tts",
+            "request_id": "d3eb81f4e7a547e8",
+            "queue_ms": 0.005823850631713867,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106613077.945055,
+          "data": {
+            "stage": "tts",
+            "request_id": "d3eb81f4e7a547e8",
+            "lock_wait_ms": 0.07035279273986816
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106613077.9685922,
+          "data": {
+            "stage": "tts",
+            "request_id": "d3eb81f4e7a547e8"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106613272.925264,
+          "data": {
+            "stage": "tts",
+            "request_id": "d3eb81f4e7a547e8"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106616634.6389408,
+          "data": {
+            "stage": "tts",
+            "request_id": "d3eb81f4e7a547e8",
+            "compute_ms": 3553.5938925743103,
+            "audio_ms": 2240.0,
+            "rtf": 1.5864258448992457,
+            "chunks": 5,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Bầu trời có màu xanh vì ánh sáng xanh bị không khí tán xạ mạnh hơn các màu khác.",
+      "seed": 20260932,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-0-3.wav",
+      "wav_sha256": "d366efb47735ff406acf42227f2813913213226fa9b8788a882508bfad705c71",
+      "first_chunk_ms": 242.19080084003508,
+      "first_signal_chunk_ms": 242.19080084003508,
+      "total_ms": 8992.688704980537,
+      "audio_ms": 5440.0,
+      "wall_rtf": 1.6530677766508342,
+      "compute_rtf": 1.6519695349914185,
+      "chunks": [
+        {
+          "arrival_ms": 242.19080084003508,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 500.7757709827274,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 1011.5589490160346,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 2134.753874037415,
+          "samples": 15360
+        },
+        {
+          "arrival_ms": 4220.538575900719,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 6287.298468872905,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 8353.388167917728,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 8991.727714892477,
+          "samples": 9600
+        }
+      ],
+      "simulated_gap_ms": 4191.197367077693,
+      "simulated_gap_count": 6,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106616635.621611,
+          "data": {
+            "stage": "tts",
+            "request_id": "610a82d67d6e43e0",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106616635.629019,
+          "data": {
+            "stage": "tts",
+            "request_id": "610a82d67d6e43e0",
+            "queue_ms": 0.009023666381835938,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106616635.9346879,
+          "data": {
+            "stage": "tts",
+            "request_id": "610a82d67d6e43e0",
+            "lock_wait_ms": 0.2828049659729004
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106616636.050353,
+          "data": {
+            "stage": "tts",
+            "request_id": "610a82d67d6e43e0"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106616877.4478788,
+          "data": {
+            "stage": "tts",
+            "request_id": "610a82d67d6e43e0"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106625628.045497,
+          "data": {
+            "stage": "tts",
+            "request_id": "610a82d67d6e43e0",
+            "compute_ms": 8986.714270353317,
+            "audio_ms": 5440.0,
+            "rtf": 1.6519695349914185,
+            "chunks": 8,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Nguyễn Hoàng Anh đặt chỗ mã AB123.",
+      "seed": 20260933,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-0-4.wav",
+      "wav_sha256": "cf7e229a87d0908dbd0ac2b6d4f0af58d9371969dd8322ce85aedaa2f96068ba",
+      "first_chunk_ms": 215.57544101960957,
+      "first_signal_chunk_ms": 215.57544101960957,
+      "total_ms": 4770.082819042727,
+      "audio_ms": 2960.0,
+      "wall_rtf": 1.6115144658928133,
+      "compute_rtf": 1.6095720212201814,
+      "chunks": [
+        {
+          "arrival_ms": 215.57544101960957,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 467.4713988788426,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 968.1990479584783,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1973.356381058693,
+          "samples": 15360
+        },
+        {
+          "arrival_ms": 4011.8615380488336,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 4768.987939925864,
+          "samples": 11520
+        }
+      ],
+      "simulated_gap_ms": 2436.286097029224,
+      "simulated_gap_count": 4,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106625628.9198132,
+          "data": {
+            "stage": "tts",
+            "request_id": "f9e1c343926a4e14",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106625628.9255888,
+          "data": {
+            "stage": "tts",
+            "request_id": "f9e1c343926a4e14",
+            "queue_ms": 0.00675201416015625,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106625629.091144,
+          "data": {
+            "stage": "tts",
+            "request_id": "f9e1c343926a4e14",
+            "lock_wait_ms": 0.14729785919189453
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106625629.229482,
+          "data": {
+            "stage": "tts",
+            "request_id": "f9e1c343926a4e14"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106625844.180929,
+          "data": {
+            "stage": "tts",
+            "request_id": "f9e1c343926a4e14"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106630398.868391,
+          "data": {
+            "stage": "tts",
+            "request_id": "f9e1c343926a4e14",
+            "compute_ms": 4764.333182811737,
+            "audio_ms": 2960.0,
+            "rtf": 1.6095720212201814,
+            "chunks": 6,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Số điện thoại là 0901234567, giá ba triệu năm trăm nghìn đồng.",
+      "seed": 20260934,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-0-5.wav",
+      "wav_sha256": "a1ec4f5deeb8168c5cc5ed9b66cdd22ca3f20fea112437ef00bed50d6f9a0e0a",
+      "first_chunk_ms": 246.3525168132037,
+      "first_signal_chunk_ms": 246.3525168132037,
+      "total_ms": 9208.127283956856,
+      "audio_ms": 5840.0,
+      "wall_rtf": 1.576734123965215,
+      "compute_rtf": 1.5757289756242543,
+      "chunks": [
+        {
+          "arrival_ms": 246.3525168132037,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 481.3943130429834,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 962.0968399103731,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1894.166801823303,
+          "samples": 15360
+        },
+        {
+          "arrival_ms": 3861.4565569441766,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 5882.841696962714,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 7909.971568034962,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 9207.288887817413,
+          "samples": 19200
+        }
+      ],
+      "simulated_gap_ms": 3760.936371004209,
+      "simulated_gap_count": 6,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106630399.563825,
+          "data": {
+            "stage": "tts",
+            "request_id": "dfd51a3346c8453b",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106630399.572417,
+          "data": {
+            "stage": "tts",
+            "request_id": "dfd51a3346c8453b",
+            "queue_ms": 0.010927915573120117,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106630399.8187401,
+          "data": {
+            "stage": "tts",
+            "request_id": "dfd51a3346c8453b",
+            "lock_wait_ms": 0.21848297119140625
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106630399.936518,
+          "data": {
+            "stage": "tts",
+            "request_id": "dfd51a3346c8453b"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106630645.649522,
+          "data": {
+            "stage": "tts",
+            "request_id": "dfd51a3346c8453b"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106639607.559266,
+          "data": {
+            "stage": "tts",
+            "request_id": "dfd51a3346c8453b",
+            "compute_ms": 9202.257217645645,
+            "audio_ms": 5840.0,
+            "rtf": 1.5757289756242543,
+            "chunks": 8,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Bằng bốn.",
+      "seed": 20261029,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-1-0.wav",
+      "wav_sha256": "ca4d64d1a759f2ba9cee6f7d4c8ba55447b6e6d1322d6350bd1f4a3b7963556a",
+      "first_chunk_ms": 171.6156101319939,
+      "first_signal_chunk_ms": 171.6156101319939,
+      "total_ms": 1314.762077992782,
+      "audio_ms": 800.0,
+      "wall_rtf": 1.6434525974909775,
+      "compute_rtf": 1.6398955065011978,
+      "chunks": [
+        {
+          "arrival_ms": 171.6156101319939,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 435.7404869515449,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 941.3973919581622,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1313.617997104302,
+          "samples": 5760
+        }
+      ],
+      "simulated_gap_ms": 422.00238697230816,
+      "simulated_gap_count": 3,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106639608.7657468,
+          "data": {
+            "stage": "tts",
+            "request_id": "2f6cd1a8c3e6418b",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106639608.773476,
+          "data": {
+            "stage": "tts",
+            "request_id": "2f6cd1a8c3e6418b",
+            "queue_ms": 0.00867319107055664,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106639609.121209,
+          "data": {
+            "stage": "tts",
+            "request_id": "2f6cd1a8c3e6418b",
+            "lock_wait_ms": 0.324357271194458
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106639609.2592428,
+          "data": {
+            "stage": "tts",
+            "request_id": "2f6cd1a8c3e6418b"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106639780.056744,
+          "data": {
+            "stage": "tts",
+            "request_id": "2f6cd1a8c3e6418b"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106640923.2674851,
+          "data": {
+            "stage": "tts",
+            "request_id": "2f6cd1a8c3e6418b",
+            "compute_ms": 1311.9164052009583,
+            "audio_ms": 800.0,
+            "rtf": 1.6398955065011978,
+            "chunks": 4,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Hà Nội.",
+      "seed": 20261030,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-1-1.wav",
+      "wav_sha256": "d0e6daa261d57987932c1a89b19392abbcdd91db071e9b90520fd8a2f1ed83fa",
+      "first_chunk_ms": 169.7775179054588,
+      "first_signal_chunk_ms": 169.7775179054588,
+      "total_ms": 1158.5194349754602,
+      "audio_ms": 720.0,
+      "wall_rtf": 1.6090547707992502,
+      "compute_rtf": 1.6054172078768412,
+      "chunks": [
+        {
+          "arrival_ms": 169.7775179054588,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 427.2754839621484,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 913.2178670261055,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1157.7534079551697,
+          "samples": 3840
+        }
+      ],
+      "simulated_gap_ms": 343.4403491206467,
+      "simulated_gap_count": 2,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106640924.085033,
+          "data": {
+            "stage": "tts",
+            "request_id": "379e7f82c9aa4d8a",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106640924.094873,
+          "data": {
+            "stage": "tts",
+            "request_id": "379e7f82c9aa4d8a",
+            "queue_ms": 0.011792182922363281,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106640924.407213,
+          "data": {
+            "stage": "tts",
+            "request_id": "379e7f82c9aa4d8a",
+            "lock_wait_ms": 0.28266000747680664
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106640924.541855,
+          "data": {
+            "stage": "tts",
+            "request_id": "379e7f82c9aa4d8a"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106641093.550947,
+          "data": {
+            "stage": "tts",
+            "request_id": "379e7f82c9aa4d8a"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106642082.421762,
+          "data": {
+            "stage": "tts",
+            "request_id": "379e7f82c9aa4d8a",
+            "compute_ms": 1155.9003896713257,
+            "audio_ms": 720.0,
+            "rtf": 1.6054172078768412,
+            "chunks": 4,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Ánh sáng mặt trời gồm nhiều màu.",
+      "seed": 20261031,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-1-2.wav",
+      "wav_sha256": "5bcdbb5fa7b6364fd7dd4e697c2efbb11c0bca9e79e2a52ff5156c66c500fef0",
+      "first_chunk_ms": 185.82755397073925,
+      "first_signal_chunk_ms": 185.82755397073925,
+      "total_ms": 3583.717346889898,
+      "audio_ms": 2240.0,
+      "wall_rtf": 1.5998738155758474,
+      "compute_rtf": 1.5983261722539153,
+      "chunks": [
+        {
+          "arrival_ms": 185.82755397073925,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 430.67268398590386,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 911.8351249489933,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1931.0076949186623,
+          "samples": 15360
+        },
+        {
+          "arrival_ms": 3582.8509349375963,
+          "samples": 24960
+        }
+      ],
+      "simulated_gap_ms": 2037.023380966857,
+      "simulated_gap_count": 4,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106642083.230413,
+          "data": {
+            "stage": "tts",
+            "request_id": "c0dd642866334fad",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106642083.2392938,
+          "data": {
+            "stage": "tts",
+            "request_id": "c0dd642866334fad",
+            "queue_ms": 0.011056900024414062,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106642083.5042732,
+          "data": {
+            "stage": "tts",
+            "request_id": "c0dd642866334fad",
+            "lock_wait_ms": 0.23979520797729492
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106642083.645891,
+          "data": {
+            "stage": "tts",
+            "request_id": "c0dd642866334fad"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106642268.746044,
+          "data": {
+            "stage": "tts",
+            "request_id": "c0dd642866334fad"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106645666.789711,
+          "data": {
+            "stage": "tts",
+            "request_id": "c0dd642866334fad",
+            "compute_ms": 3580.25062584877,
+            "audio_ms": 2240.0,
+            "rtf": 1.5983261722539153,
+            "chunks": 5,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Bầu trời có màu xanh vì ánh sáng xanh bị không khí tán xạ mạnh hơn các màu khác.",
+      "seed": 20261032,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-1-3.wav",
+      "wav_sha256": "62f89ed7f19a6667c5001ad2caedf80077a4215295fbe92d415aaebe3df82c8a",
+      "first_chunk_ms": 240.3080069925636,
+      "first_signal_chunk_ms": 240.3080069925636,
+      "total_ms": 6647.506386041641,
+      "audio_ms": 4720.0,
+      "wall_rtf": 1.4083699970427206,
+      "compute_rtf": 1.4072493881492292,
+      "chunks": [
+        {
+          "arrival_ms": 240.3080069925636,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 454.17434303089976,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 932.79356113635,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1951.4636199455708,
+          "samples": 15360
+        },
+        {
+          "arrival_ms": 4047.5552219431847,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 5548.263464123011,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 6646.636790130287,
+          "samples": 23040
+        }
+      ],
+      "simulated_gap_ms": 2667.955457130447,
+      "simulated_gap_count": 4,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106645667.3084059,
+          "data": {
+            "stage": "tts",
+            "request_id": "17d7e6f0bfc2486d",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106645667.314214,
+          "data": {
+            "stage": "tts",
+            "request_id": "17d7e6f0bfc2486d",
+            "queue_ms": 0.006991863250732422,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106645667.521833,
+          "data": {
+            "stage": "tts",
+            "request_id": "17d7e6f0bfc2486d",
+            "lock_wait_ms": 0.19153881072998047
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106645667.638283,
+          "data": {
+            "stage": "tts",
+            "request_id": "17d7e6f0bfc2486d"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106645907.351722,
+          "data": {
+            "stage": "tts",
+            "request_id": "17d7e6f0bfc2486d"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106652314.7001512,
+          "data": {
+            "stage": "tts",
+            "request_id": "17d7e6f0bfc2486d",
+            "compute_ms": 6642.217112064362,
+            "audio_ms": 4720.0,
+            "rtf": 1.4072493881492292,
+            "chunks": 7,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Nguyễn Hoàng Anh đặt chỗ mã AB123.",
+      "seed": 20261033,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-1-4.wav",
+      "wav_sha256": "4dfc289f58e9c6658c73f5e9b72801a4770da15a44e8566fa23c7cb4740b9e77",
+      "first_chunk_ms": 153.73290283605456,
+      "first_signal_chunk_ms": 153.73290283605456,
+      "total_ms": 3346.6524200048298,
+      "audio_ms": 2960.0,
+      "wall_rtf": 1.1306258175691992,
+      "compute_rtf": 1.1292278624869683,
+      "chunks": [
+        {
+          "arrival_ms": 153.73290283605456,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 333.4485108498484,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 692.1689158771187,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1412.7383138984442,
+          "samples": 15360
+        },
+        {
+          "arrival_ms": 2823.5032348893583,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 3345.5821329262108,
+          "samples": 11520
+        }
+      ],
+      "simulated_gap_ms": 1309.7703320533037,
+      "simulated_gap_count": 3,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106652315.3802881,
+          "data": {
+            "stage": "tts",
+            "request_id": "88821910369b441e",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106652315.386224,
+          "data": {
+            "stage": "tts",
+            "request_id": "88821910369b441e",
+            "queue_ms": 0.006720066070556641,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106652315.48965,
+          "data": {
+            "stage": "tts",
+            "request_id": "88821910369b441e",
+            "lock_wait_ms": 0.062417030334472656
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106652315.615556,
+          "data": {
+            "stage": "tts",
+            "request_id": "88821910369b441e"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106652468.7771711,
+          "data": {
+            "stage": "tts",
+            "request_id": "88821910369b441e"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106655661.749073,
+          "data": {
+            "stage": "tts",
+            "request_id": "88821910369b441e",
+            "compute_ms": 3342.514472961426,
+            "audio_ms": 2960.0,
+            "rtf": 1.1292278624869683,
+            "chunks": 6,
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "text": "Số điện thoại là 0901234567, giá ba triệu năm trăm nghìn đồng.",
+      "seed": 20261034,
+      "wav": "docs/audits/2026-09-29/g2/tts-screen/zero-t1-1-5.wav",
+      "wav_sha256": "2ba8c47cde39db466157e836e743c39d738b2c7dfb53486a1d7988904993e607",
+      "first_chunk_ms": 174.18415192514658,
+      "first_signal_chunk_ms": 174.18415192514658,
+      "total_ms": 5931.218734942377,
+      "audio_ms": 5600.0,
+      "wall_rtf": 1.0591462026682816,
+      "compute_rtf": 1.058197040941034,
+      "chunks": [
+        {
+          "arrival_ms": 174.18415192514658,
+          "samples": 1920
+        },
+        {
+          "arrival_ms": 348.94488798454404,
+          "samples": 3840
+        },
+        {
+          "arrival_ms": 708.1193290650845,
+          "samples": 7680
+        },
+        {
+          "arrival_ms": 1417.947466019541,
+          "samples": 15360
+        },
+        {
+          "arrival_ms": 2712.2622940223664,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 4056.068572914228,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 5363.8680970761925,
+          "samples": 30720
+        },
+        {
+          "arrival_ms": 5930.390338879079,
+          "samples": 13440
+        }
+      ],
+      "simulated_gap_ms": 1269.683945151046,
+      "simulated_gap_count": 5,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1106655662.465755,
+          "data": {
+            "stage": "tts",
+            "request_id": "914bb9fdaafb4f07",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1106655662.471851,
+          "data": {
+            "stage": "tts",
+            "request_id": "914bb9fdaafb4f07",
+            "queue_ms": 0.007280111312866211,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "tts_lock_acquired",
+          "ts_ms": 1106655662.838832,
+          "data": {
+            "stage": "tts",
+            "request_id": "914bb9fdaafb4f07",
+            "lock_wait_ms": 0.3473649024963379
+          }
+        },
+        {
+          "type": "model_inference_start",
+          "ts_ms": 1106655662.879953,
+          "data": {
+            "stage": "tts",
+            "request_id": "914bb9fdaafb4f07"
+          }
+        },
+        {
+          "type": "tts_chunk_ready",
+          "ts_ms": 1106655836.334766,
+          "data": {
+            "stage": "tts",
+            "request_id": "914bb9fdaafb4f07"
+          }
+        },
+        {
+          "type": "model_inference_end",
+          "ts_ms": 1106661593.52196,
+          "data": {
+            "stage": "tts",
+            "request_id": "914bb9fdaafb4f07",
+            "compute_ms": 5925.903429269791,
+            "audio_ms": 5600.0,
+            "rtf": 1.058197040941034,
+            "chunks": 8,
+            "outcome": "complete"
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "first_chunk_ms": {
+      "n": 12,
+      "p50": 185.828,
+      "p95": 242.191,
+      "p99": 246.353,
+      "max": 246.353,
+      "budget": 300,
+      "violations": 0,
+      "violation_rate": 0.0
+    },
+    "first_signal_chunk_ms": {
+      "n": 12,
+      "p50": 185.828,
+      "p95": 242.191,
+      "p99": 246.353,
+      "max": 246.353,
+      "budget": 400,
+      "violations": 0,
+      "violation_rate": 0.0
+    },
+    "wall_rtf": {
+      "n": 12,
+      "p50": 1.6,
+      "p95": 1.643,
+      "p99": 1.653,
+      "max": 1.653,
+      "budget": 0.85,
+      "violations": 12,
+      "violation_rate": 1.0
+    },
+    "simulated_gap_ms": {
+      "n": 12,
+      "p50": 2000.402,
+      "p95": 3760.936,
+      "p99": 4191.197,
+      "max": 4191.197,
+      "budget": 1,
+      "violations": 12,
+      "violation_rate": 1.0
+    }
+  },
+  "quality_basis": "Identical frozen text; same sample rate; preset voices differ. No human listening rating."
+}

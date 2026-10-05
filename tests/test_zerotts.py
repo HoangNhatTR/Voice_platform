@@ -14,6 +14,7 @@ import time
 import numpy as np
 import pytest
 
+from voiceplatform.core.errors import ModelUnavailable
 from voiceplatform.models.tts.zerotts import ZeroTtsEngine
 
 
@@ -154,3 +155,49 @@ async def test_an_unknown_voice_falls_back_loudly_not_silently(monkeypatch):
     engine = await _engine(monkeypatch, voice)
     assert engine._resolve("khong-co") == "maichi"
     assert engine._resolve("giahuy") == "giahuy"
+
+
+async def test_initialization_failure_never_leaves_the_consumer_waiting(monkeypatch):
+    class Broken(_SlowVoice):
+        def synthesize_stream(self, *args, **kwargs):
+            raise RuntimeError("init failed")
+    engine = await _engine(monkeypatch, Broken())
+    with pytest.raises(RuntimeError, match="init failed"):
+        await asyncio.wait_for(anext(engine.synthesize("hello")), .5)
+    await engine.close()
+    assert not engine._lock.locked() and not engine._workers
+
+
+async def test_stream_close_failure_reaches_consumer_and_releases_lock(monkeypatch):
+    class Stream:
+        def __iter__(self):
+            return iter([np.zeros(480, dtype=np.float32)])
+        def close(self):
+            raise RuntimeError("close failed")
+    class Broken(_SlowVoice):
+        def synthesize_stream(self, *args, **kwargs):
+            return Stream()
+    engine = await _engine(monkeypatch, Broken())
+    async def consume():
+        return [c async for c in engine.synthesize("hello")]
+    with pytest.raises(RuntimeError, match="close failed"):
+        await asyncio.wait_for(consume(), .5)
+    await engine.close()
+    assert not engine._workers and not engine._lock.locked()
+
+
+async def test_close_stops_the_native_worker_and_wakes_active_consumer(monkeypatch):
+    voice = _SlowVoice(chunks=100, chunk_ms=10)
+    engine = await _engine(monkeypatch, voice)
+    first = asyncio.Event()
+    async def consume():
+        async for _ in engine.synthesize("long"):
+            first.set()
+    task = asyncio.create_task(consume())
+    await asyncio.wait_for(first.wait(), 1)
+    await engine.close()
+    # Woken with an error: a phrase cut by shutdown is not a complete phrase.
+    with pytest.raises(ModelUnavailable, match="closing"):
+        await asyncio.wait_for(task, 1)
+    assert voice.closed.is_set()
+    assert not engine._workers and not engine._lock.locked()

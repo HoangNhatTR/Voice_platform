@@ -9,6 +9,7 @@ import pytest
 from voiceplatform.app.simulate import build_engine, is_idle, wait_until
 from voiceplatform.core.events import EventType
 from voiceplatform.tasks.search import SearchRequest, SearchResult
+from voiceplatform.conversation.search_routing import requires_public_lookup
 
 
 @pytest.fixture
@@ -146,6 +147,76 @@ async def test_the_user_hears_something_the_moment_the_search_is_sent(search_con
         # model kịp sinh token nào của vòng sau.
         assert firsts[EventType.FILLER.value] >= firsts[EventType.SEARCH_REQUESTED.value]
         assert "tra cứu" in eng.context.turns[0].spoken_text.lower()
+    finally:
+        await eng.close()
+        await eng.models.close()
+
+
+async def test_accepted_search_ack_skips_the_redundant_llm_round(search_config):
+    search_config.conversation.search.skip_redundant_ack=True
+    search_config.models.search.options['delay_ms']=3000
+    eng,_=build_engine(search_config,tools=[])
+    await eng.models.start();await eng.start()
+    try:
+        await eng.push_text('thời tiết Hà Nội hôm nay thế nào')
+        assert await wait_until(eng,is_idle,max_ms=2500,feed_silence=False)
+        trace=eng.trace.turn(1)
+        starts=[e for e in trace.events if e.type is EventType.LLM_START]
+        assert len(starts)==1
+        assert any(p['role']=='ack' for p in trace.summary()['phrases'])
+        assert eng.pending.inflight==1
+        assert 'tra cứu' in eng.context.turns[0].spoken_text.lower()
+    finally:
+        await eng.close();await eng.models.close()
+
+
+def test_public_lookup_route_is_narrow():
+    assert requires_public_lookup("Bạn có thể cho tôi biết hồ Hoàn Kiếm ở đâu không?")
+    assert requires_public_lookup("Đường Nguyễn Thị Minh Khai nằm ở đâu?")
+    assert requires_public_lookup("Tra cứu Wikipedia về Hồ Gươm.")
+    assert not requires_public_lookup("Thủ đô Việt Nam là gì?")
+    assert not requires_public_lookup("Đọc lại giúp tôi số tiền 1.250.000 đồng.")
+
+
+async def test_place_lookup_requires_source_even_when_llm_does_not_call_tool(search_config):
+    search_config.conversation.search.force_source_lookup = True
+    search_config.models.search.options["delay_ms"] = 1000
+    eng, _ = build_engine(search_config, tools=[])
+    await eng.models.start()
+    await eng.start()
+    try:
+        await eng.push_text("Bạn có thể cho tôi biết hồ Hoàn Kiếm ở đâu không?")
+        assert await wait_until(eng, lambda e: e.trace.turn(1).finished, max_ms=4000, feed_silence=False)
+        turn = eng.trace.turn(1)
+        assert EventType.SEARCH_REQUESTED in [event.type for event in turn.events]
+        assert EventType.LLM_START not in [event.type for event in turn.events]
+        assert any(phrase["role"] == "ack" for phrase in turn.summary()["phrases"])
+    finally:
+        await eng.close()
+        await eng.models.close()
+
+
+async def test_late_search_failure_is_charged_to_its_origin_turn(search_config):
+    search_config.conversation.search.force_source_lookup = True
+    search_config.models.llm.options = {"first_token_delay_ms": 500, "token_delay_ms": 1}
+    eng, _ = build_engine(search_config, tools=[])
+
+    async def fail_after_next_turn(request):
+        await asyncio.sleep(0.3)
+        return SearchResult(request=request, ok=False, content="không có nguồn", error="no_result")
+
+    eng.models.search.search = fail_after_next_turn
+    await eng.models.start()
+    await eng.start()
+    try:
+        await eng.push_text("Hồ Hoàn Kiếm ở đâu?")
+        assert await wait_until(eng, lambda e: e.pending.inflight == 1, max_ms=1000, feed_silence=False)
+        await eng.push_text("Hai cộng hai bằng mấy?")
+        assert await wait_until(eng, lambda e: any(
+            ev.type is EventType.SEARCH_RESULT for ev in e.trace.turn(1).events
+        ), max_ms=2000, feed_silence=False)
+        assert "search" in eng.trace.turn(1).outcome()["errors"]
+        assert "search" not in eng.trace.turn(2).outcome()["errors"]
     finally:
         await eng.close()
         await eng.models.close()

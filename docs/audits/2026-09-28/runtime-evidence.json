@@ -1,0 +1,469 @@
+{
+  "healthz": {
+    "status": 200,
+    "data": {
+      "ok": true,
+      "sessions": 0,
+      "models": {
+        "mode": "cascade",
+        "asr": {
+          "name": "s2s:gipformer",
+          "capabilities": {
+            "streaming_partials": true,
+            "languages": [
+              "vi"
+            ],
+            "native_sample_rate": 16000
+          }
+        },
+        "llm": {
+          "name": "openai_compat",
+          "capabilities": {
+            "tools": true,
+            "streaming": true,
+            "context_tokens": 8192
+          }
+        },
+        "tts": {
+          "name": "zerotts",
+          "capabilities": {
+            "streaming": true,
+            "emotion_cues": false,
+            "voices": [
+              "baotrang",
+              "giahuy",
+              "hamy",
+              "huuduc",
+              "kimoanh",
+              "maichi",
+              "quangminh",
+              "tiendat"
+            ],
+            "native_sample_rate": 24000,
+            "expected_rtf": 0.71
+          }
+        },
+        "s2s": null,
+        "search": {
+          "name": "llm",
+          "capabilities": null
+        }
+      },
+      "tools": [
+        "clock"
+      ]
+    }
+  },
+  "config": {
+    "status": 200,
+    "data": {
+      "models": {
+        "asr": {
+          "backend": "gipformer",
+          "endpoint": null
+        },
+        "llm": {
+          "backend": "openai_compat",
+          "endpoint": "http://127.0.0.1:8088/v1"
+        },
+        "tts": {
+          "backend": "zerotts",
+          "endpoint": null
+        },
+        "search": {
+          "backend": "llm",
+          "endpoint": "http://127.0.0.1:8088/v1"
+        }
+      },
+      "server": {
+        "host": "0.0.0.0",
+        "port": 18100,
+        "private_introspection": true
+      }
+    }
+  },
+  "metrics": {
+    "status": 200,
+    "data": {
+      "snapshot": {
+        "counters": {
+          "frames_in": 5038,
+          "endpoint_cancelled": 11,
+          "barge_ins": 2
+        },
+        "latency": {
+          "endpoint_ms": {
+            "n": 3,
+            "p50": 244.3,
+            "p95": 246.3,
+            "max": 246.3
+          },
+          "asr_first_partial_ms": {
+            "n": 3,
+            "p50": 531.2,
+            "p95": 531.9,
+            "max": 531.9
+          },
+          "asr_final_ms": {
+            "n": 3,
+            "p50": 3595.6,
+            "p95": 3829.4,
+            "max": 3829.4
+          },
+          "llm_ttft_ms": {
+            "n": 3,
+            "p50": 132.0,
+            "p95": 186.4,
+            "max": 186.4
+          },
+          "llm_total_ms": {
+            "n": 1,
+            "p50": 535.0,
+            "p95": 535.0,
+            "max": 535.0
+          },
+          "tts_ttfa_ms": {
+            "n": 3,
+            "p50": 197.8,
+            "p95": 378.1,
+            "max": 378.1
+          },
+          "e2e_ttfa_ms": {
+            "n": 3,
+            "p50": 695.2,
+            "p95": 982.5,
+            "max": 982.5
+          },
+          "response_total_ms": {
+            "n": 1,
+            "p50": 1944.5,
+            "p95": 1944.5,
+            "max": 1944.5
+          },
+          "barge_in_stop_ms": {
+            "n": 2,
+            "p50": 1.1,
+            "p95": 1.8,
+            "max": 1.8
+          }
+        }
+      }
+    }
+  },
+  "llm": {
+    "status": 400,
+    "wall_ms": 65.6,
+    "data": {
+      "detail": "LLM transport error: All connection attempts failed"
+    }
+  },
+  "search": {
+    "status": 200,
+    "wall_ms": 17.2,
+    "data": {
+      "engine": "llm",
+      "ok": false,
+      "content": "Tôi chưa tra cứu được thông tin này.",
+      "source": "llm",
+      "error": "ModelUnavailable('LLM transport error: All connection attempts failed')",
+      "latency_ms": 14.3,
+      "contended": false,
+      "live_sessions": 0
+    }
+  },
+  "tts": {
+    "status": 200,
+    "wall_ms": 5713.2,
+    "data": {
+      "engine": "zerotts",
+      "voice": "kimoanh",
+      "voices": [
+        "baotrang",
+        "giahuy",
+        "hamy",
+        "huuduc",
+        "kimoanh",
+        "maichi",
+        "quangminh",
+        "tiendat"
+      ],
+      "prepared": [
+        "Xin chào,",
+        "đây là phép kiểm tra hệ thống."
+      ],
+      "emotion_cues": false,
+      "phrases": [
+        {
+          "text": "Xin chào,",
+          "first_chunk_ms": 2420.2,
+          "total_ms": 3475.1,
+          "audio_ms": 880.0
+        },
+        {
+          "text": "đây là phép kiểm tra hệ thống.",
+          "first_chunk_ms": 180.6,
+          "total_ms": 2219.7,
+          "audio_ms": 1920.0
+        }
+      ],
+      "first_audio_ms": 2420.2,
+      "total_ms": 5694.8,
+      "audio_ms": 2800.0,
+      "rtf": 2.0338,
+      "sample_rate": 24000,
+      "contended": false,
+      "live_sessions": 0
+    }
+  },
+  "asr": {
+    "status": 200,
+    "wall_ms": 1344.7,
+    "data": {
+      "engine": "s2s:gipformer",
+      "text": "xin chào đây là phép kiểm tra hệ thống",
+      "decode_ms": 1327.1,
+      "audio_ms": 2800.0,
+      "rtf": 0.474,
+      "partials": 0,
+      "input_sample_rate": 24000,
+      "session_sample_rate": 16000,
+      "contended": false,
+      "live_sessions": 0,
+      "reference": "Xin chào, đây là phép kiểm tra hệ thống.",
+      "wer_errors": 2,
+      "wer_words": 9,
+      "wer": 0.2222
+    }
+  },
+  "websocket": {
+    "first_audio_ms": 301.2,
+    "audio_frames": 86,
+    "controls": [
+      {
+        "type": "state",
+        "state": "thinking"
+      },
+      {
+        "type": "speaking",
+        "generation_id": 1,
+        "turn_id": 1,
+        "sample_rate": 24000
+      },
+      {
+        "type": "state",
+        "state": "idle"
+      }
+    ],
+    "turns": {
+      "session_id": "s0019-18cbf092",
+      "state": "idle",
+      "counters": {},
+      "stale_drops": 0,
+      "turns": [
+        {
+          "session_id": "s0019-18cbf092",
+          "turn_id": 1,
+          "metrics": {
+            "endpoint_ms": null,
+            "asr_final_ms": null,
+            "asr_first_partial_ms": null,
+            "llm_ttft_ms": null,
+            "llm_total_ms": null,
+            "tts_ttfa_ms": 245.0,
+            "tool_ms": null,
+            "e2e_ttfa_ms": 263.7,
+            "response_total_ms": 4605.5,
+            "barge_in_stop_ms": null
+          },
+          "events": [
+            {
+              "type": "state_changed",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": null,
+              "ts_ms": 1020779465.764,
+              "data": {
+                "previous": "idle",
+                "current": "thinking",
+                "reason": "text turn"
+              }
+            },
+            {
+              "type": "turn_start",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020779466.621,
+              "data": {
+                "source": "text"
+              }
+            },
+            {
+              "type": "turn_confirmed",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020779466.627,
+              "data": {
+                "reason": "text",
+                "source": "text"
+              }
+            },
+            {
+              "type": "asr_final",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020779466.634,
+              "data": {
+                "text": "Xin chào, bạn có hoạt động bình thường không?",
+                "source": "text"
+              }
+            },
+            {
+              "type": "llm_start",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020779467.657,
+              "data": {
+                "round": 0
+              }
+            },
+            {
+              "type": "error",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020779484.861,
+              "data": {
+                "stage": "llm",
+                "error": "LLM transport error: All connection attempts failed"
+              }
+            },
+            {
+              "type": "tts_start",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020779485.337
+            },
+            {
+              "type": "tts_first_audio",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020779730.354,
+              "data": {
+                "sample_rate": 24000
+              }
+            },
+            {
+              "type": "state_changed",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020779730.725,
+              "data": {
+                "previous": "thinking",
+                "current": "speaking",
+                "reason": "first audio"
+              }
+            },
+            {
+              "type": "tts_complete",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020784072.082,
+              "data": {
+                "phrases": 1
+              }
+            },
+            {
+              "type": "turn_end",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020784072.464,
+              "data": {
+                "answered": true
+              }
+            },
+            {
+              "type": "state_changed",
+              "session_id": "s0019-18cbf092",
+              "turn_id": 1,
+              "generation_id": 1,
+              "ts_ms": 1020784072.731,
+              "data": {
+                "previous": "speaking",
+                "current": "idle",
+                "reason": "turn finished"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "health_after": {
+    "ok": true,
+    "sessions": 0,
+    "models": {
+      "mode": "cascade",
+      "asr": {
+        "name": "s2s:gipformer",
+        "capabilities": {
+          "streaming_partials": true,
+          "languages": [
+            "vi"
+          ],
+          "native_sample_rate": 16000
+        }
+      },
+      "llm": {
+        "name": "openai_compat",
+        "capabilities": {
+          "tools": true,
+          "streaming": true,
+          "context_tokens": 8192
+        }
+      },
+      "tts": {
+        "name": "zerotts",
+        "capabilities": {
+          "streaming": true,
+          "emotion_cues": false,
+          "voices": [
+            "baotrang",
+            "giahuy",
+            "hamy",
+            "huuduc",
+            "kimoanh",
+            "maichi",
+            "quangminh",
+            "tiendat"
+          ],
+          "native_sample_rate": 24000,
+          "expected_rtf": 0.71
+        }
+      },
+      "s2s": null,
+      "search": {
+        "name": "llm",
+        "capabilities": null
+      }
+    },
+    "tools": [
+      "clock"
+    ]
+  },
+  "process_command": "/home/ai01/AIHoang/speech2speech/.venv/bin/python -m voiceplatform --config configs/local-cpu.yaml serve --lan ",
+  "host_memory": {
+    "MemTotal": "127601432 kB",
+    "MemAvailable": "24456680 kB",
+    "SwapTotal": "16777212 kB",
+    "SwapFree": "307980 kB"
+  }
+}

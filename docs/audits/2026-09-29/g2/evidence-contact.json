@@ -1,0 +1,28 @@
+{
+  "protocol": "Same author, procedural confirmation only; no independent human review. Each development dataset is marked after inspecting outcomes and continuing selection. Repeated question families/paraphrases are not new task domains.",
+  "development": [
+    "quality-suite.json (64)",
+    "quality-confirmation.json (120)",
+    "quality-release.json (120): after prompt/model changed following pilot failures",
+    "quality-release2.json (128): after false calls on literal readback requests led to adapter policy",
+    "quality-v7-dev.json (67)",
+    "asr-regression-suite.json (2): failure from real frozen speech; both9B and7B miss ambiguous transcript",
+    "quality-language-dev.json: retired7B language screen",
+    "tts-final-load1/load3, tts-pool2-load1/load3 and tts-runtime-ab.json: configuration selection",
+    "final-pilot-1/final-pilot-3/final-clean-search-1: pre-confirmation single-worker checks"
+  ],
+  "prospective_confirmation": "quality-release3.json (128) remains untouched for final score before locked candidate and comparator runs; freeze and source hashes in release3-lock.json.",
+  "known_label_errors_release2": [
+    "no_tool-11: correct spoken date rejected by overly narrow numeric regex",
+    "no_tool-12: correct spoken number rejected by numeric regex",
+    "language-05: valid review advice failed incomplete keyword regex"
+  ],
+  "handling": "Retain raw scores and report label issues. Both4B and9B still have4/24 real false tool calls in release2, so correction would not change their rejection at that stage. Release3 allows spoken date/number and broader review keyword before outputs.",
+  "human_voice_rating": "Not performed. Signal/timing/waveform metrics cannot establish naturalness or MOS.",
+  "confirmation_limit": "release3 is procedurally frozen but related question families and same-author validators. 24 no-tool cases do not establish a population false-call rate ≤5%. Language proxy does not establish human-rated fluency.",
+  "speech_search_inputs": {
+    "ambiguous_blue_sky": "G1 stimuli/stimuli.json, sha4549947c7bd4d8426d62414057a1112abeed29a81555af0c361c5c8d97bdea7c; retained as known failure probe",
+    "matched_final_g1": "G1 stimuli/supplementary.json weather request, shaa0fc27c9c9e54111411b82f20156e6f54e77762bc1942dcd4f5b6e845ca34c8c; measured separately",
+    "comparison_scope": "Direct two WAVs identical across both G1 stimulus files. Do not compare failed blue-sky speech search with G1 final weather search as if identical input."
+  }
+}

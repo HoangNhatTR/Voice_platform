@@ -106,3 +106,27 @@ async def test_the_opener_never_lands_inside_the_streamed_text(config):
     finally:
         await engine.close()
         await engine.models.close()
+
+
+async def test_cached_opener_is_not_an_example_in_future_llm_history(config):
+    config.conversation.opener.after_ms = 60
+    config.models.llm.options = {"first_token_delay_ms":100,"token_delay_ms":20,
+                                "reply":"Đây là câu trả lời chính."}
+    engine, _, _ = await _run(config)
+    assert _openers(engine)
+    assert config.conversation.opener.text not in engine.context.turns[-1].spoken_text
+    assistants=[m.content for m in engine.context.messages() if m.role=="assistant"]
+    assert assistants == ["Đây là câu trả lời chính."]
+
+
+async def test_only_acknowledgements_are_not_successful_content(config):
+    config.conversation.opener.enabled = False
+    config.models.llm.options = {"first_token_delay_ms":1,"token_delay_ms":1,
+                                "reply":"Vâng. Vâng. Vâng."}
+    engine, sink, metrics = await _run(config)
+    trace=engine.trace.turn(engine.gen.turn_id)
+    assert sink.audio
+    assert trace.outcome()["answered"]
+    assert not trace.outcome()["has_content"]
+    assert not trace.outcome()["success"]
+    assert metrics["first_content_audio_sent_ms"] is None

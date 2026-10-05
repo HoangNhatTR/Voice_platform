@@ -15,5 +15,12 @@ from typing import Protocol, runtime_checkable
 class TurnDetector(Protocol):
     name: str
 
-    async def required_silence_ms(self, *, text: str, utterance_ms: float) -> float:
-        """Silence needed, in ms, before this utterance counts as finished."""
+    async def required_silence_ms(
+        self, *, text: str, utterance_ms: float, stable: bool = False
+    ) -> float:
+        """Silence needed, in ms, before this utterance counts as finished.
+
+        `stable` means `text` was decoded from ALL the speech so far (the
+        endpoint decode), not a partial that may be missing the last words.
+        Only a stable transcript may shorten the wait below the base pause.
+        """

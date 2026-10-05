@@ -1,0 +1,4487 @@
+{
+  "readiness": {
+    "ok": true,
+    "started": true,
+    "maintenance": false,
+    "dependencies": {
+      "llm": {
+        "ok": true
+      },
+      "search": {
+        "ok": true
+      }
+    },
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "4a7310b0f48ba329dc8f7261c2b22406d9355fc100737f1db726c43fdce2e9c3",
+      "config_sha256": "e8b03448fdcd9d067f35af29b1ff498d057b43dfce35f09f7ea2e1f99b56b8a5",
+      "started_at": "2026-09-29T07:12:18.635274+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "max_sessions": 3
+  },
+  "scenarios": [
+    {
+      "name": "full_turn",
+      "ok": true,
+      "detail": "tiếng đầu sau 1187 ms kể từ lúc hết câu · ASR: “bây giờ là mấy giờ rồi”",
+      "timeline": {
+        "session_id": "s0007-1ee1b431",
+        "state": "idle",
+        "counters": {
+          "frames_in": 532
+        },
+        "stale_drops": 0,
+        "turns": [
+          {
+            "schema_version": 2,
+            "outcome": {
+              "success": true,
+              "answered": true,
+              "has_content": true,
+              "fallback": false,
+              "cancelled": false,
+              "errors": []
+            },
+            "llm_rounds": [
+              {
+                "request_id": "82a5e0e033774688",
+                "stage": "llm",
+                "role": null,
+                "operation": null,
+                "round": 0,
+                "phrase_id": null,
+                "queue_ms": 0.007,
+                "outcome": "complete",
+                "request_ttft_ms": null,
+                "request_first_tool_ms": 362.176,
+                "request_total_ms": 596.609,
+                "prompt_chars": 468,
+                "message_count": 2,
+                "usage": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0,
+                  "completion_tokens": 14,
+                  "prompt_tokens": 489,
+                  "total_tokens": 503,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 238
+                  },
+                  "native_timings": {
+                    "cache_n": 238,
+                    "prompt_n": 251,
+                    "prompt_ms": 165.403,
+                    "prompt_per_token_ms": 0.6589760956175299,
+                    "prompt_per_second": 1517.505728432979,
+                    "predicted_n": 14,
+                    "predicted_ms": 418.073,
+                    "predicted_per_token_ms": 29.862357142857142,
+                    "predicted_per_second": 33.48697476278066
+                  }
+                },
+                "prompt_tokens_counted": 489,
+                "prompt_tokens_before_trim": 489,
+                "prompt_budget_tokens": 1800,
+                "prompt_groups_dropped": 0,
+                "prompt_count_basis": "native_chat_template",
+                "prompt_prepare_ms": 20.69035315513611
+              },
+              {
+                "request_id": "0f784203b9ee4000",
+                "stage": "llm",
+                "role": null,
+                "operation": null,
+                "round": 1,
+                "phrase_id": null,
+                "queue_ms": 0.01,
+                "outcome": "complete",
+                "request_ttft_ms": 166.719,
+                "request_first_tool_ms": null,
+                "request_total_ms": 862.032,
+                "prompt_chars": 526,
+                "message_count": 3,
+                "usage": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1,
+                  "completion_tokens": 30,
+                  "prompt_tokens": 526,
+                  "total_tokens": 556,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 470
+                  },
+                  "native_timings": {
+                    "cache_n": 470,
+                    "prompt_n": 56,
+                    "prompt_ms": 154.182,
+                    "prompt_per_token_ms": 2.75325,
+                    "prompt_per_second": 363.20711885952966,
+                    "predicted_n": 30,
+                    "predicted_ms": 694.321,
+                    "predicted_per_token_ms": 23.144033333333333,
+                    "predicted_per_second": 43.207680597302975
+                  }
+                },
+                "prompt_tokens_counted": 526,
+                "prompt_tokens_before_trim": 526,
+                "prompt_budget_tokens": 1800,
+                "prompt_groups_dropped": 0,
+                "prompt_count_basis": "native_chat_template",
+                "prompt_prepare_ms": 15.229166984558105
+              }
+            ],
+            "operations": [
+              {
+                "request_id": "d0ad5db5258d4888",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.023,
+                "outcome": "complete",
+                "compute_ms": 19.60360598564148,
+                "audio_ms": 800.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "eb4b3d92395b4207",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.017,
+                "outcome": "complete",
+                "compute_ms": 23.467470169067383,
+                "audio_ms": 1300.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "d4f32a5ebc8848be",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.034,
+                "outcome": "complete",
+                "compute_ms": 31.4015371799469,
+                "audio_ms": 1800.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "264fbf9954714429",
+                "stage": "asr",
+                "role": null,
+                "operation": "final",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.008,
+                "outcome": "complete",
+                "compute_ms": 44.458747148513794,
+                "audio_ms": 1960.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "15f2d8f62b9d4de8",
+                "stage": "tool",
+                "role": null,
+                "operation": null,
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.01,
+                "outcome": "complete",
+                "compute_ms": 0.02619314193725586,
+                "audio_ms": null,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "054240db8c234e27",
+                "stage": "tts",
+                "role": "content",
+                "operation": null,
+                "round": null,
+                "phrase_id": "g1-p2",
+                "queue_ms": 0.018,
+                "outcome": "complete",
+                "compute_ms": 1669.0886554718018,
+                "audio_ms": 2480.0,
+                "rtf": 0.6730196191418556,
+                "first_chunk_ms": 174.037,
+                "lock_wait_ms": 0.0029277801513671875
+              },
+              {
+                "request_id": "25237c5c74594e5d",
+                "stage": "tts",
+                "role": "content",
+                "operation": null,
+                "round": null,
+                "phrase_id": "g1-p3",
+                "queue_ms": 0.024,
+                "outcome": "complete",
+                "compute_ms": 1650.1226921081543,
+                "audio_ms": 3280.0,
+                "rtf": 0.5030861866183397,
+                "first_chunk_ms": 67.421,
+                "lock_wait_ms": 0.32538914680480957
+              }
+            ],
+            "phrases": [
+              {
+                "phrase_id": "g1-p1",
+                "role": "filler",
+                "text": "Vâng.",
+                "chars": 5,
+                "words": 1,
+                "cached": true,
+                "ready_at_ms": 1123575162.725793,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": 1123575162.977275,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": 0.12531709671020508,
+                "total_ms": 0.7532930374145508,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p2",
+                "role": "content",
+                "text": "Bây giờ là 14 giờ 56 phút,",
+                "chars": 26,
+                "words": 7,
+                "cached": false,
+                "ready_at_ms": 1123575464.891502,
+                "queue_ms": 0.018,
+                "first_chunk_ms": 174.037,
+                "compute_ms": 1669.0886554718018,
+                "audio_ms": 2480.0,
+                "rtf": 0.6730196191418556,
+                "lock_wait_ms": 0.0029277801513671875,
+                "audio_sent_at_ms": 1123575640.284092,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": 0.21581673622131348,
+                "total_ms": 1679.2284879684448,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p3",
+                "role": "content",
+                "text": "thứ Ba ngày 29 tháng 9 năm 2026.",
+                "chars": 32,
+                "words": 8,
+                "cached": false,
+                "ready_at_ms": 1123575857.931539,
+                "queue_ms": 0.024,
+                "first_chunk_ms": 67.421,
+                "compute_ms": 1650.1226921081543,
+                "audio_ms": 3280.0,
+                "rtf": 0.5030861866183397,
+                "lock_wait_ms": 0.32538914680480957,
+                "audio_sent_at_ms": 1123577213.108001,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": 1286.585953950882,
+                "total_ms": 1663.9430379867554,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              }
+            ],
+            "session_id": "s0007-1ee1b431",
+            "turn_id": 1,
+            "metrics": {
+              "endpoint_ms": 240.4,
+              "asr_stream_duration_ms": 1684.4,
+              "asr_final_ms": 44.6,
+              "asr_first_partial_ms": 519.7,
+              "llm_ttft_ms": 166.719,
+              "llm_total_ms": 1458.641,
+              "tts_ttfa_ms": 0.2,
+              "tool_ms": 0.1,
+              "e2e_ttfa_ms": 845.0,
+              "response_total_ms": 4490.6,
+              "barge_in_stop_ms": null,
+              "first_phrase_ready_ms": 1147.0,
+              "first_any_audio_sent_ms": 845.086,
+              "first_content_audio_sent_ms": 1322.393,
+              "content_playback_start_ms": null,
+              "content_playback_signal_ms": null,
+              "last_voice_to_content_sent_ms": 1802.494,
+              "content_underruns": 0,
+              "content_gap_ms": 0,
+              "content_phrase_gap_ms": 0,
+              "playback_clock_uncertainty_ms": null
+            },
+            "events": [
+              {
+                "type": "state_changed",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123572678.204,
+                "data": {
+                  "previous": "idle",
+                  "current": "listening",
+                  "reason": "speech started"
+                }
+              },
+              {
+                "type": "turn_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123572678.223
+              },
+              {
+                "type": "asr_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123572678.273
+              },
+              {
+                "type": "vad_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123572678.314,
+                "data": {
+                  "rms": 0.08371
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573158.341,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "d0ad5db5258d4888",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573158.361,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "d0ad5db5258d4888",
+                  "operation": "partial",
+                  "queue_ms": 0.02323293685913086,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573158.369,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "d0ad5db5258d4888",
+                  "operation": "partial",
+                  "audio_ms": 800.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573177.972,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "d0ad5db5258d4888",
+                  "operation": "partial",
+                  "compute_ms": 19.60360598564148,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_first_partial",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573198.021,
+                "data": {
+                  "text": "bây giờ"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573198.03,
+                "data": {
+                  "text": "bây giờ"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573658.065,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "eb4b3d92395b4207",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573658.081,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "eb4b3d92395b4207",
+                  "operation": "partial",
+                  "queue_ms": 0.016881227493286133,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573658.087,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "eb4b3d92395b4207",
+                  "operation": "partial",
+                  "audio_ms": 1300.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573681.554,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "eb4b3d92395b4207",
+                  "operation": "partial",
+                  "compute_ms": 23.467470169067383,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123573697.918,
+                "data": {
+                  "text": "bây giờ là mấy giờ"
+                }
+              },
+              {
+                "type": "vad_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123574077.475,
+                "data": {
+                  "utterance_ms": 1720.0
+                }
+              },
+              {
+                "type": "endpoint_candidate",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123574077.53,
+                "data": {
+                  "required_silence_ms": 480,
+                  "text": "bây giờ là mấy giờ"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123574158.014,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "d4f32a5ebc8848be",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123574158.033,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "d4f32a5ebc8848be",
+                  "operation": "partial",
+                  "queue_ms": 0.03353691101074219,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123574158.04,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "d4f32a5ebc8848be",
+                  "operation": "partial",
+                  "audio_ms": 1800.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123574189.441,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "d4f32a5ebc8848be",
+                  "operation": "partial",
+                  "compute_ms": 31.4015371799469,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123574197.888,
+                "data": {
+                  "text": "bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123574317.865,
+                "data": {
+                  "previous": "listening",
+                  "current": "thinking",
+                  "reason": "silence 480ms"
+                }
+              },
+              {
+                "type": "speech_last_frame",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123573837.79,
+                "data": {
+                  "audio_clock_ms": 2760.0,
+                  "basis": "server_ingress_vad"
+                }
+              },
+              {
+                "type": "turn_confirmed",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574317.891,
+                "data": {
+                  "reason": "silence 480ms",
+                  "utterance_ms": 1960.0
+                }
+              },
+              {
+                "type": "asr_finalize_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574318.051,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "fcd93e1207ee4482",
+                  "operation": "final"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574318.142,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "264fbf9954714429",
+                  "operation": "final",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574318.149,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "264fbf9954714429",
+                  "operation": "final",
+                  "queue_ms": 0.00774383544921875,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574318.153,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "264fbf9954714429",
+                  "operation": "final",
+                  "audio_ms": 1960.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574362.612,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "264fbf9954714429",
+                  "operation": "final",
+                  "compute_ms": 44.458747148513794,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_finalize_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574362.665,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "fcd93e1207ee4482",
+                  "operation": "final"
+                }
+              },
+              {
+                "type": "asr_final",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574362.709,
+                "data": {
+                  "text": "bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "llm_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574362.839,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574362.907,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0,
+                  "priority": "speech",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574362.913,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0,
+                  "priority": "speech",
+                  "queue_ms": 0.00683283805847168,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "llm_request_sent",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574383.638,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0,
+                  "prompt_chars": 468,
+                  "message_count": 2,
+                  "tools": 2,
+                  "prompt_tokens_counted": 489,
+                  "prompt_tokens_before_trim": 489,
+                  "prompt_budget_tokens": 1800,
+                  "prompt_groups_dropped": 0,
+                  "prompt_count_basis": "native_chat_template",
+                  "prompt_prepare_ms": 20.69035315513611
+                }
+              },
+              {
+                "type": "llm_first_tool_delta",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574745.814,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0
+                }
+              },
+              {
+                "type": "llm_usage",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574979.563,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0,
+                  "completion_tokens": 14,
+                  "prompt_tokens": 489,
+                  "total_tokens": 503,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 238
+                  },
+                  "native_timings": {
+                    "cache_n": 238,
+                    "prompt_n": 251,
+                    "prompt_ms": 165.403,
+                    "prompt_per_token_ms": 0.6589760956175299,
+                    "prompt_per_second": 1517.505728432979,
+                    "predicted_n": 14,
+                    "predicted_ms": 418.073,
+                    "predicted_per_token_ms": 29.862357142857142,
+                    "predicted_per_second": 33.48697476278066
+                  }
+                }
+              },
+              {
+                "type": "llm_terminated",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.185,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "llm_complete",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.247,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "82a5e0e033774688",
+                  "round": 0
+                }
+              },
+              {
+                "type": "tool_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.377,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "15f2d8f62b9d4de8",
+                  "tool": "clock",
+                  "arguments": {}
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.402,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "15f2d8f62b9d4de8",
+                  "tool": "clock",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.411,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "15f2d8f62b9d4de8",
+                  "tool": "clock",
+                  "queue_ms": 0.010240793228149414,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.415,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "15f2d8f62b9d4de8",
+                  "tool": "clock"
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.441,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "15f2d8f62b9d4de8",
+                  "tool": "clock",
+                  "compute_ms": 0.02619314193725586,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "tool_complete",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.458,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "15f2d8f62b9d4de8",
+                  "tool": "clock",
+                  "latency_ms": 0.1
+                }
+              },
+              {
+                "type": "llm_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.533,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.602,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1,
+                  "priority": "speech",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574980.611,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1,
+                  "priority": "speech",
+                  "queue_ms": 0.010048151016235352,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "llm_request_sent",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123574995.903,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1,
+                  "prompt_chars": 526,
+                  "message_count": 3,
+                  "tools": 2,
+                  "prompt_tokens_counted": 526,
+                  "prompt_tokens_before_trim": 526,
+                  "prompt_budget_tokens": 1800,
+                  "prompt_groups_dropped": 0,
+                  "prompt_count_basis": "native_chat_template",
+                  "prompt_prepare_ms": 15.229166984558105
+                }
+              },
+              {
+                "type": "llm_first_token",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575162.622,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1
+                }
+              },
+              {
+                "type": "filler",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575162.703,
+                "data": {
+                  "text": "Vâng.",
+                  "source": "opener"
+                }
+              },
+              {
+                "type": "tts_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575162.716
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575162.726,
+                "data": {
+                  "phrase_id": "g1-p1",
+                  "role": "filler",
+                  "text": "Vâng.",
+                  "chars": 5,
+                  "words": 1,
+                  "cached": true
+                }
+              },
+              {
+                "type": "tts_first_audio",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575162.875,
+                "data": {
+                  "sample_rate": 24000
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575162.882,
+                "data": {
+                  "previous": "thinking",
+                  "current": "speaking",
+                  "reason": "first audio"
+                }
+              },
+              {
+                "type": "audio_sent",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575162.977,
+                "data": {
+                  "phrase_id": "g1-p1",
+                  "role": "filler"
+                }
+              },
+              {
+                "type": "tts_phrase_complete",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575163.602,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "744e13dc0dd046a7",
+                  "phrase_id": "g1-p1",
+                  "role": "filler",
+                  "cached": true,
+                  "total_ms": 0.7532930374145508,
+                  "audio_ms": 480.0,
+                  "chunks": 3,
+                  "phrase_wait_ms": 0.12531709671020508
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575464.892,
+                "data": {
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "text": "Bây giờ là 14 giờ 56 phút,",
+                  "chars": 26,
+                  "words": 7,
+                  "cached": false
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575465.145,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "054240db8c234e27",
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "cached": false,
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575465.162,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "054240db8c234e27",
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "cached": false,
+                  "queue_ms": 0.018496036529541016,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "tts_lock_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575465.205,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "054240db8c234e27",
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "cached": false,
+                  "lock_wait_ms": 0.0029277801513671875
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575465.488,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "054240db8c234e27",
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "tts_chunk_ready",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575639.525,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "054240db8c234e27",
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "audio_sent",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575640.284,
+                "data": {
+                  "phrase_id": "g1-p2",
+                  "role": "content"
+                }
+              },
+              {
+                "type": "llm_usage",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575857.144,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1,
+                  "completion_tokens": 30,
+                  "prompt_tokens": 526,
+                  "total_tokens": 556,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 470
+                  },
+                  "native_timings": {
+                    "cache_n": 470,
+                    "prompt_n": 56,
+                    "prompt_ms": 154.182,
+                    "prompt_per_token_ms": 2.75325,
+                    "prompt_per_second": 363.20711885952966,
+                    "predicted_n": 30,
+                    "predicted_ms": 694.321,
+                    "predicted_per_token_ms": 23.144033333333333,
+                    "predicted_per_second": 43.207680597302975
+                  }
+                }
+              },
+              {
+                "type": "llm_terminated",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575857.854,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575857.932,
+                "data": {
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "text": "thứ Ba ngày 29 tháng 9 năm 2026.",
+                  "chars": 32,
+                  "words": 8,
+                  "cached": false
+                }
+              },
+              {
+                "type": "llm_complete",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123575857.934,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "0f784203b9ee4000",
+                  "round": 1
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123577144.157,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "054240db8c234e27",
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "cached": false,
+                  "compute_ms": 1669.0886554718018,
+                  "audio_ms": 2480.0,
+                  "rtf": 0.6730196191418556,
+                  "chunks": 6,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "tts_phrase_complete",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123577144.323,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "054240db8c234e27",
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "cached": false,
+                  "total_ms": 1679.2284879684448,
+                  "audio_ms": 2480.0,
+                  "chunks": 6,
+                  "phrase_wait_ms": 0.21581673622131348
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123577144.575,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "25237c5c74594e5d",
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "cached": false,
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123577144.596,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "25237c5c74594e5d",
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "cached": false,
+                  "queue_ms": 0.023681163787841797,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "tts_lock_acquired",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123577144.951,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "25237c5c74594e5d",
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "cached": false,
+                  "lock_wait_ms": 0.32538914680480957
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123577145.188,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "25237c5c74594e5d",
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "tts_chunk_ready",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123577212.609,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "25237c5c74594e5d",
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "audio_sent",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123577213.108,
+                "data": {
+                  "phrase_id": "g1-p3",
+                  "role": "content"
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123578808.359,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "25237c5c74594e5d",
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "cached": false,
+                  "compute_ms": 1650.1226921081543,
+                  "audio_ms": 3280.0,
+                  "rtf": 0.5030861866183397,
+                  "chunks": 8,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "tts_phrase_complete",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123578808.458,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "25237c5c74594e5d",
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "cached": false,
+                  "total_ms": 1663.9430379867554,
+                  "audio_ms": 3280.0,
+                  "chunks": 8,
+                  "phrase_wait_ms": 1286.585953950882
+                }
+              },
+              {
+                "type": "tts_complete",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123578808.505,
+                "data": {
+                  "phrases": 3
+                }
+              },
+              {
+                "type": "turn_end",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123581731.505,
+                "data": {
+                  "answered": true
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0007-1ee1b431",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123581731.525,
+                "data": {
+                  "previous": "speaking",
+                  "current": "idle",
+                  "reason": "turn finished"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "counters": {
+        "frames_in": 550
+      },
+      "assistant_text": "Bây giờ là 14 giờ 56 phút, thứ Ba ngày 29 tháng 9 năm 2026.",
+      "audio_frames": 156
+    },
+    {
+      "name": "interrupt",
+      "ok": true,
+      "detail": "dừng sau 151 ms kể từ lúc bắt đầu nói chen · tiếng cũ lọt sau reset: không · trả lời câu mới: có (“thôi bây giờ là mấy giờ rồi”)",
+      "timeline": {
+        "session_id": "s0008-b17fbc16",
+        "state": "idle",
+        "counters": {
+          "frames_in": 811,
+          "barge_ins": 1
+        },
+        "stale_drops": 0,
+        "turns": [
+          {
+            "schema_version": 2,
+            "outcome": {
+              "success": false,
+              "answered": false,
+              "has_content": true,
+              "fallback": false,
+              "cancelled": true,
+              "errors": []
+            },
+            "llm_rounds": [
+              {
+                "request_id": "89f111aa72be402d",
+                "stage": "llm",
+                "role": null,
+                "operation": null,
+                "round": 0,
+                "phrase_id": null,
+                "queue_ms": 0.02,
+                "outcome": "complete",
+                "request_ttft_ms": 120.249,
+                "request_first_tool_ms": null,
+                "request_total_ms": 3336.691,
+                "prompt_chars": 518,
+                "message_count": 2,
+                "usage": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0,
+                  "completion_tokens": 120,
+                  "prompt_tokens": 502,
+                  "total_tokens": 622,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 470
+                  },
+                  "native_timings": {
+                    "cache_n": 470,
+                    "prompt_n": 32,
+                    "prompt_ms": 107.961,
+                    "prompt_per_token_ms": 3.37378125,
+                    "prompt_per_second": 296.40333083243024,
+                    "predicted_n": 120,
+                    "predicted_ms": 3215.479,
+                    "predicted_per_token_ms": 26.795658333333332,
+                    "predicted_per_second": 37.31947868420227
+                  }
+                },
+                "prompt_tokens_counted": 502,
+                "prompt_tokens_before_trim": 502,
+                "prompt_budget_tokens": 1800,
+                "prompt_groups_dropped": 0,
+                "prompt_count_basis": "native_chat_template",
+                "prompt_prepare_ms": 14.577263832092285
+              }
+            ],
+            "operations": [
+              {
+                "request_id": "e0ba5434b25f41c3",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.021,
+                "outcome": "complete",
+                "compute_ms": 22.81742525100708,
+                "audio_ms": 800.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "f8951304034a4c89",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.014,
+                "outcome": "complete",
+                "compute_ms": 23.362040042877197,
+                "audio_ms": 1300.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "9b308e3e7da94926",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.012,
+                "outcome": "complete",
+                "compute_ms": 32.40829873085022,
+                "audio_ms": 1800.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "4687d6d212fc4a27",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.018,
+                "outcome": "complete",
+                "compute_ms": 48.89989495277405,
+                "audio_ms": 2300.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "bb9e434c2d074f8b",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.012,
+                "outcome": "complete",
+                "compute_ms": 37.16714406013489,
+                "audio_ms": 2800.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "b5a30452cd5144ad",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.017,
+                "outcome": "complete",
+                "compute_ms": 36.493680000305176,
+                "audio_ms": 3300.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "3770d470891346b0",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.024,
+                "outcome": "complete",
+                "compute_ms": 63.74760293960571,
+                "audio_ms": 3800.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "28222396bbf54469",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.013,
+                "outcome": "complete",
+                "compute_ms": 42.51948809623718,
+                "audio_ms": 4300.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "f67b973d824a43e6",
+                "stage": "asr",
+                "role": null,
+                "operation": "final",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.008,
+                "outcome": "complete",
+                "compute_ms": 38.84991812705994,
+                "audio_ms": 4320.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "414d335bd0774e28",
+                "stage": "tts",
+                "role": "content",
+                "operation": null,
+                "round": null,
+                "phrase_id": "g1-p1",
+                "queue_ms": 0.014,
+                "outcome": "cancelled",
+                "compute_ms": 2094.683838367462,
+                "audio_ms": 1840.0,
+                "rtf": 1.1384151295475338,
+                "first_chunk_ms": 166.972,
+                "lock_wait_ms": 0.0029277801513671875
+              }
+            ],
+            "phrases": [
+              {
+                "phrase_id": "g1-p1",
+                "role": "content",
+                "text": "Có một câu chuyện cổ tích nổi tiếng về con",
+                "chars": 42,
+                "words": 10,
+                "cached": false,
+                "ready_at_ms": 1123589122.528827,
+                "queue_ms": 0.014,
+                "first_chunk_ms": 166.972,
+                "compute_ms": 2094.683838367462,
+                "audio_ms": 1840.0,
+                "rtf": 1.1384151295475338,
+                "lock_wait_ms": 0.0029277801513671875,
+                "audio_sent_at_ms": 1123589292.156039,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": null,
+                "total_ms": null,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p2",
+                "role": "content",
+                "text": "cáo và con quạ. Con quạ đang đậu trên cành cây,",
+                "chars": 47,
+                "words": 11,
+                "cached": false,
+                "ready_at_ms": 1123589521.125695,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": null,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": null,
+                "total_ms": null,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p3",
+                "role": "content",
+                "text": "mỏ đầy thức ăn. Con cáo đi ngang qua, thấy con quạ đẹp và muốn ăn.",
+                "chars": 66,
+                "words": 16,
+                "cached": false,
+                "ready_at_ms": 1123589976.945561,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": null,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": null,
+                "total_ms": null,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p4",
+                "role": "content",
+                "text": "Cáo bắt đầu nói những lời ngọt ngào, khen con quạ đẹp và nói rằng nó đang ở trong một nơi",
+                "chars": 89,
+                "words": 21,
+                "cached": false,
+                "ready_at_ms": 1123590667.322875,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": null,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": null,
+                "total_ms": null,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p5",
+                "role": "content",
+                "text": "rất cao, không ai có thể tiếp cận được.",
+                "chars": 39,
+                "words": 9,
+                "cached": false,
+                "ready_at_ms": 1123591105.4081578,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": null,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": null,
+                "total_ms": null,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p6",
+                "role": "content",
+                "text": "Con quạ nghe vậy rất vui và tự tin.",
+                "chars": 35,
+                "words": 9,
+                "cached": false,
+                "ready_at_ms": 1123591424.244799,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": null,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": null,
+                "total_ms": null,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p7",
+                "role": "content",
+                "text": "Cáo tiếp tục nói rằng con quạ có thể bay xuống đất và ăn những thứ ngon lành mà con quạ",
+                "chars": 87,
+                "words": 21,
+                "cached": false,
+                "ready_at_ms": 1123592018.913142,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": null,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": null,
+                "total_ms": null,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g1-p8",
+                "role": "content",
+                "text": "đang giữ trong mỏ",
+                "chars": 17,
+                "words": 4,
+                "cached": false,
+                "ready_at_ms": 1123592088.8081849,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": null,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": null,
+                "total_ms": null,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              }
+            ],
+            "session_id": "s0008-b17fbc16",
+            "turn_id": 1,
+            "metrics": {
+              "endpoint_ms": 238.9,
+              "asr_stream_duration_ms": 4039.2,
+              "asr_final_ms": 39.1,
+              "asr_first_partial_ms": 520.2,
+              "llm_ttft_ms": 120.249,
+              "llm_total_ms": 3336.691,
+              "tts_ttfa_ms": 169.3,
+              "tool_ms": null,
+              "e2e_ttfa_ms": 594.3,
+              "response_total_ms": null,
+              "barge_in_stop_ms": 0.5,
+              "first_phrase_ready_ms": 424.942,
+              "first_any_audio_sent_ms": 594.569,
+              "first_content_audio_sent_ms": 594.569,
+              "content_playback_start_ms": null,
+              "content_playback_signal_ms": null,
+              "last_voice_to_content_sent_ms": 1074.225,
+              "content_underruns": 0,
+              "content_gap_ms": 0,
+              "content_phrase_gap_ms": 0,
+              "playback_clock_uncertainty_ms": null
+            },
+            "events": [
+              {
+                "type": "state_changed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123584697.737,
+                "data": {
+                  "previous": "idle",
+                  "current": "listening",
+                  "reason": "speech started"
+                }
+              },
+              {
+                "type": "turn_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123584697.753
+              },
+              {
+                "type": "asr_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123584697.798
+              },
+              {
+                "type": "vad_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123584697.826,
+                "data": {
+                  "rms": 0.16037
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585178.394,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "e0ba5434b25f41c3",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585178.412,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "e0ba5434b25f41c3",
+                  "operation": "partial",
+                  "queue_ms": 0.02102494239807129,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585178.421,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "e0ba5434b25f41c3",
+                  "operation": "partial",
+                  "audio_ms": 800.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585201.237,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "e0ba5434b25f41c3",
+                  "operation": "partial",
+                  "compute_ms": 22.81742525100708,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_first_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585218.04,
+                "data": {
+                  "text": "bạn kêu cho"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585218.048,
+                "data": {
+                  "text": "bạn kêu cho"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585677.41,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "f8951304034a4c89",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585677.423,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "f8951304034a4c89",
+                  "operation": "partial",
+                  "queue_ms": 0.013936042785644531,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585677.427,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "f8951304034a4c89",
+                  "operation": "partial",
+                  "audio_ms": 1300.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585700.79,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "f8951304034a4c89",
+                  "operation": "partial",
+                  "compute_ms": 23.362040042877197,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123585717.586,
+                "data": {
+                  "text": "bạn kể cho tôi nghe một"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586178.324,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "9b308e3e7da94926",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586178.335,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "9b308e3e7da94926",
+                  "operation": "partial",
+                  "queue_ms": 0.011873245239257812,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586178.339,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "9b308e3e7da94926",
+                  "operation": "partial",
+                  "audio_ms": 1800.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586210.749,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "9b308e3e7da94926",
+                  "operation": "partial",
+                  "compute_ms": 32.40829873085022,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586218.193,
+                "data": {
+                  "text": "bạn kể cho tôi nghe một câu chuyện cổ"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586678.532,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "4687d6d212fc4a27",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586678.549,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "4687d6d212fc4a27",
+                  "operation": "partial",
+                  "queue_ms": 0.018336772918701172,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586678.556,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "4687d6d212fc4a27",
+                  "operation": "partial",
+                  "audio_ms": 2300.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586727.456,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "4687d6d212fc4a27",
+                  "operation": "partial",
+                  "compute_ms": 48.89989495277405,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123586737.64,
+                "data": {
+                  "text": "bạn kể cho tôi nghe một câu chuyện cổ tích ngắn"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587177.827,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "bb9e434c2d074f8b",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587177.838,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "bb9e434c2d074f8b",
+                  "operation": "partial",
+                  "queue_ms": 0.012145042419433594,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587177.842,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "bb9e434c2d074f8b",
+                  "operation": "partial",
+                  "audio_ms": 2800.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587215.01,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "bb9e434c2d074f8b",
+                  "operation": "partial",
+                  "compute_ms": 37.16714406013489,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587217.534,
+                "data": {
+                  "text": "bạn kể cho tôi nghe một câu chuyện cổ tích ngắn về con"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587678.345,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "b5a30452cd5144ad",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587678.361,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "b5a30452cd5144ad",
+                  "operation": "partial",
+                  "queue_ms": 0.016896963119506836,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587678.367,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "b5a30452cd5144ad",
+                  "operation": "partial",
+                  "audio_ms": 3300.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587714.861,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "b5a30452cd5144ad",
+                  "operation": "partial",
+                  "compute_ms": 36.493680000305176,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123587718.2,
+                "data": {
+                  "text": "bạn kể cho tôi nghe một câu chuyện cổ tích ngắn về con cáo và"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588178.624,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "3770d470891346b0",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588178.649,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "3770d470891346b0",
+                  "operation": "partial",
+                  "queue_ms": 0.024144887924194336,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588178.666,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "3770d470891346b0",
+                  "operation": "partial",
+                  "audio_ms": 3800.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588242.409,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "3770d470891346b0",
+                  "operation": "partial",
+                  "compute_ms": 63.74760293960571,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588257.808,
+                "data": {
+                  "text": "bạn kể cho tôi nghe một câu chuyện cổ tích ngắn về con cáo và con quạt đi"
+                }
+              },
+              {
+                "type": "vad_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588458.615,
+                "data": {
+                  "utterance_ms": 4080.0
+                }
+              },
+              {
+                "type": "endpoint_candidate",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588458.67,
+                "data": {
+                  "required_silence_ms": 480,
+                  "text": "bạn kể cho tôi nghe một câu chuyện cổ tích ngắn về con cáo và con quạt đi"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588678.189,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "28222396bbf54469",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588678.201,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "28222396bbf54469",
+                  "operation": "partial",
+                  "queue_ms": 0.012896060943603516,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588678.206,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "28222396bbf54469",
+                  "operation": "partial",
+                  "audio_ms": 4300.0
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588697.563,
+                "data": {
+                  "previous": "listening",
+                  "current": "thinking",
+                  "reason": "silence 480ms"
+                }
+              },
+              {
+                "type": "speech_last_frame",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588217.931,
+                "data": {
+                  "audio_clock_ms": 5120.0,
+                  "basis": "server_ingress_vad"
+                }
+              },
+              {
+                "type": "turn_confirmed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588697.587,
+                "data": {
+                  "reason": "silence 480ms",
+                  "utterance_ms": 4320.0
+                }
+              },
+              {
+                "type": "asr_finalize_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588697.716,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "324fbaccdf1342eb",
+                  "operation": "final"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588697.934,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "f67b973d824a43e6",
+                  "operation": "final",
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588697.942,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "f67b973d824a43e6",
+                  "operation": "final",
+                  "queue_ms": 0.008337020874023438,
+                  "active": 2,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588697.945,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "f67b973d824a43e6",
+                  "operation": "final",
+                  "audio_ms": 4320.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123588720.726,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "28222396bbf54469",
+                  "operation": "partial",
+                  "compute_ms": 42.51948809623718,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588736.796,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "f67b973d824a43e6",
+                  "operation": "final",
+                  "compute_ms": 38.84991812705994,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_finalize_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588736.865,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "324fbaccdf1342eb",
+                  "operation": "final"
+                }
+              },
+              {
+                "type": "asr_final",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588736.975,
+                "data": {
+                  "text": "bạn kể cho tôi nghe một câu chuyện cổ tích ngắn về con cáo và con quạ đi"
+                }
+              },
+              {
+                "type": "llm_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588737.216,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588737.461,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0,
+                  "priority": "speech",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588737.478,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0,
+                  "priority": "speech",
+                  "queue_ms": 0.02033710479736328,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "llm_request_sent",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588752.122,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0,
+                  "prompt_chars": 518,
+                  "message_count": 2,
+                  "tools": 2,
+                  "prompt_tokens_counted": 502,
+                  "prompt_tokens_before_trim": 502,
+                  "prompt_budget_tokens": 1800,
+                  "prompt_groups_dropped": 0,
+                  "prompt_count_basis": "native_chat_template",
+                  "prompt_prepare_ms": 14.577263832092285
+                }
+              },
+              {
+                "type": "llm_first_token",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123588872.371,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589122.529,
+                "data": {
+                  "phrase_id": "g1-p1",
+                  "role": "content",
+                  "text": "Có một câu chuyện cổ tích nổi tiếng về con",
+                  "chars": 42,
+                  "words": 10,
+                  "cached": false
+                }
+              },
+              {
+                "type": "tts_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589122.586
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589122.801,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "414d335bd0774e28",
+                  "phrase_id": "g1-p1",
+                  "role": "content",
+                  "cached": false,
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589122.814,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "414d335bd0774e28",
+                  "phrase_id": "g1-p1",
+                  "role": "content",
+                  "cached": false,
+                  "queue_ms": 0.014319896697998047,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "tts_lock_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589122.854,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "414d335bd0774e28",
+                  "phrase_id": "g1-p1",
+                  "role": "content",
+                  "cached": false,
+                  "lock_wait_ms": 0.0029277801513671875
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589124.256,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "414d335bd0774e28",
+                  "phrase_id": "g1-p1",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "tts_chunk_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589291.228,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "414d335bd0774e28",
+                  "phrase_id": "g1-p1",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "tts_first_audio",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589291.887,
+                "data": {
+                  "sample_rate": 24000
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589291.907,
+                "data": {
+                  "previous": "thinking",
+                  "current": "speaking",
+                  "reason": "first audio"
+                }
+              },
+              {
+                "type": "audio_sent",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589292.156,
+                "data": {
+                  "phrase_id": "g1-p1",
+                  "role": "content"
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589521.126,
+                "data": {
+                  "phrase_id": "g1-p2",
+                  "role": "content",
+                  "text": "cáo và con quạ. Con quạ đang đậu trên cành cây,",
+                  "chars": 47,
+                  "words": 11,
+                  "cached": false
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123589976.946,
+                "data": {
+                  "phrase_id": "g1-p3",
+                  "role": "content",
+                  "text": "mỏ đầy thức ăn. Con cáo đi ngang qua, thấy con quạ đẹp và muốn ăn.",
+                  "chars": 66,
+                  "words": 16,
+                  "cached": false
+                }
+              },
+              {
+                "type": "barge_in",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123590658.742,
+                "data": {
+                  "reason": "user speech"
+                }
+              },
+              {
+                "type": "cancel",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123590659.034,
+                "data": {
+                  "tasks": 1,
+                  "reason": "user speech"
+                }
+              },
+              {
+                "type": "playback_reset",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123590659.199,
+                "data": {
+                  "generation_id": 1
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": null,
+                "ts_ms": 1123590659.738,
+                "data": {
+                  "previous": "speaking",
+                  "current": "listening",
+                  "reason": "barge-in"
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123590667.323,
+                "data": {
+                  "phrase_id": "g1-p4",
+                  "role": "content",
+                  "text": "Cáo bắt đầu nói những lời ngọt ngào, khen con quạ đẹp và nói rằng nó đang ở trong một nơi",
+                  "chars": 89,
+                  "words": 21,
+                  "cached": false
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123591105.408,
+                "data": {
+                  "phrase_id": "g1-p5",
+                  "role": "content",
+                  "text": "rất cao, không ai có thể tiếp cận được.",
+                  "chars": 39,
+                  "words": 9,
+                  "cached": false
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123591227.646,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "414d335bd0774e28",
+                  "phrase_id": "g1-p1",
+                  "role": "content",
+                  "cached": false,
+                  "compute_ms": 2094.683838367462,
+                  "audio_ms": 1840.0,
+                  "rtf": 1.1384151295475338,
+                  "chunks": 5,
+                  "outcome": "cancelled"
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123591424.245,
+                "data": {
+                  "phrase_id": "g1-p6",
+                  "role": "content",
+                  "text": "Con quạ nghe vậy rất vui và tự tin.",
+                  "chars": 35,
+                  "words": 9,
+                  "cached": false
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123592018.913,
+                "data": {
+                  "phrase_id": "g1-p7",
+                  "role": "content",
+                  "text": "Cáo tiếp tục nói rằng con quạ có thể bay xuống đất và ăn những thứ ngon lành mà con quạ",
+                  "chars": 87,
+                  "words": 21,
+                  "cached": false
+                }
+              },
+              {
+                "type": "llm_usage",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123592088.128,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0,
+                  "completion_tokens": 120,
+                  "prompt_tokens": 502,
+                  "total_tokens": 622,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 470
+                  },
+                  "native_timings": {
+                    "cache_n": 470,
+                    "prompt_n": 32,
+                    "prompt_ms": 107.961,
+                    "prompt_per_token_ms": 3.37378125,
+                    "prompt_per_second": 296.40333083243024,
+                    "predicted_n": 120,
+                    "predicted_ms": 3215.479,
+                    "predicted_per_token_ms": 26.795658333333332,
+                    "predicted_per_second": 37.31947868420227
+                  }
+                }
+              },
+              {
+                "type": "llm_terminated",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123592088.714,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123592088.808,
+                "data": {
+                  "phrase_id": "g1-p8",
+                  "role": "content",
+                  "text": "đang giữ trong mỏ",
+                  "chars": 17,
+                  "words": 4,
+                  "cached": false
+                }
+              },
+              {
+                "type": "llm_complete",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 1,
+                "generation_id": 1,
+                "ts_ms": 1123592088.813,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "89f111aa72be402d",
+                  "round": 0
+                }
+              }
+            ]
+          },
+          {
+            "schema_version": 2,
+            "outcome": {
+              "success": true,
+              "answered": true,
+              "has_content": true,
+              "fallback": false,
+              "cancelled": false,
+              "errors": []
+            },
+            "llm_rounds": [
+              {
+                "request_id": "5da18f888f5845bb",
+                "stage": "llm",
+                "role": null,
+                "operation": null,
+                "round": 0,
+                "phrase_id": null,
+                "queue_ms": 0.015,
+                "outcome": "complete",
+                "request_ttft_ms": null,
+                "request_first_tool_ms": 369.227,
+                "request_total_ms": 495.275,
+                "prompt_chars": 817,
+                "message_count": 4,
+                "usage": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0,
+                  "completion_tokens": 14,
+                  "prompt_tokens": 597,
+                  "total_tokens": 611,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 498
+                  },
+                  "native_timings": {
+                    "cache_n": 498,
+                    "prompt_n": 99,
+                    "prompt_ms": 165.453,
+                    "prompt_per_token_ms": 1.6712424242424242,
+                    "prompt_per_second": 598.3572374027669,
+                    "predicted_n": 14,
+                    "predicted_ms": 304.976,
+                    "predicted_per_token_ms": 21.784,
+                    "predicted_per_second": 45.90525156077855
+                  }
+                },
+                "prompt_tokens_counted": 597,
+                "prompt_tokens_before_trim": 597,
+                "prompt_budget_tokens": 1800,
+                "prompt_groups_dropped": 0,
+                "prompt_count_basis": "native_chat_template",
+                "prompt_prepare_ms": 15.803940057754517
+              },
+              {
+                "request_id": "4e1bb1478e0c4c98",
+                "stage": "llm",
+                "role": null,
+                "operation": null,
+                "round": 1,
+                "phrase_id": null,
+                "queue_ms": 0.004,
+                "outcome": "complete",
+                "request_ttft_ms": 175.031,
+                "request_first_tool_ms": null,
+                "request_total_ms": 926.065,
+                "prompt_chars": 875,
+                "message_count": 5,
+                "usage": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1,
+                  "completion_tokens": 30,
+                  "prompt_tokens": 634,
+                  "total_tokens": 664,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 577
+                  },
+                  "native_timings": {
+                    "cache_n": 577,
+                    "prompt_n": 57,
+                    "prompt_ms": 153.225,
+                    "prompt_per_token_ms": 2.688157894736842,
+                    "prompt_per_second": 372.00195790504165,
+                    "predicted_n": 30,
+                    "predicted_ms": 749.802,
+                    "predicted_per_token_ms": 24.9934,
+                    "predicted_per_second": 40.01056278857619
+                  }
+                },
+                "prompt_tokens_counted": 634,
+                "prompt_tokens_before_trim": 634,
+                "prompt_budget_tokens": 1800,
+                "prompt_groups_dropped": 0,
+                "prompt_count_basis": "native_chat_template",
+                "prompt_prepare_ms": 23.630378007888794
+              }
+            ],
+            "operations": [
+              {
+                "request_id": "58f4bdfd50aa4a72",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.062,
+                "outcome": "complete",
+                "compute_ms": 34.471957206726074,
+                "audio_ms": 800.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "636f736f151c4357",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.02,
+                "outcome": "complete",
+                "compute_ms": 46.96266198158264,
+                "audio_ms": 1300.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "8a0f17d518824f51",
+                "stage": "asr",
+                "role": null,
+                "operation": "partial",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.015,
+                "outcome": "complete",
+                "compute_ms": 37.382538080215454,
+                "audio_ms": 1800.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "6c8d7fe28acb43e4",
+                "stage": "asr",
+                "role": null,
+                "operation": "final",
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.012,
+                "outcome": "complete",
+                "compute_ms": 46.595081090927124,
+                "audio_ms": 2240.0,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "1c645a5ab15f42f8",
+                "stage": "tool",
+                "role": null,
+                "operation": null,
+                "round": null,
+                "phrase_id": null,
+                "queue_ms": 0.009,
+                "outcome": "complete",
+                "compute_ms": 0.039089202880859375,
+                "audio_ms": null,
+                "rtf": null,
+                "first_chunk_ms": null,
+                "lock_wait_ms": null
+              },
+              {
+                "request_id": "f1df6bbd58974b0b",
+                "stage": "tts",
+                "role": "content",
+                "operation": null,
+                "round": null,
+                "phrase_id": "g2-p10",
+                "queue_ms": 0.012,
+                "outcome": "complete",
+                "compute_ms": 1379.4827227592468,
+                "audio_ms": 2080.0,
+                "rtf": 0.6632128474804071,
+                "first_chunk_ms": 133.894,
+                "lock_wait_ms": 0.0026559829711914062
+              },
+              {
+                "request_id": "5923347355794d39",
+                "stage": "tts",
+                "role": "content",
+                "operation": null,
+                "round": null,
+                "phrase_id": "g2-p11",
+                "queue_ms": 0.011,
+                "outcome": "complete",
+                "compute_ms": 1802.3897898197174,
+                "audio_ms": 3200.0,
+                "rtf": 0.5632468093186617,
+                "first_chunk_ms": 79.004,
+                "lock_wait_ms": 0.23216915130615234
+              }
+            ],
+            "phrases": [
+              {
+                "phrase_id": "g2-p9",
+                "role": "filler",
+                "text": "Vâng.",
+                "chars": 5,
+                "words": 1,
+                "cached": true,
+                "ready_at_ms": 1123593405.7791972,
+                "queue_ms": null,
+                "first_chunk_ms": null,
+                "compute_ms": null,
+                "audio_ms": null,
+                "rtf": null,
+                "lock_wait_ms": null,
+                "audio_sent_at_ms": 1123593406.3011851,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": 0.15621399879455566,
+                "total_ms": 0.9608230590820312,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g2-p10",
+                "role": "content",
+                "text": "Bây giờ là 14 giờ 56 phút,",
+                "chars": 26,
+                "words": 7,
+                "cached": false,
+                "ready_at_ms": 1123593610.600759,
+                "queue_ms": 0.012,
+                "first_chunk_ms": 133.894,
+                "compute_ms": 1379.4827227592468,
+                "audio_ms": 2080.0,
+                "rtf": 0.6632128474804071,
+                "lock_wait_ms": 0.0026559829711914062,
+                "audio_sent_at_ms": 1123593745.397925,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": 0.10800385475158691,
+                "total_ms": 1389.0992348194122,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              },
+              {
+                "phrase_id": "g2-p11",
+                "role": "content",
+                "text": "thứ Ba ngày 29 tháng 9 năm 2026.",
+                "chars": 32,
+                "words": 8,
+                "cached": false,
+                "ready_at_ms": 1123594066.470125,
+                "queue_ms": 0.011,
+                "first_chunk_ms": 79.004,
+                "compute_ms": 1802.3897898197174,
+                "audio_ms": 3200.0,
+                "rtf": 0.5632468093186617,
+                "lock_wait_ms": 0.23216915130615234,
+                "audio_sent_at_ms": 1123595079.774397,
+                "playback_started_at_ms": null,
+                "playback_stopped_at_ms": null,
+                "playback_signal_at_ms": null,
+                "phrase_wait_ms": 933.5261688232422,
+                "total_ms": 1813.9130170345306,
+                "underruns": 0,
+                "gap_ms": 0,
+                "previous_content_gap_ms": null
+              }
+            ],
+            "session_id": "s0008-b17fbc16",
+            "turn_id": 2,
+            "metrics": {
+              "endpoint_ms": 240.1,
+              "asr_stream_duration_ms": 1945.0,
+              "asr_final_ms": 46.8,
+              "asr_first_partial_ms": 499.3,
+              "llm_ttft_ms": 175.031,
+              "llm_total_ms": 1421.34,
+              "tts_ttfa_ms": 0.2,
+              "tool_ms": 0.1,
+              "e2e_ttfa_ms": 848.5,
+              "response_total_ms": 4256.5,
+              "barge_in_stop_ms": null,
+              "first_phrase_ready_ms": 1053.094,
+              "first_any_audio_sent_ms": 848.794,
+              "first_content_audio_sent_ms": 1187.891,
+              "content_playback_start_ms": null,
+              "content_playback_signal_ms": null,
+              "last_voice_to_content_sent_ms": 1666.844,
+              "content_underruns": 0,
+              "content_gap_ms": 0,
+              "content_phrase_gap_ms": 0,
+              "playback_clock_uncertainty_ms": null
+            },
+            "events": [
+              {
+                "type": "turn_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123590659.747,
+                "data": {
+                  "source": "barge_in"
+                }
+              },
+              {
+                "type": "asr_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123590659.831
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591119.164,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "58f4bdfd50aa4a72",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591119.219,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "58f4bdfd50aa4a72",
+                  "operation": "partial",
+                  "queue_ms": 0.06157112121582031,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591119.229,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "58f4bdfd50aa4a72",
+                  "operation": "partial",
+                  "audio_ms": 800.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591153.702,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "58f4bdfd50aa4a72",
+                  "operation": "partial",
+                  "compute_ms": 34.471957206726074,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_first_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591159.097,
+                "data": {
+                  "text": "thôi bây giờ"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591159.106,
+                "data": {
+                  "text": "thôi bây giờ"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591618.799,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "636f736f151c4357",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591618.818,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "636f736f151c4357",
+                  "operation": "partial",
+                  "queue_ms": 0.02033686637878418,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591618.825,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "636f736f151c4357",
+                  "operation": "partial",
+                  "audio_ms": 1300.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591665.791,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "636f736f151c4357",
+                  "operation": "partial",
+                  "compute_ms": 46.96266198158264,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123591679.137,
+                "data": {
+                  "text": "thôi bây giờ là mấy"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123592118.124,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "8a0f17d518824f51",
+                  "operation": "partial",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123592118.138,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "8a0f17d518824f51",
+                  "operation": "partial",
+                  "queue_ms": 0.014913082122802734,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123592118.142,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "8a0f17d518824f51",
+                  "operation": "partial",
+                  "audio_ms": 1800.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123592155.525,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "8a0f17d518824f51",
+                  "operation": "partial",
+                  "compute_ms": 37.382538080215454,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_partial",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123592157.896,
+                "data": {
+                  "text": "thôi bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "vad_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123592317.374,
+                "data": {
+                  "utterance_ms": 2000.0
+                }
+              },
+              {
+                "type": "endpoint_candidate",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123592317.441,
+                "data": {
+                  "required_silence_ms": 480,
+                  "text": "thôi bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": null,
+                "ts_ms": 1123592557.48,
+                "data": {
+                  "previous": "listening",
+                  "current": "thinking",
+                  "reason": "silence 480ms"
+                }
+              },
+              {
+                "type": "speech_last_frame",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592078.554,
+                "data": {
+                  "audio_clock_ms": 8980.0,
+                  "basis": "server_ingress_vad"
+                }
+              },
+              {
+                "type": "turn_confirmed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592557.507,
+                "data": {
+                  "reason": "silence 480ms",
+                  "utterance_ms": 2240.0
+                }
+              },
+              {
+                "type": "asr_finalize_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592557.709,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "ead3de8328294db5",
+                  "operation": "final"
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592557.838,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "6c8d7fe28acb43e4",
+                  "operation": "final",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592557.849,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "6c8d7fe28acb43e4",
+                  "operation": "final",
+                  "queue_ms": 0.012415885925292969,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592557.856,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "6c8d7fe28acb43e4",
+                  "operation": "final",
+                  "audio_ms": 2240.0
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592604.451,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "6c8d7fe28acb43e4",
+                  "operation": "final",
+                  "compute_ms": 46.595081090927124,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "asr_finalize_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592604.535,
+                "data": {
+                  "stage": "asr",
+                  "request_id": "ead3de8328294db5",
+                  "operation": "final"
+                }
+              },
+              {
+                "type": "asr_final",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592604.795,
+                "data": {
+                  "text": "thôi bây giờ là mấy giờ rồi"
+                }
+              },
+              {
+                "type": "llm_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592605.057,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592605.284,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0,
+                  "priority": "speech",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592605.296,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0,
+                  "priority": "speech",
+                  "queue_ms": 0.014880895614624023,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "llm_request_sent",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592621.164,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0,
+                  "prompt_chars": 817,
+                  "message_count": 4,
+                  "tools": 2,
+                  "prompt_tokens_counted": 597,
+                  "prompt_tokens_before_trim": 597,
+                  "prompt_budget_tokens": 1800,
+                  "prompt_groups_dropped": 0,
+                  "prompt_count_basis": "native_chat_template",
+                  "prompt_prepare_ms": 15.803940057754517
+                }
+              },
+              {
+                "type": "llm_first_tool_delta",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123592990.391,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0
+                }
+              },
+              {
+                "type": "llm_usage",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593115.851,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0,
+                  "completion_tokens": 14,
+                  "prompt_tokens": 597,
+                  "total_tokens": 611,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 498
+                  },
+                  "native_timings": {
+                    "cache_n": 498,
+                    "prompt_n": 99,
+                    "prompt_ms": 165.453,
+                    "prompt_per_token_ms": 1.6712424242424242,
+                    "prompt_per_second": 598.3572374027669,
+                    "predicted_n": 14,
+                    "predicted_ms": 304.976,
+                    "predicted_per_token_ms": 21.784,
+                    "predicted_per_second": 45.90525156077855
+                  }
+                }
+              },
+              {
+                "type": "llm_terminated",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.369,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "llm_complete",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.438,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "5da18f888f5845bb",
+                  "round": 0
+                }
+              },
+              {
+                "type": "tool_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.549,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "1c645a5ab15f42f8",
+                  "tool": "clock",
+                  "arguments": {}
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.57,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "1c645a5ab15f42f8",
+                  "tool": "clock",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.577,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "1c645a5ab15f42f8",
+                  "tool": "clock",
+                  "queue_ms": 0.00851297378540039,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.58,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "1c645a5ab15f42f8",
+                  "tool": "clock"
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.619,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "1c645a5ab15f42f8",
+                  "tool": "clock",
+                  "compute_ms": 0.039089202880859375,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "tool_complete",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.633,
+                "data": {
+                  "stage": "tool",
+                  "request_id": "1c645a5ab15f42f8",
+                  "tool": "clock",
+                  "latency_ms": 0.1
+                }
+              },
+              {
+                "type": "llm_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.692,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.73,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1,
+                  "priority": "speech",
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593116.734,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1,
+                  "priority": "speech",
+                  "queue_ms": 0.0042400360107421875,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "llm_request_sent",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593140.414,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1,
+                  "prompt_chars": 875,
+                  "message_count": 5,
+                  "tools": 2,
+                  "prompt_tokens_counted": 634,
+                  "prompt_tokens_before_trim": 634,
+                  "prompt_budget_tokens": 1800,
+                  "prompt_groups_dropped": 0,
+                  "prompt_count_basis": "native_chat_template",
+                  "prompt_prepare_ms": 23.630378007888794
+                }
+              },
+              {
+                "type": "llm_first_token",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593315.445,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1
+                }
+              },
+              {
+                "type": "filler",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593405.734,
+                "data": {
+                  "text": "Vâng.",
+                  "source": "opener"
+                }
+              },
+              {
+                "type": "tts_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593405.765
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593405.779,
+                "data": {
+                  "phrase_id": "g2-p9",
+                  "role": "filler",
+                  "text": "Vâng.",
+                  "chars": 5,
+                  "words": 1,
+                  "cached": true
+                }
+              },
+              {
+                "type": "tts_first_audio",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593405.98,
+                "data": {
+                  "sample_rate": 24000
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593405.987,
+                "data": {
+                  "previous": "thinking",
+                  "current": "speaking",
+                  "reason": "first audio"
+                }
+              },
+              {
+                "type": "audio_sent",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593406.301,
+                "data": {
+                  "phrase_id": "g2-p9",
+                  "role": "filler"
+                }
+              },
+              {
+                "type": "tts_phrase_complete",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593406.889,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "36fd34798ef54da7",
+                  "phrase_id": "g2-p9",
+                  "role": "filler",
+                  "cached": true,
+                  "total_ms": 0.9608230590820312,
+                  "audio_ms": 480.0,
+                  "chunks": 3,
+                  "phrase_wait_ms": 0.15621399879455566
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593610.601,
+                "data": {
+                  "phrase_id": "g2-p10",
+                  "role": "content",
+                  "text": "Bây giờ là 14 giờ 56 phút,",
+                  "chars": 26,
+                  "words": 7,
+                  "cached": false
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593610.742,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "f1df6bbd58974b0b",
+                  "phrase_id": "g2-p10",
+                  "role": "content",
+                  "cached": false,
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593610.754,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "f1df6bbd58974b0b",
+                  "phrase_id": "g2-p10",
+                  "role": "content",
+                  "cached": false,
+                  "queue_ms": 0.012463808059692383,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "tts_lock_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593610.779,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "f1df6bbd58974b0b",
+                  "phrase_id": "g2-p10",
+                  "role": "content",
+                  "cached": false,
+                  "lock_wait_ms": 0.0026559829711914062
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593610.883,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "f1df6bbd58974b0b",
+                  "phrase_id": "g2-p10",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "tts_chunk_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593744.777,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "f1df6bbd58974b0b",
+                  "phrase_id": "g2-p10",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "audio_sent",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123593745.398,
+                "data": {
+                  "phrase_id": "g2-p10",
+                  "role": "content"
+                }
+              },
+              {
+                "type": "llm_usage",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123594065.519,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1,
+                  "completion_tokens": 30,
+                  "prompt_tokens": 634,
+                  "total_tokens": 664,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 577
+                  },
+                  "native_timings": {
+                    "cache_n": 577,
+                    "prompt_n": 57,
+                    "prompt_ms": 153.225,
+                    "prompt_per_token_ms": 2.688157894736842,
+                    "prompt_per_second": 372.00195790504165,
+                    "predicted_n": 30,
+                    "predicted_ms": 749.802,
+                    "predicted_per_token_ms": 24.9934,
+                    "predicted_per_second": 40.01056278857619
+                  }
+                }
+              },
+              {
+                "type": "llm_terminated",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123594066.329,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "phrase_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123594066.47,
+                "data": {
+                  "phrase_id": "g2-p11",
+                  "role": "content",
+                  "text": "thứ Ba ngày 29 tháng 9 năm 2026.",
+                  "chars": 32,
+                  "words": 8,
+                  "cached": false
+                }
+              },
+              {
+                "type": "llm_complete",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123594066.479,
+                "data": {
+                  "stage": "llm",
+                  "request_id": "4e1bb1478e0c4c98",
+                  "round": 1
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123594999.601,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "f1df6bbd58974b0b",
+                  "phrase_id": "g2-p10",
+                  "role": "content",
+                  "cached": false,
+                  "compute_ms": 1379.4827227592468,
+                  "audio_ms": 2080.0,
+                  "rtf": 0.6632128474804071,
+                  "chunks": 6,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "tts_phrase_complete",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123594999.806,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "f1df6bbd58974b0b",
+                  "phrase_id": "g2-p10",
+                  "role": "content",
+                  "cached": false,
+                  "total_ms": 1389.0992348194122,
+                  "audio_ms": 2080.0,
+                  "chunks": 6,
+                  "phrase_wait_ms": 0.10800385475158691
+                }
+              },
+              {
+                "type": "model_queued",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123595000.043,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "5923347355794d39",
+                  "phrase_id": "g2-p11",
+                  "role": "content",
+                  "cached": false,
+                  "active": 0,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "model_slot_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123595000.052,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "5923347355794d39",
+                  "phrase_id": "g2-p11",
+                  "role": "content",
+                  "cached": false,
+                  "queue_ms": 0.011120080947875977,
+                  "active": 1,
+                  "waiting": 0
+                }
+              },
+              {
+                "type": "tts_lock_acquired",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123595000.307,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "5923347355794d39",
+                  "phrase_id": "g2-p11",
+                  "role": "content",
+                  "cached": false,
+                  "lock_wait_ms": 0.23216915130615234
+                }
+              },
+              {
+                "type": "model_inference_start",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123595000.396,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "5923347355794d39",
+                  "phrase_id": "g2-p11",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "tts_chunk_ready",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123595079.4,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "5923347355794d39",
+                  "phrase_id": "g2-p11",
+                  "role": "content",
+                  "cached": false
+                }
+              },
+              {
+                "type": "audio_sent",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123595079.774,
+                "data": {
+                  "phrase_id": "g2-p11",
+                  "role": "content"
+                }
+              },
+              {
+                "type": "model_inference_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123596813.76,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "5923347355794d39",
+                  "phrase_id": "g2-p11",
+                  "role": "content",
+                  "cached": false,
+                  "compute_ms": 1802.3897898197174,
+                  "audio_ms": 3200.0,
+                  "rtf": 0.5632468093186617,
+                  "chunks": 8,
+                  "outcome": "complete"
+                }
+              },
+              {
+                "type": "tts_phrase_complete",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123596813.902,
+                "data": {
+                  "stage": "tts",
+                  "request_id": "5923347355794d39",
+                  "phrase_id": "g2-p11",
+                  "role": "content",
+                  "cached": false,
+                  "total_ms": 1813.9130170345306,
+                  "audio_ms": 3200.0,
+                  "chunks": 8,
+                  "phrase_wait_ms": 933.5261688232422
+                }
+              },
+              {
+                "type": "tts_complete",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123596814.021,
+                "data": {
+                  "phrases": 3
+                }
+              },
+              {
+                "type": "turn_end",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123599312.026,
+                "data": {
+                  "answered": true
+                }
+              },
+              {
+                "type": "state_changed",
+                "session_id": "s0008-b17fbc16",
+                "turn_id": 2,
+                "generation_id": 2,
+                "ts_ms": 1123599312.042,
+                "data": {
+                  "previous": "speaking",
+                  "current": "idle",
+                  "reason": "turn finished"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "counters": {
+        "frames_in": 827,
+        "barge_ins": 1
+      },
+      "assistant_text": "Có một câu chuyện cổ tích nổi tiếng về con cáo và con quạ. Con quạ đang đậu trên cành cây, mỏ đầy thức ăn. Con cáo đi ngang qua, thấy con quạ đẹp và muốn ăn. Cáo bắt đầu nói những lời ngọt ngào, khen con quạ đẹp và nói rằng nó đang ở trong một nơiBây giờ là 14 giờ 56 phút, thứ Ba ngày 29 tháng 9 năm 2026.",
+      "audio_frames": 174
+    }
+  ]
+}

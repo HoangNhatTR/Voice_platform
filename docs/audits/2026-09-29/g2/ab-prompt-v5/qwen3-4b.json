@@ -1,0 +1,5586 @@
+{
+  "meta": {
+    "started_at": "2026-09-29T03:27:45.651829+00:00",
+    "model": "qwen3-4b",
+    "endpoint": "http://127.0.0.1:18208/v1",
+    "suite_sha256": "a649fd34ee35663775a97844ea95ab565d4ce926b5387448d749aa78bc675b15",
+    "source_sha256": "62e65c0678a227accc8b3d9c84ee73ec79e1849853dd3335dc7368f231623d85",
+    "system": "Bạn có các công cụ sau: clock, search. Câu hỏi về giờ, ngày, tháng, năm hoặc thứ hiện tại: bắt buộc gọi clock. Yêu cầu tra cứu hoặc kiểm tra thông tin mới: bắt buộc gọi search. Với kiến thức cố định, tính toán, dịch và đọc lại: tự trả lời trực tiếp. Khi cần công cụ, hãy thực sự gọi rồi mới trả lời.\n\nTrả lời sẽ được đọc thành tiếng: viết ngắn, không markdown.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "clock",
+          "description": "Trả về ngày giờ hiện tại theo giờ địa phương.",
+          "parameters": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Gửi yêu cầu tra cứu thông tin mà bạn không tự biết chắc: dữ liệu thực tế, tin tức, số liệu, thông tin nội bộ. Trả về ngay; kết quả sẽ tới sau.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Câu hỏi cần tra, viết đầy đủ và rõ nghĩa."
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      }
+    ],
+    "options": {
+      "max_tokens": 120,
+      "temperature": 0.6,
+      "enable_thinking": false,
+      "extra_body": {
+        "seed": 20260929
+      }
+    },
+    "temperature": 0.6,
+    "seed": 20260929,
+    "props": {
+      "default_generation_settings": {
+        "params": {
+          "seed": 4294967295,
+          "temperature": 0.800000011920929,
+          "dynatemp_range": 0.0,
+          "dynatemp_exponent": 1.0,
+          "top_k": 40,
+          "top_p": 0.949999988079071,
+          "min_p": 0.05000000074505806,
+          "top_n_sigma": -1.0,
+          "xtc_probability": 0.0,
+          "xtc_threshold": 0.10000000149011612,
+          "typical_p": 1.0,
+          "repeat_last_n": 64,
+          "repeat_penalty": 1.0,
+          "presence_penalty": 0.0,
+          "frequency_penalty": 0.0,
+          "dry_multiplier": 0.0,
+          "dry_base": 1.75,
+          "dry_allowed_length": 2,
+          "dry_penalty_last_n": -1,
+          "mirostat": 0,
+          "mirostat_tau": 5.0,
+          "mirostat_eta": 0.10000000149011612,
+          "max_tokens": -1,
+          "n_predict": -1,
+          "n_keep": 0,
+          "n_discard": 0,
+          "ignore_eos": false,
+          "stream": false,
+          "n_probs": 0,
+          "min_keep": 0,
+          "chat_format": "Content-only",
+          "reasoning_format": "none",
+          "reasoning_in_content": false,
+          "generation_prompt": "",
+          "samplers": [
+            "penalties",
+            "dry",
+            "top_n_sigma",
+            "top_k",
+            "typ_p",
+            "top_p",
+            "min_p",
+            "xtc",
+            "temperature"
+          ],
+          "speculative.types": "none",
+          "timings_per_token": false,
+          "post_sampling_probs": false,
+          "backend_sampling": false,
+          "lora": []
+        },
+        "n_ctx": 4096
+      },
+      "total_slots": 1,
+      "model_alias": "qwen3-4b",
+      "model_ftype": "Q4_K - Medium",
+      "model_path": "/home/ai01/AIHoang/speech2speech/models/qwen3-4b/Qwen3-4B-Q4_K_M.gguf",
+      "modalities": {
+        "vision": false,
+        "video": false,
+        "audio": false
+      },
+      "media_marker": "<__media_Lg283SzKqFalnE12Qm1Dvrb1J0AJ7STz__>",
+      "endpoint_slots": true,
+      "endpoint_props": false,
+      "endpoint_metrics": true,
+      "ui": true,
+      "ui_settings": {},
+      "chat_template": "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0].role == 'system' %}\n        {{- messages[0].content + '\\n\\n' }}\n    {%- endif %}\n    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for forward_message in messages %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- set message = messages[index] %}\n    {%- set current_content = message.content if message.content is defined and message.content is not none else '' %}\n    {%- set tool_start = '<tool_response>' %}\n    {%- set tool_start_length = tool_start|length %}\n    {%- set start_of_message = current_content[:tool_start_length] %}\n    {%- set tool_end = '</tool_response>' %}\n    {%- set tool_end_length = tool_end|length %}\n    {%- set start_pos = (current_content|length) - tool_end_length %}\n    {%- if start_pos < 0 %}\n        {%- set start_pos = 0 %}\n    {%- endif %}\n    {%- set end_of_message = current_content[start_pos:] %}\n    {%- if ns.multi_step_tool and message.role == \"user\" and not(start_of_message == tool_start and end_of_message == tool_end) %}\n        {%- set ns.multi_step_tool = false %}\n        {%- set ns.last_query_index = index %}\n    {%- endif %}\n{%- endfor %}\n{%- for message in messages %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\n        {{- '<|im_start|>' + message.role + '\\n' + message.content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set m_content = message.content if message.content is defined and message.content is not none else '' %}\n        {%- set content = m_content %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is defined and message.reasoning_content is not none %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in m_content %}\n                {%- set content = (m_content.split('</think>')|last).lstrip('\\n') %}\n                {%- set reasoning_content = (m_content.split('</think>')|first).rstrip('\\n') %}\n                {%- set reasoning_content = (reasoning_content.split('<think>')|last).lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {%- if loop.last or (not loop.last and (not reasoning_content.strip() == '')) %}\n                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\n            {%- else %}\n                {{- '<|im_start|>' + message.role + '\\n' + content }}\n            {%- endif %}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if (loop.first and content) or (not loop.first) %}\n                    {{- '\\n' }}\n                {%- endif %}\n                {%- if tool_call.function %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {{- '<tool_call>\\n{\"name\": \"' }}\n                {{- tool_call.name }}\n                {{- '\", \"arguments\": ' }}\n                {%- if tool_call.arguments is string %}\n                    {{- tool_call.arguments }}\n                {%- else %}\n                    {{- tool_call.arguments | tojson }}\n                {%- endif %}\n                {{- '}\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- message.content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is false %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}",
+      "chat_template_caps": {
+        "supports_object_arguments": true,
+        "supports_parallel_tool_calls": true,
+        "supports_preserve_reasoning": false,
+        "supports_string_content": true,
+        "supports_system_role": true,
+        "supports_tool_calls": true,
+        "supports_tools": true,
+        "supports_typed_content": false
+      },
+      "bos_token": ",",
+      "eos_token": "<|im_end|>",
+      "build_info": "b1-c588c4f",
+      "is_sleeping": false,
+      "cors_proxy_enabled": false
+    },
+    "sample_method": "Fixed technical answers/tools; no human rating. Model order is sequential. Load 3 is correlated, not independent production traffic.",
+    "finished_at": "2026-09-29T03:28:08.828190+00:00"
+  },
+  "quality": [
+    {
+      "id": "direct-00",
+      "split": "dev",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "2 cộng 2 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "4.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 158.841,
+      "first_tool_ms": null,
+      "http_ttft_ms": 158.777,
+      "total_ms": 207.815,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107451090.769508,
+          "data": {
+            "stage": "llm",
+            "request_id": "38e566e16bb3404f",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107451090.7905,
+          "data": {
+            "stage": "llm",
+            "request_id": "38e566e16bb3404f",
+            "priority": "speech",
+            "queue_ms": 0.030416011810302734,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107451090.833605,
+          "data": {
+            "stage": "llm",
+            "request_id": "38e566e16bb3404f",
+            "prompt_chars": 399,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107451249.610658,
+          "data": {
+            "stage": "llm",
+            "request_id": "38e566e16bb3404f"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107451298.165787,
+          "data": {
+            "stage": "llm",
+            "request_id": "38e566e16bb3404f",
+            "completion_tokens": 3,
+            "prompt_tokens": 363,
+            "total_tokens": 366,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107451298.584529,
+          "data": {
+            "stage": "llm",
+            "request_id": "38e566e16bb3404f",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-01",
+      "split": "dev",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "15 nhân 27 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "405",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 51.397,
+      "first_tool_ms": null,
+      "http_ttft_ms": 51.368,
+      "total_ms": 138.974,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107451299.101288,
+          "data": {
+            "stage": "llm",
+            "request_id": "c09a594271f645d1",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107451299.108232,
+          "data": {
+            "stage": "llm",
+            "request_id": "c09a594271f645d1",
+            "priority": "speech",
+            "queue_ms": 0.009888172149658203,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107451299.12988,
+          "data": {
+            "stage": "llm",
+            "request_id": "c09a594271f645d1",
+            "prompt_chars": 401,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107451350.49812,
+          "data": {
+            "stage": "llm",
+            "request_id": "c09a594271f645d1"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107451437.340466,
+          "data": {
+            "stage": "llm",
+            "request_id": "c09a594271f645d1",
+            "completion_tokens": 4,
+            "prompt_tokens": 365,
+            "total_tokens": 369,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107451438.07526,
+          "data": {
+            "stage": "llm",
+            "request_id": "c09a594271f645d1",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-02",
+      "split": "dev",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "9 nhân 8 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "72",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 52.606,
+      "first_tool_ms": null,
+      "http_ttft_ms": 52.548,
+      "total_ms": 105.018,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107451439.137914,
+          "data": {
+            "stage": "llm",
+            "request_id": "c087afdf35644519",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107451439.154506,
+          "data": {
+            "stage": "llm",
+            "request_id": "c087afdf35644519",
+            "priority": "speech",
+            "queue_ms": 0.023663759231567383,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107451439.195915,
+          "data": {
+            "stage": "llm",
+            "request_id": "c087afdf35644519",
+            "prompt_chars": 399,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107451491.7435782,
+          "data": {
+            "stage": "llm",
+            "request_id": "c087afdf35644519"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107451543.414669,
+          "data": {
+            "stage": "llm",
+            "request_id": "c087afdf35644519",
+            "completion_tokens": 3,
+            "prompt_tokens": 363,
+            "total_tokens": 366,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107451544.1560872,
+          "data": {
+            "stage": "llm",
+            "request_id": "c087afdf35644519",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-03",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "12 cộng 5 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "17.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 47.28,
+      "first_tool_ms": null,
+      "http_ttft_ms": 47.243,
+      "total_ms": 128.006,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107451545.4281518,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d661a2497a544af",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107451545.4394479,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d661a2497a544af",
+            "priority": "speech",
+            "queue_ms": 0.016447782516479492,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107451545.4655612,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d661a2497a544af",
+            "prompt_chars": 400,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107451592.7084332,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d661a2497a544af"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107451673.047668,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d661a2497a544af",
+            "completion_tokens": 4,
+            "prompt_tokens": 364,
+            "total_tokens": 368,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107451673.433881,
+          "data": {
+            "stage": "llm",
+            "request_id": "3d661a2497a544af",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-04",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "31 nhân 19 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "589",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 38.943,
+      "first_tool_ms": null,
+      "http_ttft_ms": 38.922,
+      "total_ms": 106.37,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107451674.1382911,
+          "data": {
+            "stage": "llm",
+            "request_id": "e85d3fef6da74176",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107451674.1429949,
+          "data": {
+            "stage": "llm",
+            "request_id": "e85d3fef6da74176",
+            "priority": "speech",
+            "queue_ms": 0.008080005645751953,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107451674.1585472,
+          "data": {
+            "stage": "llm",
+            "request_id": "e85d3fef6da74176",
+            "prompt_chars": 401,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107451713.080972,
+          "data": {
+            "stage": "llm",
+            "request_id": "e85d3fef6da74176"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107451779.820297,
+          "data": {
+            "stage": "llm",
+            "request_id": "e85d3fef6da74176",
+            "completion_tokens": 4,
+            "prompt_tokens": 365,
+            "total_tokens": 369,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107451780.5084338,
+          "data": {
+            "stage": "llm",
+            "request_id": "e85d3fef6da74176",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-05",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "7 nhân 6 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "42",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 59.523,
+      "first_tool_ms": null,
+      "http_ttft_ms": 59.48,
+      "total_ms": 124.851,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107451781.602049,
+          "data": {
+            "stage": "llm",
+            "request_id": "63d5049d30154737",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107451781.611553,
+          "data": {
+            "stage": "llm",
+            "request_id": "63d5049d30154737",
+            "priority": "speech",
+            "queue_ms": 0.013743877410888672,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107451781.644833,
+          "data": {
+            "stage": "llm",
+            "request_id": "63d5049d30154737",
+            "prompt_chars": 399,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107451841.1251168,
+          "data": {
+            "stage": "llm",
+            "request_id": "63d5049d30154737"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107451905.580844,
+          "data": {
+            "stage": "llm",
+            "request_id": "63d5049d30154737",
+            "completion_tokens": 3,
+            "prompt_tokens": 363,
+            "total_tokens": 366,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107451906.453352,
+          "data": {
+            "stage": "llm",
+            "request_id": "63d5049d30154737",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-06",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "100 cộng 25 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "125.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 51.905,
+      "first_tool_ms": null,
+      "http_ttft_ms": 51.865,
+      "total_ms": 140.236,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107451907.709224,
+          "data": {
+            "stage": "llm",
+            "request_id": "388c6b24fe344131",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107451907.722537,
+          "data": {
+            "stage": "llm",
+            "request_id": "388c6b24fe344131",
+            "priority": "speech",
+            "queue_ms": 0.018241167068481445,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107451907.749337,
+          "data": {
+            "stage": "llm",
+            "request_id": "388c6b24fe344131",
+            "prompt_chars": 402,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107451959.613839,
+          "data": {
+            "stage": "llm",
+            "request_id": "388c6b24fe344131"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107452047.348693,
+          "data": {
+            "stage": "llm",
+            "request_id": "388c6b24fe344131",
+            "completion_tokens": 5,
+            "prompt_tokens": 366,
+            "total_tokens": 371,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107452047.945117,
+          "data": {
+            "stage": "llm",
+            "request_id": "388c6b24fe344131",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-07",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "48 cộng 12 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "60",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 52.251,
+      "first_tool_ms": null,
+      "http_ttft_ms": 52.191,
+      "total_ms": 114.36,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107452049.191662,
+          "data": {
+            "stage": "llm",
+            "request_id": "104da3226c194cd9",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107452049.203742,
+          "data": {
+            "stage": "llm",
+            "request_id": "104da3226c194cd9",
+            "priority": "speech",
+            "queue_ms": 0.016975879669189453,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107452049.251695,
+          "data": {
+            "stage": "llm",
+            "request_id": "104da3226c194cd9",
+            "prompt_chars": 401,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107452101.442761,
+          "data": {
+            "stage": "llm",
+            "request_id": "104da3226c194cd9"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107452163.156307,
+          "data": {
+            "stage": "llm",
+            "request_id": "104da3226c194cd9",
+            "completion_tokens": 3,
+            "prompt_tokens": 365,
+            "total_tokens": 368,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107452163.551288,
+          "data": {
+            "stage": "llm",
+            "request_id": "104da3226c194cd9",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-08",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "17 nhân 3 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "51",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 48.983,
+      "first_tool_ms": null,
+      "http_ttft_ms": 48.962,
+      "total_ms": 96.662,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107452164.32077,
+          "data": {
+            "stage": "llm",
+            "request_id": "f524cef4442040c9",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107452164.326418,
+          "data": {
+            "stage": "llm",
+            "request_id": "f524cef4442040c9",
+            "priority": "speech",
+            "queue_ms": 0.008351802825927734,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107452164.342307,
+          "data": {
+            "stage": "llm",
+            "request_id": "f524cef4442040c9",
+            "prompt_chars": 400,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107452213.30381,
+          "data": {
+            "stage": "llm",
+            "request_id": "f524cef4442040c9"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107452260.291815,
+          "data": {
+            "stage": "llm",
+            "request_id": "f524cef4442040c9",
+            "completion_tokens": 3,
+            "prompt_tokens": 364,
+            "total_tokens": 367,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107452260.983216,
+          "data": {
+            "stage": "llm",
+            "request_id": "f524cef4442040c9",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-09",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "11 nhân 11 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "121.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 53.592,
+      "first_tool_ms": null,
+      "http_ttft_ms": 53.544,
+      "total_ms": 169.627,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107452262.475748,
+          "data": {
+            "stage": "llm",
+            "request_id": "978daa4b8aa84acb",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107452262.489828,
+          "data": {
+            "stage": "llm",
+            "request_id": "978daa4b8aa84acb",
+            "priority": "speech",
+            "queue_ms": 0.022448301315307617,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107452262.5237489,
+          "data": {
+            "stage": "llm",
+            "request_id": "978daa4b8aa84acb",
+            "prompt_chars": 401,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107452316.067361,
+          "data": {
+            "stage": "llm",
+            "request_id": "978daa4b8aa84acb"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107452431.539722,
+          "data": {
+            "stage": "llm",
+            "request_id": "978daa4b8aa84acb",
+            "completion_tokens": 5,
+            "prompt_tokens": 365,
+            "total_tokens": 370,
+            "prompt_tokens_details": {
+              "cached_tokens": 342
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107452432.1029139,
+          "data": {
+            "stage": "llm",
+            "request_id": "978daa4b8aa84acb",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-10",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "6 cộng 9 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "15",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 40.821,
+      "first_tool_ms": null,
+      "http_ttft_ms": 40.785,
+      "total_ms": 95.941,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107452433.491268,
+          "data": {
+            "stage": "llm",
+            "request_id": "c314e42e01964505",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107452433.5030768,
+          "data": {
+            "stage": "llm",
+            "request_id": "c314e42e01964505",
+            "priority": "speech",
+            "queue_ms": 0.016353130340576172,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107452433.527093,
+          "data": {
+            "stage": "llm",
+            "request_id": "c314e42e01964505",
+            "prompt_chars": 399,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107452474.312423,
+          "data": {
+            "stage": "llm",
+            "request_id": "c314e42e01964505"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107452528.733423,
+          "data": {
+            "stage": "llm",
+            "request_id": "c314e42e01964505",
+            "completion_tokens": 3,
+            "prompt_tokens": 363,
+            "total_tokens": 366,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107452529.432584,
+          "data": {
+            "stage": "llm",
+            "request_id": "c314e42e01964505",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-11",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "50 cộng 7 bằng mấy? Chỉ trả lời kết quả.",
+      "answer": "57.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 45.441,
+      "first_tool_ms": null,
+      "http_ttft_ms": 45.404,
+      "total_ms": 123.6,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107452530.898876,
+          "data": {
+            "stage": "llm",
+            "request_id": "4a91bff742fd442f",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107452530.911484,
+          "data": {
+            "stage": "llm",
+            "request_id": "4a91bff742fd442f",
+            "priority": "speech",
+            "queue_ms": 0.016687870025634766,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107452530.936476,
+          "data": {
+            "stage": "llm",
+            "request_id": "4a91bff742fd442f",
+            "prompt_chars": 400,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107452576.340076,
+          "data": {
+            "stage": "llm",
+            "request_id": "4a91bff742fd442f"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107452653.627542,
+          "data": {
+            "stage": "llm",
+            "request_id": "4a91bff742fd442f",
+            "completion_tokens": 4,
+            "prompt_tokens": 364,
+            "total_tokens": 368,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107452654.49909,
+          "data": {
+            "stage": "llm",
+            "request_id": "4a91bff742fd442f",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-12",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Thủ đô Việt Nam là gì? Trả lời thật ngắn.",
+      "answer": "Thủ đô của Việt Nam là Hà Nội.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 33.764,
+      "first_tool_ms": null,
+      "http_ttft_ms": 33.674,
+      "total_ms": 262.27,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107452656.247817,
+          "data": {
+            "stage": "llm",
+            "request_id": "8f1f0c0b498c4926",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107452656.2687619,
+          "data": {
+            "stage": "llm",
+            "request_id": "8f1f0c0b498c4926",
+            "priority": "speech",
+            "queue_ms": 0.026640892028808594,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107452656.337834,
+          "data": {
+            "stage": "llm",
+            "request_id": "8f1f0c0b498c4926",
+            "prompt_chars": 401,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107452690.011677,
+          "data": {
+            "stage": "llm",
+            "request_id": "8f1f0c0b498c4926"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107452918.101817,
+          "data": {
+            "stage": "llm",
+            "request_id": "8f1f0c0b498c4926",
+            "completion_tokens": 11,
+            "prompt_tokens": 364,
+            "total_tokens": 375,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107452918.518143,
+          "data": {
+            "stage": "llm",
+            "request_id": "8f1f0c0b498c4926",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-13",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Thủ đô Nhật Bản là gì? Trả lời thật ngắn.",
+      "answer": "Thủ đô Nhật Bản là Tokyo.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 52.353,
+      "first_tool_ms": null,
+      "http_ttft_ms": 52.326,
+      "total_ms": 263.279,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107452919.64435,
+          "data": {
+            "stage": "llm",
+            "request_id": "327a6487b0074321",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107452919.650446,
+          "data": {
+            "stage": "llm",
+            "request_id": "327a6487b0074321",
+            "priority": "speech",
+            "queue_ms": 0.0088958740234375,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107452919.671486,
+          "data": {
+            "stage": "llm",
+            "request_id": "327a6487b0074321",
+            "prompt_chars": 401,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107452971.997498,
+          "data": {
+            "stage": "llm",
+            "request_id": "327a6487b0074321"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107453182.37529,
+          "data": {
+            "stage": "llm",
+            "request_id": "327a6487b0074321",
+            "completion_tokens": 9,
+            "prompt_tokens": 364,
+            "total_tokens": 373,
+            "prompt_tokens_details": {
+              "cached_tokens": 344
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107453182.9228969,
+          "data": {
+            "stage": "llm",
+            "request_id": "327a6487b0074321",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-14",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Thủ đô nước Pháp là gì? Trả lời thật ngắn.",
+      "answer": "Thủ đô nước Pháp là Paris.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 48.671,
+      "first_tool_ms": null,
+      "http_ttft_ms": 48.627,
+      "total_ms": 233.851,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107453184.94558,
+          "data": {
+            "stage": "llm",
+            "request_id": "b71238a5e51e46f7",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107453184.958364,
+          "data": {
+            "stage": "llm",
+            "request_id": "b71238a5e51e46f7",
+            "priority": "speech",
+            "queue_ms": 0.01607990264892578,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107453184.989917,
+          "data": {
+            "stage": "llm",
+            "request_id": "b71238a5e51e46f7",
+            "prompt_chars": 402,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107453233.616615,
+          "data": {
+            "stage": "llm",
+            "request_id": "b71238a5e51e46f7"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107453418.213406,
+          "data": {
+            "stage": "llm",
+            "request_id": "b71238a5e51e46f7",
+            "completion_tokens": 9,
+            "prompt_tokens": 364,
+            "total_tokens": 373,
+            "prompt_tokens_details": {
+              "cached_tokens": 344
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107453418.796693,
+          "data": {
+            "stage": "llm",
+            "request_id": "b71238a5e51e46f7",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-15",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Thủ đô nước Thái Lan là gì? Trả lời thật ngắn.",
+      "answer": "Gọi công cụ search để tra cứu thông tin.",
+      "calls": [],
+      "valid": false,
+      "error": null,
+      "ttft_ms": 43.39,
+      "first_tool_ms": null,
+      "http_ttft_ms": 43.322,
+      "total_ms": 305.76,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107453420.5994542,
+          "data": {
+            "stage": "llm",
+            "request_id": "970f717a893344fe",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107453420.63539,
+          "data": {
+            "stage": "llm",
+            "request_id": "970f717a893344fe",
+            "priority": "speech",
+            "queue_ms": 0.042353153228759766,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107453420.667998,
+          "data": {
+            "stage": "llm",
+            "request_id": "970f717a893344fe",
+            "prompt_chars": 406,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107453463.98981,
+          "data": {
+            "stage": "llm",
+            "request_id": "970f717a893344fe"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107453725.699168,
+          "data": {
+            "stage": "llm",
+            "request_id": "970f717a893344fe",
+            "completion_tokens": 12,
+            "prompt_tokens": 365,
+            "total_tokens": 377,
+            "prompt_tokens_details": {
+              "cached_tokens": 345
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107453726.3593528,
+          "data": {
+            "stage": "llm",
+            "request_id": "970f717a893344fe",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-16",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Một giờ bằng bao nhiêu phút? Trả lời thật ngắn.",
+      "answer": "Một giờ bằng 60 phút.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 40.069,
+      "first_tool_ms": null,
+      "http_ttft_ms": 40.032,
+      "total_ms": 242.507,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107453728.2692668,
+          "data": {
+            "stage": "llm",
+            "request_id": "469c29402ce84cc3",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107453728.2809951,
+          "data": {
+            "stage": "llm",
+            "request_id": "469c29402ce84cc3",
+            "priority": "speech",
+            "queue_ms": 0.01654529571533203,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107453728.306803,
+          "data": {
+            "stage": "llm",
+            "request_id": "469c29402ce84cc3",
+            "prompt_chars": 407,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107453768.338715,
+          "data": {
+            "stage": "llm",
+            "request_id": "469c29402ce84cc3"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107453970.436683,
+          "data": {
+            "stage": "llm",
+            "request_id": "469c29402ce84cc3",
+            "completion_tokens": 10,
+            "prompt_tokens": 365,
+            "total_tokens": 375,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107453970.776592,
+          "data": {
+            "stage": "llm",
+            "request_id": "469c29402ce84cc3",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-17",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Một mét bằng bao nhiêu centimét? Trả lời thật ngắn.",
+      "answer": "1 mét bằng 100 centimét.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 49.02,
+      "first_tool_ms": null,
+      "http_ttft_ms": 48.992,
+      "total_ms": 303.576,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107453971.921151,
+          "data": {
+            "stage": "llm",
+            "request_id": "d76c7c5f1a1c488e",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107453971.927839,
+          "data": {
+            "stage": "llm",
+            "request_id": "d76c7c5f1a1c488e",
+            "priority": "speech",
+            "queue_ms": 0.009952068328857422,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107453971.948447,
+          "data": {
+            "stage": "llm",
+            "request_id": "d76c7c5f1a1c488e",
+            "prompt_chars": 411,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107454020.9408631,
+          "data": {
+            "stage": "llm",
+            "request_id": "d76c7c5f1a1c488e"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107454274.989798,
+          "data": {
+            "stage": "llm",
+            "request_id": "d76c7c5f1a1c488e",
+            "completion_tokens": 12,
+            "prompt_tokens": 367,
+            "total_tokens": 379,
+            "prompt_tokens_details": {
+              "cached_tokens": 343
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107454275.496877,
+          "data": {
+            "stage": "llm",
+            "request_id": "d76c7c5f1a1c488e",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-18",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Một kilogram bằng bao nhiêu gram? Trả lời thật ngắn.",
+      "answer": "1 kilogram bằng 1000 gram.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 43.098,
+      "first_tool_ms": null,
+      "http_ttft_ms": 43.072,
+      "total_ms": 295.596,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107454276.7796462,
+          "data": {
+            "stage": "llm",
+            "request_id": "be1b22f728bd4177",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107454276.786654,
+          "data": {
+            "stage": "llm",
+            "request_id": "be1b22f728bd4177",
+            "priority": "speech",
+            "queue_ms": 0.011919975280761719,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107454276.8053432,
+          "data": {
+            "stage": "llm",
+            "request_id": "be1b22f728bd4177",
+            "prompt_chars": 412,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107454319.8777108,
+          "data": {
+            "stage": "llm",
+            "request_id": "be1b22f728bd4177"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107454571.600039,
+          "data": {
+            "stage": "llm",
+            "request_id": "be1b22f728bd4177",
+            "completion_tokens": 12,
+            "prompt_tokens": 366,
+            "total_tokens": 378,
+            "prompt_tokens_details": {
+              "cached_tokens": 343
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107454572.375298,
+          "data": {
+            "stage": "llm",
+            "request_id": "be1b22f728bd4177",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-19",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Hành tinh chúng ta sống tên là gì? Trả lời thật ngắn.",
+      "answer": "Hành tinh chúng ta sống tên là Trái Đất.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 52.124,
+      "first_tool_ms": null,
+      "http_ttft_ms": 52.07,
+      "total_ms": 398.286,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107454574.661568,
+          "data": {
+            "stage": "llm",
+            "request_id": "00146cb7275049b1",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107454574.684481,
+          "data": {
+            "stage": "llm",
+            "request_id": "00146cb7275049b1",
+            "priority": "speech",
+            "queue_ms": 0.03219199180603027,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107454574.716193,
+          "data": {
+            "stage": "llm",
+            "request_id": "00146cb7275049b1",
+            "prompt_chars": 413,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107454626.785706,
+          "data": {
+            "stage": "llm",
+            "request_id": "00146cb7275049b1"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107454972.179303,
+          "data": {
+            "stage": "llm",
+            "request_id": "00146cb7275049b1",
+            "completion_tokens": 15,
+            "prompt_tokens": 367,
+            "total_tokens": 382,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107454972.947106,
+          "data": {
+            "stage": "llm",
+            "request_id": "00146cb7275049b1",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-20",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Đọc lại nguyên văn, không thêm lời: Nguyễn Thị Hồng",
+      "answer": "Nguyễn Thị Hồng",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 49.157,
+      "first_tool_ms": null,
+      "http_ttft_ms": 49.103,
+      "total_ms": 158.733,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107454975.408738,
+          "data": {
+            "stage": "llm",
+            "request_id": "b0cc8bf57d90446f",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107454975.423891,
+          "data": {
+            "stage": "llm",
+            "request_id": "b0cc8bf57d90446f",
+            "priority": "speech",
+            "queue_ms": 0.018912792205810547,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107454975.463603,
+          "data": {
+            "stage": "llm",
+            "request_id": "b0cc8bf57d90446f",
+            "prompt_chars": 411,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107455024.566164,
+          "data": {
+            "stage": "llm",
+            "request_id": "b0cc8bf57d90446f"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107455133.6538641,
+          "data": {
+            "stage": "llm",
+            "request_id": "b0cc8bf57d90446f",
+            "completion_tokens": 6,
+            "prompt_tokens": 363,
+            "total_tokens": 369,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107455134.141454,
+          "data": {
+            "stage": "llm",
+            "request_id": "b0cc8bf57d90446f",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-21",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Đọc lại nguyên văn, không thêm lời: Bảo Anh",
+      "answer": "Bảo Anh",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 57.842,
+      "first_tool_ms": null,
+      "http_ttft_ms": 57.805,
+      "total_ms": 162.772,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107455135.623026,
+          "data": {
+            "stage": "llm",
+            "request_id": "82859c851b854c3c",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107455135.634194,
+          "data": {
+            "stage": "llm",
+            "request_id": "82859c851b854c3c",
+            "priority": "speech",
+            "queue_ms": 0.016319990158081055,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107455135.660003,
+          "data": {
+            "stage": "llm",
+            "request_id": "82859c851b854c3c",
+            "prompt_chars": 403,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107455193.465144,
+          "data": {
+            "stage": "llm",
+            "request_id": "82859c851b854c3c"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107455297.787628,
+          "data": {
+            "stage": "llm",
+            "request_id": "82859c851b854c3c",
+            "completion_tokens": 5,
+            "prompt_tokens": 363,
+            "total_tokens": 368,
+            "prompt_tokens_details": {
+              "cached_tokens": 351
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107455298.3953319,
+          "data": {
+            "stage": "llm",
+            "request_id": "82859c851b854c3c",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-22",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Đọc lại nguyên văn, không thêm lời: mã đặt chỗ AB123",
+      "answer": "Mã đặt chỗ AB123.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 48.307,
+      "first_tool_ms": null,
+      "http_ttft_ms": 48.241,
+      "total_ms": 271.517,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107455300.9295418,
+          "data": {
+            "stage": "llm",
+            "request_id": "2010840bb25c4dc0",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107455300.943942,
+          "data": {
+            "stage": "llm",
+            "request_id": "2010840bb25c4dc0",
+            "priority": "speech",
+            "queue_ms": 0.02368021011352539,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107455300.995927,
+          "data": {
+            "stage": "llm",
+            "request_id": "2010840bb25c4dc0",
+            "prompt_chars": 412,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107455349.236493,
+          "data": {
+            "stage": "llm",
+            "request_id": "2010840bb25c4dc0"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107455571.703213,
+          "data": {
+            "stage": "llm",
+            "request_id": "2010840bb25c4dc0",
+            "completion_tokens": 10,
+            "prompt_tokens": 367,
+            "total_tokens": 377,
+            "prompt_tokens_details": {
+              "cached_tokens": 351
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107455572.446775,
+          "data": {
+            "stage": "llm",
+            "request_id": "2010840bb25c4dc0",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-23",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Đọc lại nguyên văn, không thêm lời: ngày 15 tháng 8 năm 2025",
+      "answer": "ngày 15 tháng 8 năm 2025.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 57.705,
+      "first_tool_ms": null,
+      "http_ttft_ms": 57.661,
+      "total_ms": 445.136,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107455574.800647,
+          "data": {
+            "stage": "llm",
+            "request_id": "f0a01bdd1da54777",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107455574.816023,
+          "data": {
+            "stage": "llm",
+            "request_id": "f0a01bdd1da54777",
+            "priority": "speech",
+            "queue_ms": 0.020992040634155273,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107455574.844647,
+          "data": {
+            "stage": "llm",
+            "request_id": "f0a01bdd1da54777",
+            "prompt_chars": 420,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107455632.505291,
+          "data": {
+            "stage": "llm",
+            "request_id": "f0a01bdd1da54777"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107456019.45978,
+          "data": {
+            "stage": "llm",
+            "request_id": "f0a01bdd1da54777",
+            "completion_tokens": 16,
+            "prompt_tokens": 373,
+            "total_tokens": 389,
+            "prompt_tokens_details": {
+              "cached_tokens": 351
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107456019.936651,
+          "data": {
+            "stage": "llm",
+            "request_id": "f0a01bdd1da54777",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-24",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Đọc lại nguyên văn, không thêm lời: số điện thoại 0901234567",
+      "answer": "số điện thoại 0901234567",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 42.456,
+      "first_tool_ms": null,
+      "http_ttft_ms": 42.385,
+      "total_ms": 441.402,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107456022.3497229,
+          "data": {
+            "stage": "llm",
+            "request_id": "1dbf12b3c716445a",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107456022.362539,
+          "data": {
+            "stage": "llm",
+            "request_id": "1dbf12b3c716445a",
+            "priority": "speech",
+            "queue_ms": 0.018592119216918945,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107456022.420908,
+          "data": {
+            "stage": "llm",
+            "request_id": "1dbf12b3c716445a",
+            "prompt_chars": 420,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107456064.805683,
+          "data": {
+            "stage": "llm",
+            "request_id": "1dbf12b3c716445a"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107456463.121349,
+          "data": {
+            "stage": "llm",
+            "request_id": "1dbf12b3c716445a",
+            "completion_tokens": 16,
+            "prompt_tokens": 374,
+            "total_tokens": 390,
+            "prompt_tokens_details": {
+              "cached_tokens": 351
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107456463.751581,
+          "data": {
+            "stage": "llm",
+            "request_id": "1dbf12b3c716445a",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "direct-25",
+      "split": "heldout",
+      "group": "direct",
+      "expected_tool": null,
+      "question": "Đọc lại nguyên văn, không thêm lời: ba triệu năm trăm nghìn đồng",
+      "answer": "ba triệu năm trăm nghìn đồng",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 42.06,
+      "first_tool_ms": null,
+      "http_ttft_ms": 42.02,
+      "total_ms": 199.54,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107456466.281967,
+          "data": {
+            "stage": "llm",
+            "request_id": "eff2dd83e6524bd2",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107456466.296047,
+          "data": {
+            "stage": "llm",
+            "request_id": "eff2dd83e6524bd2",
+            "priority": "speech",
+            "queue_ms": 0.018799781799316406,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107456466.322448,
+          "data": {
+            "stage": "llm",
+            "request_id": "eff2dd83e6524bd2",
+            "prompt_chars": 424,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107456508.341986,
+          "data": {
+            "stage": "llm",
+            "request_id": "eff2dd83e6524bd2"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107456665.170532,
+          "data": {
+            "stage": "llm",
+            "request_id": "eff2dd83e6524bd2",
+            "completion_tokens": 7,
+            "prompt_tokens": 366,
+            "total_tokens": 373,
+            "prompt_tokens_details": {
+              "cached_tokens": 351
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107456665.821533,
+          "data": {
+            "stage": "llm",
+            "request_id": "eff2dd83e6524bd2",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-00",
+      "split": "dev",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Bây giờ là mấy giờ rồi?",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 236.397,
+      "http_ttft_ms": null,
+      "total_ms": 476.243,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107456669.973508,
+          "data": {
+            "stage": "llm",
+            "request_id": "8225e7d8e5964f38",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107456669.988261,
+          "data": {
+            "stage": "llm",
+            "request_id": "8225e7d8e5964f38",
+            "priority": "speech",
+            "queue_ms": 0.020256996154785156,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107456670.032549,
+          "data": {
+            "stage": "llm",
+            "request_id": "8225e7d8e5964f38",
+            "prompt_chars": 383,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107456906.3706548,
+          "data": {
+            "stage": "llm",
+            "request_id": "8225e7d8e5964f38"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107457145.5816479,
+          "data": {
+            "stage": "llm",
+            "request_id": "8225e7d8e5964f38",
+            "completion_tokens": 15,
+            "prompt_tokens": 358,
+            "total_tokens": 373,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107457146.2161689,
+          "data": {
+            "stage": "llm",
+            "request_id": "8225e7d8e5964f38",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-01",
+      "split": "dev",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Mấy giờ rồi bạn?",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 225.603,
+      "http_ttft_ms": null,
+      "total_ms": 413.465,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107457149.2792819,
+          "data": {
+            "stage": "llm",
+            "request_id": "eb59615921924461",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107457149.358659,
+          "data": {
+            "stage": "llm",
+            "request_id": "eb59615921924461",
+            "priority": "speech",
+            "queue_ms": 0.10444998741149902,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107457149.48138,
+          "data": {
+            "stage": "llm",
+            "request_id": "eb59615921924461",
+            "prompt_chars": 376,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107457374.88182,
+          "data": {
+            "stage": "llm",
+            "request_id": "eb59615921924461"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107457562.0918128,
+          "data": {
+            "stage": "llm",
+            "request_id": "eb59615921924461",
+            "completion_tokens": 15,
+            "prompt_tokens": 356,
+            "total_tokens": 371,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107457562.744638,
+          "data": {
+            "stage": "llm",
+            "request_id": "eb59615921924461",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-02",
+      "split": "dev",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Cho tôi hỏi giờ hiện tại",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 233.81,
+      "http_ttft_ms": null,
+      "total_ms": 403.182,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107457565.89852,
+          "data": {
+            "stage": "llm",
+            "request_id": "baaca146746d4a57",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107457565.908808,
+          "data": {
+            "stage": "llm",
+            "request_id": "baaca146746d4a57",
+            "priority": "speech",
+            "queue_ms": 0.021503925323486328,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107457565.985897,
+          "data": {
+            "stage": "llm",
+            "request_id": "baaca146746d4a57",
+            "prompt_chars": 384,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107457799.70896,
+          "data": {
+            "stage": "llm",
+            "request_id": "baaca146746d4a57"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107457968.2960799,
+          "data": {
+            "stage": "llm",
+            "request_id": "baaca146746d4a57",
+            "completion_tokens": 15,
+            "prompt_tokens": 356,
+            "total_tokens": 371,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107457969.08009,
+          "data": {
+            "stage": "llm",
+            "request_id": "baaca146746d4a57",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-03",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Hôm nay là thứ mấy?",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 231.473,
+      "http_ttft_ms": null,
+      "total_ms": 388.563,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107457972.407751,
+          "data": {
+            "stage": "llm",
+            "request_id": "71af6246b5454c95",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107457972.4231112,
+          "data": {
+            "stage": "llm",
+            "request_id": "71af6246b5454c95",
+            "priority": "speech",
+            "queue_ms": 0.022880077362060547,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107457972.460247,
+          "data": {
+            "stage": "llm",
+            "request_id": "71af6246b5454c95",
+            "prompt_chars": 379,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107458203.88112,
+          "data": {
+            "stage": "llm",
+            "request_id": "71af6246b5454c95"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107458360.44667,
+          "data": {
+            "stage": "llm",
+            "request_id": "71af6246b5454c95",
+            "completion_tokens": 15,
+            "prompt_tokens": 358,
+            "total_tokens": 373,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107458360.970278,
+          "data": {
+            "stage": "llm",
+            "request_id": "71af6246b5454c95",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-04",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Hôm nay ngày bao nhiêu?",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 199.117,
+      "http_ttft_ms": null,
+      "total_ms": 384.419,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107458363.175875,
+          "data": {
+            "stage": "llm",
+            "request_id": "16c3e65f81f346c2",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107458363.183107,
+          "data": {
+            "stage": "llm",
+            "request_id": "16c3e65f81f346c2",
+            "priority": "speech",
+            "queue_ms": 0.013824224472045898,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107458363.2121632,
+          "data": {
+            "stage": "llm",
+            "request_id": "16c3e65f81f346c2",
+            "prompt_chars": 383,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107458562.293099,
+          "data": {
+            "stage": "llm",
+            "request_id": "16c3e65f81f346c2"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107458746.878545,
+          "data": {
+            "stage": "llm",
+            "request_id": "16c3e65f81f346c2",
+            "completion_tokens": 15,
+            "prompt_tokens": 359,
+            "total_tokens": 374,
+            "prompt_tokens_details": {
+              "cached_tokens": 345
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107458747.5953379,
+          "data": {
+            "stage": "llm",
+            "request_id": "16c3e65f81f346c2",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-05",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Giờ này là mấy giờ nhỉ",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 231.923,
+      "http_ttft_ms": null,
+      "total_ms": 397.826,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107458750.615251,
+          "data": {
+            "stage": "llm",
+            "request_id": "6f08876c3fc3443a",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107458750.636931,
+          "data": {
+            "stage": "llm",
+            "request_id": "6f08876c3fc3443a",
+            "priority": "speech",
+            "queue_ms": 0.026079893112182617,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107458750.672963,
+          "data": {
+            "stage": "llm",
+            "request_id": "6f08876c3fc3443a",
+            "prompt_chars": 382,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107458982.53845,
+          "data": {
+            "stage": "llm",
+            "request_id": "6f08876c3fc3443a"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107459147.523313,
+          "data": {
+            "stage": "llm",
+            "request_id": "6f08876c3fc3443a",
+            "completion_tokens": 15,
+            "prompt_tokens": 358,
+            "total_tokens": 373,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107459148.441245,
+          "data": {
+            "stage": "llm",
+            "request_id": "6f08876c3fc3443a",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-06",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Bạn xem giúp tôi mấy giờ",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 229.159,
+      "http_ttft_ms": null,
+      "total_ms": 400.431,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107459151.273475,
+          "data": {
+            "stage": "llm",
+            "request_id": "2eb574488b18471e",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107459151.2879071,
+          "data": {
+            "stage": "llm",
+            "request_id": "2eb574488b18471e",
+            "priority": "speech",
+            "queue_ms": 0.019487857818603516,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107459151.338996,
+          "data": {
+            "stage": "llm",
+            "request_id": "2eb574488b18471e",
+            "prompt_chars": 384,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107459380.432045,
+          "data": {
+            "stage": "llm",
+            "request_id": "2eb574488b18471e"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107459550.92607,
+          "data": {
+            "stage": "llm",
+            "request_id": "2eb574488b18471e",
+            "completion_tokens": 15,
+            "prompt_tokens": 357,
+            "total_tokens": 372,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107459551.7044318,
+          "data": {
+            "stage": "llm",
+            "request_id": "2eb574488b18471e",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-07",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Ngày tháng hôm nay thế nào?",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 236.603,
+      "http_ttft_ms": null,
+      "total_ms": 414.01,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107459554.9868598,
+          "data": {
+            "stage": "llm",
+            "request_id": "f5f37c8e25624d84",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107459555.015021,
+          "data": {
+            "stage": "llm",
+            "request_id": "f5f37c8e25624d84",
+            "priority": "speech",
+            "queue_ms": 0.03473687171936035,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107459555.050749,
+          "data": {
+            "stage": "llm",
+            "request_id": "f5f37c8e25624d84",
+            "prompt_chars": 387,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107459791.589578,
+          "data": {
+            "stage": "llm",
+            "request_id": "f5f37c8e25624d84"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107459968.63593,
+          "data": {
+            "stage": "llm",
+            "request_id": "f5f37c8e25624d84",
+            "completion_tokens": 15,
+            "prompt_tokens": 359,
+            "total_tokens": 374,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107459968.9966872,
+          "data": {
+            "stage": "llm",
+            "request_id": "f5f37c8e25624d84",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-08",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Bây giờ mấy giờ ở đây",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 205.724,
+      "http_ttft_ms": null,
+      "total_ms": 351.442,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107459970.9240248,
+          "data": {
+            "stage": "llm",
+            "request_id": "533f147aaf114902",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107459970.9302812,
+          "data": {
+            "stage": "llm",
+            "request_id": "533f147aaf114902",
+            "priority": "speech",
+            "queue_ms": 0.009871959686279297,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107459970.949993,
+          "data": {
+            "stage": "llm",
+            "request_id": "533f147aaf114902",
+            "prompt_chars": 381,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107460176.647865,
+          "data": {
+            "stage": "llm",
+            "request_id": "533f147aaf114902"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107460321.98653,
+          "data": {
+            "stage": "llm",
+            "request_id": "533f147aaf114902",
+            "completion_tokens": 15,
+            "prompt_tokens": 357,
+            "total_tokens": 372,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107460322.365671,
+          "data": {
+            "stage": "llm",
+            "request_id": "533f147aaf114902",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-09",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Cho tôi biết thời gian hiện tại",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 218.051,
+      "http_ttft_ms": null,
+      "total_ms": 388.165,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107460324.466611,
+          "data": {
+            "stage": "llm",
+            "request_id": "031379efbf554165",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107460324.474979,
+          "data": {
+            "stage": "llm",
+            "request_id": "031379efbf554165",
+            "priority": "speech",
+            "queue_ms": 0.011471986770629883,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107460324.492611,
+          "data": {
+            "stage": "llm",
+            "request_id": "031379efbf554165",
+            "prompt_chars": 391,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107460542.517176,
+          "data": {
+            "stage": "llm",
+            "request_id": "031379efbf554165"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107460712.152086,
+          "data": {
+            "stage": "llm",
+            "request_id": "031379efbf554165",
+            "completion_tokens": 15,
+            "prompt_tokens": 358,
+            "total_tokens": 373,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107460712.631356,
+          "data": {
+            "stage": "llm",
+            "request_id": "031379efbf554165",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-10",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Cho tôi biết hôm nay là ngày mấy tháng mấy.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 198.599,
+      "http_ttft_ms": null,
+      "total_ms": 376.733,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107460714.725656,
+          "data": {
+            "stage": "llm",
+            "request_id": "8284ad956401422d",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107460714.73532,
+          "data": {
+            "stage": "llm",
+            "request_id": "8284ad956401422d",
+            "priority": "speech",
+            "queue_ms": 0.01225590705871582,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107460714.7645528,
+          "data": {
+            "stage": "llm",
+            "request_id": "8284ad956401422d",
+            "prompt_chars": 403,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107460913.324681,
+          "data": {
+            "stage": "llm",
+            "request_id": "8284ad956401422d"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107461090.940913,
+          "data": {
+            "stage": "llm",
+            "request_id": "8284ad956401422d",
+            "completion_tokens": 15,
+            "prompt_tokens": 362,
+            "total_tokens": 377,
+            "prompt_tokens_details": {
+              "cached_tokens": 344
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107461091.45852,
+          "data": {
+            "stage": "llm",
+            "request_id": "8284ad956401422d",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "clock-11",
+      "split": "heldout",
+      "group": "clock",
+      "expected_tool": "clock",
+      "question": "Xem đồng hồ giúp tôi rồi nói giờ hiện tại.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "clock",
+          "arguments": {}
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 208.921,
+      "http_ttft_ms": null,
+      "total_ms": 358.276,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107461095.228506,
+          "data": {
+            "stage": "llm",
+            "request_id": "26dde4186149460b",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107461095.246443,
+          "data": {
+            "stage": "llm",
+            "request_id": "26dde4186149460b",
+            "priority": "speech",
+            "queue_ms": 0.025600910186767578,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107461095.2996268,
+          "data": {
+            "stage": "llm",
+            "request_id": "26dde4186149460b",
+            "prompt_chars": 402,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107461304.149637,
+          "data": {
+            "stage": "llm",
+            "request_id": "26dde4186149460b"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107461452.8943632,
+          "data": {
+            "stage": "llm",
+            "request_id": "26dde4186149460b",
+            "completion_tokens": 15,
+            "prompt_tokens": 362,
+            "total_tokens": 377,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107461453.504308,
+          "data": {
+            "stage": "llm",
+            "request_id": "26dde4186149460b",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-00",
+      "split": "dev",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Thời tiết ở Hà Nội hôm nay thế nào? Hãy tra cứu giúp tôi.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "Thời tiết ở Hà Nội hôm nay"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 175.094,
+      "http_ttft_ms": null,
+      "total_ms": 681.585,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107461456.8552802,
+          "data": {
+            "stage": "llm",
+            "request_id": "d1f7c93d3efe4813",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107461456.899057,
+          "data": {
+            "stage": "llm",
+            "request_id": "d1f7c93d3efe4813",
+            "priority": "speech",
+            "queue_ms": 0.048352956771850586,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107461456.931633,
+          "data": {
+            "stage": "llm",
+            "request_id": "d1f7c93d3efe4813",
+            "prompt_chars": 417,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107461631.948951,
+          "data": {
+            "stage": "llm",
+            "request_id": "d1f7c93d3efe4813"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107462138.096106,
+          "data": {
+            "stage": "llm",
+            "request_id": "d1f7c93d3efe4813",
+            "completion_tokens": 27,
+            "prompt_tokens": 368,
+            "total_tokens": 395,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107462138.439918,
+          "data": {
+            "stage": "llm",
+            "request_id": "d1f7c93d3efe4813",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-01",
+      "split": "dev",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Tra cứu dự báo mưa hôm nay tại Đà Nẵng.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "dự báo mưa hôm nay tại Đà Nẵng"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 179.505,
+      "http_ttft_ms": null,
+      "total_ms": 602.79,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107462140.5816429,
+          "data": {
+            "stage": "llm",
+            "request_id": "367cce7a86e64857",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107462140.587243,
+          "data": {
+            "stage": "llm",
+            "request_id": "367cce7a86e64857",
+            "priority": "speech",
+            "queue_ms": 0.008687973022460938,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107462140.6044111,
+          "data": {
+            "stage": "llm",
+            "request_id": "367cce7a86e64857",
+            "prompt_chars": 399,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107462320.086796,
+          "data": {
+            "stage": "llm",
+            "request_id": "367cce7a86e64857"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107462742.8437002,
+          "data": {
+            "stage": "llm",
+            "request_id": "367cce7a86e64857",
+            "completion_tokens": 28,
+            "prompt_tokens": 362,
+            "total_tokens": 390,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107462743.371275,
+          "data": {
+            "stage": "llm",
+            "request_id": "367cce7a86e64857",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-02",
+      "split": "dev",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Tìm giá vé tàu Hà Nội đi Hải Phòng ngày mai.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "Giá vé tàu Hà Nội đi Hải Phòng ngày mai"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 201.283,
+      "http_ttft_ms": null,
+      "total_ms": 690.703,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107462746.776297,
+          "data": {
+            "stage": "llm",
+            "request_id": "f006e438a37142ec",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107462746.7879128,
+          "data": {
+            "stage": "llm",
+            "request_id": "f006e438a37142ec",
+            "priority": "speech",
+            "queue_ms": 0.01596808433532715,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107462746.814073,
+          "data": {
+            "stage": "llm",
+            "request_id": "f006e438a37142ec",
+            "prompt_chars": 404,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107462948.058941,
+          "data": {
+            "stage": "llm",
+            "request_id": "f006e438a37142ec"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107463437.16646,
+          "data": {
+            "stage": "llm",
+            "request_id": "f006e438a37142ec",
+            "completion_tokens": 29,
+            "prompt_tokens": 363,
+            "total_tokens": 392,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107463437.479696,
+          "data": {
+            "stage": "llm",
+            "request_id": "f006e438a37142ec",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-03",
+      "split": "heldout",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Tra cứu giờ mở cửa hôm nay của bảo tàng Hà Nội.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "giờ mở cửa hôm nay của bảo tàng Hà Nội"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 168.082,
+      "http_ttft_ms": null,
+      "total_ms": 660.444,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107463439.774719,
+          "data": {
+            "stage": "llm",
+            "request_id": "a444479f2bef49aa",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107463439.781487,
+          "data": {
+            "stage": "llm",
+            "request_id": "a444479f2bef49aa",
+            "priority": "speech",
+            "queue_ms": 0.01024007797241211,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107463439.802975,
+          "data": {
+            "stage": "llm",
+            "request_id": "a444479f2bef49aa",
+            "prompt_chars": 407,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107463607.8571122,
+          "data": {
+            "stage": "llm",
+            "request_id": "a444479f2bef49aa"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107464099.642746,
+          "data": {
+            "stage": "llm",
+            "request_id": "a444479f2bef49aa",
+            "completion_tokens": 31,
+            "prompt_tokens": 365,
+            "total_tokens": 396,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107464100.218642,
+          "data": {
+            "stage": "llm",
+            "request_id": "a444479f2bef49aa",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-04",
+      "split": "heldout",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Tìm tình trạng chuyến bay VN123 hiện tại.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "tình trạng chuyến bay VN123 hiện tại"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 176.886,
+      "http_ttft_ms": null,
+      "total_ms": 619.679,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107464103.93906,
+          "data": {
+            "stage": "llm",
+            "request_id": "f30eed0b194540ac",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107464103.9527402,
+          "data": {
+            "stage": "llm",
+            "request_id": "f30eed0b194540ac",
+            "priority": "speech",
+            "queue_ms": 0.018527746200561523,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107464103.979316,
+          "data": {
+            "stage": "llm",
+            "request_id": "f30eed0b194540ac",
+            "prompt_chars": 401,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107464280.825474,
+          "data": {
+            "stage": "llm",
+            "request_id": "f30eed0b194540ac"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107464723.25544,
+          "data": {
+            "stage": "llm",
+            "request_id": "f30eed0b194540ac",
+            "completion_tokens": 29,
+            "prompt_tokens": 363,
+            "total_tokens": 392,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107464723.6185012,
+          "data": {
+            "stage": "llm",
+            "request_id": "f30eed0b194540ac",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-05",
+      "split": "heldout",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Tra cứu thông báo mới nhất của trường Đại học Bách khoa Hà Nội.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "Thông báo mới nhất của trường Đại học Bách khoa Hà Nội"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 200.198,
+      "http_ttft_ms": null,
+      "total_ms": 696.929,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107464726.184167,
+          "data": {
+            "stage": "llm",
+            "request_id": "1f8e86a88b324ab3",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107464726.191463,
+          "data": {
+            "stage": "llm",
+            "request_id": "1f8e86a88b324ab3",
+            "priority": "speech",
+            "queue_ms": 0.01011204719543457,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107464726.209848,
+          "data": {
+            "stage": "llm",
+            "request_id": "1f8e86a88b324ab3",
+            "prompt_chars": 423,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107464926.382317,
+          "data": {
+            "stage": "llm",
+            "request_id": "1f8e86a88b324ab3"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107465422.669292,
+          "data": {
+            "stage": "llm",
+            "request_id": "1f8e86a88b324ab3",
+            "completion_tokens": 32,
+            "prompt_tokens": 367,
+            "total_tokens": 399,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107465423.11309,
+          "data": {
+            "stage": "llm",
+            "request_id": "1f8e86a88b324ab3",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-06",
+      "split": "heldout",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Kiểm tra lịch biểu diễn tuần này ở Nhà hát Lớn Hà Nội.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "Lịch biểu diễn tuần này ở Nhà hát Lớn Hà Nội"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 195.835,
+      "http_ttft_ms": null,
+      "total_ms": 733.812,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107465425.683476,
+          "data": {
+            "stage": "llm",
+            "request_id": "af94bfba5124400c",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107465425.692244,
+          "data": {
+            "stage": "llm",
+            "request_id": "af94bfba5124400c",
+            "priority": "speech",
+            "queue_ms": 0.012864112854003906,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107465425.7174451,
+          "data": {
+            "stage": "llm",
+            "request_id": "af94bfba5124400c",
+            "prompt_chars": 414,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107465621.5180318,
+          "data": {
+            "stage": "llm",
+            "request_id": "af94bfba5124400c"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107466159.146423,
+          "data": {
+            "stage": "llm",
+            "request_id": "af94bfba5124400c",
+            "completion_tokens": 32,
+            "prompt_tokens": 367,
+            "total_tokens": 399,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107466159.495292,
+          "data": {
+            "stage": "llm",
+            "request_id": "af94bfba5124400c",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-07",
+      "split": "heldout",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Tra cứu giờ xe buýt 08 chạy hôm nay.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "giờ xe buýt 08 chạy hôm nay"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 228.011,
+      "http_ttft_ms": null,
+      "total_ms": 698.516,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107466161.812907,
+          "data": {
+            "stage": "llm",
+            "request_id": "6a7c4b493ebd4ee6",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107466161.818939,
+          "data": {
+            "stage": "llm",
+            "request_id": "6a7c4b493ebd4ee6",
+            "priority": "speech",
+            "queue_ms": 0.009008169174194336,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107466161.835995,
+          "data": {
+            "stage": "llm",
+            "request_id": "6a7c4b493ebd4ee6",
+            "prompt_chars": 396,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107466389.8235571,
+          "data": {
+            "stage": "llm",
+            "request_id": "6a7c4b493ebd4ee6"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107466859.9990458,
+          "data": {
+            "stage": "llm",
+            "request_id": "6a7c4b493ebd4ee6",
+            "completion_tokens": 30,
+            "prompt_tokens": 364,
+            "total_tokens": 394,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107466860.3284419,
+          "data": {
+            "stage": "llm",
+            "request_id": "6a7c4b493ebd4ee6",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-08",
+      "split": "heldout",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Tìm tin mới nhất về tuyến metro số 1 tại Thành phố Hồ Chí Minh.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "tuyến metro số 1 tại Thành phố Hồ Chí Minh"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 259.483,
+      "http_ttft_ms": null,
+      "total_ms": 698.76,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107466862.69273,
+          "data": {
+            "stage": "llm",
+            "request_id": "989c0fa0b4ae47c5",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107466862.698554,
+          "data": {
+            "stage": "llm",
+            "request_id": "989c0fa0b4ae47c5",
+            "priority": "speech",
+            "queue_ms": 0.008336067199707031,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107466862.71377,
+          "data": {
+            "stage": "llm",
+            "request_id": "989c0fa0b4ae47c5",
+            "prompt_chars": 423,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107467122.1756082,
+          "data": {
+            "stage": "llm",
+            "request_id": "989c0fa0b4ae47c5"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107467560.888549,
+          "data": {
+            "stage": "llm",
+            "request_id": "989c0fa0b4ae47c5",
+            "completion_tokens": 30,
+            "prompt_tokens": 368,
+            "total_tokens": 398,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107467561.452684,
+          "data": {
+            "stage": "llm",
+            "request_id": "989c0fa0b4ae47c5",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search-09",
+      "split": "heldout",
+      "group": "search",
+      "expected_tool": "search",
+      "question": "Tra cứu xem cửa hàng sách Nguyễn Văn Cừ hôm nay còn mở không.",
+      "answer": "",
+      "calls": [
+        {
+          "name": "search",
+          "arguments": {
+            "query": "Cửa hàng sách Nguyễn Văn Cừ hôm nay còn mở không"
+          }
+        }
+      ],
+      "valid": true,
+      "error": null,
+      "ttft_ms": null,
+      "first_tool_ms": 187.388,
+      "http_ttft_ms": null,
+      "total_ms": 707.752,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107467563.966862,
+          "data": {
+            "stage": "llm",
+            "request_id": "0d4ee2b86a7f4286",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107467563.97347,
+          "data": {
+            "stage": "llm",
+            "request_id": "0d4ee2b86a7f4286",
+            "priority": "speech",
+            "queue_ms": 0.009439706802368164,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107467563.990366,
+          "data": {
+            "stage": "llm",
+            "request_id": "0d4ee2b86a7f4286",
+            "prompt_chars": 421,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_tool_delta",
+          "ts_ms": 1107467751.354552,
+          "data": {
+            "stage": "llm",
+            "request_id": "0d4ee2b86a7f4286"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107468271.229074,
+          "data": {
+            "stage": "llm",
+            "request_id": "0d4ee2b86a7f4286",
+            "completion_tokens": 32,
+            "prompt_tokens": 368,
+            "total_tokens": 400,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107468271.7188559,
+          "data": {
+            "stage": "llm",
+            "request_id": "0d4ee2b86a7f4286",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-00",
+      "split": "dev",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Chào bạn",
+      "answer": "Chào bạn! Bạn cần gì hôm nay?",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 47.135,
+      "first_tool_ms": null,
+      "http_ttft_ms": 47.095,
+      "total_ms": 247.882,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107468274.450877,
+          "data": {
+            "stage": "llm",
+            "request_id": "00f7b2954b1c4527",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107468274.458813,
+          "data": {
+            "stage": "llm",
+            "request_id": "00f7b2954b1c4527",
+            "priority": "speech",
+            "queue_ms": 0.016063928604125977,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107468274.491341,
+          "data": {
+            "stage": "llm",
+            "request_id": "00f7b2954b1c4527",
+            "prompt_chars": 368,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107468321.5863068,
+          "data": {
+            "stage": "llm",
+            "request_id": "00f7b2954b1c4527"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107468521.8363621,
+          "data": {
+            "stage": "llm",
+            "request_id": "00f7b2954b1c4527",
+            "completion_tokens": 12,
+            "prompt_tokens": 353,
+            "total_tokens": 365,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107468522.332448,
+          "data": {
+            "stage": "llm",
+            "request_id": "00f7b2954b1c4527",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-01",
+      "split": "dev",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Bạn tên gì?",
+      "answer": "Tôi là một trợ lý ảo. Tôi có thể giúp bạn với những câu hỏi về thời gian, tra cứu thông tin hoặc hỗ trợ các nhiệm vụ khác. Bạn cần gì hôm nay?",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 38.865,
+      "first_tool_ms": null,
+      "http_ttft_ms": 38.843,
+      "total_ms": 908.68,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107468525.067269,
+          "data": {
+            "stage": "llm",
+            "request_id": "5c92d3d1e0c343bd",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107468525.0732849,
+          "data": {
+            "stage": "llm",
+            "request_id": "5c92d3d1e0c343bd",
+            "priority": "speech",
+            "queue_ms": 0.008624076843261719,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107468525.089493,
+          "data": {
+            "stage": "llm",
+            "request_id": "5c92d3d1e0c343bd",
+            "prompt_chars": 371,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107468563.932413,
+          "data": {
+            "stage": "llm",
+            "request_id": "5c92d3d1e0c343bd"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107469433.4501379,
+          "data": {
+            "stage": "llm",
+            "request_id": "5c92d3d1e0c343bd",
+            "completion_tokens": 42,
+            "prompt_tokens": 354,
+            "total_tokens": 396,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107469433.747086,
+          "data": {
+            "stage": "llm",
+            "request_id": "5c92d3d1e0c343bd",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-02",
+      "split": "dev",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Cảm ơn bạn nhé",
+      "answer": "Không vấn đề, bạn nhé!",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 35.911,
+      "first_tool_ms": null,
+      "http_ttft_ms": 35.884,
+      "total_ms": 198.343,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107469436.2912638,
+          "data": {
+            "stage": "llm",
+            "request_id": "4ff8cffa049d46ec",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107469436.297392,
+          "data": {
+            "stage": "llm",
+            "request_id": "4ff8cffa049d46ec",
+            "priority": "speech",
+            "queue_ms": 0.00958395004272461,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107469436.318401,
+          "data": {
+            "stage": "llm",
+            "request_id": "4ff8cffa049d46ec",
+            "prompt_chars": 374,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107469472.202433,
+          "data": {
+            "stage": "llm",
+            "request_id": "4ff8cffa049d46ec"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107469634.290297,
+          "data": {
+            "stage": "llm",
+            "request_id": "4ff8cffa049d46ec",
+            "completion_tokens": 8,
+            "prompt_tokens": 356,
+            "total_tokens": 364,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107469634.633837,
+          "data": {
+            "stage": "llm",
+            "request_id": "4ff8cffa049d46ec",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-03",
+      "split": "heldout",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Bạn giúp được gì cho tôi?",
+      "answer": "Tôi có thể giúp bạn tìm thông tin, tra cứu dữ liệu, hoặc xác định thời gian hiện tại. Bạn cần gì?",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 47.35,
+      "first_tool_ms": null,
+      "http_ttft_ms": 47.326,
+      "total_ms": 729.399,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107469637.1606069,
+          "data": {
+            "stage": "llm",
+            "request_id": "1a9d552cfffd43fd",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107469637.1675029,
+          "data": {
+            "stage": "llm",
+            "request_id": "1a9d552cfffd43fd",
+            "priority": "speech",
+            "queue_ms": 0.00964808464050293,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107469637.184591,
+          "data": {
+            "stage": "llm",
+            "request_id": "1a9d552cfffd43fd",
+            "prompt_chars": 385,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107469684.510536,
+          "data": {
+            "stage": "llm",
+            "request_id": "1a9d552cfffd43fd"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107470366.24559,
+          "data": {
+            "stage": "llm",
+            "request_id": "1a9d552cfffd43fd",
+            "completion_tokens": 28,
+            "prompt_tokens": 357,
+            "total_tokens": 385,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107470366.5594661,
+          "data": {
+            "stage": "llm",
+            "request_id": "1a9d552cfffd43fd",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-04",
+      "split": "heldout",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Dịch cụm “what time is it” sang tiếng Việt, không cần xem giờ hiện tại.",
+      "answer": "\"what time is it\" dịch sang tiếng Việt là \"giờ bao nhiêu\".",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 40.019,
+      "first_tool_ms": null,
+      "http_ttft_ms": 39.994,
+      "total_ms": 425.153,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107470369.094876,
+          "data": {
+            "stage": "llm",
+            "request_id": "7de3a0b8dd714f5d",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107470369.101852,
+          "data": {
+            "stage": "llm",
+            "request_id": "7de3a0b8dd714f5d",
+            "priority": "speech",
+            "queue_ms": 0.009344100952148438,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107470369.119821,
+          "data": {
+            "stage": "llm",
+            "request_id": "7de3a0b8dd714f5d",
+            "prompt_chars": 431,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107470409.113955,
+          "data": {
+            "stage": "llm",
+            "request_id": "7de3a0b8dd714f5d"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107470793.695019,
+          "data": {
+            "stage": "llm",
+            "request_id": "7de3a0b8dd714f5d",
+            "completion_tokens": 19,
+            "prompt_tokens": 372,
+            "total_tokens": 391,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107470794.247522,
+          "data": {
+            "stage": "llm",
+            "request_id": "7de3a0b8dd714f5d",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-05",
+      "split": "heldout",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Trong câu chuyện giả tưởng, chiếc đồng hồ dừng ở 8 giờ. Nó dừng lúc mấy giờ?",
+      "answer": "Trong câu chuyện giả tưởng, chiếc đồng hồ dừng ở 8 giờ. Vì vậy, nó dừng lúc 8 giờ.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 46.409,
+      "first_tool_ms": null,
+      "http_ttft_ms": 46.367,
+      "total_ms": 622.848,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107470798.74683,
+          "data": {
+            "stage": "llm",
+            "request_id": "c02d2a5e23774449",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107470798.760127,
+          "data": {
+            "stage": "llm",
+            "request_id": "c02d2a5e23774449",
+            "priority": "speech",
+            "queue_ms": 0.017585039138793945,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107470798.7894068,
+          "data": {
+            "stage": "llm",
+            "request_id": "c02d2a5e23774449",
+            "prompt_chars": 436,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107470845.155931,
+          "data": {
+            "stage": "llm",
+            "request_id": "c02d2a5e23774449"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107471421.285252,
+          "data": {
+            "stage": "llm",
+            "request_id": "c02d2a5e23774449",
+            "completion_tokens": 27,
+            "prompt_tokens": 372,
+            "total_tokens": 399,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107471421.594969,
+          "data": {
+            "stage": "llm",
+            "request_id": "c02d2a5e23774449",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-06",
+      "split": "heldout",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Ngày sinh đã biết của tôi là 12 tháng 5 năm 1990. Nhắc lại ngày sinh đó.",
+      "answer": "Ngày sinh của bạn là 12 tháng 5 năm 1990.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 62.185,
+      "first_tool_ms": null,
+      "http_ttft_ms": 62.161,
+      "total_ms": 554.046,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107471424.2191,
+          "data": {
+            "stage": "llm",
+            "request_id": "24211b670e17438f",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107471424.225276,
+          "data": {
+            "stage": "llm",
+            "request_id": "24211b670e17438f",
+            "priority": "speech",
+            "queue_ms": 0.008816003799438477,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107471424.24326,
+          "data": {
+            "stage": "llm",
+            "request_id": "24211b670e17438f",
+            "prompt_chars": 432,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107471486.403995,
+          "data": {
+            "stage": "llm",
+            "request_id": "24211b670e17438f"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107471977.881544,
+          "data": {
+            "stage": "llm",
+            "request_id": "24211b670e17438f",
+            "completion_tokens": 20,
+            "prompt_tokens": 378,
+            "total_tokens": 398,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107471978.265181,
+          "data": {
+            "stage": "llm",
+            "request_id": "24211b670e17438f",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-07",
+      "split": "heldout",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Viết một câu ví dụ chứa từ thời tiết, không cần tra cứu dữ liệu.",
+      "answer": "Mùa hè này có thời tiết nắng nóng, nên mọi người nên chú ý giữ mát.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 39.94,
+      "first_tool_ms": null,
+      "http_ttft_ms": 39.912,
+      "total_ms": 485.29,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107471981.058739,
+          "data": {
+            "stage": "llm",
+            "request_id": "eaf85a39ff2f4558",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107471981.0670269,
+          "data": {
+            "stage": "llm",
+            "request_id": "eaf85a39ff2f4558",
+            "priority": "speech",
+            "queue_ms": 0.011615991592407227,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107471981.086947,
+          "data": {
+            "stage": "llm",
+            "request_id": "eaf85a39ff2f4558",
+            "prompt_chars": 424,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107472020.999193,
+          "data": {
+            "stage": "llm",
+            "request_id": "eaf85a39ff2f4558"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107472465.7698128,
+          "data": {
+            "stage": "llm",
+            "request_id": "eaf85a39ff2f4558",
+            "completion_tokens": 21,
+            "prompt_tokens": 368,
+            "total_tokens": 389,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107472466.348957,
+          "data": {
+            "stage": "llm",
+            "request_id": "eaf85a39ff2f4558",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-08",
+      "split": "heldout",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Thứ ba đứng sau thứ mấy?",
+      "answer": "Thứ ba đứng sau thứ hai.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 47.581,
+      "first_tool_ms": null,
+      "http_ttft_ms": 47.544,
+      "total_ms": 222.227,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107472470.9029858,
+          "data": {
+            "stage": "llm",
+            "request_id": "c14971b892ab49b5",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107472470.91529,
+          "data": {
+            "stage": "llm",
+            "request_id": "c14971b892ab49b5",
+            "priority": "speech",
+            "queue_ms": 0.016560077667236328,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107472470.940602,
+          "data": {
+            "stage": "llm",
+            "request_id": "c14971b892ab49b5",
+            "prompt_chars": 384,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107472518.484182,
+          "data": {
+            "stage": "llm",
+            "request_id": "c14971b892ab49b5"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107472692.5737102,
+          "data": {
+            "stage": "llm",
+            "request_id": "c14971b892ab49b5",
+            "completion_tokens": 9,
+            "prompt_tokens": 358,
+            "total_tokens": 367,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107472693.130038,
+          "data": {
+            "stage": "llm",
+            "request_id": "c14971b892ab49b5",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_tool-09",
+      "split": "heldout",
+      "group": "no_tool",
+      "expected_tool": null,
+      "question": "Hai cộng hai bằng mấy?",
+      "answer": "Hai cộng hai bằng bốn.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 37.755,
+      "first_tool_ms": null,
+      "http_ttft_ms": 37.715,
+      "total_ms": 212.037,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107472697.814644,
+          "data": {
+            "stage": "llm",
+            "request_id": "cab524bc2b564029",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107472697.827844,
+          "data": {
+            "stage": "llm",
+            "request_id": "cab524bc2b564029",
+            "priority": "speech",
+            "queue_ms": 0.01807999610900879,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107472697.854229,
+          "data": {
+            "stage": "llm",
+            "request_id": "cab524bc2b564029",
+            "prompt_chars": 382,
+            "message_count": 2,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107472735.569277,
+          "data": {
+            "stage": "llm",
+            "request_id": "cab524bc2b564029"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107472909.1880789,
+          "data": {
+            "stage": "llm",
+            "request_id": "cab524bc2b564029",
+            "completion_tokens": 9,
+            "prompt_tokens": 357,
+            "total_tokens": 366,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107472909.851896,
+          "data": {
+            "stage": "llm",
+            "request_id": "cab524bc2b564029",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-00",
+      "split": "dev",
+      "group": "memory",
+      "expected_tool": null,
+      "question": "Nhắc lại tên mới nhất của tôi, trả lời ngắn.",
+      "answer": "Bình.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 61.471,
+      "first_tool_ms": null,
+      "http_ttft_ms": 61.425,
+      "total_ms": 139.728,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107472914.7220728,
+          "data": {
+            "stage": "llm",
+            "request_id": "5afe9f3fe562404b",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107472914.7367928,
+          "data": {
+            "stage": "llm",
+            "request_id": "5afe9f3fe562404b",
+            "priority": "speech",
+            "queue_ms": 0.019184112548828125,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107472914.7676098,
+          "data": {
+            "stage": "llm",
+            "request_id": "5afe9f3fe562404b",
+            "prompt_chars": 500,
+            "message_count": 6,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107472976.1929588,
+          "data": {
+            "stage": "llm",
+            "request_id": "5afe9f3fe562404b"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107473053.8860302,
+          "data": {
+            "stage": "llm",
+            "request_id": "5afe9f3fe562404b",
+            "completion_tokens": 4,
+            "prompt_tokens": 415,
+            "total_tokens": 419,
+            "prompt_tokens_details": {
+              "cached_tokens": 341
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107473054.4501982,
+          "data": {
+            "stage": "llm",
+            "request_id": "5afe9f3fe562404b",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-01",
+      "split": "dev",
+      "group": "memory",
+      "expected_tool": null,
+      "question": "Nhắc lại thành phố mới nhất của tôi, trả lời ngắn.",
+      "answer": "Hà Nội.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 49.142,
+      "first_tool_ms": null,
+      "http_ttft_ms": 49.098,
+      "total_ms": 142.262,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107473059.233782,
+          "data": {
+            "stage": "llm",
+            "request_id": "91e4a6a3e7ea461c",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107473059.247318,
+          "data": {
+            "stage": "llm",
+            "request_id": "91e4a6a3e7ea461c",
+            "priority": "speech",
+            "queue_ms": 0.01763176918029785,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107473059.277446,
+          "data": {
+            "stage": "llm",
+            "request_id": "91e4a6a3e7ea461c",
+            "prompt_chars": 521,
+            "message_count": 6,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107473108.375895,
+          "data": {
+            "stage": "llm",
+            "request_id": "91e4a6a3e7ea461c"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107473200.800139,
+          "data": {
+            "stage": "llm",
+            "request_id": "91e4a6a3e7ea461c",
+            "completion_tokens": 5,
+            "prompt_tokens": 420,
+            "total_tokens": 425,
+            "prompt_tokens_details": {
+              "cached_tokens": 344
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107473201.4961,
+          "data": {
+            "stage": "llm",
+            "request_id": "91e4a6a3e7ea461c",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-02",
+      "split": "dev",
+      "group": "memory",
+      "expected_tool": null,
+      "question": "Nhắc lại mã đặt chỗ mới nhất của tôi, trả lời ngắn.",
+      "answer": "Mã đặt chỗ là CD456.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 50.941,
+      "first_tool_ms": null,
+      "http_ttft_ms": 50.901,
+      "total_ms": 287.39,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107473206.68889,
+          "data": {
+            "stage": "llm",
+            "request_id": "33052a67a01943c6",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107473206.70113,
+          "data": {
+            "stage": "llm",
+            "request_id": "33052a67a01943c6",
+            "priority": "speech",
+            "queue_ms": 0.016528844833374023,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107473206.7295141,
+          "data": {
+            "stage": "llm",
+            "request_id": "33052a67a01943c6",
+            "prompt_chars": 525,
+            "message_count": 6,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107473257.630179,
+          "data": {
+            "stage": "llm",
+            "request_id": "33052a67a01943c6"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107473493.394516,
+          "data": {
+            "stage": "llm",
+            "request_id": "33052a67a01943c6",
+            "completion_tokens": 11,
+            "prompt_tokens": 427,
+            "total_tokens": 438,
+            "prompt_tokens_details": {
+              "cached_tokens": 344
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107473494.0788128,
+          "data": {
+            "stage": "llm",
+            "request_id": "33052a67a01943c6",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-03",
+      "split": "heldout",
+      "group": "memory",
+      "expected_tool": null,
+      "question": "Nhắc lại món yêu thích mới nhất của tôi, trả lời ngắn.",
+      "answer": "Món yêu thích của bạn là bún bò.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 46.852,
+      "first_tool_ms": null,
+      "http_ttft_ms": 46.809,
+      "total_ms": 308.764,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107473499.213682,
+          "data": {
+            "stage": "llm",
+            "request_id": "84e98f76a3534659",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107473499.22797,
+          "data": {
+            "stage": "llm",
+            "request_id": "84e98f76a3534659",
+            "priority": "speech",
+            "queue_ms": 0.01961684226989746,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107473499.256722,
+          "data": {
+            "stage": "llm",
+            "request_id": "84e98f76a3534659",
+            "prompt_chars": 533,
+            "message_count": 6,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107473546.0654922,
+          "data": {
+            "stage": "llm",
+            "request_id": "84e98f76a3534659"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107473807.63443,
+          "data": {
+            "stage": "llm",
+            "request_id": "84e98f76a3534659",
+            "completion_tokens": 13,
+            "prompt_tokens": 425,
+            "total_tokens": 438,
+            "prompt_tokens_details": {
+              "cached_tokens": 344
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107473807.977283,
+          "data": {
+            "stage": "llm",
+            "request_id": "84e98f76a3534659",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-04",
+      "split": "heldout",
+      "group": "memory",
+      "expected_tool": null,
+      "question": "Nhắc lại giờ hẹn đã thống nhất mới nhất của tôi, trả lời ngắn.",
+      "answer": "Giờ hẹn là 9 giờ.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 69.387,
+      "first_tool_ms": null,
+      "http_ttft_ms": 69.362,
+      "total_ms": 238.078,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107473810.8551931,
+          "data": {
+            "stage": "llm",
+            "request_id": "a315625f405c44ab",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107473810.861657,
+          "data": {
+            "stage": "llm",
+            "request_id": "a315625f405c44ab",
+            "priority": "speech",
+            "queue_ms": 0.009696006774902344,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107473810.8802488,
+          "data": {
+            "stage": "llm",
+            "request_id": "a315625f405c44ab",
+            "prompt_chars": 558,
+            "message_count": 6,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107473880.242105,
+          "data": {
+            "stage": "llm",
+            "request_id": "a315625f405c44ab"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107474048.599748,
+          "data": {
+            "stage": "llm",
+            "request_id": "a315625f405c44ab",
+            "completion_tokens": 9,
+            "prompt_tokens": 431,
+            "total_tokens": 440,
+            "prompt_tokens_details": {
+              "cached_tokens": 344
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107474048.9329531,
+          "data": {
+            "stage": "llm",
+            "request_id": "a315625f405c44ab",
+            "outcome": "complete"
+          }
+        }
+      ]
+    },
+    {
+      "id": "memory-05",
+      "split": "heldout",
+      "group": "memory",
+      "expected_tool": null,
+      "question": "Nhắc lại số lượng sách mới nhất của tôi, trả lời ngắn.",
+      "answer": "Bạn có 5 cuốn sách.",
+      "calls": [],
+      "valid": true,
+      "error": null,
+      "ttft_ms": 49.449,
+      "first_tool_ms": null,
+      "http_ttft_ms": 49.426,
+      "total_ms": 209.86,
+      "events": [
+        {
+          "type": "model_queued",
+          "ts_ms": 1107474051.8465118,
+          "data": {
+            "stage": "llm",
+            "request_id": "52127f2a8bc640ff",
+            "priority": "speech",
+            "active": 0,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "model_slot_acquired",
+          "ts_ms": 1107474051.852592,
+          "data": {
+            "stage": "llm",
+            "request_id": "52127f2a8bc640ff",
+            "priority": "speech",
+            "queue_ms": 0.00846409797668457,
+            "active": 1,
+            "waiting": 0
+          }
+        },
+        {
+          "type": "llm_request_sent",
+          "ts_ms": 1107474051.8700159,
+          "data": {
+            "stage": "llm",
+            "request_id": "52127f2a8bc640ff",
+            "prompt_chars": 526,
+            "message_count": 6,
+            "tools": 2
+          }
+        },
+        {
+          "type": "llm_first_token",
+          "ts_ms": 1107474101.295589,
+          "data": {
+            "stage": "llm",
+            "request_id": "52127f2a8bc640ff"
+          }
+        },
+        {
+          "type": "llm_usage",
+          "ts_ms": 1107474261.132543,
+          "data": {
+            "stage": "llm",
+            "request_id": "52127f2a8bc640ff",
+            "completion_tokens": 8,
+            "prompt_tokens": 423,
+            "total_tokens": 431,
+            "prompt_tokens_details": {
+              "cached_tokens": 344
+            }
+          }
+        },
+        {
+          "type": "llm_terminated",
+          "ts_ms": 1107474261.706358,
+          "data": {
+            "stage": "llm",
+            "request_id": "52127f2a8bc640ff",
+            "outcome": "complete"
+          }
+        }
+      ]
+    }
+  ],
+  "quality_summary": {
+    "dev": {
+      "clock": {
+        "n": 3,
+        "valid": 3
+      },
+      "direct": {
+        "n": 3,
+        "valid": 3
+      },
+      "memory": {
+        "n": 3,
+        "valid": 3
+      },
+      "no_tool": {
+        "n": 3,
+        "valid": 3
+      },
+      "search": {
+        "n": 3,
+        "valid": 3
+      }
+    },
+    "heldout": {
+      "clock": {
+        "n": 9,
+        "valid": 9
+      },
+      "direct": {
+        "n": 23,
+        "valid": 22
+      },
+      "memory": {
+        "n": 3,
+        "valid": 3
+      },
+      "no_tool": {
+        "n": 7,
+        "valid": 7
+      },
+      "search": {
+        "n": 7,
+        "valid": 7
+      }
+    }
+  },
+  "latency": {
+    "1": {
+      "attempted": 0,
+      "valid": 0,
+      "ttft_ms": {
+        "n": 0
+      },
+      "samples": []
+    },
+    "3": {
+      "attempted": 0,
+      "valid": 0,
+      "ttft_ms": {
+        "n": 0
+      },
+      "samples": []
+    }
+  }
+}

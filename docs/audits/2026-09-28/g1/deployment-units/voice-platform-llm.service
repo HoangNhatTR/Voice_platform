@@ -1,0 +1,18 @@
+[Unit]
+Description=Voice platform llm
+StartLimitIntervalSec=600
+StartLimitBurst=5
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ai01/AIHoang/voice-platform
+ExecStart="/home/ai01/AIHoang/voice-platform/scripts/start-local.sh" llm
+Environment=VOICEPLATFORM_PYTHON=/home/ai01/AIHoang/speech2speech/.venv/bin/python
+Environment=VOICEPLATFORM_S2S_ROOT=/home/ai01/AIHoang/speech2speech
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=60
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

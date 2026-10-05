@@ -1,0 +1,126 @@
+{
+  "readiness": {
+    "ok": true,
+    "started": true,
+    "maintenance": false,
+    "dependencies": {
+      "llm": {
+        "ok": true
+      },
+      "search": {
+        "ok": true
+      }
+    },
+    "runtime": {
+      "revision": "2d10008",
+      "dirty": true,
+      "source_sha256": "0891bd16ff8e26f0683415604b0c44f71c4d15ac743f66cf5a4590dc9396d4fc",
+      "config_sha256": "6b094affed61bbcec4fbac2db3340a815e5065d41ecbd4b835a1a1756fa9ff05",
+      "started_at": "2026-09-28T09:56:23.330629+00:00",
+      "python": "3.12.3",
+      "interpreter": "/home/ai01/AIHoang/speech2speech/.venv/bin/python",
+      "packages": {
+        "fastapi": "0.139.2",
+        "uvicorn": "0.51.0",
+        "httpx": "0.28.1",
+        "numpy": "2.4.6",
+        "onnxruntime": "1.27.0",
+        "zerotts": "0.1.5"
+      }
+    },
+    "sessions": 0,
+    "max_sessions": 3
+  },
+  "direct_llm": {
+    "engine": "openai_compat",
+    "system_prompt": "Trả lời sẽ được đọc thành tiếng: viết ngắn, không markdown.",
+    "text": "Chào bạn, rất vui được gặp bạn.",
+    "ttft_ms": 289.1,
+    "total_ms": 1047.3,
+    "chars": 31,
+    "chars_per_s": 29.6,
+    "tool_calls": [],
+    "finish_reason": "stop",
+    "contended": false,
+    "live_sessions": 0
+  },
+  "tool_call": {
+    "engine": "openai_compat",
+    "system_prompt": "Bạn có các công cụ sau: clock. Khi câu hỏi cần dữ liệu thực tế — thời gian, số liệu, hay bất cứ thứ gì phải tra cứu — hãy gọi công cụ rồi mới trả lời. Tuyệt đối không đoán những dữ liệu đó.\n\nTrả lời sẽ được đọc thành tiếng: viết ngắn, không markdown.",
+    "text": "",
+    "ttft_ms": null,
+    "total_ms": 1639.9,
+    "chars": 0,
+    "chars_per_s": 0.0,
+    "tool_calls": [
+      {
+        "name": "clock",
+        "arguments": {}
+      }
+    ],
+    "finish_reason": "tool_calls",
+    "contended": false,
+    "live_sessions": 0
+  },
+  "search": {
+    "engine": "llm",
+    "ok": true,
+    "content": "Bầu trời màu xanh do hiện tượng tán xạ Rayleigh, khi các phân tử khí trong khí quyển tán xạ ánh sáng xanh (có bước sóng ngắn) mạnh hơn các màu khác.",
+    "source": "openai_compat",
+    "error": null,
+    "latency_ms": 2593.9,
+    "contended": false,
+    "live_sessions": 0
+  },
+  "admission": {
+    "accepted": 3,
+    "extra_refused": true
+  },
+  "sessions_after_close": {},
+  "metrics": {
+    "snapshot": {
+      "counters": {},
+      "latency": {}
+    },
+    "gauges": {
+      "asr": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "llm": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "tts": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 17,
+        "parallel": 1
+      },
+      "search": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 11,
+        "parallel": 3
+      },
+      "tool": {
+        "active": 0,
+        "waiting": 0,
+        "capacity": 20,
+        "parallel": 4
+      },
+      "sessions": 0,
+      "tts_workers": 1,
+      "asr_workers": 0,
+      "event_loop_lag_ms": {
+        "n": 600,
+        "p95": 0.466,
+        "max": 1.194
+      }
+    }
+  }
+}

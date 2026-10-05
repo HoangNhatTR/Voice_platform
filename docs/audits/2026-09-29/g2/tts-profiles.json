@@ -1,0 +1,36 @@
+{
+  "zero-t4": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 4,
+      "codec_intra_op_num_threads": 4
+    }
+  },
+  "zero-t2": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 2,
+      "codec_intra_op_num_threads": 2
+    }
+  },
+  "zero-t1": {
+    "backend": "zerotts",
+    "options": {
+      "voice": "kimoanh",
+      "local_files_only": true,
+      "intra_op_num_threads": 1,
+      "codec_intra_op_num_threads": 1
+    }
+  },
+  "nano": {
+    "backend": "vieneu_nano",
+    "options": {
+      "voice": "Minh Quân",
+      "device": "cpu"
+    }
+  }
+}

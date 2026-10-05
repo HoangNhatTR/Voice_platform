@@ -1,0 +1,254 @@
+[
+  {
+    "profile": "slot1",
+    "settings": {
+      "parallel": 1,
+      "slot_context": 4096,
+      "batch": 256,
+      "ubatch": 256,
+      "cache_prompt": true
+    },
+    "quality_valid": 64,
+    "quality_total": 64,
+    "latency": {
+      "1": {
+        "attempted": 20,
+        "valid": 20,
+        "ttft_ms": {
+          "n": 20,
+          "p50": 66.673,
+          "p95": 92.569,
+          "p99": 156.634,
+          "max": 156.634,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      },
+      "3": {
+        "attempted": 60,
+        "valid": 60,
+        "ttft_ms": {
+          "n": 60,
+          "p50": 201.828,
+          "p95": 364.112,
+          "p99": 388.29,
+          "max": 393.653,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      }
+    }
+  },
+  {
+    "profile": "slot3",
+    "settings": {
+      "parallel": 3,
+      "slot_context": 4096,
+      "batch": 256,
+      "ubatch": 256,
+      "cache_prompt": true
+    },
+    "quality_valid": 64,
+    "quality_total": 64,
+    "latency": {
+      "1": {
+        "attempted": 20,
+        "valid": 20,
+        "ttft_ms": {
+          "n": 20,
+          "p50": 71.39,
+          "p95": 86.686,
+          "p99": 171.436,
+          "max": 171.436,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      },
+      "3": {
+        "attempted": 60,
+        "valid": 60,
+        "ttft_ms": {
+          "n": 60,
+          "p50": 114.587,
+          "p95": 209.376,
+          "p99": 481.655,
+          "max": 821.549,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      }
+    }
+  },
+  {
+    "profile": "slot3-b512",
+    "settings": {
+      "parallel": 3,
+      "slot_context": 4096,
+      "batch": 512,
+      "ubatch": 256,
+      "cache_prompt": true
+    },
+    "quality_valid": 64,
+    "quality_total": 64,
+    "latency": {
+      "1": {
+        "attempted": 20,
+        "valid": 20,
+        "ttft_ms": {
+          "n": 20,
+          "p50": 64.062,
+          "p95": 81.728,
+          "p99": 183.711,
+          "max": 183.711,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      },
+      "3": {
+        "attempted": 60,
+        "valid": 60,
+        "ttft_ms": {
+          "n": 60,
+          "p50": 118.915,
+          "p95": 194.316,
+          "p99": 693.51,
+          "max": 918.294,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      }
+    }
+  },
+  {
+    "profile": "slot3-b512-u512",
+    "settings": {
+      "parallel": 3,
+      "slot_context": 4096,
+      "batch": 512,
+      "ubatch": 512,
+      "cache_prompt": true
+    },
+    "quality_valid": 64,
+    "quality_total": 64,
+    "latency": {
+      "1": {
+        "attempted": 20,
+        "valid": 20,
+        "ttft_ms": {
+          "n": 20,
+          "p50": 66.282,
+          "p95": 86.075,
+          "p99": 189.012,
+          "max": 189.012,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      },
+      "3": {
+        "attempted": 60,
+        "valid": 60,
+        "ttft_ms": {
+          "n": 60,
+          "p50": 126.387,
+          "p95": 198.777,
+          "p99": 605.756,
+          "max": 816.932,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      }
+    }
+  },
+  {
+    "profile": "slot3-c2048",
+    "settings": {
+      "parallel": 3,
+      "slot_context": 2048,
+      "batch": 256,
+      "ubatch": 256,
+      "cache_prompt": true
+    },
+    "quality_valid": 64,
+    "quality_total": 64,
+    "latency": {
+      "1": {
+        "attempted": 20,
+        "valid": 20,
+        "ttft_ms": {
+          "n": 20,
+          "p50": 67.251,
+          "p95": 85.43,
+          "p99": 188.351,
+          "max": 188.351,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      },
+      "3": {
+        "attempted": 60,
+        "valid": 60,
+        "ttft_ms": {
+          "n": 60,
+          "p50": 119.374,
+          "p95": 177.304,
+          "p99": 476.016,
+          "max": 774.94,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      }
+    }
+  },
+  {
+    "profile": "slot3-no-cache",
+    "settings": {
+      "parallel": 3,
+      "slot_context": 4096,
+      "batch": 256,
+      "ubatch": 256,
+      "cache_prompt": false
+    },
+    "quality_valid": 64,
+    "quality_total": 64,
+    "latency": {
+      "1": {
+        "attempted": 20,
+        "valid": 20,
+        "ttft_ms": {
+          "n": 20,
+          "p50": 331.885,
+          "p95": 359.554,
+          "p99": 376.255,
+          "max": 376.255,
+          "budget": 1000,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      },
+      "3": {
+        "attempted": 60,
+        "valid": 60,
+        "ttft_ms": {
+          "n": 60,
+          "p50": 879.821,
+          "p95": 1202.792,
+          "p99": 1224.006,
+          "max": 1266.0,
+          "budget": 1000,
+          "violations": 20,
+          "violation_rate": 0.3333
+        }
+      }
+    }
+  }
+]
