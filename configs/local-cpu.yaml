@@ -1,5 +1,6 @@
 # Cấu hình đang phục vụ 18100 (bản G2, triển khai 29/09/2026; bản sao ở
 # local-g2-deployed.yaml). Đổi cấu hình/hoàn tác theo docs/OPERATIONS.md.
+# 05/10/2026: tra cứu chuyển từ `llm` sang `wikipedia_vi` + force_source_lookup.
 audio:
   sample_rate: 16000
   frame_ms: 20
@@ -25,6 +26,9 @@ conversation:
     guard_ms: 150
   search:
     enabled: true
+    # Câu xin tra cứu rõ ràng và câu hỏi vị trí địa danh luôn đi qua nguồn,
+    # không để model tự quyết trả lời từ trí nhớ (sửa G4, đo 30/09).
+    force_source_lookup: true
     max_inflight: 2
     ttl_ms: 60000
     delivery_prefix: Về câu bạn hỏi lúc nãy
@@ -85,26 +89,17 @@ models:
       max_pending_chunks: 4
       max_chunk_frames: 8
   search:
-    backend: llm
+    # Tra cứu có nguồn (05/10/2026). Bản `llm` cũ không có dữ liệu nào: nó trả
+    # lời từ trí nhớ và từng khẳng định sai rất tự tin ("Hồ Hoàn Kiếm nằm trên
+    # sông Hồng", "VinFast chưa niêm yết"). Wikipedia từ chối câu cần số liệu
+    # tức thời hoặc dữ liệu riêng thay vì đoán. Không có readiness probe: mất
+    # mạng chỉ làm lượt tra cứu báo không tra được, không làm 18100 thành 503.
+    backend: wikipedia_vi
     options:
-      endpoint: http://127.0.0.1:18108/v1
-      model: qwen3.5-4b
-      max_tokens: 160
-      temperature: 0.0
-      enable_thinking: false
-      keepalive_connections: 0
-      timeout_s: 30.0
-      max_parallel: 3
-      max_queue: 8
-      system_prompt: Bạn là bộ phận tra cứu. Trả lời NGẮN và CHÍNH XÁC bằng tiếng
-        Việt, tối đa hai câu, chỉ nêu dữ kiện. Không chào hỏi. Nếu không chắc chắn,
-        nói thẳng là không tra được.
-      context_tokens: 4096
-      prompt_budget_tokens: 1800
-      native_tokenizer: true
-      literal_request_policy: true
-      extra_body:
-        seed: 20260929
+      timeout_s: 5.0
+      max_chars: 500
+      # Wikimedia bắt buộc có liên hệ người vận hành trong User-Agent.
+      user_agent: VoicePlatform/0.1 (voice assistant evaluation; hoangnhatbk13@gmail.com)
   prewarm_before_sessions: true
 tasks:
   tools:
