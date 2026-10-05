@@ -45,6 +45,7 @@ from ..observability.metrics import MetricsRegistry
 from ..tasks.executor import TaskExecutor
 from ..tasks.registry import build_registry
 from .access import local_only, must_be_private
+from .collect import install as install_collect
 from .lab import register as register_lab
 from .transport_ws import WebSocketTransport
 
@@ -384,6 +385,8 @@ def create_app(config: Config) -> FastAPI:
     # Chọn model và thử riêng từng engine. Đặt sau /metrics và /sessions để
     # thứ tự khai báo route khớp với thứ tự đọc trong docstring ở đầu file.
     register_lab(app, platform, config)
+    # Trang thu giọng người thật cho G3; tắt mặc định (collect.enabled).
+    install_collect(app, config)
 
     web_dir = Path(config.server.web_dir)
     if web_dir.is_dir():

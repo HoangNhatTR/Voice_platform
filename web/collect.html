@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thu giọng · Voice Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/static/style.css" />
+<link rel="stylesheet" href="/static/collect.css" />
+</head>
+<body>
+
+<header class="rail">
+  <nav class="nav">
+    <a class="nav__link" href="/collect" aria-current="page">Thu giọng</a>
+  </nav>
+  <span class="rail__engines" id="who">Đang tải…</span>
+  <button class="btn rail__cta" id="change-sitting" hidden>Đổi điều kiện thu</button>
+</header>
+
+<main class="gather">
+
+  <p class="warn" id="fatal" role="alert" hidden></p>
+
+  <!-- 1. Đồng ý -->
+  <section class="step" id="step-consent" aria-labelledby="consent-h" hidden>
+    <h1 class="gather__title" id="consent-h">—</h1>
+    <div class="consent" id="consent-text"></div>
+    <form id="consent-form" class="gather__form" novalidate>
+      <div class="field">
+        <label class="lbl" for="pseudonym">Bí danh (không dùng tên thật)</label>
+        <input type="text" id="pseudonym" maxlength="40" autocomplete="off" spellcheck="false"
+               placeholder="ví dụ: Mèo Mướp" required />
+      </div>
+      <div class="field" id="code-field" hidden>
+        <label class="lbl" for="access-code">Mã truy cập (người phụ trách đưa)</label>
+        <input type="text" id="access-code" autocomplete="off" spellcheck="false" />
+      </div>
+      <label class="check check--big"><input type="checkbox" id="agree" /> <span id="agree-text"></span></label>
+      <button class="btn btn--go btn--big" id="consent-go" type="submit" disabled>Đồng ý và tiếp tục</button>
+      <p class="gather__err" id="consent-err" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <!-- 2. Điều kiện thu của lần ngồi này -->
+  <section class="step" id="step-sitting" aria-labelledby="sitting-h" hidden>
+    <h1 class="gather__title" id="sitting-h">Lần thu này bạn dùng gì?</h1>
+    <p class="gather__note">Mỗi tổ hợp thiết bị, loa/tai nghe, phòng là một <em>phiên</em> riêng. Đổi bất kỳ điều kiện nào thì quay lại đây.</p>
+    <form id="sitting-form" class="gather__form">
+      <div id="choices"></div>
+      <button class="btn btn--go btn--big" id="sitting-go" type="submit" disabled>Bật micro và bắt đầu</button>
+      <p class="gather__err" id="sitting-err" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <!-- 3. Thu từng câu -->
+  <section class="step" id="step-record" aria-labelledby="prompt-h" hidden>
+    <div class="tally">
+      <span class="tally__count" id="tally">—</span>
+      <span class="tally__bar" aria-hidden="true"><i id="tally-bar"></i></span>
+    </div>
+
+    <article class="prompt" id="prompt" aria-live="polite">
+      <h2 class="prompt__family" id="prompt-h">—</h2>
+      <p class="prompt__how" id="prompt-how"></p>
+      <div class="prompt__text" id="prompt-text"></div>
+      <p class="prompt__hint" id="prompt-hint" hidden></p>
+    </article>
+
+    <div class="deck">
+      <div class="meter" id="meter" role="img" aria-label="Mức tín hiệu micro"></div>
+      <div class="deck__row">
+        <button class="btn btn--go btn--big btn--rec" id="rec" type="button"><span class="rec-dot" aria-hidden="true"></span><span id="rec-label">Ghi</span></button>
+        <span class="deck__time" id="rec-time" aria-live="off">0,0 s</span>
+        <button class="btn" id="skip" type="button">Bỏ qua câu này</button>
+      </div>
+    </div>
+
+    <div class="review" id="review" hidden>
+      <canvas class="wave" id="wave" height="120" role="img" aria-label="Dạng sóng clip vừa ghi"></canvas>
+      <p class="wave__key" id="wave-key"></p>
+      <audio id="playback" controls preload="auto"></audio>
+      <p class="warn" id="review-warn" hidden></p>
+      <div class="deck__row">
+        <button class="btn btn--go btn--big" id="save" type="button">Đúng như tôi đọc, lưu</button>
+        <button class="btn" id="redo" type="button">Ghi lại</button>
+      </div>
+      <p class="gather__err" id="save-err" role="alert" hidden></p>
+    </div>
+  </section>
+
+  <!-- 4. Xong một phần -->
+  <section class="step" id="step-done" aria-labelledby="done-h" hidden>
+    <h1 class="gather__title" id="done-h">Xong!</h1>
+    <p class="gather__note" id="done-note"></p>
+    <div class="deck__row">
+      <button class="btn btn--go btn--big" id="more" type="button">Thu tiếp phần sau</button>
+      <button class="btn" id="unskip" type="button" hidden>Quay lại các câu đã bỏ qua</button>
+    </div>
+  </section>
+
+  <!-- Clip đã lưu: rút từng clip hoặc rút hết -->
+  <section class="mine" id="mine" aria-labelledby="mine-h" hidden>
+    <h2 class="h" id="mine-h">Clip của bạn <span class="mine__n" id="mine-n"></span></h2>
+    <p class="gather__note">Rút một clip là xoá file đó khỏi máy chủ. Câu đó sẽ quay lại danh sách để thu lại nếu muốn.</p>
+    <ol class="mine__list" id="mine-list"></ol>
+    <button class="btn" id="withdraw-all" type="button">Rút toàn bộ và xoá giọng của tôi</button>
+  </section>
+
+</main>
+
+<script type="module" src="/static/collect.js"></script>
+</body>
+</html>

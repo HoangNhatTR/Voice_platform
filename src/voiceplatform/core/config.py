@@ -386,6 +386,25 @@ class ServerConfig:
 
 
 @dataclass(slots=True)
+class CollectConfig:
+    """Trang /collect: đồng nghiệp tự thu clip lượt lời có nhãn cho G3.
+
+    Tắt mặc định: bật lên là mở một route GHI file giọng nói người thật cho
+    cả LAN. Ghi dưới `dir` với quyền 0600 (app/collect.py); không bao giờ đặt
+    `dir` trong docs/.
+    """
+
+    enabled: bool = False
+    dir: str = "runtime/collect"
+    max_clip_s: float = 20.0
+    # 20 s mono int16 16 kHz = 640 000 byte + 44 byte header.
+    max_upload_bytes: int = 1048576
+    # Rỗng = không hỏi mã. Có giá trị thì trang hỏi, và mọi POST/DELETE phải
+    # mang đúng mã trong header X-Collect-Code.
+    access_code: str = ""
+
+
+@dataclass(slots=True)
 class Config:
     audio: AudioConfig = field(default_factory=AudioConfig)
     media: MediaConfig = field(default_factory=MediaConfig)
@@ -394,6 +413,7 @@ class Config:
     tasks: TasksConfig = field(default_factory=TasksConfig)
     observability: ObservabilityConfig = field(default_factory=ObservabilityConfig)
     server: ServerConfig = field(default_factory=ServerConfig)
+    collect: CollectConfig = field(default_factory=CollectConfig)
 
     # --- frame maths used all over the conversation plane -------------------
     @property
@@ -519,6 +539,17 @@ class Config:
             raise ConfigError("conversation.pronunciations needs non-empty words")
         if not all(8000 <= rate <= 192000 for rate in (self.audio.sample_rate, self.audio.output_sample_rate)):
             raise ConfigError("sample rates must be between 8000 and 192000")
+        collect = self.collect
+        if not 1 <= collect.max_clip_s <= 120:
+            raise ConfigError("collect.max_clip_s must be between 1 and 120 seconds")
+        if collect.max_upload_bytes < 44 + int(collect.max_clip_s * 16000) * 2:
+            # Otherwise a clip under max_clip_s is refused as "too big".
+            raise ConfigError("collect.max_upload_bytes must hold collect.max_clip_s of 16 kHz mono int16 WAV")
+        if collect.enabled and not collect.dir.strip():
+            raise ConfigError("collect.dir is required when collect is enabled")
+        if any(not "!" <= ch <= "~" for ch in collect.access_code):
+            # It travels in an HTTP header, and fetch() refuses non-Latin-1 there.
+            raise ConfigError("collect.access_code must be printable ASCII without spaces")
 
     def to_dict(self) -> dict[str, Any]:
         return dataclasses.asdict(self)

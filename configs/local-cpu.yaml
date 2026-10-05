@@ -111,3 +111,12 @@ server:
   port: 18100
   max_sessions: 3
   private_introspection: true
+# Trang /collect: đồng nghiệp tự thu clip lượt lời cho G3 qua LAN
+# (https://<IP-LAN>:18100/collect). Clip lưu 0600 dưới runtime/collect, đã
+# gitignore. Tiến độ chỉ xem từ máy chủ: /collect/progress.
+collect:
+  enabled: true
+  dir: runtime/collect
+  max_clip_s: 20
+  max_upload_bytes: 1048576
+  access_code: ""
